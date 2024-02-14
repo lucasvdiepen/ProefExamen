@@ -31,4 +31,17 @@ public class Lane : MonoBehaviour
         //Hier kan score toegevoegd worden aan de LaneManager
         Debug.Log("Button " + _button.name + " was pressed!");
     }
+
+
+    public void SpawnNote(float timeStamp)
+    {
+        GameObject newNote = Instantiate(Settings.note);
+
+        Vector2 initialPos = new Vector2(-2.1f + (_id * 0.7f), 6);
+        Vector2 targetPos = new Vector2(initialPos.x, -6);
+
+        newNote.transform.position = new Vector3(initialPos.x, initialPos.y, 0);
+
+        newNote.GetComponent<Note>().SetNoteValues(initialPos, targetPos, _id, Settings.currentLevel.levelID, timeStamp);
+    }
 }

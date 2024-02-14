@@ -6,7 +6,7 @@ public struct LevelData
 {
     public int levelID;
 
-    public AudioSource song;
+    public AudioClip song;
 
     public float[] timestamps;
 
