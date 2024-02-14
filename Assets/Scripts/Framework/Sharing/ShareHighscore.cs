@@ -1,32 +1,67 @@
+using ProefExamen.Framework.Utils;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
+using TMPro;
 using UnityEngine;
 
-public class ShareHighscore : MonoBehaviour
+namespace ProefExamen.Framework.Sharing
 {
-    private void Update()
+    /// <summary>
+    /// A class responsible for sharing the highscore of the player.
+    /// </summary>
+    public class ShareHighscore : MonoBehaviour
     {
-        if (Input.GetMouseButtonDown(0))
-            StartCoroutine(TakeScreenshotAndShare());
-    }
+        [SerializeField]
+        private Camera _renderCamera;
 
-    private IEnumerator TakeScreenshotAndShare()
-    {
-        yield return new WaitForEndOfFrame();
+        [SerializeField]
+        private TextMeshProUGUI _highscoreText;
 
-        Texture2D screenshot = new(Screen.width, Screen.height, TextureFormat.RGB24, false);
-        screenshot.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
-        screenshot.Apply();
+        private string _highscoreDefaultText;
+        private int _points;
 
-        string filePath = Path.Combine(Application.temporaryCachePath, "highscore_screenshot.png");
-        File.WriteAllBytes(filePath, screenshot.EncodeToPNG());
+        private void Awake() => _highscoreDefaultText = _highscoreText.text;
 
-        Destroy(screenshot);
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                _points++;
+                StartCoroutine(ShareHighscoreScreenshot(_points));
+            }
+        }
 
-        new NativeShare().AddFile(filePath)
-            .SetSubject("Look at my highscore").SetText("Try to beat my highscore")
-            .SetCallback((result, shareTarget) => Debug.Log("Share result: " + result + ", selected app: " + shareTarget))
-            .Share();
+        private IEnumerator ShareHighscoreScreenshot(int points)
+        {
+            _highscoreText.text = _highscoreDefaultText.Replace("[points]", points.ToString());
+
+            yield return new WaitForEndOfFrame();
+
+            RenderTexture renderTexture = new(Screen.width, Screen.height, 0)
+            {
+                name = "Screenshot Render Texture",
+                enableRandomWrite = true,
+                dimension = UnityEngine.Rendering.TextureDimension.Tex2D
+            };
+            renderTexture.Create();
+            _renderCamera.targetTexture = renderTexture;
+
+            _renderCamera.Render();
+
+            Texture2D screenshot = renderTexture.ToTexture2D();
+
+            _renderCamera.targetTexture = null;
+
+            string filePath = Path.Combine(Application.temporaryCachePath, "highscore_screenshot.png");
+            File.WriteAllBytes(filePath, screenshot.EncodeToPNG());
+
+            renderTexture.Release();
+            Destroy(screenshot);
+
+            new NativeShare().AddFile(filePath)
+                .SetSubject("Look at my highscore").SetText("Try to beat my highscore!")
+                .SetCallback((result, shareTarget) => Debug.Log("Share result: " + result + ", selected app: " + shareTarget))
+                .Share();
+        }
     }
 }
