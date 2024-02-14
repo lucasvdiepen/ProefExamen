@@ -12,9 +12,6 @@ public class BeatMappingWindow : EditorWindow
     private string audioClipFilter = "t:AudioClip";
     private ListView songList;
 
-    private AudioSource audioSource;
-    GameObject editorAudioSourceObject;
-
     [MenuItem("Rythm Game/Beat Mapping Tool")]
     public static void CreateWindow()
     {
@@ -24,7 +21,7 @@ public class BeatMappingWindow : EditorWindow
         window.minSize = new Vector2(900, 600);
         window.maxSize = new Vector2(900, 600);
     }
-
+    
     public void CreateGUI()
     {
         if (!Application.isPlaying)
@@ -39,9 +36,10 @@ public class BeatMappingWindow : EditorWindow
             rootVisualElement.style.backgroundColor = new Color(.74f, .74f, .74f, .1f);
             return;
         }
-
+        
         var allObjectGuids = AssetDatabase.FindAssets(audioClipFilter);
         var allObjects = new List<AudioClip>();
+        
         foreach (var guid in allObjectGuids)
         {
             allObjects.Add(AssetDatabase.LoadAssetAtPath<AudioClip>(AssetDatabase.GUIDToAssetPath(guid)));
@@ -69,10 +67,6 @@ public class BeatMappingWindow : EditorWindow
         soundClipField.objectType = typeof(AudioClip);
 
         rightPane.Add(soundClipField);
-
-        editorAudioSourceObject = EditorUtility.CreateGameObjectWithHideFlags("Audio Source", HideFlags.HideAndDontSave, typeof(AudioSource));
-        audioSource = editorAudioSourceObject.GetComponent<AudioSource>();
-
         rootVisualElement.Add(paddingContainer);
     }
 
@@ -86,30 +80,26 @@ public class BeatMappingWindow : EditorWindow
             return;
 
         soundClipField.value = audioClip;
-        audioSource.clip = audioClip;
-        audioSource.Play();
+        if (Application.isPlaying)
+        {
+            BeatMappingSpectrumDrawer spectrumDrawer = FindAnyObjectByType<BeatMappingSpectrumDrawer>();
+            if(spectrumDrawer != null)
+                spectrumDrawer.VisualizeSongSpectrum(audioClip);
+        }
     }
+
     private void OnGUI()
     {
         if (Event.current.type == EventType.KeyDown)
         {
-            if (Event.current.keyCode == KeyCode.Space)
-            {
-                if (audioSource.isPlaying) audioSource.Pause();
-                else audioSource.UnPause();
-            }
-
             if (Event.current.keyCode == KeyCode.Escape)
                 Close();
         }
     }
-
+    
     private void OnDestroy()
     {
         songList.selectionChanged -= OnSongIndexChanged;
-
-        audioSource.Stop();
-        DestroyImmediate(editorAudioSourceObject);
     }
 }
 #endif
