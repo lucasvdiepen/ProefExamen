@@ -10,6 +10,9 @@ namespace Proefexamen.Framework.Utils
     {
         private static T _instance;
 
+        /// <summary>
+        /// Gets the instance of this class by either returning a valid static variable or making a new Singleton object.
+        /// </summary>
         public static T Instance
         {
             get
