@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Linq;
 
+#if UNITY_EDITOR
 public class BeatMappingWindow : EditorWindow
 {
     private ObjectField soundClipField;
@@ -19,12 +20,26 @@ public class BeatMappingWindow : EditorWindow
     {
         BeatMappingWindow window = GetWindow<BeatMappingWindow>();
         window.titleContent = new GUIContent("Beat Mapping Tool");
-        window.minSize = new Vector2(450, 200);
+        
+        window.minSize = new Vector2(900, 600);
         window.maxSize = new Vector2(900, 600);
     }
 
     public void CreateGUI()
     {
+        if (!Application.isPlaying)
+        {
+            Label label = new Label("Beat Mapping requires to be used in play-mode");
+            rootVisualElement.Add(label);
+            label.style.unityTextAlign = TextAnchor.MiddleCenter;
+            label.style.fontSize = 25;
+            label.style.color = Color.red;
+            label.style.paddingTop = 250;
+
+            rootVisualElement.style.backgroundColor = new Color(.74f, .74f, .74f, .1f);
+            return;
+        }
+
         var allObjectGuids = AssetDatabase.FindAssets(audioClipFilter);
         var allObjects = new List<AudioClip>();
         foreach (var guid in allObjectGuids)
@@ -97,3 +112,4 @@ public class BeatMappingWindow : EditorWindow
         DestroyImmediate(editorAudioSourceObject);
     }
 }
+#endif
