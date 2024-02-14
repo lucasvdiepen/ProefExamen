@@ -67,14 +67,13 @@ public class BeatMappingWindow : EditorWindow
         if (objectList.Count == 0)
             return;
 
-        if (objectList[0] is not AudioClip audioClip || EditorApplication.isPlaying)
+        if (objectList[0] is not AudioClip audioClip)
             return;
 
         soundClipField.value = audioClip;
         audioSource.clip = audioClip;
         audioSource.Play();
     }
-
     private void OnGUI()
     {
         if (Event.current.type == EventType.KeyDown)
@@ -93,6 +92,7 @@ public class BeatMappingWindow : EditorWindow
     private void OnDestroy()
     {
         songList.selectionChanged -= OnSongIndexChanged;
+
         audioSource.Stop();
         DestroyImmediate(editorAudioSourceObject);
     }
