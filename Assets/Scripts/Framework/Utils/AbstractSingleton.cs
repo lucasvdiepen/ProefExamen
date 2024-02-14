@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Utilities
+namespace Proefexamen.Framework.Utils
 {
     /// <summary>
     /// An AbstractSingleton class that other classes can derive from, will automatically be reachable through the get Instance of this class.
