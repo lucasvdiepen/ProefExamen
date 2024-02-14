@@ -3,6 +3,7 @@ using System.Collections;
 using System.IO;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ProefExamen.Framework.Sharing
 {
@@ -17,10 +18,29 @@ namespace ProefExamen.Framework.Sharing
         [SerializeField]
         private TextMeshProUGUI _highscoreText;
 
+        [SerializeField]
+        private Button _shareButton;
+
+        [SerializeField]
+        private string _subject;
+
+        [SerializeField]
+        private string _text;
+
         private string _highscoreDefaultText;
         private int _points;
 
         private void Awake() => _highscoreDefaultText = _highscoreText.text;
+
+        private void OnEnable()
+        {
+            _shareButton.onClick.AddListener(ShareHighscoreScreenshot);
+        }
+
+        private void OnDisable()
+        {
+            _shareButton.onClick.RemoveListener(ShareHighscoreScreenshot);
+        }
 
         private void Update()
         {
@@ -30,6 +50,8 @@ namespace ProefExamen.Framework.Sharing
                 StartCoroutine(ShareHighscoreScreenshot(_points));
             }
         }
+
+        private void ShareHighscoreScreenshot() => StartCoroutine(ShareHighscoreScreenshot(_points));
 
         private IEnumerator ShareHighscoreScreenshot(int points)
         {
@@ -59,8 +81,7 @@ namespace ProefExamen.Framework.Sharing
             Destroy(screenshot);
 
             new NativeShare().AddFile(filePath)
-                .SetSubject("Look at my highscore").SetText("Try to beat my highscore!")
-                .SetCallback((result, shareTarget) => Debug.Log("Share result: " + result + ", selected app: " + shareTarget))
+                .SetSubject(_subject).SetText(_text)
                 .Share();
         }
     }

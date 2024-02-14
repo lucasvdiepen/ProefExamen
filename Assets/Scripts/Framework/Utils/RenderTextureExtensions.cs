@@ -14,15 +14,15 @@ namespace ProefExamen.Framework.Utils
         /// <returns>The converted <see cref="Texture2D"/>.</returns>
         public static Texture2D ToTexture2D(this RenderTexture renderTexture)
         {
-            Texture2D tex = new(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
-            var old_rt = RenderTexture.active;
+            Texture2D texture = new(renderTexture.width, renderTexture.height, TextureFormat.RGB24, false);
+            RenderTexture oldRenderTexture = RenderTexture.active;
             RenderTexture.active = renderTexture;
 
-            tex.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
-            tex.Apply();
+            texture.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+            texture.Apply();
 
-            RenderTexture.active = old_rt;
-            return tex;
+            RenderTexture.active = oldRenderTexture;
+            return texture;
         }
     }
 
