@@ -215,7 +215,6 @@ GameObject:
   - component: {fileID: 5380577777936810439}
   - component: {fileID: 276706437480054812}
   - component: {fileID: 7393781097187729238}
-  - component: {fileID: 6902799433787396230}
   m_Layer: 5
   m_Name: ShareWithFriendsCanvas
   m_TagString: Untagged
@@ -307,22 +306,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &6902799433787396230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3919923740589347818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 560a00e423680ff4193f7756dafbb1dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _renderCamera: {fileID: 0}
-  _highscoreText: {fileID: 0}
-  _subject: 
-  _text: 
 --- !u!1 &4291115927107921348
 GameObject:
   m_ObjectHideFlags: 0

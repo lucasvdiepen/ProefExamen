@@ -1,28 +1,29 @@
-using TMPro;
-using UnityEngine;
+using System;
 
 namespace ProefExamen.Framework.PointsSystem
 {
     /// <summary>
     /// A class responsible for keeping track of the points of the player.
     /// </summary>
-    public class PointsSystem : MonoBehaviour
+    public static class PointsSystem
     {
-        [SerializeField]
-        private TextMeshProUGUI _highscoreText;
+        /// <summary>
+        /// An event that is invoked when the points have changed.
+        /// </summary>
+        public static Action<int> OnPointsChanged;
 
-        private int _points;
+        private static int _points;
 
         /// <summary>
         /// The current points of the player.
         /// </summary>
-        public int Points
+        public static int Points
         {
             get => _points;
             set
             {
                 _points = value;
-                _highscoreText.text = _points.ToString();
+                OnPointsChanged?.Invoke(_points);
             }
         }
     }

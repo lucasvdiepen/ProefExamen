@@ -3,14 +3,13 @@ using System.Collections;
 using System.IO;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace ProefExamen.Framework.Sharing
 {
     /// <summary>
     /// A class responsible for sharing the highscore of the player.
     /// </summary>
-    public class ShareHighscore : MonoBehaviour
+    public class ShareHighscore : AbstractSingleton<ShareHighscore>
     {
         [SerializeField]
         private Camera _renderCamera;
@@ -19,43 +18,23 @@ namespace ProefExamen.Framework.Sharing
         private TextMeshProUGUI _highscoreText;
 
         [SerializeField]
-        private Button _shareButton;
-
-        [SerializeField]
         private string _subject;
 
         [SerializeField]
         private string _text;
 
         private string _highscoreDefaultText;
-        private int _points;
 
         private void Awake() => _highscoreDefaultText = _highscoreText.text;
 
-        private void OnEnable()
-        {
-            _shareButton.onClick.AddListener(ShareHighscoreScreenshot);
-        }
+        /// <summary>
+        /// Shares the highscore of the player.
+        /// </summary>
+        public void ShareHighscoreScreenshot() => StartCoroutine(ShareHighscoreScreenshotCoroutine());
 
-        private void OnDisable()
+        private IEnumerator ShareHighscoreScreenshotCoroutine()
         {
-            _shareButton.onClick.RemoveListener(ShareHighscoreScreenshot);
-        }
-
-        private void Update()
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                _points++;
-                StartCoroutine(ShareHighscoreScreenshot(_points));
-            }
-        }
-
-        private void ShareHighscoreScreenshot() => StartCoroutine(ShareHighscoreScreenshot(_points));
-
-        private IEnumerator ShareHighscoreScreenshot(int points)
-        {
-            _highscoreText.text = _highscoreDefaultText.Replace("[points]", points.ToString());
+            _highscoreText.text = _highscoreDefaultText.Replace("[points]", PointsSystem.PointsSystem.Points.ToString());
 
             yield return new WaitForEndOfFrame();
 

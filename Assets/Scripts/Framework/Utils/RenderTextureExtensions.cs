@@ -25,5 +25,4 @@ namespace ProefExamen.Framework.Utils
             return texture;
         }
     }
-
 }
