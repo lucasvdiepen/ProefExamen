@@ -371,7 +371,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'I got [points] points!
+  m_text: 'I got [points] [pointsText]!
 
     Can you do better?'
   m_isRightToLeft: 0

@@ -34,7 +34,11 @@ namespace ProefExamen.Framework.Sharing
 
         private IEnumerator ShareHighscoreScreenshotCoroutine()
         {
-            _highscoreText.text = _highscoreDefaultText.Replace("[points]", PointsSystem.PointsSystem.Points.ToString());
+            int currentPoints = PointsSystem.PointsSystem.Points;
+
+            _highscoreText.text = _highscoreDefaultText
+                .Replace("[points]", currentPoints.ToString())
+                .Replace("[pointsText]", currentPoints == 1 ? "point" : "points");
 
             yield return new WaitForEndOfFrame();
 
