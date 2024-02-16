@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 using ProefExamen.Framework.Utils;
+using ProefExamen.Framework.Gameplay.Settings;
 
 public class LaneManager : AbstractSingleton<LaneManager>
 {
@@ -53,7 +51,6 @@ public class LaneManager : AbstractSingleton<LaneManager>
         {
             if (!Settings.paused)
             {
-                Debug.Log("burh");
                 Settings.time += Time.deltaTime;
 
                 QueueNotesForUpcomingSeconds();
@@ -63,6 +60,7 @@ public class LaneManager : AbstractSingleton<LaneManager>
             else
                 yield return null;
         }
+        yield return null;
     }
 
     private void QueueNotesForUpcomingSeconds()

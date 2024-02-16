@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using ProefExamen.Framework.Gameplay.Settings;
 
 public class Note : MonoBehaviour
 {
@@ -19,6 +18,14 @@ public class Note : MonoBehaviour
     [SerializeField]
     private Vector2 _targetPosition;
 
+    [SerializeField]
+    private float _lerpAlpha = 0;
+
+    public float LerpAlpha
+    {
+        get => _lerpAlpha;
+    }
+
     public void SetNoteValues(Vector2 initialPosition, Vector2 targetPosition, int laneID, int levelID, float timeStamp)
     {
         _initialPosition = initialPosition;
@@ -30,16 +37,12 @@ public class Note : MonoBehaviour
 
     public void Update()
     {
-        if(!Settings.paused && _laneID != -1)
-        {
-            float diff = (_timeStamp - Settings.time) / Settings.travelTime;
+        if (Settings.paused || _laneID == -1) return;
+        else if ((_timeStamp + (Settings.travelTime * .5) < Settings.time))
+            Destroy(gameObject);
 
-            if (diff <= 1)
-            {
-                transform.position = Vector3.Lerp(_initialPosition, _targetPosition, diff);
-            }
-            else
-                transform.position = _initialPosition;
-        }
+        _lerpAlpha = Settings.ReturnNoteLerpAlpha(_timeStamp);
+
+        transform.position = Vector3.Lerp(_initialPosition, _targetPosition, _lerpAlpha);
     }
 }

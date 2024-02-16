@@ -123,6 +123,89 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &140838786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 140838789}
+  - component: {fileID: 140838788}
+  - component: {fileID: 140838787}
+  m_Layer: 0
+  m_Name: LineVisualizer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &140838787
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140838786}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &140838788
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140838786}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &140838789
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140838786}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalScale: {x: 6, y: 0.1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &246268230
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,6 +342,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 3
   _button: {fileID: 0}
+  _notes: []
 --- !u!1 &297487860
 GameObject:
   m_ObjectHideFlags: 0
@@ -873,7 +957,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 687464659}
-  - component: {fileID: 687464658}
+  - component: {fileID: 687464660}
   m_Layer: 0
   m_Name: SettingsShortcut
   m_TagString: Untagged
@@ -881,32 +965,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &687464658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 687464657}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5596326712c2f014abd240ac741da46e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  time: 1
-  travelTime: 2
-  paused: 0
-  currentLevel:
-    levelID: 2
-    song: {fileID: 8300000, guid: 28406c2d4ad2819499dddb87703b8f31, type: 3}
-    timestamps:
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
-    laneIDs: 0100000002000000010000000200000001000000
-  note: {fileID: 8865070559718813142, guid: 778813d51c727894e89f15617b02c6d2, type: 3}
 --- !u!4 &687464659
 Transform:
   m_ObjectHideFlags: 0
@@ -922,6 +980,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &687464660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687464657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5596326712c2f014abd240ac741da46e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updateSettingsLive: 1
+  travelTime: 1
+  time: -1
+  score: 0
+  paused: 0
+  currentLevel:
+    levelID: 0
+    song: {fileID: 0}
+    timestamps: []
+    laneIDs: 
+  note: {fileID: 0}
 --- !u!1 &824377490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1192,6 +1273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 0
   _button: {fileID: 0}
+  _notes: []
 --- !u!1 &1373917185
 GameObject:
   m_ObjectHideFlags: 0
@@ -1328,6 +1410,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 1
   _button: {fileID: 0}
+  _notes: []
 --- !u!1 &1581116972
 GameObject:
   m_ObjectHideFlags: 0
@@ -1687,6 +1770,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 2
   _button: {fileID: 0}
+  _notes: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1696,3 +1780,4 @@ SceneRoots:
   - {fileID: 1581116977}
   - {fileID: 1830811820}
   - {fileID: 687464659}
+  - {fileID: 140838789}
