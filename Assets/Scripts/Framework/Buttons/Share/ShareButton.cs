@@ -10,6 +10,6 @@ namespace ProefExamen.Framework.Buttons.Share
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public override void OnButtonPressed() => ShareHighscore.Instance.Share();
+        private protected override void OnButtonPressed() => ShareHighscore.Instance.Share();
     }
 }

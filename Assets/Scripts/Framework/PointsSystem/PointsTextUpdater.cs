@@ -24,6 +24,7 @@ namespace ProefExamen.Framework.PointsSystem
 
         private void OnDisable() => PointsSystem.OnPointsChanged -= UpdatePointsText;
 
-        private void UpdatePointsText(int points) => _pointsText.text = _defaultPointsText.Replace("[points]", points.ToString());
+        private void UpdatePointsText(int points)
+            => _pointsText.text = _defaultPointsText.Replace("[points]", points.ToString());
     }
 }

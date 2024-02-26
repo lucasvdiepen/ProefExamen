@@ -13,6 +13,6 @@ namespace ProefExamen.Framework.Buttons.PointsSystem
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public override void OnButtonPressed() => Framework.PointsSystem.PointsSystem.Points += _pointsToAdd;
+        private protected override void OnButtonPressed() => Framework.PointsSystem.PointsSystem.Points += _pointsToAdd;
     }
 }

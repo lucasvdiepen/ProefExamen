@@ -20,6 +20,6 @@ namespace ProefExamen.Framework.Buttons
         /// <summary>
         /// The method that is called when the button is pressed.
         /// </summary>
-        public abstract void OnButtonPressed();
+        private protected abstract void OnButtonPressed();
     }
 }
