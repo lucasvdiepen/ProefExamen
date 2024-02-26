@@ -31,10 +31,11 @@ public class BeatMappingWindow : EditorWindow
             rootVisualElement.Add(label);
             label.style.unityTextAlign = TextAnchor.MiddleCenter;
             label.style.fontSize = 25;
-            label.style.paddingTop = 250;
+            label.style.paddingTop = 225;
             label.style.color = Color.red;
 
             rootVisualElement.style.backgroundColor = new Color(.74f, .74f, .74f, .1f);
+            PlayModeCheck();
             return;
         }
         
@@ -83,7 +84,9 @@ public class BeatMappingWindow : EditorWindow
         if (objectList[0] is not AudioClip audioClip)
             return;
 
+        PlayModeCheck();
         _soundClipField.value = audioClip;
+
         if (Application.isPlaying)
         {
             AudioSpectrumDrawer spectrumDrawer = FindAnyObjectByType<AudioSpectrumDrawer>();
@@ -100,7 +103,16 @@ public class BeatMappingWindow : EditorWindow
                 Close();
         }
     }
-    
+
+    private void OnFocus()
+        => PlayModeCheck();
+
+    private void PlayModeCheck()
+    {
+        if (!Application.isPlaying)
+            Debug.LogWarning("Enter play-mode to use BeatMapping Tool");
+    }
+
     private void OnDestroy()
     {
         if (_songList == null)
