@@ -1,68 +1,82 @@
 using UnityEngine;
 using UnityEngine.UI;
-using ProefExamen.Framework.Gameplay.Settings;
+using ProefExamen.Framework.Gameplay.Values;
 using System.Collections.Generic;
+using ProefExamen.Framework.Utils.Libraries.LaneUtils;
 
-[RequireComponent(typeof(Button))]
-public class Lane : MonoBehaviour
+namespace ProefExamen.Framework.Gameplay.LaneSystem
 {
-    [SerializeField]
-    private int _id = -1;
-
-    [SerializeField]
-    private Button _button;
-
-    [SerializeField]
-    private List<GameObject> _notes = new();
-
-    void Start()
+    [RequireComponent(typeof(Button))]
+    public class Lane : MonoBehaviour
     {
-        _button = GetComponent<Button>();
+        [SerializeField]
+        private int _id = -1;
 
-        if (_id != -1)
+        [SerializeField]
+        private Button _button;
+
+        [SerializeField]
+        private List<GameObject> _notes = new();
+
+        public Button Button => _button;
+
+        void Start()
         {
-            _button.onClick.AddListener(SendButtonPress);
+            Input.GetKey(KeyCode.Escape);
+
+            _button = GetComponent<Button>();
+
+            if (_id != -1)
+                _button.onClick.AddListener(SendButtonPress);
+            else
+                Debug.LogError("Lane with button " + _button.name + " has no assigned ID!");
         }
-        else
-            Debug.LogError("Lane with button " + _button.name + " has no assigned ID!");
-    }
 
-    private void SendButtonPress()
-    {
-        //Hier kan score toegevoegd worden aan de LaneManager
-        Debug.Log("Button " + _button.name + " was pressed!");
-
-        GameObject nextNote = _notes[0];
-        Note nextNoteScript = nextNote.GetComponent<Note>();
-
-        if (nextNoteScript.LerpAlpha > .4f && nextNoteScript.LerpAlpha < .6f)
+        private void SendButtonPress()
         {
-            float diff = 1 - (2 * Mathf.Abs(nextNoteScript.LerpAlpha));
+            if (!(_notes.Count > 0))
+            {
+                SessionValues.score -= 1;
+                return;
+            }
 
-            int score = Mathf.RoundToInt(diff * 10f);
+            GameObject nextNote = _notes[0];
+            Note nextNoteScript = nextNote.GetComponent<Note>();
 
+            if (nextNoteScript.LerpAlpha > .3f && nextNoteScript.LerpAlpha < .7f)
+            {
+                float differenceAlpha = Mathf.Abs(nextNoteScript.LerpAlpha - .5f) / .2f;
+
+                HitStatus hitResult = LaneUtils.ReturnHitStatus(differenceAlpha);
+
+                Debug.Log(_button.name + " was pressed and got a " + hitResult + " hit!");
+
+                SessionValues.score += (int)hitResult;
+
+                Destroy(nextNote);
+                RemoveNote(nextNote);
+            }
         }
-    }
 
-    public void Update()
-    {
-        float x = transform.position.x - (_button.GetComponent<RectTransform>().rect.width / 2);
+        public void SpawnNote(float timeStamp)
+        {
+            GameObject newNote = Instantiate(SessionValues.note);
+            _notes.Add(newNote);
 
-        float targetX = transform.position.x + (_button.GetComponent<RectTransform>().rect.width / 2);
+            Vector2 initialPos = new Vector2(-2.1f + ((_id * 0.7f) * 2), 6);
+            Vector2 targetPos = new Vector2(initialPos.x, -6);
 
-        Debug.DrawLine(new Vector2(x, transform.position.y), new Vector2(targetX, transform.position.y));
-    }
+            newNote.transform.position = new Vector3(initialPos.x, initialPos.y, 0);
 
-    public void SpawnNote(float timeStamp)
-    {
-        GameObject newNote = Instantiate(Settings.note);
-        _notes.Add(newNote);
+            Note newNoteScript = newNote.GetComponent<Note>();
 
-        Vector2 initialPos = new Vector2(-2.1f + ((_id * 0.7f) * 2), 6);
-        Vector2 targetPos = new Vector2(initialPos.x, -6);
+            newNoteScript.SetNoteValues(initialPos, targetPos, _id, SessionValues.currentLevel.levelID, timeStamp);
+            newNoteScript.CallNoteRemoval += RemoveNote;
+        }
 
-        newNote.transform.position = new Vector3(initialPos.x, initialPos.y, 0);
-
-        newNote.GetComponent<Note>().SetNoteValues(initialPos, targetPos, _id, Settings.currentLevel.levelID, timeStamp);
+        public void RemoveNote(GameObject note)
+        {
+            _notes.Remove(note);
+        }
     }
 }

@@ -1,87 +1,115 @@
 using System.Collections;
 using UnityEngine;
+
 using ProefExamen.Framework.Utils;
-using ProefExamen.Framework.Gameplay.Settings;
+using ProefExamen.Framework.Gameplay.Values;
+using ProefExamen.Framework.Gameplay.MapData;
 
-public class LaneManager : AbstractSingleton<LaneManager>
+namespace ProefExamen.Framework.Gameplay.LaneSystem
 {
-    [SerializeField]
-    private Lane[] _lanes;
-
-    [SerializeField]
-    private int _index;
-
-    [SerializeField]
-    private Levels _levels;
-
-    [SerializeField]
-    private int _selectedLevelID;
-
-    [SerializeField]
-    private GameObject _note;
-
-    public void Start()
+    public class LaneManager : AbstractSingleton<LaneManager>
     {
-        Settings.note = _note;
-        StartCoroutine(delayFunction());
-    }
+        [SerializeField]
+        private Lane[] _lanes;
 
-    public IEnumerator delayFunction()
-    {
-        yield return new WaitForSeconds(2f);
-        SelectLevel();
-    }
-    public void SelectLevel()
-    {
-        Debug.Log("SelectLevel called");
-        foreach (LevelData level in _levels.levels)
+        [SerializeField]
+        private int _index;
+
+        [SerializeField]
+        private Levels _levels;
+
+        [SerializeField]
+        private int _selectedLevelID;
+
+        [SerializeField]
+        private AudioSource _currentSong;
+
+        public void Start()
         {
-            if (level.levelID == _selectedLevelID)
+            SessionValues.difficulty = Difficulty.EASY;
+            //temp code
+            StartCoroutine(delayFunction());
+        }
+
+        public IEnumerator delayFunction() // temp function
+        {
+            yield return new WaitForSeconds(2f);
+            SelectLevel();
+        }
+        public void SelectLevel()
+        {
+            Debug.Log("SelectLevel called");
+            foreach (LevelData level in _levels.levels)
             {
-                Settings.currentLevel = level;
-                StartCoroutine(PlayThroughLevel());
+                if (level.levelID == _selectedLevelID)
+                {
+                    SessionValues.currentLevel = level;
+                    StartCoroutine(PlayThroughLevel());
+                }
             }
         }
-    }
 
-    public IEnumerator PlayThroughLevel()
-    {
-        Debug.Log("starting playthrough");
-        while (Settings.time < Settings.currentLevel.song.length)
+        public IEnumerator PlayThroughLevel()
         {
-            if (!Settings.paused)
-            {
-                Settings.time += Time.deltaTime;
+            _index = 0;
 
+            _currentSong.clip = SessionValues.currentLevel.song;
+            _currentSong.Play();
+
+            Debug.Log("starting playthrough");
+            while (SessionValues.time < SessionValues.currentLevel.song.length)
+            {
+                if (!SessionValues.paused)
+                {
+                    SessionValues.time += Time.deltaTime;
+
+                    QueueNotesForUpcomingSeconds();
+
+                    yield return null;
+                }
+                else
+                    yield return null;
+            }
+            yield return null;
+        }
+
+        private void QueueNotesForUpcomingSeconds()
+        {
+            Level currentLevel = SessionValues.currentLevel.Level();
+
+            if (currentLevel.timestamps.Length <= _index)
+                return;
+
+            float upcomingTime = currentLevel.timestamps[_index];
+
+            if (SessionValues.TimeStampReadyForQueue(upcomingTime))
+            {
+                int laneID = currentLevel.laneIDs[_index];
+
+                _lanes[laneID].SpawnNote(upcomingTime);
+
+                _index++;
                 QueueNotesForUpcomingSeconds();
-
-                yield return null;
             }
-            else
-                yield return null;
         }
-        yield return null;
-    }
 
-    private void QueueNotesForUpcomingSeconds()
-    {
-        if (Settings.currentLevel.timestamps.Length <= _index) return;
-
-        float upcomingTime = Settings.currentLevel.timestamps[_index];
-
-        if (Settings.TimeStampReadyForQueue(upcomingTime))
+        public void SetNewPaused(bool paused)
         {
-            int laneID = Settings.currentLevel.laneIDs[_index];
+            SessionValues.paused = paused;
 
-            _lanes[laneID].SpawnNote(upcomingTime);
-
-            _index++;
-            QueueNotesForUpcomingSeconds();
+            if (paused && _currentSong.isPlaying)
+                _currentSong.Pause();
+            else if (!paused && !_currentSong.isPlaying)
+                _currentSong.UnPause();
         }
-    }
 
-    public void SetNewPaused(bool paused)
-    {
-        Settings.paused = paused;
+        private void Update()
+        {
+            for (int i = 0; i < SessionValues.inputs.Length; i++)
+            {
+                if (Input.GetKeyDown(SessionValues.inputs[i]))
+                    _lanes[i].Button.onClick?.Invoke();
+            }
+        }
     }
 }
