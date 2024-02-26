@@ -29,8 +29,10 @@ public class BeatMappingWindow : EditorWindow
         {
             Label label = new Label("Enter play-mode");
             rootVisualElement.Add(label);
+
             label.style.unityTextAlign = TextAnchor.MiddleCenter;
             label.style.fontSize = 25;
+            
             label.style.paddingTop = 225;
             label.style.color = Color.red;
 
@@ -43,9 +45,7 @@ public class BeatMappingWindow : EditorWindow
         var allObjects = new List<AudioClip>();
         
         foreach (var guid in allObjectGuids)
-        {
             allObjects.Add(AssetDatabase.LoadAssetAtPath<AudioClip>(AssetDatabase.GUIDToAssetPath(guid)));
-        }
 
         var splitView = new TwoPaneSplitView(0, 250, TwoPaneSplitViewOrientation.Horizontal);
         rootVisualElement.Add(splitView);
