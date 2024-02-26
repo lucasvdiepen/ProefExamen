@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class BeatMappingSpectrumDrawer : MonoBehaviour
+public class AudioSpectrumDrawer : MonoBehaviour
 {
     private AudioSource _audioSource;
     
@@ -55,7 +55,6 @@ public class BeatMappingSpectrumDrawer : MonoBehaviour
             _visualizers[i].transform.localScale =
             Vector3.Lerp(_visualizers[i].transform.localScale,
             new Vector3(1, (samples[i] * maxScale) + 2, 1), lerpAmount * Time.deltaTime);
-            //_visualizers[i].GetComponent<SpriteRenderer>().color = Random.ColorHSV(
         }
     }
 }

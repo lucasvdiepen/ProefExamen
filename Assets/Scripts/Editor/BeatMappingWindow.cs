@@ -8,9 +8,10 @@ using System.Linq;
 #if UNITY_EDITOR
 public class BeatMappingWindow : EditorWindow
 {
-    private ObjectField soundClipField;
-    private string audioClipFilter = "t:AudioClip";
-    private ListView songList;
+    private readonly string audioClipFilter = "t:AudioClip";
+
+    private ObjectField _soundClipField;
+    private ListView _songList;
 
     [MenuItem("Rythm Game/Beat Mapping Tool")]
     public static void CreateWindow()
@@ -18,20 +19,20 @@ public class BeatMappingWindow : EditorWindow
         BeatMappingWindow window = GetWindow<BeatMappingWindow>();
         window.titleContent = new GUIContent("Beat Mapping Tool");
         
-        window.minSize = new Vector2(900, 600);
-        window.maxSize = new Vector2(900, 600);
+        window.minSize = new Vector2(300, 450);
+        window.maxSize = new Vector2(300, 450);
     }
     
     public void CreateGUI()
     {
         if (!Application.isPlaying)
         {
-            Label label = new Label("Beat Mapping requires to be used in play-mode");
+            Label label = new Label("Enter play-mode");
             rootVisualElement.Add(label);
             label.style.unityTextAlign = TextAnchor.MiddleCenter;
             label.style.fontSize = 25;
-            label.style.color = Color.red;
             label.style.paddingTop = 250;
+            label.style.color = Color.red;
 
             rootVisualElement.style.backgroundColor = new Color(.74f, .74f, .74f, .1f);
             return;
@@ -48,25 +49,28 @@ public class BeatMappingWindow : EditorWindow
         var splitView = new TwoPaneSplitView(0, 250, TwoPaneSplitViewOrientation.Horizontal);
         rootVisualElement.Add(splitView);
 
-        songList = new ListView();
-        splitView.Add(songList);
+        _songList = new ListView();
+        splitView.Add(_songList);
+
         var rightPane = new VisualElement();
         splitView.Add(rightPane);
 
-        songList.makeItem = () => new Label();
-        songList.bindItem = (item, index) => { (item as Label).text = allObjects[index].name; };
-        songList.itemsSource = allObjects;
+        _songList.makeItem = () => new Label();
+        _songList.bindItem = (item, index) => { (item as Label).text = allObjects[index].name; };
+        _songList.itemsSource = allObjects;
 
-        songList.selectionChanged += OnSongIndexChanged;
+        _songList.selectionChanged += OnSongIndexChanged;
+        _songList.style.paddingBottom = 30;
 
+        _soundClipField = new ObjectField("Song to map");
+        _soundClipField.SetEnabled(false);
+        _soundClipField.objectType = typeof(AudioClip);
+        
+        _songList.hierarchy.Add(_soundClipField);
+       
         var paddingContainer = new VisualElement();
         paddingContainer.style.paddingTop = 10;
-
-        soundClipField = new ObjectField("Song to map");
-        soundClipField.SetEnabled(false);
-        soundClipField.objectType = typeof(AudioClip);
-
-        rightPane.Add(soundClipField);
+        
         rootVisualElement.Add(paddingContainer);
     }
 
@@ -79,10 +83,10 @@ public class BeatMappingWindow : EditorWindow
         if (objectList[0] is not AudioClip audioClip)
             return;
 
-        soundClipField.value = audioClip;
+        _soundClipField.value = audioClip;
         if (Application.isPlaying)
         {
-            BeatMappingSpectrumDrawer spectrumDrawer = FindAnyObjectByType<BeatMappingSpectrumDrawer>();
+            AudioSpectrumDrawer spectrumDrawer = FindAnyObjectByType<AudioSpectrumDrawer>();
             if(spectrumDrawer != null)
                 spectrumDrawer.VisualizeSongSpectrum(audioClip);
         }
@@ -99,7 +103,10 @@ public class BeatMappingWindow : EditorWindow
     
     private void OnDestroy()
     {
-        songList.selectionChanged -= OnSongIndexChanged;
+        if (_songList == null)
+            return;
+
+        _songList.selectionChanged -= OnSongIndexChanged;
     }
 }
 #endif

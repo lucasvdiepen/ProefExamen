@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 public class AudioWaveformDrawer : MonoBehaviour
 {
     [SerializeField] private int _textureWidth = 2048;
@@ -10,8 +9,8 @@ public class AudioWaveformDrawer : MonoBehaviour
     [SerializeField] private Vector2 _waveformPositionOffset = new Vector2(0, 150);
     [SerializeField] private Color _renderColor = Color.white;
     [SerializeField] private GameObject _drawerPrefab;
+    [SerializeField] private AudioClip _audioClip;
 
-    private AudioSource _audioSource;
     private Texture2D _waveformTexture;
     private float[] _dataSamples;
     private Color[] _textureColors;
@@ -19,22 +18,19 @@ public class AudioWaveformDrawer : MonoBehaviour
 
     private void Awake()
     {
-        _audioSource = GetComponent<AudioSource>();
-        _dataSamples = new float[_audioSource.clip.samples * _audioSource.clip.channels];
-        _audioSource.clip.GetData(_dataSamples, 0);
+        _dataSamples = new float[_audioClip.samples * _audioClip.channels];
+        _audioClip.GetData(_dataSamples, 0);
 
         _waveformTexture = new Texture2D(_textureWidth, _textureHeight, TextureFormat.RGBA32, false);
         _textureColors = new Color[_waveformTexture.width * _waveformTexture.height];
 
-        _timePerSample = 1f / _audioSource.clip.frequency * _audioSource.clip.channels;
+        _timePerSample = 1f / _audioClip.frequency * _audioClip.channels;
 
         GenerateWaveformTexture();
         Renderer renderer = GetComponent<Renderer>();
 
         if (renderer != null)
             renderer.material.mainTexture = _waveformTexture;
-
-        _audioSource.Play();
     }
 
     private void GenerateWaveformTexture()
