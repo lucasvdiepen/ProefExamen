@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace ProefExamen.Framework.AdSystem
 {
+    /// <summary>
+    /// A class responsible for showing and handling rewarded ads.
+    /// </summary>
     public class RewardedAdSystem : AbstractSingleton<RewardedAdSystem>
     {
         [SerializeField]
@@ -30,6 +33,10 @@ namespace ProefExamen.Framework.AdSystem
 
         private void Awake() => _defaultCountdownText = _countdownText.text;
 
+        /// <summary>
+        /// Shows the ad. When the ad is finished, the callback is called with a boolean indicating if the ad was successful.
+        /// </summary>
+        /// <param name="callback">The callback to be called when the ad is finished. The boolean indicates if the ad was successful.</param>
         public void ShowAd(Action<bool> callback)
         {
             if (_isAdShowing)
@@ -48,8 +55,14 @@ namespace ProefExamen.Framework.AdSystem
             _countdownCoroutine = StartCoroutine(StartAdCountdown());
         }
 
+        /// <summary>
+        /// Called when the exit button is pressed.
+        /// </summary>
         public void ExitButtonPressed() => CloseAd(false);
 
+        /// <summary>
+        /// Called when the continue button is pressed.
+        /// </summary>
         public void ContinueButtonPressed() => CloseAd(true);
 
         private void CloseAd(bool success)
