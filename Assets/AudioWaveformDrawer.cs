@@ -5,10 +5,10 @@ public class AudioWaveformDrawer : MonoBehaviour
 {
     [SerializeField] private int _textureWidth = 2048;
     [SerializeField] private int _textureHeight = 512;
-    [SerializeField] private float _heightScaleModifier = 100;
+    [SerializeField] private float _heightScaleModifier = 100f;
     [SerializeField] private int _renderDownScaleModifier = 4;
+    [SerializeField] private Vector2 _waveformPositionOffset = new Vector2(0, 150);
     [SerializeField] private Color _renderColor = Color.white;
-    [SerializeField] private GameObject _waveformBorder;
     [SerializeField] private GameObject _drawerPrefab;
 
     private AudioSource _audioSource;
@@ -34,7 +34,6 @@ public class AudioWaveformDrawer : MonoBehaviour
         if (renderer != null)
             renderer.material.mainTexture = _waveformTexture;
 
-        _waveformBorder.transform.localScale = new Vector3(_waveformTexture.width, _waveformBorder.transform.localScale.y, _waveformBorder.transform.localScale.z);
         _audioSource.Play();
     }
 
@@ -46,24 +45,24 @@ public class AudioWaveformDrawer : MonoBehaviour
             int endSample = Mathf.Min(startSample + (_dataSamples.Length / _waveformTexture.width), _dataSamples.Length);
             float sum = 0;
 
-            for (int j = startSample; j < endSample; j++)
-            {
+            for (int j = startSample; j < endSample; j++) 
                 sum += Mathf.Abs(_dataSamples[j]);
-            }
 
             float averageSample = sum / (_dataSamples.Length / _waveformTexture.width);
             float scaledAverage = averageSample * _heightScaleModifier;
 
             for (int y = 0; y < _waveformTexture.height; y++)
-            {
                 _textureColors[x + y * _waveformTexture.width] = (y < scaledAverage) ? _renderColor : Color.clear;
-            }
         }
+
         _waveformTexture.SetPixels(_textureColors);
         _waveformTexture.filterMode = FilterMode.Point;
         _waveformTexture.Apply();
 
-        GameObject drawerObject = Instantiate(_drawerPrefab, transform);
+        GameObject drawerObject = Instantiate(_drawerPrefab, transform.position, _drawerPrefab.transform.rotation);
+        drawerObject.transform.SetParent(transform);
+        drawerObject.transform.localPosition = new Vector2(_waveformPositionOffset.x + (_textureWidth + _textureWidth / _renderDownScaleModifier), _waveformPositionOffset.y);
+
         drawerObject.transform.localScale = new Vector3(_textureWidth / _renderDownScaleModifier, 1, _textureHeight / _renderDownScaleModifier);
         drawerObject.GetComponent<Renderer>().material.mainTexture = _waveformTexture;
     }
