@@ -43,7 +43,7 @@ namespace ProefExamen.Framework.UI
         /// <summary>
         /// Replaces the text of the default tag set in the inspector.
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">The text to replace the tag with.</param>
         public void ReplaceTag(string text)
         {
             if(string.IsNullOrEmpty(_tag))
