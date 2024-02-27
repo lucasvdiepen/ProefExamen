@@ -387,7 +387,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.8353392, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -445,7 +445,7 @@ MonoBehaviour:
   _audioSamples: 512
   _lerpAmount: 20
   _maxScale: 1200
-  offsetPosition: {x: -400, y: -150}
+  _offsetPosition: {x: -400, y: -140, z: 0}
   _imagePrefab: {fileID: 8623229379880188053, guid: 95adf3ed193b7a144943a256348991e4, type: 3}
 --- !u!4 &600010999
 Transform:
@@ -650,5 +650,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 511441680}
   - {fileID: 1177861141}
-  - {fileID: 555472537}
   - {fileID: 600010999}
+  - {fileID: 555472537}

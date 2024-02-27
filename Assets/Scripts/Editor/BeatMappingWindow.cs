@@ -12,22 +12,21 @@ public class BeatMappingWindow : EditorWindow
 
     private ObjectField _soundClipField;
     private ListView _songList;
+    private ListView _timeStamps;
 
     [MenuItem("Rythm Game/Beat Mapping Tool")]
     public static void CreateWindow()
     {
         BeatMappingWindow window = GetWindow<BeatMappingWindow>();
         window.titleContent = new GUIContent("Beat Mapping Tool");
-        
-        window.minSize = new Vector2(300, 450);
-        window.maxSize = new Vector2(300, 450);
+        window.minSize = new Vector2(600, 450);
     }
     
     public void CreateGUI()
     {
         if (!Application.isPlaying)
         {
-            Label label = new Label("Enter play-mode");
+            Label label = new("Enter play-mode");
             rootVisualElement.Add(label);
 
             label.style.unityTextAlign = TextAnchor.MiddleCenter;
@@ -40,21 +39,29 @@ public class BeatMappingWindow : EditorWindow
             PlayModeCheck();
             return;
         }
+
+        string[] allObjectGuids = AssetDatabase.FindAssets(audioClipFilter);
+        List<AudioClip> allObjects = new();
         
-        var allObjectGuids = AssetDatabase.FindAssets(audioClipFilter);
-        var allObjects = new List<AudioClip>();
-        
-        foreach (var guid in allObjectGuids)
+        foreach (string guid in allObjectGuids)
             allObjects.Add(AssetDatabase.LoadAssetAtPath<AudioClip>(AssetDatabase.GUIDToAssetPath(guid)));
 
-        var splitView = new TwoPaneSplitView(0, 250, TwoPaneSplitViewOrientation.Horizontal);
+        TwoPaneSplitView splitView = new(0, 250, TwoPaneSplitViewOrientation.Horizontal);
         rootVisualElement.Add(splitView);
 
         _songList = new ListView();
         splitView.Add(_songList);
 
-        var rightPane = new VisualElement();
+        VisualElement rightPane = new();
         splitView.Add(rightPane);
+
+        Vector2[] myArray = new Vector2[] { Vector2.zero, Vector2.one, Vector2.right, Vector2.left, Vector2.down };
+        ListView arrayListView = new();
+        rightPane.Add(arrayListView);
+
+        arrayListView.makeItem = () => new Label();
+        arrayListView.bindItem = (item, index) => { (item as Label).text = myArray[index].ToString(); };
+        arrayListView.itemsSource = myArray;
 
         _songList.makeItem = () => new Label();
         _songList.bindItem = (item, index) => { (item as Label).text = allObjects[index].name; };
@@ -71,13 +78,12 @@ public class BeatMappingWindow : EditorWindow
        
         var paddingContainer = new VisualElement();
         paddingContainer.style.paddingTop = 10;
-        
         rootVisualElement.Add(paddingContainer);
     }
 
     private void OnSongIndexChanged(IEnumerable<object> obj)
     {
-        var objectList = obj.ToList();
+        List<object> objectList = obj.ToList();
         if (objectList.Count == 0)
             return;
 

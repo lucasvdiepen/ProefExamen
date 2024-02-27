@@ -5,7 +5,7 @@ public class AudioSpectrumDrawer : MonoBehaviour
     [SerializeField] private int _audioSamples;
     [SerializeField, Range(0f, 20f)] private float _lerpAmount;
     [SerializeField] private float _maxScale;
-    [SerializeField] private Vector3 offsetPosition;
+    [SerializeField] private Vector3 _offsetPosition;
 
     [Space]
     [SerializeField] private GameObject _imagePrefab;
@@ -58,6 +58,6 @@ public class AudioSpectrumDrawer : MonoBehaviour
     private void LateUpdate()
     {
         Vector2 cameraPos = Camera.main.transform.position;
-        transform.position = new Vector3(cameraPos.x, cameraPos.y, transform.position.z) + offsetPosition;
+        transform.position = new Vector3(cameraPos.x, cameraPos.y, transform.position.z) + _offsetPosition;
     }
 }
