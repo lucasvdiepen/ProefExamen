@@ -1,4 +1,5 @@
 using ProefExamen.Framework.Gameplay.LaneSystem;
+using ProefExamen.Framework.Gameplay.Values;
 
 namespace ProefExamen.Framework.Utils.Libraries.LaneUtils
 {
@@ -14,11 +15,11 @@ namespace ProefExamen.Framework.Utils.Libraries.LaneUtils
         /// <returns>The decided HitStatus based on the accuracy</returns>
         public static HitStatus ReturnHitStatus(float differenceAlpha)
         {
-            if (differenceAlpha > .75f)
+            if (differenceAlpha > SessionValuesShortcut.Instance._okThreshold)
                 return HitStatus.OK;
-            else if (differenceAlpha > .5f)
+            else if (differenceAlpha > SessionValuesShortcut.Instance._alrightThreshold)
                 return HitStatus.ALRIGHT;
-            else if (differenceAlpha > .25f)
+            else if (differenceAlpha > SessionValuesShortcut.Instance._niceThreshold)
                 return HitStatus.NICE;
             else
                 return HitStatus.PERFECT;

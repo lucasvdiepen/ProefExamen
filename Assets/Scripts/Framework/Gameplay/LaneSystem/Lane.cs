@@ -22,6 +22,14 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         [SerializeField]
         private List<GameObject> _notes = new();
 
+        [Header("The minimum and maximum the lerp alpha can be to hit the note.")]
+        [SerializeField]
+        private float _lerpAlphaRangeMinimum = .4f;
+
+        [SerializeField]
+        private float _lerpAlphaRangeMaximum = .7f;
+
+        [Header("The positions the notes lerp between over their lane.")]
         [SerializeField]
         private Vector3 _initialNotePosition;
 
@@ -55,13 +63,11 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             GameObject nextNote = _notes[0];
             Note nextNoteScript = nextNote.GetComponent<Note>();
 
-            if (nextNoteScript.LerpAlpha < .3f && nextNoteScript.LerpAlpha > .7f)
+            if (nextNoteScript.LerpAlpha < _lerpAlphaRangeMinimum && nextNoteScript.LerpAlpha > _lerpAlphaRangeMaximum)
                 return;
 
             float differenceAlpha = Mathf.Abs(nextNoteScript.LerpAlpha - .5f) / .2f;
             HitStatus hitResult = LaneUtils.ReturnHitStatus(differenceAlpha);
-
-            Debug.Log(_button.name + " was pressed and got a " + hitResult + " hit!");
 
             SessionValues.score += (int)hitResult;
 

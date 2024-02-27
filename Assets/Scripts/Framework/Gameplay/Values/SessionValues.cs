@@ -1,5 +1,4 @@
 using UnityEngine;
-using Unity.Mathematics;
 
 using ProefExamen.Framework.Gameplay.MapData;
 
@@ -96,7 +95,7 @@ namespace ProefExamen.Framework.Gameplay.Values
 
             float alpha = range / travelTime;
 
-            return math.clamp(alpha, 0, 1);
+            return Mathf.Clamp01(alpha);
         }
     }
 }

@@ -471,8 +471,10 @@ MonoBehaviour:
   _id: 3
   _button: {fileID: 246268232}
   _notes: []
-  initialNotePosition: {x: 2.1, y: 5.5, z: 0}
-  targetNotePosition: {x: 2.1, y: -5.5, z: 0}
+  _lerpAlphaRangeMinimum: 0.4
+  _lerpAlphaRangeMaximum: 0.7
+  _initialNotePosition: {x: 0, y: 0, z: 0}
+  _targetNotePosition: {x: 0, y: 0, z: 0}
 --- !u!1 &297487860
 GameObject:
   m_ObjectHideFlags: 0
@@ -1134,6 +1136,9 @@ MonoBehaviour:
     song: {fileID: 8300000, guid: 28406c2d4ad2819499dddb87703b8f31, type: 3}
     level: []
   difficulty: 0
+  _okThreshold: 0.75
+  _alrightThreshold: 0.5
+  _niceThreshold: 0.25
   levels: {fileID: 11400000, guid: 0201bf37a9e02104786709aee9d87157, type: 2}
   note: {fileID: 8865070559718813142, guid: 778813d51c727894e89f15617b02c6d2, type: 3}
 --- !u!1 &824377490
@@ -1407,8 +1412,10 @@ MonoBehaviour:
   _id: 0
   _button: {fileID: 1169352986}
   _notes: []
-  initialNotePosition: {x: -2.1, y: 5.5, z: 0}
-  targetNotePosition: {x: 0, y: 0, z: 0}
+  _lerpAlphaRangeMinimum: 0.4
+  _lerpAlphaRangeMaximum: 0.7
+  _initialNotePosition: {x: 0, y: 0, z: 0}
+  _targetNotePosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1373917185
 GameObject:
   m_ObjectHideFlags: 0
@@ -1546,8 +1553,10 @@ MonoBehaviour:
   _id: 1
   _button: {fileID: 1373917187}
   _notes: []
-  initialNotePosition: {x: -0.7, y: 5.5, z: 0}
-  targetNotePosition: {x: -0.7, y: -5.5, z: 0}
+  _lerpAlphaRangeMinimum: 0.4
+  _lerpAlphaRangeMaximum: 0.7
+  _initialNotePosition: {x: 0, y: 0, z: 0}
+  _targetNotePosition: {x: 0, y: 0, z: 0}
 --- !u!1 &1581116972
 GameObject:
   m_ObjectHideFlags: 0
@@ -1907,8 +1916,10 @@ MonoBehaviour:
   _id: 2
   _button: {fileID: 2059155166}
   _notes: []
-  initialNotePosition: {x: 0.7, y: 5.5, z: 0}
-  targetNotePosition: {x: 0.7, y: -5.5, z: 0}
+  _lerpAlphaRangeMinimum: 0.4
+  _lerpAlphaRangeMaximum: 0.7
+  _initialNotePosition: {x: 0, y: 0, z: 0}
+  _targetNotePosition: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

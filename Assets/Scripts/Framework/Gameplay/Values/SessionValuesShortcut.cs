@@ -51,11 +51,29 @@ namespace ProefExamen.Framework.Gameplay.Values
         /// The default difficulty.
         /// </summary>
         public Difficulty difficulty;
+
+        /// <summary>
+        /// The threshold between 1 and the okThreshold will be the range for getting an OK.
+        /// </summary>
+        public float _okThreshold = .75f;
+        /// <summary>
+        /// The threshold between okThreshold and alrightThreshold will be the range for getting an ALRIGHT.
+        /// </summary>
+        public float _alrightThreshold = .5f;
+        /// <summary>
+        /// The threshold between alrightThreshold and niceThreshold will be the range for getting an NICE, 
+        /// everything below that is PERFECT.
+        /// </summary>
+        public float _niceThreshold = .25f;
+
         /// <summary>
         /// The levels default.
         /// </summary>
         public Levels levels;
 
+        /// <summary>
+        /// The Note default.l
+        /// </summary>
         public GameObject note;
 
         /// <summary>
