@@ -89,7 +89,7 @@ public class BeatMappingWindow : EditorWindow
 
         if (Application.isPlaying)
         {
-            AudioSpectrumDrawer spectrumDrawer = FindAnyObjectByType<AudioSpectrumDrawer>();
+            AudioSpectrumDrawer spectrumDrawer = FindObjectOfType<AudioSpectrumDrawer>();
             if(spectrumDrawer != null)
                 spectrumDrawer.VisualizeSongSpectrum(audioClip);
         }

@@ -1,52 +1,49 @@
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 public class AudioSpectrumDrawer : MonoBehaviour
 {
-    private AudioSource _audioSource;
+    [SerializeField] private int _audioSamples;
+    [SerializeField, Range(0f, 20f)] private float _lerpAmount;
+    [SerializeField] private float _maxScale;
+    [SerializeField] private Vector3 offsetPosition;
+
+    [Space]
+    [SerializeField] private GameObject _imagePrefab;
     
-    private GameObject[] _visualizers;
-    private float[] samples;
-
-    [Header("Visuals")]
-    [SerializeField] private int audioSamples;
-    [SerializeField, Range(0f, 20f)] private float lerpAmount;
-    [SerializeField] private GameObject imagePrefab;
-
-    public float maxScale;
+    private float[] _samples;
+    
+    private GameObject[] _visualizers; 
+    private AudioWaveformDrawer _waveformDrawer = null;
 
     private void Awake()
     {
-        //setting necessary values
-        samples = new float[audioSamples];
-        _audioSource = GetComponent<AudioSource>();
+        _samples = new float[_audioSamples];
+        _waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();
     }
 
     public void VisualizeSongSpectrum(AudioClip clip)
     {
         _visualizers = null;
-        
         foreach (Transform child in transform)
             Destroy(child.gameObject);
 
-        _audioSource.clip = clip;
-        _audioSource.Play();
+        _waveformDrawer.InitializeDrawer(clip);
+        _visualizers = new GameObject[_samples.Length];
 
-        _visualizers = new GameObject[samples.Length];
         for (int i = 0; i < _visualizers.Length; i++)
         {
-            GameObject objToSpawn = Instantiate(imagePrefab, transform);
+            GameObject objToSpawn = Instantiate(_imagePrefab, transform);
             objToSpawn.transform.position = transform.position;
             objToSpawn.transform.parent = transform;
             objToSpawn.name = "BandVisualizer " + i;
-            objToSpawn.transform.position = new Vector3(i * transform.localScale.x, 0, 0);
+            objToSpawn.transform.position = new Vector3(transform.position.x + (i * transform.localScale.x), transform.position.y, 0);
             _visualizers[i] = objToSpawn;
         }
     }
 
     private void Update()
     {
-        _audioSource.GetSpectrumData(samples, 0, FFTWindow.Blackman);
+        _waveformDrawer.audioSource.GetSpectrumData(_samples, 0, FFTWindow.Blackman);
         if (_visualizers == null)
             return;
 
@@ -54,7 +51,13 @@ public class AudioSpectrumDrawer : MonoBehaviour
         {
             _visualizers[i].transform.localScale =
             Vector3.Lerp(_visualizers[i].transform.localScale,
-            new Vector3(1, (samples[i] * maxScale) + 2, 1), lerpAmount * Time.deltaTime);
+            new Vector3(1, (_samples[i] * _maxScale) + 2, 1), _lerpAmount * Time.deltaTime);
         }
+    }
+
+    private void LateUpdate()
+    {
+        Vector2 cameraPos = Camera.main.transform.position;
+        transform.position = new Vector3(cameraPos.x, cameraPos.y, transform.position.z) + offsetPosition;
     }
 }
