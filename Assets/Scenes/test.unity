@@ -1126,13 +1126,16 @@ MonoBehaviour:
   score: 0
   scoreMultiplier: 1
   paused: 0
+  currentLevelID: 0
   currentLevel:
     levelID: 2
     song: {fileID: 8300000, guid: 28406c2d4ad2819499dddb87703b8f31, type: 3}
     level: []
   difficulty: 0
+  levels: {fileID: 11400000, guid: 0201bf37a9e02104786709aee9d87157, type: 2}
   note: {fileID: 8865070559718813142, guid: 778813d51c727894e89f15617b02c6d2, type: 3}
   inputs: 61000000730000003b00000027000000
+  usingInputs: 0
 --- !u!1 &824377490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1692,10 +1695,9 @@ MonoBehaviour:
   - {fileID: 1373917190}
   - {fileID: 2059155169}
   - {fileID: 246268235}
-  _index: 0
-  _levels: {fileID: 11400000, guid: 0201bf37a9e02104786709aee9d87157, type: 2}
-  _selectedLevelID: 3
-  _currentSong: {fileID: 12134962}
+  _audio: {fileID: 0}
+  usingInputs: 1
+  inputs: 61000000730000003b00000027000000
 --- !u!1 &1959731980
 GameObject:
   m_ObjectHideFlags: 0

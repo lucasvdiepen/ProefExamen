@@ -7,63 +7,44 @@ using ProefExamen.Framework.Gameplay.MapData;
 
 namespace ProefExamen.Framework.Gameplay.LaneSystem
 {
+    /// <summary>
+    /// A class responsible for managing and sending relevant info to all lanes.
+    /// </summary>
     public class LaneManager : AbstractSingleton<LaneManager>
     {
         [SerializeField]
         private Lane[] _lanes;
 
         [SerializeField]
+        private AudioSource _audio;
+
+        [Header("PC Controls")]
+        [SerializeField]
+        private bool usingInputs;
+
+        [SerializeField]
+        private KeyCode[] inputs;
+
         private int _index;
 
-        [SerializeField]
-        private Levels _levels;
-
-        [SerializeField]
-        private int _selectedLevelID;
-
-        [SerializeField]
-        private AudioSource _currentSong;
-
-        public void Start()
-        {
-            SessionValues.difficulty = Difficulty.EASY;
-            //temp code
-            StartCoroutine(delayFunction());
-        }
-
-        public IEnumerator delayFunction() // temp function
-        {
-            yield return new WaitForSeconds(2f);
-            SelectLevel();
-        }
-        public void SelectLevel()
-        {
-            Debug.Log("SelectLevel called");
-            foreach (LevelData level in _levels.levels)
-            {
-                if (level.levelID == _selectedLevelID)
-                {
-                    SessionValues.currentLevel = level;
-                    StartCoroutine(PlayThroughLevel());
-                }
-            }
-        }
-
+        /// <summary>
+        /// Starts the level that is currently selected on the selected difficulty and song.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator PlayThroughLevel()
         {
             _index = 0;
 
-            _currentSong.clip = SessionValues.currentLevel.song;
-            _currentSong.Play();
+            _audio.clip = SessionValues.currentLevel.song;
+            _audio.Play();
 
-            Debug.Log("starting playthrough");
             while (SessionValues.time < SessionValues.currentLevel.song.length)
             {
                 if (!SessionValues.paused)
                 {
                     SessionValues.time += Time.deltaTime;
 
-                    QueueNotesForUpcomingSeconds();
+                    QueueUpcomingNotes();
 
                     yield return null;
                 }
@@ -73,7 +54,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             yield return null;
         }
 
-        private void QueueNotesForUpcomingSeconds()
+        private void QueueUpcomingNotes()
         {
             Level currentLevel = SessionValues.currentLevel.Level();
 
@@ -89,27 +70,31 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                 _lanes[laneID].SpawnNote(upcomingTime);
 
                 _index++;
-                QueueNotesForUpcomingSeconds();
+                QueueUpcomingNotes();
             }
         }
 
+        /// <summary>
+        /// Pauses the game based on the passed bool, this will be passed to the SessionValues and pause any playing audio.
+        /// </summary>
+        /// <param name="paused"></param>
         public void SetNewPaused(bool paused)
         {
             SessionValues.paused = paused;
 
-            if (paused && _currentSong.isPlaying)
-                _currentSong.Pause();
-            else if (!paused && !_currentSong.isPlaying)
-                _currentSong.UnPause();
+            if (paused && _audio.isPlaying)
+                _audio.Pause();
+            else if (!paused && !_audio.isPlaying)
+                _audio.UnPause();
         }
 
         private void Update()
         {
-            for (int i = 0; i < SessionValues.inputs.Length; i++)
-            {
+            int inputsLength = inputs.Length;
+
+            for (int i = 0; i < inputsLength; i++)
                 if (Input.GetKeyDown(SessionValues.inputs[i]))
                     _lanes[i].Button.onClick?.Invoke();
-            }
         }
     }
 }

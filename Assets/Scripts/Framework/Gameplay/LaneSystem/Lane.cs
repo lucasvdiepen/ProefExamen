@@ -1,11 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
-using ProefExamen.Framework.Gameplay.Values;
 using System.Collections.Generic;
+
+using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Utils.Libraries.LaneUtils;
 
 namespace ProefExamen.Framework.Gameplay.LaneSystem
 {
+    /// <summary>
+    /// A class that manages a lane.
+    /// </summary>
     [RequireComponent(typeof(Button))]
     public class Lane : MonoBehaviour
     {
@@ -18,13 +22,15 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         [SerializeField]
         private List<GameObject> _notes = new();
 
+        /// <summary>
+        /// Gets the private button variable of the Lane.
+        /// </summary>
         public Button Button => _button;
 
-        void Start()
+        private void Start()
         {
-            Input.GetKey(KeyCode.Escape);
-
-            _button = GetComponent<Button>();
+            if (_button == null)
+                _button = GetComponent<Button>();
 
             if (_id != -1)
                 _button.onClick.AddListener(SendButtonPress);
@@ -36,28 +42,32 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             if (!(_notes.Count > 0))
             {
-                SessionValues.score -= 1;
+                SessionValues.score -= (int)HitStatus.ALRIGHT;
                 return;
             }
 
             GameObject nextNote = _notes[0];
             Note nextNoteScript = nextNote.GetComponent<Note>();
 
-            if (nextNoteScript.LerpAlpha > .3f && nextNoteScript.LerpAlpha < .7f)
-            {
-                float differenceAlpha = Mathf.Abs(nextNoteScript.LerpAlpha - .5f) / .2f;
+            if (nextNoteScript.LerpAlpha < .3f && nextNoteScript.LerpAlpha > .7f)
+                return;
 
-                HitStatus hitResult = LaneUtils.ReturnHitStatus(differenceAlpha);
+            float differenceAlpha = Mathf.Abs(nextNoteScript.LerpAlpha - .5f) / .2f;
+            HitStatus hitResult = LaneUtils.ReturnHitStatus(differenceAlpha);
 
-                Debug.Log(_button.name + " was pressed and got a " + hitResult + " hit!");
+            Debug.Log(_button.name + " was pressed and got a " + hitResult + " hit!");
 
-                SessionValues.score += (int)hitResult;
+            SessionValues.score += (int)hitResult;
 
-                Destroy(nextNote);
-                RemoveNote(nextNote);
-            }
+            Destroy(nextNote);
+            RemoveNote(nextNote);
         }
 
+
+        /// <summary>
+        /// Spawns a note on this Lane with the passed TimeStamp and data.
+        /// </summary>
+        /// <param name="timeStamp">The TimeStamp that the new note must be hit on.</param>
         public void SpawnNote(float timeStamp)
         {
             GameObject newNote = Instantiate(SessionValues.note);
@@ -66,17 +76,16 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             Vector2 initialPos = new Vector2(-2.1f + ((_id * 0.7f) * 2), 6);
             Vector2 targetPos = new Vector2(initialPos.x, -6);
 
-            newNote.transform.position = new Vector3(initialPos.x, initialPos.y, 0);
-
             Note newNoteScript = newNote.GetComponent<Note>();
 
             newNoteScript.SetNoteValues(initialPos, targetPos, _id, SessionValues.currentLevel.levelID, timeStamp);
             newNoteScript.CallNoteRemoval += RemoveNote;
         }
 
-        public void RemoveNote(GameObject note)
-        {
-            _notes.Remove(note);
-        }
+        /// <summary>
+        /// Remove a note from the tracked notes list.
+        /// </summary>
+        /// <param name="note">The targeted note.</param>
+        public void RemoveNote(GameObject note) => _notes.Remove(note);
     }
 }
