@@ -1,3 +1,4 @@
+using ProefExamen.Framework.UI;
 using ProefExamen.Framework.Utils;
 using System;
 using System.Collections;
@@ -15,7 +16,7 @@ namespace ProefExamen.Framework.AdSystem
         private GameObject _adCanvas;
 
         [SerializeField]
-        private TextMeshProUGUI _countdownText;
+        private TextUpdater _countdownText;
 
         [SerializeField]
         private GameObject _continueButton;
@@ -31,12 +32,12 @@ namespace ProefExamen.Framework.AdSystem
         private Coroutine _countdownCoroutine;
         private string _defaultCountdownText;
 
-        private void Awake() => _defaultCountdownText = _countdownText.text;
-
         /// <summary>
-        /// Shows the ad. When the ad is finished, the callback is called with a boolean indicating if the ad was successful.
+        /// Shows the ad. When the ad is finished, 
+        /// the callback is called with a boolean indicating if the ad was successful.
         /// </summary>
-        /// <param name="callback">The callback to be called when the ad is finished. The boolean indicates if the ad was successful.</param>
+        /// <param name="callback">The callback to be called when the ad is finished.
+        /// The boolean indicates if the ad was successful.</param>
         public void ShowAd(Action<bool> callback)
         {
             if (_isAdShowing)
@@ -93,7 +94,6 @@ namespace ProefExamen.Framework.AdSystem
             _exitButton.SetActive(false);
         }
 
-        private void ChangeCountdownText(int countdown)
-            => _countdownText.text = _defaultCountdownText.Replace("[countdown]", countdown.ToString());
+        private void ChangeCountdownText(int countdown) => _countdownText.ReplaceTag(countdown.ToString());
     }
 }

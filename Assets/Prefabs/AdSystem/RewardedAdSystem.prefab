@@ -266,6 +266,7 @@ GameObject:
   - component: {fileID: 8355904446423965870}
   - component: {fileID: 1167807916107887679}
   - component: {fileID: 530790270113341157}
+  - component: {fileID: 3557077565575668240}
   m_Layer: 5
   m_Name: CountdownText
   m_TagString: Untagged
@@ -389,6 +390,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3557077565575668240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518524678997011262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f218d3edd365144fb281cbd48098adb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tag: '[countdown]'
 --- !u!1 &1674771907524512824
 GameObject:
   m_ObjectHideFlags: 0
@@ -707,7 +721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _adCanvas: {fileID: 6432865946936581811}
-  _countdownText: {fileID: 530790270113341157}
+  _countdownText: {fileID: 3557077565575668240}
   _continueButton: {fileID: 814578069353866538}
   _exitButton: {fileID: 6942338320072133348}
   _adDuration: 15

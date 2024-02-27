@@ -1,7 +1,7 @@
+using ProefExamen.Framework.UI;
 using ProefExamen.Framework.Utils;
 using System.Collections;
 using System.IO;
-using TMPro;
 using UnityEngine;
 
 namespace ProefExamen.Framework.Sharing
@@ -15,7 +15,7 @@ namespace ProefExamen.Framework.Sharing
         private Camera _renderCamera;
 
         [SerializeField]
-        private TextMeshProUGUI _highscoreText;
+        private TextUpdater _highscoreText;
 
         [SerializeField]
         private string _subject;
@@ -23,10 +23,7 @@ namespace ProefExamen.Framework.Sharing
         [SerializeField]
         private string _text;
 
-        private string _highscoreDefaultText;
         private string _filePath;
-
-        private void Awake() => _highscoreDefaultText = _highscoreText.text;
 
         /// <summary>
         /// Shares the highscore of the player.
@@ -52,9 +49,8 @@ namespace ProefExamen.Framework.Sharing
         {
             int currentPoints = PointsSystem.PointsSystem.Points;
 
-            _highscoreText.text = _highscoreDefaultText
-                .Replace("[points]", currentPoints.ToString())
-                .Replace("[pointsText]", currentPoints == 1 ? "point" : "points");
+            _highscoreText.ReplaceTag("[points]", currentPoints.ToString());
+            _highscoreText.ReplaceTag("[pointsText]", currentPoints == 1 ? "point" : "points");
         }
 
         private IEnumerator TakeScreenshot()
