@@ -22,6 +22,12 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         [SerializeField]
         private List<GameObject> _notes = new();
 
+        [SerializeField]
+        private Vector3 _initialNotePosition;
+
+        [SerializeField]
+        private Vector3 _targetNotePosition;
+
         /// <summary>
         /// Gets the private button variable of the Lane.
         /// </summary>
@@ -63,7 +69,6 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             RemoveNote(nextNote);
         }
 
-
         /// <summary>
         /// Spawns a note on this Lane with the passed TimeStamp and data.
         /// </summary>
@@ -73,12 +78,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             GameObject newNote = Instantiate(SessionValues.note);
             _notes.Add(newNote);
 
-            Vector2 initialPos = new Vector2(-2.1f + ((_id * 0.7f) * 2), 6);
-            Vector2 targetPos = new Vector2(initialPos.x, -6);
-
             Note newNoteScript = newNote.GetComponent<Note>();
 
-            newNoteScript.SetNoteValues(initialPos, targetPos, _id, SessionValues.currentLevel.levelID, timeStamp);
+            newNoteScript.SetNoteValues(_initialNotePosition, _targetNotePosition, _id, SessionValues.currentLevel.levelID, timeStamp);
             newNoteScript.CallNoteRemoval += RemoveNote;
         }
 

@@ -6,7 +6,8 @@ using ProefExamen.Framework.Gameplay.MapData;
 namespace ProefExamen.Framework.Gameplay.Values
 {
     /// <summary>
-    /// The class that holds the value for a session, these are widely used and easily accessible through this static class.
+    /// The class that holds the value for a session, these are widely used and easily accessible through 
+    /// this static class.
     /// </summary>
     public static class SessionValues
     {
@@ -55,20 +56,12 @@ namespace ProefExamen.Framework.Gameplay.Values
         public static GameObject note = SessionValuesShortcut.Instance.note;
 
         /// <summary>
-        /// A bool that decides if we are using PC Inputs.
-        /// </summary>
-        public static bool usingInputs = SessionValuesShortcut.Instance.usingInputs;
-        /// <summary>
-        /// The inputs from 0 - 3 for each lane when on PC.
-        /// </summary>
-        public static KeyCode[] inputs = SessionValuesShortcut.Instance.inputs;
-
-        /// <summary>
         /// Returns a bool for if the upcoming timestamp should be queued yet.
         /// </summary>
         /// <param name="timeStamp">The timestamp that is being checked.</param>
         /// <returns>The status for if we want to queue the passed timestamp.</returns>
-        public static bool TimeStampReadyForQueue(float timeStamp) => timeStamp > time && timeStamp - (travelTime * 1.1) < time;
+        public static bool TimeStampReadyForQueue(float timeStamp) => 
+            timeStamp > time && timeStamp - (travelTime * 1.1) < time;
 
         /// <summary>
         /// Will update the difficulty through a newly passed difficulty.

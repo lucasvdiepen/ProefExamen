@@ -6,12 +6,14 @@ using ProefExamen.Framework.Gameplay.MapData;
 namespace ProefExamen.Framework.Gameplay.Values
 {
     /// <summary>
-    /// A class responsible for setting the default variables of the static class SessionValues. Is also used to view values of SessionValues realtime which is usefull for debuggin.
+    /// A class responsible for setting the default variables of the static class SessionValues. 
+    /// Is also used to view values of SessionValues realtime which is usefull for debuggin.
     /// </summary>
     public class SessionValuesShortcut : AbstractSingleton<SessionValuesShortcut>
     {
         /// <summary>
-        /// A bool that decides if the values here must be updated during a session to watch values. Used for debugging.
+        /// A bool that decides if the values here must be updated during a session to watch values.
+        /// Used for debugging.
         /// </summary>
         public bool updateSettingsLive = true;
 
@@ -55,9 +57,6 @@ namespace ProefExamen.Framework.Gameplay.Values
         public Levels levels;
 
         public GameObject note;
-
-        public KeyCode[] inputs;
-        public bool usingInputs;
 
         /// <summary>
         /// A function to quickly gather the settings from the static Settings class.

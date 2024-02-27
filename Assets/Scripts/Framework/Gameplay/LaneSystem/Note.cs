@@ -29,6 +29,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         private float _lerpAlpha = 0;
 
         [SerializeField]
+        private float _availabilityThreshold = 0.65f;
+
+        [SerializeField]
         private bool _calledRemoval;
 
         /// <summary>
@@ -74,7 +77,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
             transform.position = Vector3.Lerp(_initialPosition, _targetPosition, _lerpAlpha);
 
-            if (!_calledRemoval && _lerpAlpha < .65f) return;
+            if (!_calledRemoval && _lerpAlpha < _availabilityThreshold) return;
 
             _calledRemoval = true;
             SessionValues.score -= (int)HitStatus.NICE;

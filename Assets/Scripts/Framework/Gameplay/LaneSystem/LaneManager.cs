@@ -20,10 +20,10 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         [Header("PC Controls")]
         [SerializeField]
-        private bool usingInputs;
+        private bool _usingInputs;
 
         [SerializeField]
-        private KeyCode[] inputs;
+        private KeyCode[] _inputs;
 
         private int _index;
 
@@ -75,7 +75,8 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         }
 
         /// <summary>
-        /// Pauses the game based on the passed bool, this will be passed to the SessionValues and pause any playing audio.
+        /// Pauses the game based on the passed bool, 
+        /// this will be passed to the SessionValues and pause any playing audio.
         /// </summary>
         /// <param name="paused"></param>
         public void SetNewPaused(bool paused)
@@ -90,10 +91,10 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void Update()
         {
-            int inputsLength = inputs.Length;
+            int inputsLength = _inputs.Length;
 
             for (int i = 0; i < inputsLength; i++)
-                if (Input.GetKeyDown(SessionValues.inputs[i]))
+                if (Input.GetKeyDown(_inputs[i]))
                     _lanes[i].Button.onClick?.Invoke();
         }
     }
