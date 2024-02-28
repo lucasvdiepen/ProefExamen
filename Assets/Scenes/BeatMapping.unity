@@ -443,9 +443,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timeStampColor: {r: 0, g: 0, b: 1, a: 1}
+  _selectedTimeStampColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   _stampLineHeightReduction: 170
+  _gizmoOffset: 0.6
   _timeStampInputKey: 32
-  _undoTimeStampKey: 120
+  _undoTimeStampKey: 122
   _timeStamps: []
 --- !u!4 &560951818
 Transform:
@@ -455,13 +457,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 560951816}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.008726558, y: 0, z: 0, w: 0.999962}
   m_LocalPosition: {x: 15.95777, y: 109.01315, z: -0.5388149}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 1, y: 0, z: 0}
 --- !u!1 &600010996
 GameObject:
   m_ObjectHideFlags: 0

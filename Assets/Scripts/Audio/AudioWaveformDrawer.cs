@@ -43,6 +43,14 @@ public class AudioWaveformDrawer : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
+    public float CalculateSongTimeBasedOnPosition(Vector2 position)
+    {
+        float xPos = position.x - _waveformPositionOffset.x;
+        xPos = Mathf.Clamp(xPos, 0, _songWidth);
+        
+        return xPos * _audioClipDuration / _songWidth; ;
+    }
+
     public void InitializeDrawer(AudioClip audioClip)
     {
         Destroy(_waveformTexture);
@@ -104,10 +112,8 @@ public class AudioWaveformDrawer : MonoBehaviour
         UpdateCursorPosition();
     }
 
-
     private void CheckAudioControls()
     {
-
         if (Input.GetKeyDown(KeyCode.DownArrow)) //pausing song
         {
             if (audioSource.isPlaying) audioSource.Pause();
@@ -120,13 +126,15 @@ public class AudioWaveformDrawer : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftArrow)) //scrub backwards in song
             audioSource.time = Mathf.Clamp(audioSource.time - _timeScrubAmount, 0, _audioClipDuration);
 
-        if (Input.GetKeyDown(KeyCode.LeftBracket))
-            _playBackSpeed = Mathf.Clamp(_playBackSpeed - 1, 1f, 30);
-
         //mouse playback speed control
-        if(Input.mouseScrollDelta.magnitude != 0)
+        if (Input.mouseScrollDelta.magnitude != 0)
+        {
+            if (Input.GetKey(KeyCode.LeftControl))
+                return;
+
             IncreasePlayBackSpeed((int)Input.mouseScrollDelta.y);
-      
+        }
+
         //keyboard playback speed controls
         if (Input.GetKeyDown(KeyCode.LeftBracket)) IncreasePlayBackSpeed(-1);
         if (Input.GetKeyDown(KeyCode.RightBracket)) IncreasePlayBackSpeed(1);

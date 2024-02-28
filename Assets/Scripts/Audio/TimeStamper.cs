@@ -88,6 +88,16 @@ public class TimeStamper : MonoBehaviour
             _currentSelectedTimeStamp.isSelected = false;
             _currentSelectedTimeStamp = null;
         }
+
+        if (_currentSelectedTimeStamp != null)
+        {
+            Vector2 newDirection = Vector2.right * Input.mouseScrollDelta.y * .5f;
+            _currentSelectedTimeStamp.startPointPosition += newDirection;
+            _currentSelectedTimeStamp.endPointPosition += newDirection;
+
+            _currentSelectedTimeStamp.songTime = 
+                _waveformDrawer.CalculateSongTimeBasedOnPosition(_currentSelectedTimeStamp.startPointPosition);
+        }
     }
 
     TimeStampData GetClosestTimeStamp(Vector2 originPosition)
