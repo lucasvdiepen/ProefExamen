@@ -17,6 +17,8 @@ public class TimeStamper : MonoBehaviour
     
     private AudioWaveformDrawer _waveformDrawer = null;
     private TimeStampData _currentSelectedTimeStamp;
+    private GUIStyle _debugBoldGuiStyle = new();
+    private GUIStyle _debugItalicsGuiStyle = new();
 
     [System.Serializable]
     public class TimeStampData
@@ -36,7 +38,15 @@ public class TimeStamper : MonoBehaviour
 
     private void Awake()
     {
-        _waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();   
+        _waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();
+        
+        _debugBoldGuiStyle.fontSize = 48;
+        _debugBoldGuiStyle.fontStyle = FontStyle.Bold;
+        _debugBoldGuiStyle.normal.textColor = Color.white;
+
+        _debugItalicsGuiStyle.fontSize = 48;
+        _debugItalicsGuiStyle.fontStyle = FontStyle.Italic;
+        _debugItalicsGuiStyle.normal.textColor = Color.white;
     }
 
     private void Update()
@@ -112,5 +122,15 @@ public class TimeStamper : MonoBehaviour
             Gizmos.DrawLine(_timeStamps[i].startPointPosition - offset, _timeStamps[i].endPointPosition - offset); //left
             Gizmos.DrawLine(_timeStamps[i].startPointPosition + offset, _timeStamps[i].endPointPosition + offset); //right
         }
+    }
+
+    private void OnGUI()
+    {
+        GUI.color = Color.white;
+        GUI.Label(new Rect(0, 0, 300, 100), $"Playback Speed: {_waveformDrawer.currentPlayBackSpeed}", _debugBoldGuiStyle);
+        GUI.Label(new Rect(0, 48, 300, 100), $"Song Time: {_waveformDrawer.currentSongTime}", _debugBoldGuiStyle);
+
+        if (_currentSelectedTimeStamp != null)
+            GUI.Label(new Rect(0, 96, 300, 100), $"TimeStamp Time: {_currentSelectedTimeStamp.songTime}", _debugItalicsGuiStyle);
     }
 }

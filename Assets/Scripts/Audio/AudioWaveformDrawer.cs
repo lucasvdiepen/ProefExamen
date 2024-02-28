@@ -24,6 +24,7 @@ public class AudioWaveformDrawer : MonoBehaviour
     /// Returns the current time in the song. Returns -1 if audioSource is empty
     /// </summary>
     public float currentSongTime => audioSource != null ? audioSource.time : -1;
+    public float currentPlayBackSpeed => _playBackSpeed / 10f;
     public bool isCurrentlyPlaying => _waveformTexture != null;
     public AudioSource audioSource { get; private set; }
 
@@ -36,7 +37,6 @@ public class AudioWaveformDrawer : MonoBehaviour
     private Color[] _textureColors;
     
     private Texture2D _waveformTexture;
-    private GUIStyle _debugGuiStyle = new();
 
     private void Awake()
     {
@@ -46,11 +46,6 @@ public class AudioWaveformDrawer : MonoBehaviour
     public void InitializeDrawer(AudioClip audioClip)
     {
         Destroy(_waveformTexture);
-
-        _debugGuiStyle.normal.textColor = Color.white;
-        _debugGuiStyle.fontSize = 48;
-        _debugGuiStyle.fontStyle = FontStyle.Bold;
-
         audioSource.clip = audioClip;
 
         _dataSamples = new float[audioSource.clip.samples * audioSource.clip.channels];
@@ -150,12 +145,5 @@ public class AudioWaveformDrawer : MonoBehaviour
 
         float x = _songWidth / _audioClipDuration * audioSource.time;
         cursor.transform.position = new Vector2(x, 0) + _waveformPositionOffset;
-    }
-
-    private void OnGUI()
-    {
-        GUI.color = Color.white;
-        GUI.Label(new Rect(0, 0, 300, 100), $"Playback Speed: {_playBackSpeed / 10f}", _debugGuiStyle);
-        GUI.Label(new Rect(0, 48, 300, 100), $"Song Time: {audioSource.time}", _debugGuiStyle);
     }
 }
