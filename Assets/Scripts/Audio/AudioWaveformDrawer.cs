@@ -20,7 +20,10 @@ public class AudioWaveformDrawer : MonoBehaviour
     [field: SerializeField] public Transform cursor { get; private set; }
     [SerializeField] private float curserYPosition = -290;
 
-    public float currentSongTime => (float)(audioSource?.time);
+    /// <summary>
+    /// Returns the current time in the song. Returns -1 if audioSource is empty
+    /// </summary>
+    public float currentSongTime => audioSource != null ? audioSource.time : -1;
 
     private float _songWidth;
     private float _audioClipDuration;
@@ -108,8 +111,6 @@ public class AudioWaveformDrawer : MonoBehaviour
 
     private void CheckAudioControls()
     {
-        _playBackSpeed = Mathf.Clamp(_playBackSpeed + Input.mouseScrollDelta.y, 1f, 30);
-        audioSource.pitch = _playBackSpeed / 10f;
 
         if (Input.GetKeyDown(KeyCode.DownArrow)) //pausing song
         {
@@ -122,8 +123,25 @@ public class AudioWaveformDrawer : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftArrow)) //scrub backwards in song
             audioSource.time = Mathf.Clamp(audioSource.time - _timeScrubAmount, 0, _audioClipDuration);
+
+        if (Input.GetKeyDown(KeyCode.LeftBracket))
+            _playBackSpeed = Mathf.Clamp(_playBackSpeed - 1, 1f, 30);
+
+        //mouse playback speed control
+        if(Input.mouseScrollDelta.magnitude != 0)
+            IncreasePlayBackSpeed((int)Input.mouseScrollDelta.y);
+      
+        //keyboard playback speed controls
+        if (Input.GetKeyDown(KeyCode.LeftBracket)) IncreasePlayBackSpeed(-1);
+        if (Input.GetKeyDown(KeyCode.RightBracket)) IncreasePlayBackSpeed(1);
     }
-    
+
+    private void IncreasePlayBackSpeed(int amount)
+    {
+        _playBackSpeed = Mathf.Clamp(_playBackSpeed + amount, 1f, 30);
+        audioSource.pitch = _playBackSpeed / 10f;
+    }
+
     private void UpdateCursorPosition()
     {
         if (_audioClipDuration == 0) //check if a song is selected
