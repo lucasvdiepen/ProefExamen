@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ProefExamen.Framework.StateMachine.States
 {
-    public class TestMenuState2 : State
+    public class TestMenuState2 : MenuState
     {
         public override void OnStateEnter()
         {
