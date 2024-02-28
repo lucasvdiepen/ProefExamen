@@ -156,5 +156,6 @@ public class AudioWaveformDrawer : MonoBehaviour
     {
         GUI.color = Color.white;
         GUI.Label(new Rect(0, 0, 300, 100), $"Playback Speed: {_playBackSpeed / 10f}", _debugGuiStyle);
+        GUI.Label(new Rect(0, 48, 300, 100), $"Song Time: {audioSource.time}", _debugGuiStyle);
     }
 }

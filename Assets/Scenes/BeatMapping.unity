@@ -443,8 +443,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timeStampColor: {r: 0, g: 0, b: 1, a: 1}
-  _timeStampInputKey: 32
   _stampLineHeightReduction: 170
+  _timeStampInputKey: 32
+  _undoTimeStampKey: 120
   _timeStamps: []
 --- !u!4 &560951818
 Transform:
