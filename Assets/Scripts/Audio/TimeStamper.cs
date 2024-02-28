@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class TimeStamper : MonoBehaviour
 {
     [SerializeField] private Color _timeStampColor = Color.blue;
     [SerializeField] private float _stampLineHeightReduction = 100;
+    [SerializeField] private float _gizmoOffset = .25f;
 
     [Header("Input KeyCodes")]
     [SerializeField] private KeyCode _timeStampInputKey;
@@ -58,10 +60,15 @@ public class TimeStamper : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = _timeStampColor;
-        foreach (TimeStampData timeStamp in _timeStamps)
+        for (int i = 0; i < _timeStamps.Count; i++)
         {
-            Gizmos.DrawLine(timeStamp.startPointPosition, timeStamp.endPointPosition);
+            //Little hacky but SOMETIME I HATE UNITY, you can't set the thickness of the gizmos line. 
+            //This fixes the gizmo flickering when it's ony 1px wide.
 
+            Vector2 offset = new Vector2(_gizmoOffset, 0);
+            Gizmos.DrawLine(_timeStamps[i].startPointPosition, _timeStamps[i].endPointPosition); //center
+            Gizmos.DrawLine(_timeStamps[i].startPointPosition - offset, _timeStamps[i].endPointPosition - offset); //left
+            Gizmos.DrawLine(_timeStamps[i].startPointPosition + offset, _timeStamps[i].endPointPosition + offset); //right
         }
     }
 }
