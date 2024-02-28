@@ -8,6 +8,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         Ok = 10,
         Alright = 25,
         Nice = 35,
-        Perfect = 50
+        Perfect = 50,
+        Miss = -25
     }
 }

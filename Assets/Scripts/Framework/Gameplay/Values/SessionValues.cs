@@ -29,6 +29,11 @@ namespace ProefExamen.Framework.Gameplay.Values
         public static int scoreMultiplier = SessionValuesShortcut.Instance.scoreMultiplier;
 
         /// <summary>
+        /// The max difference in the lerpAlpha value that a note can have before not registering a hit anymore.
+        /// </summary>
+        public static float lerpAlphaHitThreshold = SessionValuesShortcut.Instance._alphaLerpHitThreshold;
+
+        /// <summary>
         /// A bool that holds status for if the game is paused.
         /// </summary>
         public static bool paused = SessionValuesShortcut.Instance.paused;

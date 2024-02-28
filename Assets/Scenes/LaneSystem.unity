@@ -468,13 +468,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 413f7144e095aa84d928694359c9a1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 3
+  _laneID: 3
   _button: {fileID: 246268232}
   _notes: []
-  _lerpAlphaRangeMinimum: 0.4
-  _lerpAlphaRangeMaximum: 0.7
-  _initialNotePosition: {x: 0, y: 0, z: 0}
-  _targetNotePosition: {x: 0, y: 0, z: 0}
+  _initialNotePosition: {x: 2.1, y: 5.5, z: 0}
+  _targetNotePosition: {x: 2.1, y: -5.5, z: 0}
 --- !u!1 &297487860
 GameObject:
   m_ObjectHideFlags: 0
@@ -1106,7 +1104,7 @@ Transform:
   m_GameObject: {fileID: 687464657}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.53900254, y: 2.5164874, z: -0.054487165}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1124,21 +1122,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5596326712c2f014abd240ac741da46e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateSettingsLive: 1
+  shouldUpdateLive: 1
   travelTime: 2
   time: -2
   score: 0
   scoreMultiplier: 1
   paused: 0
-  currentLevelID: 0
+  currentLevelID: 2
   currentLevel:
     levelID: 2
     song: {fileID: 8300000, guid: 28406c2d4ad2819499dddb87703b8f31, type: 3}
-    level: []
+    level:
+    - difficulty: 0
+      timestamps:
+      - 1
+      - 2
+      - 5
+      - 5.5
+      laneIDs: 03000000020000000000000000000000
   difficulty: 0
-  _okThreshold: 0.75
-  _alrightThreshold: 0.5
-  _niceThreshold: 0.25
+  _okThreshold: 0.6
+  _alrightThreshold: 0.4
+  _niceThreshold: 0.15
+  _alphaLerpHitThreshold: 0.15
   levels: {fileID: 11400000, guid: 0201bf37a9e02104786709aee9d87157, type: 2}
   note: {fileID: 8865070559718813142, guid: 778813d51c727894e89f15617b02c6d2, type: 3}
 --- !u!1 &824377490
@@ -1409,13 +1415,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 413f7144e095aa84d928694359c9a1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 0
+  _laneID: 0
   _button: {fileID: 1169352986}
   _notes: []
-  _lerpAlphaRangeMinimum: 0.4
-  _lerpAlphaRangeMaximum: 0.7
-  _initialNotePosition: {x: 0, y: 0, z: 0}
-  _targetNotePosition: {x: 0, y: 0, z: 0}
+  _initialNotePosition: {x: -2.1, y: 5.5, z: 0}
+  _targetNotePosition: {x: -2.1, y: -5.5, z: 0}
 --- !u!1 &1373917185
 GameObject:
   m_ObjectHideFlags: 0
@@ -1550,13 +1554,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 413f7144e095aa84d928694359c9a1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 1
+  _laneID: 1
   _button: {fileID: 1373917187}
   _notes: []
-  _lerpAlphaRangeMinimum: 0.4
-  _lerpAlphaRangeMaximum: 0.7
-  _initialNotePosition: {x: 0, y: 0, z: 0}
-  _targetNotePosition: {x: 0, y: 0, z: 0}
+  _initialNotePosition: {x: -0.7, y: 5.5, z: 0}
+  _targetNotePosition: {x: -0.7, y: -5.5, z: 0}
 --- !u!1 &1581116972
 GameObject:
   m_ObjectHideFlags: 0
@@ -1709,8 +1711,8 @@ MonoBehaviour:
   - {fileID: 2059155169}
   - {fileID: 246268235}
   _audio: {fileID: 12134962}
-  _usingInputs: 0
-  _inputs: 
+  _usingInputs: 1
+  _inputs: 61000000730000003b00000027000000
 --- !u!1 &1959731980
 GameObject:
   m_ObjectHideFlags: 0
@@ -1913,13 +1915,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 413f7144e095aa84d928694359c9a1aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 2
+  _laneID: 2
   _button: {fileID: 2059155166}
   _notes: []
-  _lerpAlphaRangeMinimum: 0.4
-  _lerpAlphaRangeMaximum: 0.7
-  _initialNotePosition: {x: 0, y: 0, z: 0}
-  _targetNotePosition: {x: 0, y: 0, z: 0}
+  _initialNotePosition: {x: 0.7, y: 5.5, z: 0}
+  _targetNotePosition: {x: 0.7, y: -5.5, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

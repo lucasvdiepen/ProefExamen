@@ -2,6 +2,8 @@ using ProefExamen.Framework.Utils;
 using UnityEngine;
 
 using ProefExamen.Framework.Gameplay.MapData;
+using UnityEditor;
+using ProefExamen.Framework.Gameplay.LaneSystem;
 
 namespace ProefExamen.Framework.Gameplay.Values
 {
@@ -65,6 +67,11 @@ namespace ProefExamen.Framework.Gameplay.Values
         /// everything below that is Perfect.
         /// </summary>
         public float _niceThreshold = .25f;
+
+        /// <summary>
+        /// The max difference in the lerpAlpha value that a note can have before not registering a hit anymore.
+        /// </summary>
+        public float _alphaLerpHitThreshold = .2f;
 
         /// <summary>
         /// The levels default.

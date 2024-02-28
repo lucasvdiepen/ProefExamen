@@ -4,6 +4,7 @@ using UnityEngine;
 using ProefExamen.Framework.Utils;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Gameplay.MapData;
+using System;
 
 namespace ProefExamen.Framework.Gameplay.LaneSystem
 {
@@ -25,6 +26,12 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         [SerializeField]
         private KeyCode[] _inputs;
+
+        /// <summary>
+        /// A status update for notes that are either being hit or have been missed.
+        /// Hitstatus giving an idea of what happend and the integer being the lane ID of origin.
+        /// </summary>
+        public Action<HitStatus, int> NoteStatusUpdate;
 
         private int _index;
 

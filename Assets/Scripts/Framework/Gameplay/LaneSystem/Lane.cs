@@ -14,21 +14,14 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
     public class Lane : MonoBehaviour
     {
         [SerializeField]
-        private int _id = -1;
+        private int _laneID = -1;
 
         [Header("References")]
         [SerializeField]
         private Button _button;
 
         [SerializeField]
-        private List<GameObject> _notes = new();
-
-        [Header("The minimum and maximum the lerp alpha can be to hit the note.")]
-        [SerializeField]
-        private float _lerpAlphaRangeMinimum = .4f;
-
-        [SerializeField]
-        private float _lerpAlphaRangeMaximum = .7f;
+        private List<Note> _notes = new();
 
         [Header("Lerp positions")]
         [SerializeField]
@@ -38,7 +31,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         private Vector3 _targetNotePosition;
 
         /// <summary>
-        /// Gets the private button variable of the Lane.
+        /// Gets the private button component of the Lane.
         /// </summary>
         public Button Button => _button;
 
@@ -50,7 +43,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void Start()
         {
-            if (_id == -1)
+            if (_laneID == -1)
             {
                 Debug.LogError("Lane with button " + _button.name + " has no assigned ID!");
                 return;
@@ -61,25 +54,21 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void SendButtonPress()
         {
+            HitStatus hitResult;
+
             if (_notes.Count == 0)
+                hitResult = HitStatus.Miss;
+
+            else
             {
-                SessionValues.score -= (int)HitStatus.Alright;
-                return;
+                Note nextNote = _notes[0];
+                hitResult = LaneUtils.CalculateHitStatus(nextNote.LerpAlpha);
+
+                Destroy(nextNote.gameObject);
+                RemoveNote(nextNote);
             }
 
-            GameObject nextNote = _notes[0];
-            Note nextNoteScript = nextNote.GetComponent<Note>();
-
-            if (nextNoteScript.LerpAlpha < _lerpAlphaRangeMinimum && nextNoteScript.LerpAlpha > _lerpAlphaRangeMaximum)
-                return;
-
-            float differenceAlpha = Mathf.Abs(nextNoteScript.LerpAlpha - .5f) / .2f;
-            HitStatus hitResult = LaneUtils.CalculateHitStatus(differenceAlpha);
-
-            SessionValues.score += (int)hitResult;
-
-            Destroy(nextNote);
-            RemoveNote(nextNote);
+            LaneManager.Instance.NoteStatusUpdate?.Invoke(hitResult, _laneID);
         }
 
         /// <summary>
@@ -88,19 +77,49 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// <param name="timeStamp">The TimeStamp that the new note must be hit on.</param>
         public void SpawnNote(float timeStamp)
         {
-            GameObject newNote = Instantiate(SessionValues.note);
+            GameObject newNoteObject = Instantiate(SessionValues.note);
+
+            Note newNote = newNoteObject.GetComponent<Note>();
+
             _notes.Add(newNote);
 
-            Note newNoteScript = newNote.GetComponent<Note>();
-
-            newNoteScript.SetNoteValues(_initialNotePosition, _targetNotePosition, _id, SessionValues.currentLevel.levelID, timeStamp);
-            newNoteScript.CallNoteRemoval += RemoveNote;
+            newNote.SetNoteValues(_initialNotePosition, _targetNotePosition, _laneID, SessionValues.currentLevel.levelID, timeStamp);
+            newNote.CallNoteRemoval += RemoveNote;
         }
 
         /// <summary>
         /// Remove a note from the tracked notes list.
         /// </summary>
         /// <param name="note">The targeted note.</param>
-        public void RemoveNote(GameObject note) => _notes.Remove(note);
+        public void RemoveNote(Note note) => _notes.Remove(note);
+
+        private void OnDrawGizmos()
+        {
+            float total = _initialNotePosition.y + Mathf.Abs(_targetNotePosition.y);
+
+            float targetHeight = total * SessionValuesShortcut.Instance._alphaLerpHitThreshold;
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight, 0));
+            Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight * -1, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0));
+
+            targetHeight = total * (SessionValuesShortcut.Instance._alphaLerpHitThreshold * SessionValuesShortcut.Instance._okThreshold);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight, 0));
+            Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight * -1, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0));
+
+            targetHeight = total * (SessionValuesShortcut.Instance._alphaLerpHitThreshold * SessionValuesShortcut.Instance._alrightThreshold);
+
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight, 0));
+            Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight * -1, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0));
+
+            targetHeight = total * (SessionValuesShortcut.Instance._alphaLerpHitThreshold * SessionValuesShortcut.Instance._niceThreshold);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight, 0));
+            Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight * -1, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0));
+        }
     }
 }

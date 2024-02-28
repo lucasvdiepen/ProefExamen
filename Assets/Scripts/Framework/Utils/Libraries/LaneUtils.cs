@@ -1,3 +1,5 @@
+using UnityEngine;
+
 using ProefExamen.Framework.Gameplay.LaneSystem;
 using ProefExamen.Framework.Gameplay.Values;
 
@@ -11,15 +13,20 @@ namespace ProefExamen.Framework.Utils.Libraries.LaneUtils
         /// <summary>
         /// Returns a HitStatus enum that can be cast to an int for a score.
         /// </summary>
-        /// <param name="differenceAlpha">A 0-1 alpha value that represents the accuracy of a note hit. 0 being getting the best score and 1 the lowest.</param>
-        /// <returns>The decided HitStatus based on the accuracy</returns>
-        public static HitStatus CalculateHitStatus(float differenceAlpha)
+        /// <param name="lerpAlpha">The current lerpAlpha from the note that is being hit, 
+        /// will be used to calculate if the note falls in the threshold of being hit.</param>
+        /// <returns>The decided HitStatus based on the accuracy.</returns>
+        public static HitStatus CalculateHitStatus(float lerpAlpha)
         {
-            if (differenceAlpha > SessionValuesShortcut.Instance._okThreshold)
+            float threshold = Mathf.Abs((lerpAlpha - .5f) / SessionValues.lerpAlphaHitThreshold);
+
+            if (threshold > 1)
+                return HitStatus.Miss;
+            else if (threshold > SessionValuesShortcut.Instance._okThreshold)
                 return HitStatus.Ok;
-            else if (differenceAlpha > SessionValuesShortcut.Instance._alrightThreshold)
+            else if (threshold > SessionValuesShortcut.Instance._alrightThreshold)
                 return HitStatus.Alright;
-            else if (differenceAlpha > SessionValuesShortcut.Instance._niceThreshold)
+            else if (threshold > SessionValuesShortcut.Instance._niceThreshold)
                 return HitStatus.Nice;
             else
                 return HitStatus.Perfect;

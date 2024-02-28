@@ -39,7 +39,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// <summary>
         /// An action that is called when the note is 
         /// </summary>
-        public Action<GameObject> CallNoteRemoval;
+        public Action<Note> CallNoteRemoval;
 
         /// <summary>
         /// The LerpAlpha 0-1 float value that is used to place the note on the lane.
@@ -79,12 +79,13 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
             transform.position = Vector3.Lerp(_initialPosition, _targetPosition, _lerpAlpha);
 
-            if (!_calledRemoval && _lerpAlpha < _availabilityThreshold) return;
+            if (!_calledRemoval && _lerpAlpha < _availabilityThreshold) 
+                return;
 
             _calledRemoval = true;
-            SessionValues.score -= (int)HitStatus.Nice;
+            LaneManager.Instance.NoteStatusUpdate(HitStatus.Miss, _laneID);
 
-            CallNoteRemoval?.Invoke(gameObject);
+            CallNoteRemoval?.Invoke(this);
         }
     }
 }
