@@ -15,7 +15,7 @@ namespace ProefExamen.Framework.Gameplay.Values
         /// A bool that decides if the values here must be updated during a session to watch values.
         /// Used for debugging.
         /// </summary>
-        public bool updateSettingsLive = true;
+        public bool shouldUpdateLive = true;
 
         /// <summary>
         /// The travelTime default.
@@ -53,16 +53,16 @@ namespace ProefExamen.Framework.Gameplay.Values
         public Difficulty difficulty;
 
         /// <summary>
-        /// The threshold between 1 and the okThreshold will be the range for getting an OK.
+        /// The threshold between 1 and the okThreshold will be the range for getting an Ok.
         /// </summary>
         public float _okThreshold = .75f;
         /// <summary>
-        /// The threshold between okThreshold and alrightThreshold will be the range for getting an ALRIGHT.
+        /// The threshold between okThreshold and alrightThreshold will be the range for getting an Alright.
         /// </summary>
         public float _alrightThreshold = .5f;
         /// <summary>
-        /// The threshold between alrightThreshold and niceThreshold will be the range for getting an NICE, 
-        /// everything below that is PERFECT.
+        /// The threshold between alrightThreshold and niceThreshold will be the range for getting an Nice, 
+        /// everything below that is Perfect.
         /// </summary>
         public float _niceThreshold = .25f;
 
@@ -72,7 +72,7 @@ namespace ProefExamen.Framework.Gameplay.Values
         public Levels levels;
 
         /// <summary>
-        /// The Note default.l
+        /// The Note default.
         /// </summary>
         public GameObject note;
 
@@ -122,7 +122,8 @@ namespace ProefExamen.Framework.Gameplay.Values
 
         private void FixedUpdate()
         {
-            if (!updateSettingsLive) return;
+            if (!shouldUpdateLive) 
+                return;
 
             time = SessionValues.time;
             travelTime = SessionValues.travelTime;

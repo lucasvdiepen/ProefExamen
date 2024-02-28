@@ -77,7 +77,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// Pauses the game based on the passed bool, 
         /// this will be passed to the SessionValues and pause any playing audio.
         /// </summary>
-        /// <param name="paused"></param>
+        /// <param name="paused">The new paused value.</param>
         public void SetNewPaused(bool paused)
         {
             SessionValues.paused = paused;

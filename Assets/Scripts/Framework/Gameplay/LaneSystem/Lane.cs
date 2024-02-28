@@ -42,20 +42,26 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// </summary>
         public Button Button => _button;
 
-        private void Start()
+        private void Awake()
         {
             if (_button == null)
                 _button = GetComponent<Button>();
+        }
 
-            if (_id != -1)
-                _button.onClick.AddListener(SendButtonPress);
-            else
+        private void Start()
+        {
+            if (_id == -1)
+            {
                 Debug.LogError("Lane with button " + _button.name + " has no assigned ID!");
+                return;
+            }
+
+            _button.onClick.AddListener(SendButtonPress);
         }
 
         private void SendButtonPress()
         {
-            if (!(_notes.Count > 0))
+            if (_notes.Count == 0)
             {
                 SessionValues.score -= (int)HitStatus.Alright;
                 return;
@@ -68,7 +74,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                 return;
 
             float differenceAlpha = Mathf.Abs(nextNoteScript.LerpAlpha - .5f) / .2f;
-            HitStatus hitResult = LaneUtils.ReturnHitStatus(differenceAlpha);
+            HitStatus hitResult = LaneUtils.CalculateHitStatus(differenceAlpha);
 
             SessionValues.score += (int)hitResult;
 
