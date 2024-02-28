@@ -6,7 +6,7 @@ namespace ProefExamen.Framework.StateMachine.States
 {
     public class MainMenuState : State
     {
-        private protected override void Awake() => StateMachine.RegisterState(this, true);
+        private protected override void RegisterState() => StateMachine.RegisterState(this, true);
 
         public override void OnStateEnter()
         {
