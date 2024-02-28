@@ -37,6 +37,9 @@ namespace ProefExamen.Framework.StateMachine
         public static void GoToState<T>(bool addToHistory = true) where T : State
             => GoToState(typeof(T), addToHistory);
 
+        public static void GoToState(State state, bool addToHistory = true)
+            => GoToState(state.GetType(), addToHistory);
+
         public static void GoToState(Type state, bool addToHistory = true)
         {
             if (CurrentState != null && CurrentState.GetType() == state)
@@ -131,13 +134,17 @@ namespace ProefExamen.Framework.StateMachine
             OnStateChanged?.Invoke(CurrentState);
         }
 
-        public static bool IsCurrentState<T>() where T : State => CurrentState.GetType() == typeof(T);
+        public static bool IsCurrentState<T>() where T : State
+            => CurrentState.GetType() == typeof(T);
 
-        public static bool IsCurrentState(State state) => CurrentState.GetType() == state.GetType();
+        public static bool IsCurrentState(State state)
+            => CurrentState.GetType() == state.GetType();
 
-        private static bool IsStateRegistered<T>() where T : State => _states.ContainsKey(typeof(T));
+        private static bool IsStateRegistered<T>() where T : State
+            => _states.ContainsKey(typeof(T));
 
-        private static bool IsStateRegistered(State state) => _states.ContainsKey(state.GetType());
+        private static bool IsStateRegistered(State state)
+            => _states.ContainsKey(state.GetType());
 
         private static bool TryGetState<T>(out State state) where T : State
             => TryGetState(typeof(T), out state);
