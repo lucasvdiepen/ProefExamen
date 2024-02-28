@@ -10,6 +10,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
     /// </summary>
     public class Note : MonoBehaviour
     {
+        [Header("Note Data")]
         [SerializeField]
         private float _timeStamp = 0;
 
@@ -25,6 +26,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         [SerializeField]
         private Vector2 _targetPosition;
 
+        [Header("Lerping")]
         [SerializeField]
         private float _lerpAlpha = 0;
 

@@ -17,10 +17,7 @@ namespace ProefExamen.Framework.Gameplay.MapData
         /// A function that returns the current levels mapData based on the current difficulty.
         /// </summary>
         /// <returns>The mapData of this level on the current difficulty.</returns>
-        public Level Level()
-        {
-            return level[(int)SessionValues.difficulty];
-        }
+        public Level Level() => level[(int)SessionValues.difficulty];
     }
 
     /// <summary>

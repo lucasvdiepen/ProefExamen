@@ -16,6 +16,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         [SerializeField]
         private int _id = -1;
 
+        [Header("References")]
         [SerializeField]
         private Button _button;
 
@@ -29,7 +30,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         [SerializeField]
         private float _lerpAlphaRangeMaximum = .7f;
 
-        [Header("The positions the notes lerp between over their lane.")]
+        [Header("Lerp positions")]
         [SerializeField]
         private Vector3 _initialNotePosition;
 

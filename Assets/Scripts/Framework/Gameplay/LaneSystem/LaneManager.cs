@@ -12,6 +12,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
     /// </summary>
     public class LaneManager : AbstractSingleton<LaneManager>
     {
+        [Header("References")]
         [SerializeField]
         private Lane[] _lanes;
 
@@ -40,17 +41,16 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
             while (SessionValues.time < SessionValues.currentLevel.song.length)
             {
-                if (!SessionValues.paused)
-                {
-                    SessionValues.time += Time.deltaTime;
-
-                    QueueUpcomingNotes();
-
+                if (SessionValues.paused) 
                     yield return null;
-                }
-                else
-                    yield return null;
+
+                SessionValues.time += Time.deltaTime;
+
+                QueueUpcomingNotes();
+
+                yield return null;
             }
+
             yield return null;
         }
 
@@ -63,15 +63,14 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
             float upcomingTime = currentLevel.timestamps[_index];
 
-            if (SessionValues.TimeStampReadyForQueue(upcomingTime))
-            {
-                int laneID = currentLevel.laneIDs[_index];
+            if (!SessionValues.TimeStampReadyForQueue(upcomingTime))
+                return;
 
-                _lanes[laneID].SpawnNote(upcomingTime);
+            int laneID = currentLevel.laneIDs[_index];
+            _lanes[laneID].SpawnNote(upcomingTime);
+            _index++;
 
-                _index++;
-                QueueUpcomingNotes();
-            }
+            QueueUpcomingNotes();
         }
 
         /// <summary>
