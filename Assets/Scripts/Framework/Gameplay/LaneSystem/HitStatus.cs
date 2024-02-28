@@ -5,9 +5,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
     /// </summary>
     public enum HitStatus
     {
-        OK = 10,
-        ALRIGHT = 25,
-        NICE = 35,
-        PERFECT = 50
+        Ok = 10,
+        Alright = 25,
+        Nice = 35,
+        Perfect = 50
     }
 }

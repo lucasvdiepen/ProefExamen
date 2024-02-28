@@ -57,7 +57,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             if (!(_notes.Count > 0))
             {
-                SessionValues.score -= (int)HitStatus.ALRIGHT;
+                SessionValues.score -= (int)HitStatus.Alright;
                 return;
             }
 

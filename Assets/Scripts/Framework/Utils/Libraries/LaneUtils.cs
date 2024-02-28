@@ -16,13 +16,13 @@ namespace ProefExamen.Framework.Utils.Libraries.LaneUtils
         public static HitStatus ReturnHitStatus(float differenceAlpha)
         {
             if (differenceAlpha > SessionValuesShortcut.Instance._okThreshold)
-                return HitStatus.OK;
+                return HitStatus.Ok;
             else if (differenceAlpha > SessionValuesShortcut.Instance._alrightThreshold)
-                return HitStatus.ALRIGHT;
+                return HitStatus.Alright;
             else if (differenceAlpha > SessionValuesShortcut.Instance._niceThreshold)
-                return HitStatus.NICE;
+                return HitStatus.Nice;
             else
-                return HitStatus.PERFECT;
+                return HitStatus.Perfect;
         }
     }
 }

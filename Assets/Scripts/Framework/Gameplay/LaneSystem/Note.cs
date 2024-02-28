@@ -82,7 +82,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             if (!_calledRemoval && _lerpAlpha < _availabilityThreshold) return;
 
             _calledRemoval = true;
-            SessionValues.score -= (int)HitStatus.NICE;
+            SessionValues.score -= (int)HitStatus.Nice;
 
             CallNoteRemoval?.Invoke(gameObject);
         }
