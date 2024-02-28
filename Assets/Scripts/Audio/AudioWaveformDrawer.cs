@@ -6,19 +6,21 @@ public class AudioWaveformDrawer : MonoBehaviour
     [Header("Config")]
     [SerializeField] private int _textureWidth = 2048;
     [SerializeField] private int _textureHeight = 512;
-    
+
     [SerializeField] private float _heightScaleModifier = 100f;
     [SerializeField] private int _renderDownScaleModifier = 4;
 
     [Header("Debugging")]
     [SerializeField] private float _teleportTimePos;
     [SerializeField] private float _timeScrubAmount;
-    
+
     [Header("Other")]
     [SerializeField] private Color _renderColor = Color.white;
     [SerializeField] private GameObject _drawerPrefab;
-    [SerializeField] private Transform _cursor;
+    [field: SerializeField] public Transform cursor { get; private set; }
     [SerializeField] private float curserYPosition = -290;
+
+    public float currentSongTime => (float)(audioSource?.time);
 
     private float _songWidth;
     private float _audioClipDuration;
@@ -128,7 +130,7 @@ public class AudioWaveformDrawer : MonoBehaviour
             return;
 
         float x = _songWidth / _audioClipDuration * audioSource.time;
-        _cursor.transform.position = new Vector2(x, 0) + _waveformPositionOffset;
+        cursor.transform.position = new Vector2(x, 0) + _waveformPositionOffset;
     }
 
     private void OnGUI()
