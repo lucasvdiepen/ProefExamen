@@ -21,10 +21,10 @@ namespace ProefExamen.Framework.StateMachine
         {
             get
             {
-                if(_navigationHistory.Count == 0)
+                if(_navigationHistory.Count < 2)
                     return null;
 
-                if (!TryGetState(_navigationHistory[^1], out State state))
+                if (!TryGetState(_navigationHistory[^2], out State state))
                     return null;
 
                 return state;
@@ -35,28 +35,43 @@ namespace ProefExamen.Framework.StateMachine
         private readonly static List<Type> _navigationHistory = new();
 
         public static void GoToState<T>(bool addToHistory = true) where T : State
+            => GoToState(typeof(T), addToHistory);
+
+        public static void GoToState(Type state, bool addToHistory = true)
         {
-            if(CurrentState != null && CurrentState.GetType() == typeof(T))
+            if (CurrentState != null && CurrentState.GetType() == state)
             {
-                Debug.LogError($"State of type {typeof(T)} is already active");
+                Debug.LogError($"State of type {state} is already active");
                 return;
             }
 
-            if (!TryGetState<T>(out State targetState))
+            if (!TryGetState(state, out State targetState))
             {
-                Debug.LogError($"State of type {typeof(T)} is not registered");
+                Debug.LogError($"State of type {state} is not registered");
                 return;
             }
 
-            TransitionToState(targetState);
+            TransitionToState(targetState, addToHistory);
         }
 
         public static void GoBack()
         {
+            if (_navigationHistory.Count < 2)
+            {
+                Debug.LogError("No previous state to go back to");
+                return;
+            }
 
+            GoToState(_navigationHistory[^2], false);
+
+            _navigationHistory.RemoveAt(_navigationHistory.Count - 1);
         }
 
-        public static void ClearHistory() => _navigationHistory.Clear();
+        public static void ClearHistory()
+        {
+            _navigationHistory.Clear();
+            AddToHistory(CurrentState.GetType());
+        }
 
         private static void AddToHistory(Type state)
         {
@@ -99,7 +114,7 @@ namespace ProefExamen.Framework.StateMachine
             _states.Remove(state.GetType());
         }
 
-        private static void TransitionToState(State state)
+        private static void TransitionToState(State state, bool addToHistory = true)
         {
             TargetState = state;
 
@@ -109,6 +124,9 @@ namespace ProefExamen.Framework.StateMachine
             CurrentState = TargetState;
 
             CurrentState.OnStateEnter();
+
+            if(addToHistory)
+                AddToHistory(CurrentState.GetType());
 
             OnStateChanged?.Invoke(CurrentState);
         }
