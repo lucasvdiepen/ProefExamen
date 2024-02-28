@@ -18,6 +18,7 @@ public class AudioWaveformDrawer : MonoBehaviour
     [SerializeField] private Color _renderColor = Color.white;
     [SerializeField] private GameObject _drawerPrefab;
     [SerializeField] private Transform _cursor;
+    [SerializeField] private float curserYPosition = -290;
 
     private float _songWidth;
     private float _audioClipDuration;
@@ -55,7 +56,7 @@ public class AudioWaveformDrawer : MonoBehaviour
         GenerateWaveformTexture();
         Renderer renderer = GetComponent<Renderer>();
 
-        _waveformPositionOffset = new Vector2(-(_textureWidth + _textureWidth / _renderDownScaleModifier), -290);
+        _waveformPositionOffset = new Vector2(-(_textureWidth + _textureWidth / _renderDownScaleModifier), curserYPosition);
         _songWidth = Mathf.Abs(_waveformPositionOffset.x * 2);
 
         if (renderer != null)
@@ -96,22 +97,34 @@ public class AudioWaveformDrawer : MonoBehaviour
 
     private void Update()
     {
+        _waveformPositionOffset.y = curserYPosition; //update yOffset for possible live tweaking
+
+        CheckAudioControls();
+        UpdateCursorPosition();
+    }
+
+
+    private void CheckAudioControls()
+    {
         _playBackSpeed = Mathf.Clamp(_playBackSpeed + Input.mouseScrollDelta.y, 1f, 30);
         audioSource.pitch = _playBackSpeed / 10f;
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow)) //pausing song
         {
-            if(audioSource.isPlaying) audioSource.Pause();
+            if (audioSource.isPlaying) audioSource.Pause();
             else audioSource.UnPause();
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow)) //scrub forward in song
             audioSource.time = Mathf.Clamp(audioSource.time + _timeScrubAmount, 0, _audioClipDuration);
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) //scrub backwards in song
             audioSource.time = Mathf.Clamp(audioSource.time - _timeScrubAmount, 0, _audioClipDuration);
-
-        if (_audioClipDuration == 0)
+    }
+    
+    private void UpdateCursorPosition()
+    {
+        if (_audioClipDuration == 0) //check if a song is selected
             return;
 
         float x = _songWidth / _audioClipDuration * audioSource.time;

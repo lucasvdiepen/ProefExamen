@@ -1,9 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using System.Linq;
-using System.Collections.Generic;
 
 #if UNITY_EDITOR
 public class BeatMappingWindow : EditorWindow
@@ -12,7 +12,11 @@ public class BeatMappingWindow : EditorWindow
 
     private ObjectField _soundClipField;
     private ListView _songList;
-    private ListView _timeStamps;
+    private ListView _timeStampView;
+    private TwoPaneSplitView _splitView;
+    private VisualElement _rightPanel;
+
+    private Vector2[] _timeStampArray = new Vector2[10];
 
     [MenuItem("Rythm Game/Beat Mapping Tool")]
     public static void CreateWindow()
@@ -24,85 +28,51 @@ public class BeatMappingWindow : EditorWindow
 
     public void CreateGUI()
     {
-        string[] allObjectGuids = AssetDatabase.FindAssets(audioClipFilter);
-        List<AudioClip> allObjects = new();
-
-        foreach (string guid in allObjectGuids)
-            allObjects.Add(AssetDatabase.LoadAssetAtPath<AudioClip>(AssetDatabase.GUIDToAssetPath(guid)));
-
-        TwoPaneSplitView splitView = new(0, 250, TwoPaneSplitViewOrientation.Horizontal);
-        rootVisualElement.Add(splitView);
-
-        _songList = new ListView();
-        splitView.Add(_songList);
-
-        VisualElement rightPane = new ScrollView(); // Changed to ScrollView for scrolling functionality
-        splitView.Add(rightPane);
-
-        ListView arrayListView = new();
-        rightPane.Add(arrayListView);
-
-        Vector2[] myArray = new Vector2[50]; // Reduced the array size for demonstration purposes
-
-        for (int i = 0; i < 50; i++)
+        if (!Application.isPlaying)
         {
-            myArray[i] = Random.value > .5 ? Vector2.down : Vector2.up;
+            Label label = new("Enter play-mode");
+            rootVisualElement.Add(label);
+
+            label.style.unityTextAlign = TextAnchor.MiddleCenter;
+            label.style.fontSize = 25;
+
+            label.style.paddingTop = 225;
+            label.style.color = Color.red;
+
+            rootVisualElement.style.backgroundColor = new Color(.74f, .74f, .74f, .1f);
+            PlayModeCheck();
+            return;
         }
 
-        arrayListView.makeItem = () => new Vector2Field();
-        arrayListView.bindItem = (item, index) => { (item as Vector2Field).value = myArray[index]; };
-        arrayListView.itemsSource = myArray;
+        _splitView = new(0, 250, TwoPaneSplitViewOrientation.Horizontal);
+        rootVisualElement.Add(_splitView);
+        
 
+        CreateSongListView();
+        _rightPanel = new ScrollView();
+        _splitView.Add(_rightPanel);
+
+        CreateTimeStampArrayView();
+        CreateCustomArrayButtons();
+
+        var paddingContainer = new VisualElement();
+        paddingContainer.style.paddingTop = 10;
+        rootVisualElement.Add(paddingContainer);
+    }
+
+    private void CreateCustomArrayButtons()
+    {
         var addButton = new Button() { text = "Add Stamp" };
         var removeButton = new Button() { text = "Remove Last Stamp" };
         var clearButton = new Button() { text = "Clear List" };
 
-        addButton.clicked += () =>
-        {
-            Vector2[] newArray = new Vector2[myArray.Length + 1];
-
-            for (int i = 0; i < newArray.Length; i++)
-            {
-                if (i == newArray.Length)
-                    continue;
-
-                newArray[Mathf.Abs(i - 1)] = myArray[Mathf.Abs(i - 1)];
-            }
-
-            myArray = newArray;
-
-            arrayListView.itemsSource = myArray;
-            arrayListView.Rebuild();
-        };
-
-        removeButton.clicked += () =>
-        {
-            if (myArray.Length > 0)
-            {
-                Vector2[] newArray = new Vector2[myArray.Length - 1];
-
-                for (int i = 0; i < newArray.Length; i++)
-                {
-                    newArray[i] = myArray[i];
-                }
-
-                myArray = newArray;
-
-                arrayListView.itemsSource = myArray;
-                arrayListView.Rebuild();
-            }
-        };
-
-        clearButton.clicked += () =>
-        {
-            myArray = new Vector2[0];
-            arrayListView.itemsSource = myArray;
-            arrayListView.Rebuild();
-        };
+        addButton.clicked += OnClickAdButton;
+        removeButton.clicked += OnClickRemoveButton;
+        clearButton.clicked += OnClickClearButton;
 
         var buttonContainer = new VisualElement();
         buttonContainer.style.flexDirection = FlexDirection.Row;
-        
+
         buttonContainer.style.alignSelf = Align.Center;
         buttonContainer.style.paddingBottom = 30;
 
@@ -110,8 +80,41 @@ public class BeatMappingWindow : EditorWindow
         buttonContainer.Add(removeButton);
         buttonContainer.Add(clearButton);
 
-        // Add the container to your right pane
-        rightPane.Add(buttonContainer);
+        _rightPanel.Add(buttonContainer);
+    }
+
+
+    private void OnClickRemoveButton() => throw new System.NotImplementedException();
+    private void OnClickAdButton() => throw new System.NotImplementedException();
+    private void OnClickClearButton()
+    {
+        throw new System.NotImplementedException();
+
+        /*_timeStampArray = new Vector2[0];
+        arrayListView.itemsSource = _timeStampArray;
+        arrayListView.Rebuild();*/
+    }
+
+    private void CreateTimeStampArrayView()
+    {
+        _timeStampView = new();
+        _rightPanel.Add(_timeStampView);
+
+        _timeStampView.makeItem = () => new Vector2Field();
+        _timeStampView.bindItem = (item, index) => { (item as Vector2Field).value = _timeStampArray[index]; };
+        _timeStampView.itemsSource = _timeStampArray;
+    }
+
+    private void CreateSongListView()
+    {
+        string[] allObjectGuids = AssetDatabase.FindAssets(audioClipFilter);
+        List<AudioClip> allObjects = new();
+
+        foreach (string guid in allObjectGuids)
+            allObjects.Add(AssetDatabase.LoadAssetAtPath<AudioClip>(AssetDatabase.GUIDToAssetPath(guid)));
+
+        _songList = new ListView();
+        _splitView.Add(_songList);
 
         _songList.makeItem = () => new Label();
         _songList.bindItem = (item, index) => { (item as Label).text = allObjects[index].name; };
@@ -125,10 +128,6 @@ public class BeatMappingWindow : EditorWindow
         _soundClipField.objectType = typeof(AudioClip);
 
         _songList.hierarchy.Add(_soundClipField);
-
-        var paddingContainer = new VisualElement();
-        paddingContainer.style.paddingTop = 10;
-        rootVisualElement.Add(paddingContainer);
     }
 
     private void OnSongIndexChanged(IEnumerable<object> obj)
