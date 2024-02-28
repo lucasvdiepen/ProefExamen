@@ -6,17 +6,13 @@ public class TimeStamper : MonoBehaviour
 {
     [SerializeField] private Color _timeStampColor = Color.blue;
     [SerializeField] private KeyCode _timeStampInputKey;
-    [SerializeField] private float _stampPineLenght = 100;
+    [SerializeField] private float _stampLineHeightReduction = 100;
 
-    private AudioWaveformDrawer _waveformDrawer = null;
-    private List<TimeStampData> _timeStamps = new List<TimeStampData>();
-    public List<TimeStampData> timeStamps => _timeStamps;
+    [SerializeField] private List<TimeStampData> _timeStamps = new List<TimeStampData>();
     
-    private void Awake()
-    {
-        _waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();   
-    }
+    private AudioWaveformDrawer _waveformDrawer = null;
 
+    [System.Serializable]
     public struct TimeStampData
     {
         public Vector2 startPointPosition;
@@ -31,22 +27,30 @@ public class TimeStamper : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        _waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();   
+    }
+
     private void Update()
     {
+        if (!_waveformDrawer.isCurrentlyPlaying)
+            return;
+
         if (Input.GetKeyDown(_timeStampInputKey))
         {
             float startYPos = _waveformDrawer.cursor.position.y - (_waveformDrawer.cursor.localScale.y * .5f);
             Vector2 startPosition = new Vector2(_waveformDrawer.cursor.position.x, startYPos);
-            Vector2 endPosition = new Vector2(_waveformDrawer.cursor.position.x, -_stampPineLenght);
+            Vector2 endPosition = new Vector2(_waveformDrawer.cursor.position.x, -_stampLineHeightReduction);
 
-            timeStamps.Add(new TimeStampData(startPosition, endPosition, _waveformDrawer.currentSongTime));
+            _timeStamps.Add(new TimeStampData(startPosition, endPosition, _waveformDrawer.currentSongTime));
         }
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = _timeStampColor;
-        foreach (TimeStampData timeStamp in timeStamps)
+        foreach (TimeStampData timeStamp in _timeStamps)
         {
             Gizmos.DrawLine(timeStamp.startPointPosition, timeStamp.endPointPosition);
         }

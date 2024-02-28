@@ -24,6 +24,8 @@ public class AudioWaveformDrawer : MonoBehaviour
     /// Returns the current time in the song. Returns -1 if audioSource is empty
     /// </summary>
     public float currentSongTime => audioSource != null ? audioSource.time : -1;
+    public bool isCurrentlyPlaying => _waveformTexture != null;
+    public AudioSource audioSource { get; private set; }
 
     private float _songWidth;
     private float _audioClipDuration;
@@ -33,7 +35,6 @@ public class AudioWaveformDrawer : MonoBehaviour
     private Vector2 _waveformPositionOffset;
     private Color[] _textureColors;
     
-    public AudioSource audioSource { get; private set; }
     private Texture2D _waveformTexture;
     private GUIStyle _debugGuiStyle = new();
 
