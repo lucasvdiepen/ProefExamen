@@ -64,8 +64,11 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                 Note nextNote = _notes[0];
                 hitResult = LaneUtils.CalculateHitStatus(nextNote.LerpAlpha);
 
-                Destroy(nextNote.gameObject);
-                RemoveNote(nextNote);
+                if(hitResult != HitStatus.Miss)
+                {
+                    Destroy(nextNote.gameObject);
+                    RemoveNote(nextNote);
+                }
             }
 
             LaneManager.Instance.NoteStatusUpdate?.Invoke(hitResult, _laneID);
