@@ -509,6 +509,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3137283554f9d8c41b5ce34a4b0686b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _tag: '[points]'
 --- !u!1 &1017104936
 GameObject:
   m_ObjectHideFlags: 0
@@ -1130,6 +1131,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 811741407828094220, guid: 5705c7f8b8a7c4141940c8bd7d47d677, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 811741407828094220, guid: 5705c7f8b8a7c4141940c8bd7d47d677, type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 811741407828094220, guid: 5705c7f8b8a7c4141940c8bd7d47d677, type: 3}
