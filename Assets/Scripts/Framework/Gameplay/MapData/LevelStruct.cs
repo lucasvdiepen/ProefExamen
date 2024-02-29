@@ -1,5 +1,6 @@
-using ProefExamen.Framework.Gameplay.Values;
 using UnityEngine;
+
+using ProefExamen.Framework.Gameplay.Values;
 
 namespace ProefExamen.Framework.Gameplay.MapData
 {
@@ -17,7 +18,7 @@ namespace ProefExamen.Framework.Gameplay.MapData
         /// A function that returns the current levels mapData based on the current difficulty.
         /// </summary>
         /// <returns>The mapData of this level on the current difficulty.</returns>
-        public Level GetLevel() => level[(int)SessionValues.difficulty];
+        public Level GetLevel() => level[(int)SessionValues.Instance.difficulty];
     }
 
     /// <summary>

@@ -1,83 +1,99 @@
 using UnityEngine;
 
+using ProefExamen.Framework.Utils;
 using ProefExamen.Framework.Gameplay.MapData;
 
 namespace ProefExamen.Framework.Gameplay.Values
 {
     /// <summary>
-    /// The class that holds the value for a session, these are widely used and easily accessible through 
-    /// this static class.
+    /// A class responsible for setting the default variables of the static class SessionValues. 
+    /// Is also used to view values of SessionValues realtime which is usefull for debuggin.
     /// </summary>
-    public static class SessionValues
+    public class SessionValues : AbstractSingleton<SessionValues>
     {
         /// <summary>
-        /// The amount of time it takes for a note to enter the screen and exit the screen.
+        /// A bool that decides if the values here must be updated during a session to watch values.
+        /// Used for debugging.
         /// </summary>
-        public static float travelTime = SessionValuesEditor.Instance.travelTime;
+        public bool shouldUpdateLive = true;
 
         /// <summary>
-        /// The current time we are in the song, keeps being updated unless we are paused.
+        /// The travelTime default.
         /// </summary>
-        public static float time = SessionValuesEditor.Instance.travelTime * -1;
+        public float travelTime;
+        /// <summary>
+        /// The time through a song default.
+        /// </summary>
+        public float time;
 
         /// <summary>
-        /// The score that the player has.
+        /// The score default.
         /// </summary>
-        public static int score = SessionValuesEditor.Instance.score;
+        public int score;
+        /// <summary>
+        /// The score multiplier default.
+        /// </summary>
+        public int scoreMultiplier;
 
         /// <summary>
-        /// Multiplier for the score that is applied before adding to score.
+        /// The paused bool default.
         /// </summary>
-        public static int scoreMultiplier = SessionValuesEditor.Instance.scoreMultiplier;
+        public bool paused;
+        /// <summary>
+        /// The currentLevelID default.
+        /// </summary>
+        public int currentLevelID;
+        /// <summary>
+        /// The currentLevel default.
+        /// </summary>
+        public LevelData currentLevel;
+        /// <summary>
+        /// The default difficulty.
+        /// </summary>
+        public Difficulty difficulty;
+
+        /// <summary>
+        /// The threshold between 1 and the okThreshold will be the range for getting an Ok.
+        /// </summary>
+        public float okThreshold = .75f;
+        /// <summary>
+        /// The threshold between okThreshold and alrightThreshold will be the range for getting an Alright.
+        /// </summary>
+        public float alrightThreshold = .5f;
+        /// <summary>
+        /// The threshold between alrightThreshold and niceThreshold will be the range for getting an Nice, 
+        /// everything below that is Perfect.
+        /// </summary>
+        public float niceThreshold = .25f;
 
         /// <summary>
         /// The max difference in the lerpAlpha value that a note can have before not registering a hit anymore.
         /// </summary>
-        public static float lerpAlphaHitThreshold = SessionValuesEditor.Instance._alphaLerpHitThreshold;
+        public float lerpAlphaHitThreshold = .2f;
 
         /// <summary>
-        /// A bool that holds status for if the game is paused.
+        /// The levels default.
         /// </summary>
-        public static bool paused = SessionValuesEditor.Instance.paused;
+        public Levels levels;
 
         /// <summary>
-        /// The currently selected Level ID.
+        /// The Note default.
         /// </summary>
-        public static int currentLevelID = SessionValuesEditor.Instance.currentLevelID;
-
-        /// <summary>
-        /// The currently selected Level, gets set when the ID is updated.
-        /// </summary>
-        public static LevelData currentLevel = SessionValuesEditor.Instance.currentLevel;
-
-        /// <summary>
-        /// The selected difficulty, this is one value and if will be applied on the currentLevel when we start.
-        /// </summary>
-        public static Difficulty difficulty = SessionValuesEditor.Instance.difficulty;
-
-        /// <summary>
-        /// The scriptableObject for all the levels, can be swapped out if necessary.
-        /// </summary>
-        public static Levels levels = SessionValuesEditor.Instance.levels;
-
-        /// <summary>
-        /// The prefab for a note, can be any prefab if it has the Note.cs script.
-        /// </summary>
-        public static GameObject note = SessionValuesEditor.Instance.note;
+        public GameObject note;
 
         /// <summary>
         /// Returns a bool for if the upcoming timestamp should be queued yet.
         /// </summary>
         /// <param name="timeStamp">The timestamp that is being checked.</param>
         /// <returns>The status for if we want to queue the passed timestamp.</returns>
-        public static bool IsTimeStampReadyForQueue(float timeStamp) => 
+        public bool IsTimeStampReadyForQueue(float timeStamp) =>
             timeStamp > time && timeStamp - (travelTime * 1.1) < time;
 
         /// <summary>
         /// Will loop over levels and update SessionValues currentLevel and currentLevelID.
         /// </summary>
         /// <param name="levelID">The new Level ID that is from the target level.</param>
-        public static void SelectLevel(int levelID)
+        public void SelectLevel(int levelID)
         {
             int listLength = levels.levels.Count;
             currentLevelID = levelID;
@@ -92,7 +108,7 @@ namespace ProefExamen.Framework.Gameplay.Values
         /// </summary>
         /// <param name="targetTime">The given timestamp to base the calculation on.</param>
         /// <returns>The 0-1 alpha value. When it is currently at the given timestamp alpha will be 0.5.</returns>
-        public static float CalculateNoteLerpAlpha(float targetTime)
+        public float CalculateNoteLerpAlpha(float targetTime)
         {
             float halfTravelTime = travelTime * .5f;
 

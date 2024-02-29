@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 
 using ProefExamen.Framework.Gameplay.Values;
 
@@ -31,15 +30,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         private float _lerpAlpha = 0;
 
         [SerializeField]
-        private float _availabilityThreshold = 0.65f;
-
-        [SerializeField]
         private bool _isRemovalCalled;
-
-        /// <summary>
-        /// An action that is called when the note is removed.
-        /// </summary>
-        public Action<Note> OnNoteRemoved;
 
         /// <summary>
         /// The LerpAlpha 0-1 float value that is used to place the note on the lane.
@@ -67,23 +58,21 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void Update()
         {
-            if (SessionValues.paused || _laneID == -1)
+            if (SessionValues.Instance.paused || _laneID == -1)
                 return;
-            
-            if ((_timeStamp + (SessionValues.travelTime * .5) < SessionValues.time))
+
+            if (_lerpAlpha > .99f)
                 Destroy(gameObject);
 
-            _lerpAlpha = SessionValues.CalculateNoteLerpAlpha(_timeStamp);
+            _lerpAlpha = SessionValues.Instance.CalculateNoteLerpAlpha(_timeStamp);
 
             transform.position = Vector3.Lerp(_initialPosition, _targetPosition, _lerpAlpha);
 
-            if (!_isRemovalCalled && _lerpAlpha <  + (SessionValues.lerpAlphaHitThreshold + .5f)) 
+            if (!_isRemovalCalled && _lerpAlpha < (SessionValues.Instance.lerpAlphaHitThreshold + .5f)) 
                 return;
 
             _isRemovalCalled = true;
-            LaneManager.Instance.NoteStatusUpdate?.Invoke(HitStatus.Miss, _laneID);
-
-            OnNoteRemoved?.Invoke(this);
+            LaneManager.Instance.OnNoteHit?.Invoke(HitStatus.Miss, _laneID);
         }
     }
 }

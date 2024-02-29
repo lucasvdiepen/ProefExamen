@@ -31,25 +31,33 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         private Vector3 _targetNotePosition;
 
         /// <summary>
+        /// Gets the registered Notes of this lane.
+        /// </summary>
+        public List<Note> Notes => _notes;
+
+        /// <summary>
         /// Gets the private button component of the Lane.
         /// </summary>
         public Button Button => _button;
 
         private void Awake()
         {
-            if(_button = null)
-                _button = GetComponent<Button>();
+            if(_button == null)
+                _button = gameObject.GetComponent<Button>();
         }
 
         private void Start()
         {
-            if (_laneID == -1)
+            if (_button)
             {
-                Debug.LogError("Lane with button " + _button.name + " has no assigned ID!");
-                return;
-            }
+                if (_laneID == -1)
+                {
+                    Debug.LogError("Lane with button " + _button.name + " has no assigned ID!");
+                    return;
+                }
 
-            _button.onClick.AddListener(SendButtonPress);
+                _button.onClick.AddListener(SendButtonPress);
+            }
         }
 
         private void SendButtonPress()
@@ -65,13 +73,10 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                 hitResult = LaneUtils.CalculateHitStatus(nextNote.LerpAlpha);
 
                 if(hitResult != HitStatus.Miss)
-                {
                     Destroy(nextNote.gameObject);
-                    RemoveNote(nextNote);
-                }
             }
 
-            LaneManager.Instance.NoteStatusUpdate?.Invoke(hitResult, _laneID);
+            LaneManager.Instance.OnNoteHit?.Invoke(hitResult, _laneID);
         }
 
         /// <summary>
@@ -80,14 +85,13 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// <param name="timeStamp">The TimeStamp that the new note must be hit on.</param>
         public void SpawnNote(float timeStamp)
         {
-            GameObject newNoteObject = Instantiate(SessionValues.note);
+            GameObject newNoteObject = Instantiate(SessionValues.Instance.note);
 
             Note newNote = newNoteObject.GetComponent<Note>();
 
             _notes.Add(newNote);
 
-            newNote.SetNoteValues(_initialNotePosition, _targetNotePosition, _laneID, SessionValues.currentLevel.levelID, timeStamp);
-            newNote.OnNoteRemoved += RemoveNote;
+            newNote.SetNoteValues(_initialNotePosition, _targetNotePosition, _laneID, SessionValues.Instance.currentLevel.levelID, timeStamp);
         }
 
         /// <summary>
@@ -100,25 +104,25 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             float total = _initialNotePosition.y + Mathf.Abs(_targetNotePosition.y);
 
-            float targetHeight = total * SessionValuesEditor.Instance._alphaLerpHitThreshold;
+            float targetHeight = total * SessionValues.Instance.lerpAlphaHitThreshold;
 
             Gizmos.color = Color.red;
             Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight, 0));
             Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight * -1, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0));
 
-            targetHeight = total * (SessionValuesEditor.Instance._alphaLerpHitThreshold * SessionValuesEditor.Instance._okThreshold);
+            targetHeight = total * (SessionValues.Instance.lerpAlphaHitThreshold * SessionValues.Instance.okThreshold);
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight, 0));
             Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight * -1, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0));
 
-            targetHeight = total * (SessionValuesEditor.Instance._alphaLerpHitThreshold * SessionValuesEditor.Instance._alrightThreshold);
+            targetHeight = total * (SessionValues.Instance.lerpAlphaHitThreshold * SessionValues.Instance.alrightThreshold);
 
             Gizmos.color = Color.green;
             Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight, 0));
             Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight * -1, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0));
 
-            targetHeight = total * (SessionValuesEditor.Instance._alphaLerpHitThreshold * SessionValuesEditor.Instance._niceThreshold);
+            targetHeight = total * (SessionValues.Instance.lerpAlphaHitThreshold * SessionValues.Instance.niceThreshold);
 
             Gizmos.color = Color.blue;
             Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight, 0));

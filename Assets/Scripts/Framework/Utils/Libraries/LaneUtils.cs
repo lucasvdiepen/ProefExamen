@@ -18,15 +18,15 @@ namespace ProefExamen.Framework.Utils.Libraries.LaneUtils
         /// <returns>The decided HitStatus based on the accuracy.</returns>
         public static HitStatus CalculateHitStatus(float lerpAlpha)
         {
-            float threshold = Mathf.Abs((lerpAlpha - .5f) / SessionValues.lerpAlphaHitThreshold);
+            float threshold = Mathf.Abs((lerpAlpha - .5f) / SessionValues.Instance.lerpAlphaHitThreshold);
 
             if (threshold > 1)
                 return HitStatus.Miss;
-            else if (threshold > SessionValuesEditor.Instance._okThreshold)
+            else if (threshold > SessionValues.Instance.okThreshold)
                 return HitStatus.Ok;
-            else if (threshold > SessionValuesEditor.Instance._alrightThreshold)
+            else if (threshold > SessionValues.Instance.alrightThreshold)
                 return HitStatus.Alright;
-            else if (threshold > SessionValuesEditor.Instance._niceThreshold)
+            else if (threshold > SessionValues.Instance.niceThreshold)
                 return HitStatus.Nice;
             else
                 return HitStatus.Perfect;
