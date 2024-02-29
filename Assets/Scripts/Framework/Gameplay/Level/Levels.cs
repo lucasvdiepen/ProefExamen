@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ProefExamen.Framework.Gameplay.MapData
+namespace ProefExamen.Framework.Gameplay.Level
 {
     /// <summary>
     /// A scriptable object holding a list of levels.

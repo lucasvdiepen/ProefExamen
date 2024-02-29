@@ -1,7 +1,7 @@
 using UnityEngine;
 
 using ProefExamen.Framework.Utils;
-using ProefExamen.Framework.Gameplay.MapData;
+using ProefExamen.Framework.Gameplay.Level;
 
 namespace ProefExamen.Framework.Gameplay.Values
 {
@@ -21,6 +21,7 @@ namespace ProefExamen.Framework.Gameplay.Values
         /// The travelTime default.
         /// </summary>
         public float travelTime;
+
         /// <summary>
         /// The time through a song default.
         /// </summary>
@@ -30,6 +31,7 @@ namespace ProefExamen.Framework.Gameplay.Values
         /// The score default.
         /// </summary>
         public int score;
+
         /// <summary>
         /// The score multiplier default.
         /// </summary>
@@ -39,14 +41,17 @@ namespace ProefExamen.Framework.Gameplay.Values
         /// The paused bool default.
         /// </summary>
         public bool paused;
+
         /// <summary>
         /// The currentLevelID default.
         /// </summary>
         public int currentLevelID;
+
         /// <summary>
         /// The currentLevel default.
         /// </summary>
         public LevelData currentLevel;
+
         /// <summary>
         /// The default difficulty.
         /// </summary>
@@ -56,10 +61,12 @@ namespace ProefExamen.Framework.Gameplay.Values
         /// The threshold between 1 and the okThreshold will be the range for getting an Ok.
         /// </summary>
         public float okThreshold = .75f;
+
         /// <summary>
         /// The threshold between okThreshold and alrightThreshold will be the range for getting an Alright.
         /// </summary>
         public float alrightThreshold = .5f;
+
         /// <summary>
         /// The threshold between alrightThreshold and niceThreshold will be the range for getting an Nice, 
         /// everything below that is Perfect.

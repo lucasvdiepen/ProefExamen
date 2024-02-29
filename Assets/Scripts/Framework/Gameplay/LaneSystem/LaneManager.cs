@@ -4,7 +4,7 @@ using UnityEngine;
 
 using ProefExamen.Framework.Utils;
 using ProefExamen.Framework.Gameplay.Values;
-using ProefExamen.Framework.Gameplay.MapData;
+using ProefExamen.Framework.Gameplay.Level;
 
 namespace ProefExamen.Framework.Gameplay.LaneSystem
 {
@@ -35,7 +35,10 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private int _index;
 
-        private void Start() => OnNoteHit += RemoveNoteFromLane;
+        private void Start()
+        {
+            OnNoteHit += RemoveNoteFromLane;
+        }
 
         private void RemoveNoteFromLane(HitStatus hitStatus, int laneID)
         {
@@ -75,7 +78,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void QueueUpcomingNotes()
         {
-            Level currentLevel = SessionValues.Instance.currentLevel.GetLevel();
+            MappingData currentLevel = SessionValues.Instance.currentLevel.GetLevel();
 
             if (currentLevel.timestamps.Length <= _index)
                 return;
