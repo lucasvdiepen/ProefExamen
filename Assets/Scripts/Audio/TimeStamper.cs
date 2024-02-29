@@ -17,7 +17,7 @@ public class TimeStamper : MonoBehaviour
     [SerializeField] private KeyCode _increaseTimeStampKey;
     [SerializeField] private KeyCode _decreaseTimeStampKey;
 
-    [SerializeField] private List<TimeStampData> _timeStamps = new List<TimeStampData>();
+    [SerializeField] private List<TimeStampData> _timeStamps = new();
     
     private AudioWaveformDrawer _waveformDrawer = null;
     private TimeStampData _currentSelectedTimeStamp = null;
