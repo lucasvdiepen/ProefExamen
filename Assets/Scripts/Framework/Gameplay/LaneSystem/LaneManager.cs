@@ -35,13 +35,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private int _index;
 
-        private void Start()
-        {
-            OnNoteHit += RemoveNoteFromLane;
-
-            SessionValues.Instance.SelectLevel(2);
-            StartCoroutine(PlayThroughLevel());
-        }
+        private void Start() => OnNoteHit += RemoveNoteFromLane;
 
         private void RemoveNoteFromLane(HitStatus hitStatus, int laneID)
         {
