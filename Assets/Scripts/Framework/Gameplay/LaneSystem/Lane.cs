@@ -35,6 +35,23 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// </summary>
         public Button Button => _button;
 
+        private void Awake()
+        {
+            if(_button = null)
+                _button = GetComponent<Button>();
+        }
+
+        private void Start()
+        {
+            if (_laneID == -1)
+            {
+                Debug.LogError("Lane with button " + _button.name + " has no assigned ID!");
+                return;
+            }
+
+            _button.onClick.AddListener(SendButtonPress);
+        }
+
         private void SendButtonPress()
         {
             HitStatus hitResult;
