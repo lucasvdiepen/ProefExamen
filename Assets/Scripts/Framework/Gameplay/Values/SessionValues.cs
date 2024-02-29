@@ -25,7 +25,7 @@ namespace ProefExamen.Framework.Gameplay.Values
         /// <summary>
         /// The time through a song default.
         /// </summary>
-        public float time;
+        public float time => audioSource.time;
 
         /// <summary>
         /// The score default.
@@ -87,6 +87,8 @@ namespace ProefExamen.Framework.Gameplay.Values
         /// The Note default.
         /// </summary>
         public GameObject note;
+
+        public AudioSource audioSource;
 
         /// <summary>
         /// Returns a bool for if the upcoming timestamp should be queued yet.

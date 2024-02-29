@@ -68,7 +68,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
             transform.position = Vector3.Lerp(_initialPosition, _targetPosition, _lerpAlpha);
 
-            if (!_isRemovalCalled && _lerpAlpha < (SessionValues.Instance.lerpAlphaHitThreshold + .5f)) 
+            if (_isRemovalCalled || _lerpAlpha <= (SessionValues.Instance.lerpAlphaHitThreshold + .5f)) 
                 return;
 
             _isRemovalCalled = true;

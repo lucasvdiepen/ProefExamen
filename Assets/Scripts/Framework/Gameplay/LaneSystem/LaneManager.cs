@@ -17,9 +17,6 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         [SerializeField]
         private Lane[] _lanes;
 
-        [SerializeField]
-        private AudioSource _audio;
-
         [Header("PC Controls")]
         [SerializeField]
         private bool _usingInputs;
@@ -58,8 +55,8 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             _index = 0;
 
-            _audio.clip = SessionValues.Instance.currentLevel.song;
-            _audio.Play();
+            SessionValues.Instance.audioSource.clip = SessionValues.Instance.currentLevel.song;
+            SessionValues.Instance.audioSource.Play();
 
             while (SessionValues.Instance.time < SessionValues.Instance.currentLevel.song.length)
             {
@@ -68,14 +65,10 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                     yield return null;
                     continue;
                 }
-
-                SessionValues.Instance.time += Time.deltaTime;
-
                 QueueUpcomingNotes();
 
                 yield return null;
             }
-
             yield return null;
         }
 
@@ -107,10 +100,10 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             SessionValues.Instance.paused = paused;
 
-            if (paused && _audio.isPlaying)
-                _audio.Pause();
-            else if (!paused && !_audio.isPlaying)
-                _audio.UnPause();
+            if (paused && SessionValues.Instance.audioSource.isPlaying)
+                SessionValues.Instance.audioSource.Pause();
+            else if (!paused && !SessionValues.Instance.audioSource.isPlaying)
+                SessionValues.Instance.audioSource.UnPause();
         }
 
         private void Update()
