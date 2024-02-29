@@ -10,12 +10,12 @@ namespace ProefExamen.Framework.StateMachine
 
         private protected virtual void OnDestroy() => UnregisterState();
 
-        private protected virtual void RegisterState() => StateMachine.RegisterState(this);
+        private protected virtual void RegisterState() => StateMachine.Instance.RegisterState(this);
 
-        private protected virtual void UnregisterState() => StateMachine.UnregisterState(this);
+        private protected virtual void UnregisterState() => StateMachine.Instance.UnregisterState(this);
 
-        public abstract void OnStateEnter();
+        public abstract IEnumerator OnStateEnter();
 
-        public abstract void OnStateExit();
+        public abstract IEnumerator OnStateExit();
     }
 }

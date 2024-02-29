@@ -3,5 +3,5 @@ using ProefExamen.Framework.StateMachine;
 
 public class GoStateBackButton : BasicButton
 {
-    private protected override void OnButtonPressed() => StateMachine.GoBack();
+    private protected override void OnButtonPressed() => StateMachine.Instance.GoBack();
 }

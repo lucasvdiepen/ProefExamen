@@ -1,4 +1,5 @@
 using ProefExamen.Framework.StateMachine;
+using System.Collections;
 using UnityEngine;
 
 public abstract class MenuState : State
@@ -6,7 +7,7 @@ public abstract class MenuState : State
     [SerializeField]
     private CanvasGroup _canvasGroup;
 
-    public override void OnStateEnter()
+    public override IEnumerator OnStateEnter()
     {
         throw new System.NotImplementedException();
     }

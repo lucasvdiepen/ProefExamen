@@ -1,23 +1,23 @@
+using ProefExamen.Framework.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 namespace ProefExamen.Framework.StateMachine
 {
-    public static class StateMachine
+    public class StateMachine : AbstractSingleton<StateMachine>
     {
-        private const int MAX_HISTORY_SIZE = 10;
+        [SerializeField]
+        private int _maxHistorySize = 10;
 
-        public static Action<State> OnStateChanged;
+        public Action<State> OnStateChanged;
 
-        public static State CurrentState { get; private set; }
+        public State CurrentState { get; private set; }
 
-        public static State TargetState { get; private set; }
+        public State TargetState { get; private set; }
 
-        public static State PreviousState
+        public State PreviousState
         {
             get
             {
@@ -31,16 +31,22 @@ namespace ProefExamen.Framework.StateMachine
             }
         }
 
-        private readonly static Dictionary<Type, State> _states = new();
-        private readonly static List<Type> _navigationHistory = new();
+        public bool IsCurrentState<T>() where T : State
+            => CurrentState.GetType() == typeof(T);
 
-        public static void GoToState<T>(bool addToHistory = true) where T : State
+        public bool IsCurrentState(State state)
+            => CurrentState.GetType() == state.GetType();
+
+        private readonly Dictionary<Type, State> _states = new();
+        private readonly List<Type> _navigationHistory = new();
+
+        public void GoToState<T>(bool addToHistory = true) where T : State
             => GoToState(typeof(T), addToHistory);
 
-        public static void GoToState(State state, bool addToHistory = true)
+        public void GoToState(State state, bool addToHistory = true)
             => GoToState(state.GetType(), addToHistory);
 
-        public static void GoToState(Type state, bool addToHistory = true)
+        public void GoToState(Type state, bool addToHistory = true)
         {
             if (CurrentState != null && CurrentState.GetType() == state)
             {
@@ -54,10 +60,10 @@ namespace ProefExamen.Framework.StateMachine
                 return;
             }
 
-            TransitionToState(targetState, addToHistory);
+            StartCoroutine(TransitionToState(targetState, addToHistory));
         }
 
-        public static void GoBack()
+        public void GoBack()
         {
             if (_navigationHistory.Count < 2)
             {
@@ -70,21 +76,21 @@ namespace ProefExamen.Framework.StateMachine
             _navigationHistory.RemoveAt(_navigationHistory.Count - 1);
         }
 
-        public static void ClearHistory()
+        public void ClearHistory()
         {
             _navigationHistory.Clear();
             AddToHistory(CurrentState.GetType());
         }
 
-        private static void AddToHistory(Type state)
+        private void AddToHistory(Type state)
         {
-            if (_navigationHistory.Count >= MAX_HISTORY_SIZE)
+            if (_navigationHistory.Count >= _maxHistorySize)
                 _navigationHistory.RemoveAt(0);
 
             _navigationHistory.Add(state);
         }
 
-        public static void RegisterState(State state, bool isDefault = false)
+        public void RegisterState(State state, bool isDefault = false)
         {
             if (IsStateRegistered(state))
             {
@@ -103,10 +109,10 @@ namespace ProefExamen.Framework.StateMachine
                 return;
             }
 
-            TransitionToState(state);
+            StartCoroutine(TransitionToState(state));
         }
 
-        public static void UnregisterState(State state)
+        public void UnregisterState(State state)
         {
             if (!IsStateRegistered(state))
             {
@@ -117,16 +123,16 @@ namespace ProefExamen.Framework.StateMachine
             _states.Remove(state.GetType());
         }
 
-        private static void TransitionToState(State state, bool addToHistory = true)
+        private IEnumerator TransitionToState(State state, bool addToHistory = true)
         {
             TargetState = state;
 
             if(CurrentState != null)
-                CurrentState.OnStateExit();
+                yield return CurrentState.OnStateExit();
 
             CurrentState = TargetState;
 
-            CurrentState.OnStateEnter();
+            yield return CurrentState.OnStateEnter();
 
             if(addToHistory)
                 AddToHistory(CurrentState.GetType());
@@ -134,22 +140,16 @@ namespace ProefExamen.Framework.StateMachine
             OnStateChanged?.Invoke(CurrentState);
         }
 
-        public static bool IsCurrentState<T>() where T : State
-            => CurrentState.GetType() == typeof(T);
-
-        public static bool IsCurrentState(State state)
-            => CurrentState.GetType() == state.GetType();
-
-        private static bool IsStateRegistered<T>() where T : State
+        private bool IsStateRegistered<T>() where T : State
             => _states.ContainsKey(typeof(T));
 
-        private static bool IsStateRegistered(State state)
+        private bool IsStateRegistered(State state)
             => _states.ContainsKey(state.GetType());
 
-        private static bool TryGetState<T>(out State state) where T : State
+        private bool TryGetState<T>(out State state) where T : State
             => TryGetState(typeof(T), out state);
 
-        private static bool TryGetState(Type type, out State state)
+        private bool TryGetState(Type type, out State state)
             => _states.TryGetValue(type, out state);
     }
 }

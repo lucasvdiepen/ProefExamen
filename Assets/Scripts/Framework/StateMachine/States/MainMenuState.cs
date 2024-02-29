@@ -6,16 +6,18 @@ namespace ProefExamen.Framework.StateMachine.States
 {
     public class MainMenuState : State
     {
-        private protected override void RegisterState() => StateMachine.RegisterState(this, true);
+        private protected override void RegisterState() => StateMachine.Instance.RegisterState(this, true);
 
-        public override void OnStateEnter()
+        public override IEnumerator OnStateEnter()
         {
             Debug.Log("Main Menu State Entered");
+            yield return null;
         }
 
-        public override void OnStateExit()
+        public override IEnumerator OnStateExit()
         {
             Debug.Log("Main Menu State Exited");
+            yield return null;
         }
     }
 }
