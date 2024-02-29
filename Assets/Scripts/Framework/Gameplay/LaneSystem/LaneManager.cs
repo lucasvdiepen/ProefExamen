@@ -38,6 +38,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         private void Start()
         {
             OnNoteHit += RemoveNoteFromLane;
+
+            SessionValues.Instance.SelectLevel(SessionValues.Instance.currentLevelID);
+            StartCoroutine(PlayThroughLevel());
         }
 
         private void RemoveNoteFromLane(HitStatus hitStatus, int laneID)

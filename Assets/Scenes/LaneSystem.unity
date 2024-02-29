@@ -1119,21 +1119,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 687464657}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5596326712c2f014abd240ac741da46e, type: 3}
+  m_Script: {fileID: 11500000, guid: d6beb3ec0c6159e49b11920799601d8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   shouldUpdateLive: 1
   travelTime: 2
-  time: -2
+  time: 0
   score: 0
   scoreMultiplier: 1
   paused: 0
-  currentLevelID: 2
+  currentLevelID: 3
   currentLevel:
-    levelID: 2
-    song: {fileID: 8300000, guid: 28406c2d4ad2819499dddb87703b8f31, type: 3}
+    levelID: 0
+    song: {fileID: 0}
     mappingData: []
-  difficulty: 0
+  difficulty: 2
   okThreshold: 0.75
   alrightThreshold: 0.5
   niceThreshold: 0.25
