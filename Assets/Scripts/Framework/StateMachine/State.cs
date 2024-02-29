@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProefExamen.Framework.StateMachine
@@ -14,8 +13,16 @@ namespace ProefExamen.Framework.StateMachine
 
         private protected virtual void UnregisterState() => StateMachine.Instance.UnregisterState(this);
 
-        public abstract IEnumerator OnStateEnter();
+        public virtual IEnumerator OnStateEnter()
+        {
+            gameObject.SetActive(true);
+            yield return null;
+        }
 
-        public abstract IEnumerator OnStateExit();
+        public virtual IEnumerator OnStateExit()
+        {
+            gameObject.SetActive(false);
+            yield return null;
+        }
     }
 }
