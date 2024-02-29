@@ -446,8 +446,9 @@ MonoBehaviour:
   _selectedTimeStampColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   _stampLineHeightReduction: 170
   _gizmoOffset: 0.6
-  _timeStampInputKey: 32
+  _placeTimeStampKey: 32
   _undoTimeStampKey: 122
+  _deleteCurrentTimeStampKey: 120
   _timeStamps: []
 --- !u!4 &560951818
 Transform:

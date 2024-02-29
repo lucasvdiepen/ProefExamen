@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class TimeStamper : MonoBehaviour
@@ -10,15 +9,18 @@ public class TimeStamper : MonoBehaviour
     [SerializeField] private float _gizmoOffset = .25f;
 
     [Header("Input KeyCodes")]
-    [SerializeField] private KeyCode _timeStampInputKey;
+    [SerializeField] private KeyCode _placeTimeStampKey;
     [SerializeField] private KeyCode _undoTimeStampKey;
+    [SerializeField] private KeyCode _deleteCurrentTimeStampKey;
+    [SerializeField] private KeyCode _exportTimeStampsKey;
 
     [SerializeField] private List<TimeStampData> _timeStamps = new List<TimeStampData>();
     
     private AudioWaveformDrawer _waveformDrawer = null;
-    private TimeStampData _currentSelectedTimeStamp;
+    private TimeStampData _currentSelectedTimeStamp = null;
     private GUIStyle _debugBoldGuiStyle = new();
     private GUIStyle _debugItalicsGuiStyle = new();
+    private string _assetPath => "Assets/" + $"{_waveformDrawer.currentSongTitle}.asset";
 
     [System.Serializable]
     public class TimeStampData
@@ -51,10 +53,10 @@ public class TimeStamper : MonoBehaviour
 
     private void Update()
     {
-        if (!_waveformDrawer.isCurrentlyPlaying)
+        if (!_waveformDrawer.HasActiveWaveform)
             return;
 
-        if (Input.GetKeyDown(_timeStampInputKey))
+        if (Input.GetKeyDown(_placeTimeStampKey))
         {
             float startYPos = _waveformDrawer.cursor.position.y - (_waveformDrawer.cursor.localScale.y * .5f);
             Vector2 startPosition = new Vector2(_waveformDrawer.cursor.position.x, startYPos);
@@ -74,6 +76,9 @@ public class TimeStamper : MonoBehaviour
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             TimeStampData closestStampToMouse = GetClosestTimeStamp(mousePosition);
 
+            if (closestStampToMouse == null)
+                return;
+
             if(closestStampToMouse != _currentSelectedTimeStamp)
             {
                 closestStampToMouse.isSelected = true;
@@ -83,7 +88,7 @@ public class TimeStamper : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftControl))
+        if (Input.GetKeyUp(KeyCode.LeftControl)  && _currentSelectedTimeStamp != null)
         {
             _currentSelectedTimeStamp.isSelected = false;
             _currentSelectedTimeStamp = null;
@@ -98,8 +103,47 @@ public class TimeStamper : MonoBehaviour
             _currentSelectedTimeStamp.songTime = 
                 _waveformDrawer.CalculateSongTimeBasedOnPosition(_currentSelectedTimeStamp.startPointPosition);
         }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow)) //pausing song
+        {
+            if (_waveformDrawer.audioSource.isPlaying) _waveformDrawer.audioSource.Pause();
+            else _waveformDrawer.audioSource.UnPause();
+        }
+
+        //deleting selected time stamp
+        if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_deleteCurrentTimeStampKey))
+        {
+            if(_currentSelectedTimeStamp != null)
+            {
+                TimeStampData timeStampToDelete = _currentSelectedTimeStamp;
+                _currentSelectedTimeStamp = null;
+                _timeStamps.Remove(timeStampToDelete);
+            }    
+        }
+
+        if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_exportTimeStampsKey))
+        {
+            var obj = ScriptableObject.CreateInstance<SongTimeStamps>();
+            float[] exportedTimeStamps = new float[_timeStamps.Count];
+
+            for (int i = 0; i < exportedTimeStamps.Length; i++)
+                exportedTimeStamps[i] = _timeStamps[i].songTime;    
+
+            obj.timeStamps = exportedTimeStamps;
+            UnityEditor.AssetDatabase.CreateAsset(obj, _assetPath);
+
+            UnityEditor.AssetDatabase.SaveAssets();
+            UnityEditor.AssetDatabase.Refresh();
+
+            print("Succesfully exported timestamps");
+        }
     }
 
+    /// <summary>
+    /// Returns the closest time stamp based on input origin position
+    /// </summary>
+    /// <param name="originPosition">Origin of the distance check</param>
+    /// <returns></returns>
     TimeStampData GetClosestTimeStamp(Vector2 originPosition)
     {
         TimeStampData bestTarget = default;
@@ -139,6 +183,9 @@ public class TimeStamper : MonoBehaviour
         GUI.color = Color.white;
         GUI.Label(new Rect(0, 0, 300, 100), $"Playback Speed: {_waveformDrawer.currentPlayBackSpeed}", _debugBoldGuiStyle);
         GUI.Label(new Rect(0, 48, 300, 100), $"Song Time: {_waveformDrawer.currentSongTime}", _debugBoldGuiStyle);
+
+        if(!_waveformDrawer.audioSource.isPlaying && _waveformDrawer.HasActiveWaveform)
+            GUI.Label(new Rect(1750, 0, 300, 100), "Paused", _debugItalicsGuiStyle);
 
         if (_currentSelectedTimeStamp != null)
             GUI.Label(new Rect(0, 96, 300, 100), $"TimeStamp Time: {_currentSelectedTimeStamp.songTime}", _debugItalicsGuiStyle);

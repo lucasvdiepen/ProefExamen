@@ -25,7 +25,8 @@ public class AudioWaveformDrawer : MonoBehaviour
     /// </summary>
     public float currentSongTime => audioSource != null ? audioSource.time : -1;
     public float currentPlayBackSpeed => _playBackSpeed / 10f;
-    public bool isCurrentlyPlaying => _waveformTexture != null;
+    public string currentSongTitle => audioSource.clip.name;
+    public bool HasActiveWaveform => _waveformTexture != null;
     public AudioSource audioSource { get; private set; }
 
     private float _songWidth;
@@ -114,12 +115,6 @@ public class AudioWaveformDrawer : MonoBehaviour
 
     private void CheckAudioControls()
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow)) //pausing song
-        {
-            if (audioSource.isPlaying) audioSource.Pause();
-            else audioSource.UnPause();
-        }
-
         if (Input.GetKeyDown(KeyCode.RightArrow)) //scrub forward in song
             audioSource.time = Mathf.Clamp(audioSource.time + _timeScrubAmount, 0, _audioClipDuration);
 
