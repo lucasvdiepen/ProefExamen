@@ -10,10 +10,6 @@ public class AudioWaveformDrawer : MonoBehaviour
     [SerializeField] private float _heightScaleModifier = 100f;
     [SerializeField] private int _renderDownScaleModifier = 4;
 
-    [Header("Debugging")]
-    [SerializeField] private float _teleportTimePos;
-    [SerializeField] private float _timeScrubAmount;
-
     [Header("Other")]
     [SerializeField] private Color _renderColor = Color.white;
     [SerializeField] private GameObject _drawerPrefab;
@@ -24,24 +20,28 @@ public class AudioWaveformDrawer : MonoBehaviour
     /// Returns the current time in the song. Returns -1 if audioSource is empty
     /// </summary>
     public float currentSongTime => audioSource != null ? audioSource.time : -1;
-    public float currentPlayBackSpeed => _playBackSpeed / 10f;
+    public float currentPlayBackSpeed => playBackSpeed / 10f;
     public string currentSongTitle => audioSource.clip.name;
     public bool HasActiveWaveform => _waveformTexture != null;
+    public float timeScrubAmount { get; set; } = 2.5f;
+    public float playBackSpeed { get; set; } = 10;
     public AudioSource audioSource { get; private set; }
+
+    private TimeStamper _timeStamper = null;
 
     private float _songWidth;
     private float _audioClipDuration;
-    private float _playBackSpeed = 10;
     private float[] _dataSamples;
 
     private Vector2 _waveformPositionOffset;
     private Color[] _textureColors;
-    
-    private Texture2D _waveformTexture;
+
+    private Texture2D _waveformTexture = null;
 
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        _timeStamper = FindObjectOfType<TimeStamper>(); 
     }
 
     public float CalculateSongTimeBasedOnPosition(Vector2 position)
@@ -73,7 +73,9 @@ public class AudioWaveformDrawer : MonoBehaviour
             renderer.material.mainTexture = _waveformTexture;
 
         _audioClipDuration = audioSource.clip.length;
-        audioSource.Play();
+        
+        if(_timeStamper.isPaused) audioSource.Pause();
+        else audioSource.Play();
     }
 
     private void GenerateWaveformTexture()
@@ -115,11 +117,14 @@ public class AudioWaveformDrawer : MonoBehaviour
 
     private void CheckAudioControls()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow)) //scrub forward in song
-            audioSource.time = Mathf.Clamp(audioSource.time + _timeScrubAmount, 0, _audioClipDuration);
+        if (!Input.GetKey(KeyCode.LeftControl))
+        {
+            if (Input.GetKey(KeyCode.RightArrow)) //scrub forward in song
+                audioSource.time = Mathf.Clamp(audioSource.time + timeScrubAmount, 0, _audioClipDuration);
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) //scrub backwards in song
-            audioSource.time = Mathf.Clamp(audioSource.time - _timeScrubAmount, 0, _audioClipDuration);
+            if (Input.GetKey(KeyCode.LeftArrow)) //scrub backwards in song
+                audioSource.time = Mathf.Clamp(audioSource.time - timeScrubAmount, 0, _audioClipDuration);
+        }
 
         //mouse playback speed control
         if (Input.mouseScrollDelta.magnitude != 0)
@@ -131,14 +136,14 @@ public class AudioWaveformDrawer : MonoBehaviour
         }
 
         //keyboard playback speed controls
-        if (Input.GetKeyDown(KeyCode.LeftBracket)) IncreasePlayBackSpeed(-1);
-        if (Input.GetKeyDown(KeyCode.RightBracket)) IncreasePlayBackSpeed(1);
+        if (Input.GetKey(KeyCode.LeftBracket)) IncreasePlayBackSpeed(-1);
+        if (Input.GetKey(KeyCode.RightBracket)) IncreasePlayBackSpeed(1);
     }
 
     private void IncreasePlayBackSpeed(int amount)
     {
-        _playBackSpeed = Mathf.Clamp(_playBackSpeed + amount, 1f, 30);
-        audioSource.pitch = _playBackSpeed / 10f;
+        playBackSpeed = Mathf.Clamp(playBackSpeed + amount, 1f, 30);
+        audioSource.pitch = currentPlayBackSpeed;
     }
 
     private void UpdateCursorPosition()

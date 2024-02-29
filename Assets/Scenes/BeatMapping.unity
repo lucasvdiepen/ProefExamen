@@ -445,10 +445,14 @@ MonoBehaviour:
   _timeStampColor: {r: 0, g: 0, b: 1, a: 1}
   _selectedTimeStampColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   _stampLineHeightReduction: 170
-  _gizmoOffset: 0.6
+  _timeStampTweakAmount: 0.5
+  _gizmoSpacing: 0.6
   _placeTimeStampKey: 32
   _undoTimeStampKey: 122
   _deleteCurrentTimeStampKey: 120
+  _exportTimeStampsKey: 115
+  _increaseTimeStampKey: 275
+  _decreaseTimeStampKey: 276
   _timeStamps: []
 --- !u!4 &560951818
 Transform:
@@ -660,8 +664,6 @@ MonoBehaviour:
   _textureHeight: 256
   _heightScaleModifier: 100
   _renderDownScaleModifier: 4
-  _teleportTimePos: 0
-  _timeScrubAmount: 10
   _renderColor: {r: 1, g: 1, b: 1, a: 1}
   _drawerPrefab: {fileID: 2340922503210000848, guid: 1ced9fe900fe6154a9107b2c9f075a50, type: 3}
   <cursor>k__BackingField: {fileID: 555472537}

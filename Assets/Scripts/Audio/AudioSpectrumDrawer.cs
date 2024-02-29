@@ -12,13 +12,13 @@ public class AudioSpectrumDrawer : MonoBehaviour
     
     private float[] _samples;
     
-    private GameObject[] _visualizers; 
-    private AudioWaveformDrawer _waveformDrawer = null;
+    private GameObject[] _visualizers;
+    private AudioWaveformDrawer waveformDrawer;
 
     private void Awake()
     {
         _samples = new float[_audioSamples];
-        _waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();
+        waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();
     }
 
     public void VisualizeSongSpectrum(AudioClip clip)
@@ -27,7 +27,7 @@ public class AudioSpectrumDrawer : MonoBehaviour
         foreach (Transform child in transform)
             Destroy(child.gameObject);
 
-        _waveformDrawer.InitializeDrawer(clip);
+        waveformDrawer.InitializeDrawer(clip);
         _visualizers = new GameObject[_samples.Length];
 
         for (int i = 0; i < _visualizers.Length; i++)
@@ -43,7 +43,7 @@ public class AudioSpectrumDrawer : MonoBehaviour
 
     private void Update()
     {
-        _waveformDrawer.audioSource.GetSpectrumData(_samples, 0, FFTWindow.Blackman);
+        waveformDrawer.audioSource.GetSpectrumData(_samples, 0, FFTWindow.Blackman);
         if (_visualizers == null)
             return;
 

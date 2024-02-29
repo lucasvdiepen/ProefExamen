@@ -6,13 +6,16 @@ public class TimeStamper : MonoBehaviour
     [SerializeField] private Color _timeStampColor = Color.blue;
     [SerializeField] private Color _selectedTimeStampColor = Color.yellow;
     [SerializeField] private float _stampLineHeightReduction = 100;
-    [SerializeField] private float _gizmoOffset = .25f;
+    [SerializeField] private float _timeStampTweakAmount = .5f;
+    [SerializeField] private float _gizmoSpacing = .25f;
 
     [Header("Input KeyCodes")]
     [SerializeField] private KeyCode _placeTimeStampKey;
     [SerializeField] private KeyCode _undoTimeStampKey;
     [SerializeField] private KeyCode _deleteCurrentTimeStampKey;
     [SerializeField] private KeyCode _exportTimeStampsKey;
+    [SerializeField] private KeyCode _increaseTimeStampKey;
+    [SerializeField] private KeyCode _decreaseTimeStampKey;
 
     [SerializeField] private List<TimeStampData> _timeStamps = new List<TimeStampData>();
     
@@ -21,6 +24,7 @@ public class TimeStamper : MonoBehaviour
     private GUIStyle _debugBoldGuiStyle = new();
     private GUIStyle _debugItalicsGuiStyle = new();
     private string _assetPath => "Assets/" + $"{_waveformDrawer.currentSongTitle}.asset";
+    public bool isPaused { get; private set; }
 
     [System.Serializable]
     public class TimeStampData
@@ -79,8 +83,15 @@ public class TimeStamper : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.DownArrow)) //pausing song
         {
-            if (_waveformDrawer.audioSource.isPlaying) _waveformDrawer.audioSource.Pause();
-            else _waveformDrawer.audioSource.UnPause();
+            if (!isPaused) _waveformDrawer.audioSource.Pause();
+            else
+            {
+                _waveformDrawer.audioSource.UnPause();
+                if(!_waveformDrawer.audioSource.isPlaying)
+                    _waveformDrawer.audioSource.Play();
+            }
+
+            isPaused = !isPaused;
         }
 
         //deleting selected time stamp
@@ -127,7 +138,15 @@ public class TimeStamper : MonoBehaviour
 
         if (_currentSelectedTimeStamp != null)
         {
-            Vector2 newDirection = Vector2.right * Input.mouseScrollDelta.y * .5f;
+            Vector2 newDirection = Vector2.zero;
+            if (Input.mouseScrollDelta.magnitude > 0) 
+                newDirection = Vector2.right * Input.mouseScrollDelta.y * _timeStampTweakAmount;
+            else
+            {
+                if (Input.GetKey(_decreaseTimeStampKey)) newDirection = Vector2.left * _timeStampTweakAmount;
+                if (Input.GetKey(_increaseTimeStampKey)) newDirection = Vector2.right * _timeStampTweakAmount;
+            }
+
             _currentSelectedTimeStamp.startPointPosition += newDirection;
             _currentSelectedTimeStamp.endPointPosition += newDirection;
 
@@ -174,7 +193,7 @@ public class TimeStamper : MonoBehaviour
         UnityEditor.AssetDatabase.SaveAssets();
         UnityEditor.AssetDatabase.Refresh();
 
-        print("Succesfully exported timestamps");
+        print("Exported timestamps");
     }
 #endif
 
@@ -186,7 +205,7 @@ public class TimeStamper : MonoBehaviour
             //This fixes the gizmo flickering when it's ony 1px wide.
 
             Gizmos.color = _timeStamps[i].isSelected ? _selectedTimeStampColor : _timeStampColor;
-            Vector2 offset = new Vector2(_gizmoOffset, 0);
+            Vector2 offset = new Vector2(_gizmoSpacing, 0);
 
             Gizmos.DrawLine(_timeStamps[i].startPointPosition, _timeStamps[i].endPointPosition); //center
             Gizmos.DrawLine(_timeStamps[i].startPointPosition - offset, _timeStamps[i].endPointPosition - offset); //left
@@ -200,7 +219,7 @@ public class TimeStamper : MonoBehaviour
         GUI.Label(new Rect(0, 0, 300, 100), $"Playback Speed: {_waveformDrawer.currentPlayBackSpeed}", _debugBoldGuiStyle);
         GUI.Label(new Rect(0, 48, 300, 100), $"Song Time: {_waveformDrawer.currentSongTime}", _debugBoldGuiStyle);
 
-        if(!_waveformDrawer.audioSource.isPlaying && _waveformDrawer.HasActiveWaveform)
+        if(isPaused)
             GUI.Label(new Rect(1750, 0, 300, 100), "Paused", _debugItalicsGuiStyle);
 
         if (_currentSelectedTimeStamp != null)

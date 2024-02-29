@@ -8,10 +8,17 @@ using UnityEngine;
 #if UNITY_EDITOR
 public class BeatMappingWindow : EditorWindow
 {
+    private float _defaultTimeScrubAmount = .1f;
     private readonly string audioClipFilter = "t:AudioClip";
 
-    private ObjectField _soundClipField;
-    private ListView _songList;
+    private ObjectField _soundClipField = null;
+    private ListView _songList = null;
+
+    private Slider _volumeSlider = null;
+    private FloatField _scrubAmoundField = null;
+
+    private AudioWaveformDrawer _waveformDrawer = null;
+    private AudioSpectrumDrawer _spectrumDrawer= null;
 
     [MenuItem("Rythm Game/Beat Mapping Tool")]
     public static void CreateWindow()
@@ -24,6 +31,9 @@ public class BeatMappingWindow : EditorWindow
 
     public void CreateGUI()
     {
+        _spectrumDrawer = FindObjectOfType<AudioSpectrumDrawer>();
+        _waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();
+
         if (!Application.isPlaying)
         {
             Label label = new("Enter play-mode");
@@ -32,7 +42,7 @@ public class BeatMappingWindow : EditorWindow
             label.style.unityTextAlign = TextAnchor.MiddleCenter;
             label.style.fontSize = 25;
 
-            label.style.paddingTop = 225;
+            label.style.paddingTop = 75;
             label.style.color = Color.red;
 
             rootVisualElement.style.backgroundColor = new Color(.74f, .74f, .74f, .1f);
@@ -41,12 +51,8 @@ public class BeatMappingWindow : EditorWindow
         }
 
         CreateSongListView();
-
-        _soundClipField = new ObjectField("Selected Song");
-        _soundClipField.SetEnabled(false);
-        _soundClipField.objectType = typeof(AudioClip);
-
-        rootVisualElement.hierarchy.Add(_soundClipField);
+        CreateSoundClipField();
+        CreateAudioControlInterface();
 
         var paddingContainer = new VisualElement();
         paddingContainer.style.paddingTop = 10;
@@ -73,13 +79,36 @@ public class BeatMappingWindow : EditorWindow
         _songList.style.backgroundColor = new Color(.44f, .44f, .44f, .1f);
     }
 
+    private void CreateSoundClipField()
+    {
+        _soundClipField = new ObjectField("Selected Song");
+        _soundClipField.SetEnabled(false);
+
+        _soundClipField.objectType = typeof(AudioClip);
+        rootVisualElement.hierarchy.Add(_soundClipField);
+    }
+
+    private void CreateAudioControlInterface()
+    {
+        _volumeSlider = new Slider("Volume Slider", 0, 1);
+        _volumeSlider.value = _waveformDrawer.audioSource.volume;
+
+        _scrubAmoundField = new FloatField("Time Scrub Amount");
+        _scrubAmoundField.value = _defaultTimeScrubAmount;
+        _waveformDrawer.timeScrubAmount = _scrubAmoundField.value;
+
+        rootVisualElement.Add(_volumeSlider);
+        rootVisualElement.Add(_scrubAmoundField);
+    }
+
     private void OnSongIndexChanged(IEnumerable<object> obj)
     {
         List<object> objectList = obj.ToList();
         if (objectList.Count == 0)
             return;
 
-        if (objectList[0] is not AudioClip audioClip)
+        AudioClip audioClip = (AudioClip)objectList[0];
+        if (audioClip == null)
             return;
 
         PlayModeCheck();
@@ -87,9 +116,22 @@ public class BeatMappingWindow : EditorWindow
 
         if (Application.isPlaying)
         {
-            AudioSpectrumDrawer spectrumDrawer = FindObjectOfType<AudioSpectrumDrawer>();
-            if (spectrumDrawer != null)
-                spectrumDrawer.VisualizeSongSpectrum(audioClip);
+            if (_spectrumDrawer != null)
+                _spectrumDrawer.VisualizeSongSpectrum(audioClip);
+        }
+    }
+    private void PlayModeCheck()
+    {
+        if (!Application.isPlaying)
+            Debug.LogWarning("Enter play-mode to use BeatMapping Tool");
+    }
+
+    private void Update()
+    {
+        if (Application.isPlaying && _waveformDrawer != null)
+        {
+            _waveformDrawer.audioSource.volume = _volumeSlider.value;
+            _waveformDrawer.timeScrubAmount = _scrubAmoundField.value;
         }
     }
 
@@ -104,12 +146,6 @@ public class BeatMappingWindow : EditorWindow
 
     private void OnFocus()
         => PlayModeCheck();
-
-    private void PlayModeCheck()
-    {
-        if (!Application.isPlaying)
-            Debug.LogWarning("Enter play-mode to use BeatMapping Tool");
-    }
 
     private void OnDestroy()
     {
