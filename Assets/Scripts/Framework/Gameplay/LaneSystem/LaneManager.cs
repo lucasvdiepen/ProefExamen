@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using UnityEngine;
-using System;
 
 using ProefExamen.Framework.Utils;
 using ProefExamen.Framework.Gameplay.Values;
@@ -54,7 +54,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
             _audio.clip = SessionValues.Instance.currentLevel.song;
             _audio.Play();
-            Debug.Log("starting level");
+
             while (SessionValues.Instance.time < SessionValues.Instance.currentLevel.song.length)
             {
                 if (SessionValues.Instance.paused)
@@ -62,7 +62,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                     yield return null;
                     continue;
                 }
-                Debug.Log("playing");
+
                 SessionValues.Instance.time += Time.deltaTime;
 
                 QueueUpcomingNotes();
