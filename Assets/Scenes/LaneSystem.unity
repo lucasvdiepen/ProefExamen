@@ -1127,7 +1127,7 @@ MonoBehaviour:
   score: 0
   scoreMultiplier: 1
   paused: 0
-  currentLevelID: 2
+  currentLevelID: 10
   currentLevel:
     levelID: 0
     song: {fileID: 0}
