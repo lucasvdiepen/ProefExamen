@@ -21,7 +21,7 @@ namespace ProefExamen.Framework.Utils.Libraries.LaneUtils
             float threshold = Mathf.Abs((lerpAlpha - .5f) / SessionValues.Instance.lerpAlphaHitThreshold);
 
             if (threshold > 1)
-                return HitStatus.Miss;
+                return HitStatus.MissClick;
             else if (threshold > SessionValues.Instance.okThreshold)
                 return HitStatus.Ok;
             else if (threshold > SessionValues.Instance.alrightThreshold)
