@@ -34,20 +34,17 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         private float _availabilityThreshold = 0.65f;
 
         [SerializeField]
-        private bool _calledRemoval;
+        private bool _isRemovalCalled;
 
         /// <summary>
-        /// An action that is called when the note is 
+        /// An action that is called when the note is removed.
         /// </summary>
-        public Action<Note> CallNoteRemoval;
+        public Action<Note> OnNoteRemoved;
 
         /// <summary>
         /// The LerpAlpha 0-1 float value that is used to place the note on the lane.
         /// </summary>
-        public float LerpAlpha
-        {
-            get => _lerpAlpha;
-        }
+        public float LerpAlpha => _lerpAlpha;
 
         /// <summary>
         /// A function that is used to set the Note's initial values correctly.
@@ -72,20 +69,21 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             if (SessionValues.paused || _laneID == -1)
                 return;
-            else if ((_timeStamp + (SessionValues.travelTime * .5) < SessionValues.time))
+            
+            if ((_timeStamp + (SessionValues.travelTime * .5) < SessionValues.time))
                 Destroy(gameObject);
 
-            _lerpAlpha = SessionValues.ReturnNoteLerpAlpha(_timeStamp);
+            _lerpAlpha = SessionValues.CalculateNoteLerpAlpha(_timeStamp);
 
             transform.position = Vector3.Lerp(_initialPosition, _targetPosition, _lerpAlpha);
 
-            if (!_calledRemoval && _lerpAlpha < _availabilityThreshold) 
+            if (!_isRemovalCalled && _lerpAlpha < _availabilityThreshold) 
                 return;
 
-            _calledRemoval = true;
-            LaneManager.Instance.NoteStatusUpdate(HitStatus.Miss, _laneID);
+            _isRemovalCalled = true;
+            LaneManager.Instance.NoteStatusUpdate?.Invoke(HitStatus.Miss, _laneID);
 
-            CallNoteRemoval?.Invoke(this);
+            OnNoteRemoved?.Invoke(this);
         }
     }
 }

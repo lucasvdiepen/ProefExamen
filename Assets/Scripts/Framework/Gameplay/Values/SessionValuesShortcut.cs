@@ -11,7 +11,7 @@ namespace ProefExamen.Framework.Gameplay.Values
     /// A class responsible for setting the default variables of the static class SessionValues. 
     /// Is also used to view values of SessionValues realtime which is usefull for debuggin.
     /// </summary>
-    public class SessionValuesShortcut : AbstractSingleton<SessionValuesShortcut>
+    public class SessionValuesEditor : AbstractSingleton<SessionValuesEditor>
     {
         /// <summary>
         /// A bool that decides if the values here must be updated during a session to watch values.
@@ -119,7 +119,7 @@ namespace ProefExamen.Framework.Gameplay.Values
             SessionValues.levels = levels;
 
             SessionValues.paused = paused;
-            SessionValues.SelectDifficulty(difficulty);
+            SessionValues.difficulty = difficulty;
             SessionValues.SelectLevel(currentLevelID);
 
             SessionValues.note = note;
@@ -143,5 +143,8 @@ namespace ProefExamen.Framework.Gameplay.Values
 
             note = SessionValues.note;
         }
+
+        [ContextMenu("Toggle Pause on SessionValues")]
+        public void TogglePause() => SessionValues.paused = !paused;
     }
 }

@@ -39,18 +39,28 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// Starts the level that is currently selected on the selected difficulty and song.
         /// </summary>
         /// <returns></returns>
+
+        public void Start()
+        {
+            SessionValues.SelectLevel(2);
+            StartCoroutine(PlayThroughLevel());
+        }
+
         public IEnumerator PlayThroughLevel()
         {
             _index = 0;
 
             _audio.clip = SessionValues.currentLevel.song;
             _audio.Play();
-
+            Debug.Log("starting level");
             while (SessionValues.time < SessionValues.currentLevel.song.length)
             {
-                if (SessionValues.paused) 
+                if (SessionValues.paused)
+                {
                     yield return null;
-
+                    continue;
+                }
+                Debug.Log("playing");
                 SessionValues.time += Time.deltaTime;
 
                 QueueUpcomingNotes();
@@ -63,14 +73,14 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void QueueUpcomingNotes()
         {
-            Level currentLevel = SessionValues.currentLevel.Level();
+            Level currentLevel = SessionValues.currentLevel.GetLevel();
 
             if (currentLevel.timestamps.Length <= _index)
                 return;
 
             float upcomingTime = currentLevel.timestamps[_index];
 
-            if (!SessionValues.TimeStampReadyForQueue(upcomingTime))
+            if (!SessionValues.IsTimeStampReadyForQueue(upcomingTime))
                 return;
 
             int laneID = currentLevel.laneIDs[_index];

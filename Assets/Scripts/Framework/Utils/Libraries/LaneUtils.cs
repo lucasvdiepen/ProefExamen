@@ -22,11 +22,11 @@ namespace ProefExamen.Framework.Utils.Libraries.LaneUtils
 
             if (threshold > 1)
                 return HitStatus.Miss;
-            else if (threshold > SessionValuesShortcut.Instance._okThreshold)
+            else if (threshold > SessionValuesEditor.Instance._okThreshold)
                 return HitStatus.Ok;
-            else if (threshold > SessionValuesShortcut.Instance._alrightThreshold)
+            else if (threshold > SessionValuesEditor.Instance._alrightThreshold)
                 return HitStatus.Alright;
-            else if (threshold > SessionValuesShortcut.Instance._niceThreshold)
+            else if (threshold > SessionValuesEditor.Instance._niceThreshold)
                 return HitStatus.Nice;
             else
                 return HitStatus.Perfect;

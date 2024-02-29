@@ -84,7 +84,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             _notes.Add(newNote);
 
             newNote.SetNoteValues(_initialNotePosition, _targetNotePosition, _laneID, SessionValues.currentLevel.levelID, timeStamp);
-            newNote.CallNoteRemoval += RemoveNote;
+            newNote.OnNoteRemoved += RemoveNote;
         }
 
         /// <summary>
@@ -97,25 +97,25 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             float total = _initialNotePosition.y + Mathf.Abs(_targetNotePosition.y);
 
-            float targetHeight = total * SessionValuesShortcut.Instance._alphaLerpHitThreshold;
+            float targetHeight = total * SessionValuesEditor.Instance._alphaLerpHitThreshold;
 
             Gizmos.color = Color.red;
             Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight, 0));
             Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight * -1, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0));
 
-            targetHeight = total * (SessionValuesShortcut.Instance._alphaLerpHitThreshold * SessionValuesShortcut.Instance._okThreshold);
+            targetHeight = total * (SessionValuesEditor.Instance._alphaLerpHitThreshold * SessionValuesEditor.Instance._okThreshold);
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight, 0));
             Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight * -1, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0));
 
-            targetHeight = total * (SessionValuesShortcut.Instance._alphaLerpHitThreshold * SessionValuesShortcut.Instance._alrightThreshold);
+            targetHeight = total * (SessionValuesEditor.Instance._alphaLerpHitThreshold * SessionValuesEditor.Instance._alrightThreshold);
 
             Gizmos.color = Color.green;
             Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight, 0));
             Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight * -1, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0));
 
-            targetHeight = total * (SessionValuesShortcut.Instance._alphaLerpHitThreshold * SessionValuesShortcut.Instance._niceThreshold);
+            targetHeight = total * (SessionValuesEditor.Instance._alphaLerpHitThreshold * SessionValuesEditor.Instance._niceThreshold);
 
             Gizmos.color = Color.blue;
             Gizmos.DrawLine(new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), new Vector3(_initialNotePosition.x + .4f, targetHeight, 0));

@@ -17,7 +17,7 @@ namespace ProefExamen.Framework.Gameplay.MapData
         /// A function that returns the current levels mapData based on the current difficulty.
         /// </summary>
         /// <returns>The mapData of this level on the current difficulty.</returns>
-        public Level Level() => level[(int)SessionValues.difficulty];
+        public Level GetLevel() => level[(int)SessionValues.difficulty];
     }
 
     /// <summary>
@@ -26,9 +26,9 @@ namespace ProefExamen.Framework.Gameplay.MapData
     [System.Serializable]
     public enum Difficulty
     {
-        EASY = 0,
-        NORMAL = 1,
-        HARD = 2
+        Easy = 0,
+        Normal = 1,
+        Hard = 2
     }
 
     /// <summary>
