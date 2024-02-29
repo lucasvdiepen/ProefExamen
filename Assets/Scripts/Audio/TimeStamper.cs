@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -56,6 +57,12 @@ public class TimeStamper : MonoBehaviour
         if (!_waveformDrawer.HasActiveWaveform)
             return;
 
+        HandleAudioControls();
+        HandleTimeStampSelection();
+    }
+   
+    private void HandleAudioControls()
+    {
         if (Input.GetKeyDown(_placeTimeStampKey))
         {
             float startYPos = _waveformDrawer.cursor.position.y - (_waveformDrawer.cursor.localScale.y * .5f);
@@ -64,13 +71,38 @@ public class TimeStamper : MonoBehaviour
 
             _timeStamps.Add(new TimeStampData(startPosition, endPosition, _waveformDrawer.currentSongTime));
         }
-        
+
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_undoTimeStampKey))
         {
-            if(_timeStamps.Count > 0)
+            if (_timeStamps.Count > 0)
                 _timeStamps.RemoveAt(_timeStamps.Count - 1);
         }
 
+        if (Input.GetKeyDown(KeyCode.DownArrow)) //pausing song
+        {
+            if (_waveformDrawer.audioSource.isPlaying) _waveformDrawer.audioSource.Pause();
+            else _waveformDrawer.audioSource.UnPause();
+        }
+
+        //deleting selected time stamp
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_deleteCurrentTimeStampKey))
+        {
+            if (_currentSelectedTimeStamp != null)
+            {
+                TimeStampData timeStampToDelete = _currentSelectedTimeStamp;
+                _currentSelectedTimeStamp = null;
+                _timeStamps.Remove(timeStampToDelete);
+            }
+        }
+
+#if UNITY_EDITOR
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_exportTimeStampsKey))
+            TryExportTimeStamps();
+    }
+#endif
+
+    private void HandleTimeStampSelection()
+    {
         if (Input.GetKey(KeyCode.LeftControl))
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -79,16 +111,16 @@ public class TimeStamper : MonoBehaviour
             if (closestStampToMouse == null)
                 return;
 
-            if(closestStampToMouse != _currentSelectedTimeStamp)
+            if (closestStampToMouse != _currentSelectedTimeStamp)
             {
                 closestStampToMouse.isSelected = true;
-                if(_currentSelectedTimeStamp != null)
+                if (_currentSelectedTimeStamp != null)
                     _currentSelectedTimeStamp.isSelected = false;
                 _currentSelectedTimeStamp = closestStampToMouse;
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftControl)  && _currentSelectedTimeStamp != null)
+        if (Input.GetKeyUp(KeyCode.LeftControl) && _currentSelectedTimeStamp != null)
         {
             _currentSelectedTimeStamp.isSelected = false;
             _currentSelectedTimeStamp = null;
@@ -100,42 +132,8 @@ public class TimeStamper : MonoBehaviour
             _currentSelectedTimeStamp.startPointPosition += newDirection;
             _currentSelectedTimeStamp.endPointPosition += newDirection;
 
-            _currentSelectedTimeStamp.songTime = 
+            _currentSelectedTimeStamp.songTime =
                 _waveformDrawer.CalculateSongTimeBasedOnPosition(_currentSelectedTimeStamp.startPointPosition);
-        }
-
-        if (Input.GetKeyDown(KeyCode.DownArrow)) //pausing song
-        {
-            if (_waveformDrawer.audioSource.isPlaying) _waveformDrawer.audioSource.Pause();
-            else _waveformDrawer.audioSource.UnPause();
-        }
-
-        //deleting selected time stamp
-        if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_deleteCurrentTimeStampKey))
-        {
-            if(_currentSelectedTimeStamp != null)
-            {
-                TimeStampData timeStampToDelete = _currentSelectedTimeStamp;
-                _currentSelectedTimeStamp = null;
-                _timeStamps.Remove(timeStampToDelete);
-            }    
-        }
-
-        if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_exportTimeStampsKey))
-        {
-            var obj = ScriptableObject.CreateInstance<SongTimeStamps>();
-            float[] exportedTimeStamps = new float[_timeStamps.Count];
-
-            for (int i = 0; i < exportedTimeStamps.Length; i++)
-                exportedTimeStamps[i] = _timeStamps[i].songTime;    
-
-            obj.timeStamps = exportedTimeStamps;
-            UnityEditor.AssetDatabase.CreateAsset(obj, _assetPath);
-
-            UnityEditor.AssetDatabase.SaveAssets();
-            UnityEditor.AssetDatabase.Refresh();
-
-            print("Succesfully exported timestamps");
         }
     }
 
@@ -161,6 +159,25 @@ public class TimeStamper : MonoBehaviour
 
         return bestTarget;
     }
+
+#if UNITY_EDITOR
+    private void TryExportTimeStamps()
+    {
+        var obj = ScriptableObject.CreateInstance<SongTimeStamps>();
+        float[] exportedTimeStamps = new float[_timeStamps.Count];
+
+        for (int i = 0; i < exportedTimeStamps.Length; i++)
+            exportedTimeStamps[i] = _timeStamps[i].songTime;
+
+        obj.timeStamps = exportedTimeStamps;
+        UnityEditor.AssetDatabase.CreateAsset(obj, _assetPath);
+
+        UnityEditor.AssetDatabase.SaveAssets();
+        UnityEditor.AssetDatabase.Refresh();
+
+        print("Succesfully exported timestamps");
+    }
+#endif
 
     private void OnDrawGizmos()
     {
