@@ -39,13 +39,6 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// Starts the level that is currently selected on the selected difficulty and song.
         /// </summary>
         /// <returns></returns>
-
-        public void Start()
-        {
-            SessionValues.SelectLevel(2);
-            StartCoroutine(PlayThroughLevel());
-        }
-
         public IEnumerator PlayThroughLevel()
         {
             _index = 0;
