@@ -667,7 +667,7 @@ MonoBehaviour:
   _renderColor: {r: 1, g: 1, b: 1, a: 1}
   _drawerPrefab: {fileID: 2340922503210000848, guid: 1ced9fe900fe6154a9107b2c9f075a50, type: 3}
   <cursor>k__BackingField: {fileID: 555472537}
-  curserYPosition: -270
+  _curserYPosition: -290
 --- !u!1 &1712546992
 GameObject:
   m_ObjectHideFlags: 0

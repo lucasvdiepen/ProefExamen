@@ -1,4 +1,5 @@
 using ProefExamen.Audio.WaveFormDrawer;
+using ProefExamen.Audio.SpectrumDrawer;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;

@@ -115,9 +115,9 @@ namespace ProefExamen.Audio.TimeStamping
         {
             if (Input.GetKeyDown(_placeTimeStampKey))
             {
-                float startYPos = _waveformDrawer._cursor.position.y - (_waveformDrawer._cursor.localScale.y * .5f);
-                Vector2 startPosition = new Vector2(_waveformDrawer._cursor.position.x, startYPos);
-                Vector2 endPosition = new Vector2(_waveformDrawer._cursor.position.x, -_stampLineHeightReduction);
+                float startYPos = _waveformDrawer.cursor.position.y - (_waveformDrawer.cursor.localScale.y * .5f);
+                Vector2 startPosition = new Vector2(_waveformDrawer.cursor.position.x, startYPos);
+                Vector2 endPosition = new Vector2(_waveformDrawer.cursor.position.x, -_stampLineHeightReduction);
 
                 _timeStamps.Add(new TimeStampData(startPosition, endPosition, _waveformDrawer.currentSongTime));
             }

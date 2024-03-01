@@ -29,7 +29,7 @@ namespace ProefExamen.Audio.WaveFormDrawer
         private GameObject _drawerPrefab = null;
 
         [field: SerializeField]
-        public Transform _cursor { get; private set; }
+        public Transform cursor { get; private set; }
 
         [SerializeField]
         private float _curserYPosition = -290;
@@ -232,7 +232,7 @@ namespace ProefExamen.Audio.WaveFormDrawer
                 return;
 
             float x = _songWidth / _audioClipDuration * audioSource.time;
-            _cursor.transform.position = new Vector2(x, 0) + _waveformPositionOffset;
+            cursor.transform.position = new Vector2(x, 0) + _waveformPositionOffset;
         }
     }
 }
