@@ -53,7 +53,16 @@ namespace ProefExamen.Audio.TimeStamping
         private readonly GUIStyle _debugBoldGuiStyle = new();
         private readonly GUIStyle _debugItalicsGuiStyle = new();
 
-        private string _assetPath => "Assets/TimeStampOutput" + $"{_waveformDrawer.currentSongTitle}.asset";
+        private string _assetPath => $"Assets/SongTimeStampData/{_waveformDrawer.currentSongTitle}.asset";
+
+        /// <summary>
+        /// Struct responsible for holding the necessary data for a gizmo line.
+        /// </summary>
+        public struct LineData
+        {
+            public Vector2 startLinePoint;
+            public Vector2 endLinePoint;
+        }
 
         /// <summary>
         /// Class responsible for holding the necessary data for a time stamp.
@@ -62,14 +71,9 @@ namespace ProefExamen.Audio.TimeStamping
         public class TimeStampData
         {
             /// <summary>
-            /// Start line point used for gizmo drawing.
+            /// Holds the start and end point of the time stamp.
             /// </summary>
-            public Vector2 startPointPosition;
-
-            /// <summary>
-            /// End line point used for gizmo drawing.
-            /// </summary>
-            public Vector2 endPointPosition;
+            public LineData lineData;
 
             /// <summary>
             /// Holds the actual song time of the time stamp.
@@ -83,8 +87,8 @@ namespace ProefExamen.Audio.TimeStamping
 
             public TimeStampData(Vector2 start, Vector2 end, float time)
             {
-                startPointPosition = start;
-                endPointPosition = end;
+                lineData.startLinePoint = start;
+                lineData.endLinePoint = end;
                 songTime = time;
             }
         }
@@ -119,8 +123,8 @@ namespace ProefExamen.Audio.TimeStamping
             if (Input.GetKeyDown(_placeTimeStampKey))
             {
                 float startYPos = _waveformDrawer.cursor.position.y - (_waveformDrawer.cursor.localScale.y * .5f);
-                Vector2 startPosition = new Vector2(_waveformDrawer.cursor.position.x, startYPos);
-                Vector2 endPosition = new Vector2(_waveformDrawer.cursor.position.x, -_stampLineHeightReduction);
+                Vector2 startPosition = new(_waveformDrawer.cursor.position.x, startYPos);
+                Vector2 endPosition = new(_waveformDrawer.cursor.position.x, -_stampLineHeightReduction);
 
                 _timeStamps.Add(new TimeStampData(startPosition, endPosition, _waveformDrawer.currentSongTime));
             }
@@ -187,11 +191,11 @@ namespace ProefExamen.Audio.TimeStamping
                     if (Input.GetKey(_increaseTimeStampKey)) newDirection = Vector2.right * _timeStampTweakAmount;
                 }
 
-                _currentSelectedTimeStamp.startPointPosition += newDirection;
-                _currentSelectedTimeStamp.endPointPosition += newDirection;
+                _currentSelectedTimeStamp.lineData.startLinePoint += newDirection;
+                _currentSelectedTimeStamp.lineData.endLinePoint += newDirection;
 
                 _currentSelectedTimeStamp.songTime =
-                    _waveformDrawer.CalculateSongTimeBasedOnPosition(_currentSelectedTimeStamp.startPointPosition);
+                    _waveformDrawer.CalculateSongTimeBasedOnPosition(_currentSelectedTimeStamp.lineData.startLinePoint);
             }
         }
 
@@ -206,7 +210,7 @@ namespace ProefExamen.Audio.TimeStamping
             float closestDistanceSqr = Mathf.Infinity;
             foreach (TimeStampData timeStampData in _timeStamps)
             {
-                Vector3 directionToTarget = timeStampData.startPointPosition - originPosition;
+                Vector3 directionToTarget = timeStampData.lineData.startLinePoint - originPosition;
                 float dSqrToTarget = directionToTarget.sqrMagnitude;
                 if (dSqrToTarget < closestDistanceSqr)
                 {
@@ -224,17 +228,23 @@ namespace ProefExamen.Audio.TimeStamping
         /// </summary>
         private void TryExportTimeStamps()
         {
-            var obj = ScriptableObject.CreateInstance<SongTimeStamps>();
+            TimeStampDataContainer obj = ScriptableObject.CreateInstance<TimeStampDataContainer>();
+            
+            List<LineData> exportedLineData = new(_timeStamps.Count);
             List<float> sortedExportedTimeStamps = new(_timeStamps.Count);
 
             foreach (TimeStampData timeStamp in _timeStamps)
+            {
+                exportedLineData.Add(timeStamp.lineData);
                 sortedExportedTimeStamps.Add(timeStamp.songTime);
+            }
 
             sortedExportedTimeStamps = sortedExportedTimeStamps.OrderByDescending(songTime => songTime).ToList();
             sortedExportedTimeStamps.Reverse();
 
-            obj.timeStamps = sortedExportedTimeStamps;
-
+            obj.songDebugLineData = exportedLineData;
+            obj.timeStamps = sortedExportedTimeStamps.ToArray();
+            
             UnityEditor.AssetDatabase.CreateAsset(obj, _assetPath);
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
@@ -253,12 +263,12 @@ namespace ProefExamen.Audio.TimeStamping
                 //Little hacky but SOMETIME I HATE UNITY, you can't set the thickness of the gizmos line. 
                 //This fixes the gizmo flickering when it's ony 1px wide.
 
-                Gizmos.color = _timeStamps[i].isSelected ? _selectedTimeStampColor : _timeStampColor;
                 Vector2 offset = new(_gizmoSpacing, 0);
+                Gizmos.color = _timeStamps[i].isSelected ? _selectedTimeStampColor : _timeStampColor;
 
-                Gizmos.DrawLine(_timeStamps[i].startPointPosition, _timeStamps[i].endPointPosition); //center
-                Gizmos.DrawLine(_timeStamps[i].startPointPosition - offset, _timeStamps[i].endPointPosition - offset); //left
-                Gizmos.DrawLine(_timeStamps[i].startPointPosition + offset, _timeStamps[i].endPointPosition + offset); //right
+                Gizmos.DrawLine(_timeStamps[i].lineData.startLinePoint, _timeStamps[i].lineData.endLinePoint); //center
+                Gizmos.DrawLine(_timeStamps[i].lineData.startLinePoint - offset, _timeStamps[i].lineData.endLinePoint - offset); //left
+                Gizmos.DrawLine(_timeStamps[i].lineData.startLinePoint + offset, _timeStamps[i].lineData.endLinePoint + offset); //right
             }
         }
 

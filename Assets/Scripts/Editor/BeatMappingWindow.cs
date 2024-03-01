@@ -21,7 +21,7 @@ namespace ProefExamen.Editor.MappingWindow
         private AudioWaveformDrawer _waveformDrawer = null;
         private AudioSpectrumDrawer _spectrumDrawer = null;
 
-        private float _defaultTimeScrubAmount = .1f;
+        private readonly float _defaultTimeScrubAmount = .1f;
         private readonly string audioClipFilter = "t:AudioClip";
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace ProefExamen.Editor.MappingWindow
         /// <summary>
         /// Callback method which is called when user clicks on one of the song names in the list view.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">Selected audioclip</param>
         private void OnSongIndexChanged(IEnumerable<object> obj)
         {
             List<object> objectList = obj.ToList();

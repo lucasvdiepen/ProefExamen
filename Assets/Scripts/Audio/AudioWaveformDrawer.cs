@@ -29,8 +29,9 @@ namespace ProefExamen.Audio.WaveFormDrawer
         private GameObject _drawerPrefab = null;
 
         [field: SerializeField]
-
-        
+        /// <summary>
+        /// Cursor object used to display the current time in the song.
+        /// </summary>
         public Transform cursor { get; private set; }
 
         [SerializeField]
