@@ -5,7 +5,12 @@ namespace ProefExamen.Framework.StateMachine
 {
     public abstract class State : MonoBehaviour
     {
-        private protected virtual void Awake() => RegisterState();
+        private protected virtual void Awake()
+        {
+            gameObject.SetActive(false);
+
+            RegisterState();
+        }
 
         private protected virtual void OnDestroy() => UnregisterState();
 

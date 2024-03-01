@@ -10,9 +10,26 @@ public abstract class MenuState : State
     [SerializeField]
     private float _fadeDuration = 0.5f;
 
-    public override IEnumerator OnStateEnter() => FadeIn();
+    private protected override void Awake()
+    {
+        _canvasGroup.alpha = 0;
 
-    public override IEnumerator OnStateExit() => FadeOut();
+        base.Awake();
+    }
+
+    public override IEnumerator OnStateEnter()
+    {
+        yield return base.OnStateEnter();
+
+        yield return FadeIn();
+    }
+
+    public override IEnumerator OnStateExit()
+    {
+        yield return FadeOut();
+
+        yield return base.OnStateExit();
+    }
 
     private protected virtual IEnumerator FadeIn() => ExecuteFadeEffect(0, 1);
 

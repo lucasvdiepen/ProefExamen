@@ -10,12 +10,16 @@ namespace ProefExamen.Framework.StateMachine.States
 
         public override IEnumerator OnStateEnter()
         {
+            yield return base.OnStateEnter();
+
             Debug.Log("Main Menu State Entered");
             yield return null;
         }
 
         public override IEnumerator OnStateExit()
         {
+            yield return base.OnStateExit();
+
             Debug.Log("Main Menu State Exited");
             yield return null;
         }

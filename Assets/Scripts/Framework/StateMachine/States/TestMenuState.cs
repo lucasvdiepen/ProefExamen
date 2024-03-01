@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProefExamen.Framework.StateMachine.States
@@ -8,12 +7,16 @@ namespace ProefExamen.Framework.StateMachine.States
     {
         public override IEnumerator OnStateEnter()
         {
+            yield return base.OnStateEnter();
+
             Debug.Log("Test Menu State Entered");
             yield return null;
         }
 
         public override IEnumerator OnStateExit()
         {
+            yield return base.OnStateExit();
+
             Debug.Log("Test Menu State Exited");
             yield return null;
         }
