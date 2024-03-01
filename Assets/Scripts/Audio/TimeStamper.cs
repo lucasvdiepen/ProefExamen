@@ -1,38 +1,79 @@
+using ProefExamen.Audio.WaveFormDrawer;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
 public class TimeStamper : MonoBehaviour
 {
-    [SerializeField] private Color _timeStampColor = Color.blue;
-    [SerializeField] private Color _selectedTimeStampColor = Color.yellow;
-    [SerializeField] private float _stampLineHeightReduction = 100;
-    [SerializeField] private float _timeStampTweakAmount = .5f;
-    [SerializeField] private float _gizmoSpacing = .25f;
+    [SerializeField] 
+    private Color _timeStampColor = Color.blue;
+    
+    [SerializeField] 
+    private Color _selectedTimeStampColor = Color.yellow;
+    
+    [SerializeField] 
+    private float _stampLineHeightReduction = 100;
+    
+    [SerializeField] 
+    private float _timeStampTweakAmount = .5f;
+    
+    [SerializeField] 
+    private float _gizmoSpacing = .25f;
 
     [Header("Input KeyCodes")]
-    [SerializeField] private KeyCode _placeTimeStampKey;
-    [SerializeField] private KeyCode _undoTimeStampKey;
-    [SerializeField] private KeyCode _deleteCurrentTimeStampKey;
-    [SerializeField] private KeyCode _exportTimeStampsKey;
-    [SerializeField] private KeyCode _increaseTimeStampKey;
-    [SerializeField] private KeyCode _decreaseTimeStampKey;
+    [SerializeField] 
+    private KeyCode _placeTimeStampKey;
+    
+    [SerializeField] 
+    private KeyCode _undoTimeStampKey;
+    
+    [SerializeField] 
+    private KeyCode _deleteCurrentTimeStampKey;
+    
+    [SerializeField] 
+    private KeyCode _exportTimeStampsKey;
+    
+    [SerializeField] 
+    private KeyCode _increaseTimeStampKey;
+    
+    [SerializeField] 
+    private KeyCode _decreaseTimeStampKey;
 
-    [SerializeField] private List<TimeStampData> _timeStamps = new();
+    [SerializeField] 
+    private List<TimeStampData> _timeStamps = new();
     
     private AudioWaveformDrawer _waveformDrawer = null;
     private TimeStampData _currentSelectedTimeStamp = null;
-    private GUIStyle _debugBoldGuiStyle = new();
-    private GUIStyle _debugItalicsGuiStyle = new();
-    private string _assetPath => "Assets/" + $"{_waveformDrawer.currentSongTitle}.asset";
-    public bool isPaused { get; private set; }
 
+    private readonly GUIStyle _debugBoldGuiStyle = new();
+    private readonly GUIStyle _debugItalicsGuiStyle = new();
+
+    private string _assetPath => "Assets/TimeStampOutput" + $"{_waveformDrawer.currentSongTitle}.asset";
+
+    /// <summary>
+    /// Class responsible for holding the necessary data for a time stamp.
+    /// </summary>
     [System.Serializable]
     public class TimeStampData
     {
+        /// <summary>
+        /// Start line point used for gizmo drawing.
+        /// </summary>
         public Vector2 startPointPosition;
+
+        /// <summary>
+        /// End line point used for gizmo drawing.
+        /// </summary>
         public Vector2 endPointPosition;
+
+        /// <summary>
+        /// Holds the actual song time of the time stamp.
+        /// </summary>
         public float songTime;
+
+        /// <summary>
+        /// Returns if this time stamp is selected.
+        /// </summary>
         public bool isSelected = false;
 
         public TimeStampData(Vector2 start, Vector2 end, float time)
@@ -58,41 +99,31 @@ public class TimeStamper : MonoBehaviour
 
     private void Update()
     {
-        if (!_waveformDrawer.HasActiveWaveform)
+        if (!_waveformDrawer.hasActiveWaveform)
             return;
 
-        HandleAudioControls();
+        HandleTimeStampControls();
         HandleTimeStampSelection();
     }
-   
-    private void HandleAudioControls()
+
+    /// <summary>
+    /// Handles all input checks for time stamping.
+    /// </summary>
+    private void HandleTimeStampControls()
     {
         if (Input.GetKeyDown(_placeTimeStampKey))
         {
-            float startYPos = _waveformDrawer.cursor.position.y - (_waveformDrawer.cursor.localScale.y * .5f);
-            Vector2 startPosition = new Vector2(_waveformDrawer.cursor.position.x, startYPos);
-            Vector2 endPosition = new Vector2(_waveformDrawer.cursor.position.x, -_stampLineHeightReduction);
+            float startYPos = _waveformDrawer._cursor.position.y - (_waveformDrawer._cursor.localScale.y * .5f);
+            Vector2 startPosition = new Vector2(_waveformDrawer._cursor.position.x, startYPos);
+            Vector2 endPosition = new Vector2(_waveformDrawer._cursor.position.x, -_stampLineHeightReduction);
 
             _timeStamps.Add(new TimeStampData(startPosition, endPosition, _waveformDrawer.currentSongTime));
         }
 
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_undoTimeStampKey))
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_undoTimeStampKey)) //undo last time stamp
         {
             if (_timeStamps.Count > 0)
                 _timeStamps.RemoveAt(_timeStamps.Count - 1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.DownArrow)) //pausing song
-        {
-            if (!isPaused) _waveformDrawer.audioSource.Pause();
-            else
-            {
-                _waveformDrawer.audioSource.UnPause();
-                if(!_waveformDrawer.audioSource.isPlaying)
-                    _waveformDrawer.audioSource.Play();
-            }
-
-            isPaused = !isPaused;
         }
 
         //deleting selected time stamp
@@ -106,15 +137,16 @@ public class TimeStamper : MonoBehaviour
             }
         }
 
-#if UNITY_EDITOR
         if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_exportTimeStampsKey))
             TryExportTimeStamps();
     }
-#endif
 
+    /// <summary>
+    /// Handles logic for selecting specific time stamps.
+    /// </summary>
     private void HandleTimeStampSelection()
     {
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.LeftControl)) //try select closest time stamp to the mouse position
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             TimeStampData closestStampToMouse = GetClosestTimeStamp(mousePosition);
@@ -131,12 +163,14 @@ public class TimeStamper : MonoBehaviour
             }
         }
 
+        //when releasing ctrl, remove current time stamp selection
         if (Input.GetKeyUp(KeyCode.LeftControl) && _currentSelectedTimeStamp != null)
         {
             _currentSelectedTimeStamp.isSelected = false;
             _currentSelectedTimeStamp = null;
         }
 
+        //tweak current selected time stamp if it is not null
         if (_currentSelectedTimeStamp != null)
         {
             Vector2 newDirection = Vector2.zero;
@@ -157,10 +191,10 @@ public class TimeStamper : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns the closest time stamp based on input origin position
+    /// Returns the closest time stamp based on input origin position.
     /// </summary>
-    /// <param name="originPosition">Origin of the distance check</param>
-    /// <returns></returns>
+    /// <param name="originPosition">Origin of the distance check.</param>
+    /// <returns>Data of the closest time stamp.</returns>
     TimeStampData GetClosestTimeStamp(Vector2 originPosition)
     {
         TimeStampData bestTarget = default;
@@ -180,6 +214,9 @@ public class TimeStamper : MonoBehaviour
     }
 
 #if UNITY_EDITOR
+    /// <summary>
+    /// Helper method for exporting all recorded time stamps to a scribtable object
+    /// </summary>
     private void TryExportTimeStamps()
     {
         var obj = ScriptableObject.CreateInstance<SongTimeStamps>();
@@ -200,7 +237,8 @@ public class TimeStamper : MonoBehaviour
         print("Exported timestamps");
     }
 #endif
-
+    
+    //Draws all time stamps
     private void OnDrawGizmos()
     {
         for (int i = 0; i < _timeStamps.Count; i++)
@@ -217,16 +255,20 @@ public class TimeStamper : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
+    //Draws debug info to the screen
     private void OnGUI()
     {
         GUI.color = Color.white;
-        GUI.Label(new Rect(0, 0, 300, 100), $"Playback Speed: {_waveformDrawer.currentPlayBackSpeed}", _debugBoldGuiStyle);
+
+        GUI.Label(new Rect(0, 0, 300, 100), $"Playback Speed: {_waveformDrawer.currentPlaybackSpeed}", _debugBoldGuiStyle);
         GUI.Label(new Rect(0, 48, 300, 100), $"Song Time: {_waveformDrawer.currentSongTime}", _debugBoldGuiStyle);
 
-        if(isPaused)
+        if(_waveformDrawer.isPaused)
             GUI.Label(new Rect(1750, 0, 300, 100), "Paused", _debugItalicsGuiStyle);
 
         if (_currentSelectedTimeStamp != null)
             GUI.Label(new Rect(0, 96, 300, 100), $"TimeStamp Time: {_currentSelectedTimeStamp.songTime}", _debugItalicsGuiStyle);
     }
+#endif
 }

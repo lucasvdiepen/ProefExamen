@@ -56,6 +56,11 @@ namespace ProefExamen.Audio.WaveFormDrawer
         public bool hasActiveWaveform => _waveformTexture != null;
 
         /// <summary>
+        /// Returns if audio is paused.
+        /// </summary>
+        public bool isPaused { get; private set; }
+
+        /// <summary>
         /// Time amount for scrubbing through the audio track.
         /// </summary>
         public float timeScrubAmount { get; set; } = 2.5f;
@@ -121,7 +126,7 @@ namespace ProefExamen.Audio.WaveFormDrawer
 
             _audioClipDuration = audioSource.clip.length;
 
-            if (_timeStamper.isPaused) 
+            if (isPaused) 
                 audioSource.Pause();
             else 
                 audioSource.Play();
@@ -172,13 +177,26 @@ namespace ProefExamen.Audio.WaveFormDrawer
         /// </summary>
         private void CheckAudioControls()
         {
-            if (!Input.GetKey(KeyCode.LeftControl))
+            if (!Input.GetKey(KeyCode.LeftControl)) //can't hold left ctrl, messes with other keybinds
             {
                 if (Input.GetKey(KeyCode.RightArrow)) //scrub forward in song
                     audioSource.time = Mathf.Clamp(audioSource.time + timeScrubAmount, 0, _audioClipDuration);
 
                 if (Input.GetKey(KeyCode.LeftArrow)) //scrub backwards in song
                     audioSource.time = Mathf.Clamp(audioSource.time - timeScrubAmount, 0, _audioClipDuration);
+            }
+
+            if (Input.GetKeyDown(KeyCode.DownArrow)) //pausing song
+            {
+                if (!isPaused) audioSource.Pause();
+                else
+                {
+                    audioSource.UnPause();
+                    if (!audioSource.isPlaying)
+                        audioSource.Play();
+                }
+
+                isPaused = !isPaused;
             }
 
             //mouse playback speed control
