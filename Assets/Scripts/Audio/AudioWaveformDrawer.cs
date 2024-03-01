@@ -29,6 +29,8 @@ namespace ProefExamen.Audio.WaveFormDrawer
         private GameObject _drawerPrefab = null;
 
         [field: SerializeField]
+
+        
         public Transform cursor { get; private set; }
 
         [SerializeField]
@@ -68,7 +70,7 @@ namespace ProefExamen.Audio.WaveFormDrawer
         /// Audio source used by the waveform drawer.
         /// </summary>
         public AudioSource audioSource { get; private set; }
-
+        
         private float _playbackSpeed = 10;
         private float _songWidth = 0;
         private float _audioClipDuration = 0;
@@ -224,7 +226,7 @@ namespace ProefExamen.Audio.WaveFormDrawer
         }
 
         /// <summary>
-        /// Moves the cursor at the right speed along the audio waveform texture.
+        /// Updates the cursor position based on the current time in the song.
         /// </summary>
         private void UpdateCursorPosition()
         {

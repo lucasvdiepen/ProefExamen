@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace ProefExamen.Audio.TimeStamping
 {
+    /// <summary>
+    /// Class responsible for adding time stamps to a song.
+    /// </summary>
     public class TimeStamper : MonoBehaviour
     {
         [SerializeField]
@@ -197,7 +200,7 @@ namespace ProefExamen.Audio.TimeStamping
         /// </summary>
         /// <param name="originPosition">Origin of the distance check.</param>
         /// <returns>Data of the closest time stamp.</returns>
-        TimeStampData GetClosestTimeStamp(Vector2 originPosition)
+        private TimeStampData GetClosestTimeStamp(Vector2 originPosition)
         {
             TimeStampData bestTarget = default;
             float closestDistanceSqr = Mathf.Infinity;
@@ -240,7 +243,9 @@ namespace ProefExamen.Audio.TimeStamping
         }
 #endif
 
-        //Draws all time stamps
+        /// <summary>
+        /// Draws gizmos for the time stamps
+        /// </summary>
         private void OnDrawGizmos()
         {
             for (int i = 0; i < _timeStamps.Count; i++)
@@ -258,7 +263,9 @@ namespace ProefExamen.Audio.TimeStamping
         }
 
 #if UNITY_EDITOR
-        //Draws debug info to the screen
+        /// <summary>
+        /// Draws debug information on the screen.
+        /// </summary>
         private void OnGUI()
         {
             GUI.color = Color.white;
