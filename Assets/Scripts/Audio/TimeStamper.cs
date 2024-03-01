@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class TimeStamper : MonoBehaviour
 {
@@ -182,14 +183,17 @@ public class TimeStamper : MonoBehaviour
     private void TryExportTimeStamps()
     {
         var obj = ScriptableObject.CreateInstance<SongTimeStamps>();
-        float[] exportedTimeStamps = new float[_timeStamps.Count];
+        List<float> sortedExportedTimeStamps = new(_timeStamps.Count);
 
-        for (int i = 0; i < exportedTimeStamps.Length; i++)
-            exportedTimeStamps[i] = _timeStamps[i].songTime;
+        foreach (TimeStampData timeStamp in _timeStamps)
+            sortedExportedTimeStamps.Add(timeStamp.songTime);
 
-        obj.timeStamps = exportedTimeStamps;
+        sortedExportedTimeStamps = sortedExportedTimeStamps.OrderByDescending(songTime => songTime).ToList();
+        sortedExportedTimeStamps.Reverse();
+
+        obj.timeStamps = sortedExportedTimeStamps;
+
         UnityEditor.AssetDatabase.CreateAsset(obj, _assetPath);
-
         UnityEditor.AssetDatabase.SaveAssets();
         UnityEditor.AssetDatabase.Refresh();
 
@@ -205,7 +209,7 @@ public class TimeStamper : MonoBehaviour
             //This fixes the gizmo flickering when it's ony 1px wide.
 
             Gizmos.color = _timeStamps[i].isSelected ? _selectedTimeStampColor : _timeStampColor;
-            Vector2 offset = new Vector2(_gizmoSpacing, 0);
+            Vector2 offset = new(_gizmoSpacing, 0);
 
             Gizmos.DrawLine(_timeStamps[i].startPointPosition, _timeStamps[i].endPointPosition); //center
             Gizmos.DrawLine(_timeStamps[i].startPointPosition - offset, _timeStamps[i].endPointPosition - offset); //left

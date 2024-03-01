@@ -1,6 +1,7 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class SongTimeStamps : ScriptableObject
 {
-    public float[] timeStamps;
+    public List<float> timeStamps = new List<float>();
 }
