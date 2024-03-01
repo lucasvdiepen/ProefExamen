@@ -30,10 +30,10 @@ namespace ProefExamen.Audio.WaveFormDrawer
         private GameObject _drawerPrefab = null;
 
         [field: SerializeField]
-        public Transform cursor { get; private set; }
+        public Transform _cursor { get; private set; }
 
         [SerializeField]
-        private float curserYPosition = -290;
+        private float _curserYPosition = -290;
 
         /// <summary>
         /// Returns the current time in the song. Returns -1 if audioSource is empty.
@@ -53,7 +53,7 @@ namespace ProefExamen.Audio.WaveFormDrawer
         /// <summary>
         /// Checks if a audio waveform texture has been made.
         /// </summary>
-        public bool HasActiveWaveform => _waveformTexture != null;
+        public bool hasActiveWaveform => _waveformTexture != null;
 
         /// <summary>
         /// Time amount for scrubbing through the audio track.
@@ -113,7 +113,7 @@ namespace ProefExamen.Audio.WaveFormDrawer
             GenerateWaveformTexture();
             Renderer renderer = GetComponent<Renderer>();
 
-            _waveformPositionOffset = new Vector2(-(_textureWidth + _textureWidth / _renderDownScaleModifier), curserYPosition);
+            _waveformPositionOffset = new Vector2(-(_textureWidth + _textureWidth / _renderDownScaleModifier), _curserYPosition);
             _songWidth = Mathf.Abs(_waveformPositionOffset.x * 2);
 
             if (renderer != null)
@@ -161,7 +161,7 @@ namespace ProefExamen.Audio.WaveFormDrawer
 
         private void Update()
         {
-            _waveformPositionOffset.y = curserYPosition; //update yOffset for possible live tweaking
+            _waveformPositionOffset.y = _curserYPosition; //update yOffset for possible live tweaking
 
             CheckAudioControls(); //update controls for manipulating the audio track
             UpdateCursorPosition(); //move cursor along audio waveform texture
@@ -217,7 +217,7 @@ namespace ProefExamen.Audio.WaveFormDrawer
                 return;
 
             float x = _songWidth / _audioClipDuration * audioSource.time;
-            cursor.transform.position = new Vector2(x, 0) + _waveformPositionOffset;
+            _cursor.transform.position = new Vector2(x, 0) + _waveformPositionOffset;
         }
     }
 }
