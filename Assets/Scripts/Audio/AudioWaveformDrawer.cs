@@ -1,157 +1,223 @@
+using System;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
-public class AudioWaveformDrawer : MonoBehaviour
+namespace ProefExamen.Audio.WaveFormDrawer
 {
-    [Header("Config")]
-    [SerializeField] private int _textureWidth = 2048;
-    [SerializeField] private int _textureHeight = 512;
-
-    [SerializeField] private float _heightScaleModifier = 100f;
-    [SerializeField] private int _renderDownScaleModifier = 4;
-
-    [Header("Other")]
-    [SerializeField] private Color _renderColor = Color.white;
-    [SerializeField] private GameObject _drawerPrefab;
-    [field: SerializeField] public Transform cursor { get; private set; }
-    [SerializeField] private float curserYPosition = -290;
-
     /// <summary>
-    /// Returns the current time in the song. Returns -1 if audioSource is empty
+    /// Class responsible for drawing the waveform of an audioclip to a texture.
     /// </summary>
-    public float currentSongTime => audioSource != null ? audioSource.time : -1;
-    public float currentPlayBackSpeed => playBackSpeed / 10f;
-    public string currentSongTitle => audioSource.clip.name;
-    public bool HasActiveWaveform => _waveformTexture != null;
-    public float timeScrubAmount { get; set; } = 2.5f;
-    public float playBackSpeed { get; set; } = 10;
-    public AudioSource audioSource { get; private set; }
-
-    private TimeStamper _timeStamper = null;
-
-    private float _songWidth;
-    private float _audioClipDuration;
-    private float[] _dataSamples;
-
-    private Vector2 _waveformPositionOffset;
-    private Color[] _textureColors;
-
-    private Texture2D _waveformTexture = null;
-
-    private void Awake()
+    [RequireComponent(typeof(AudioSource))]
+    public class AudioWaveformDrawer : MonoBehaviour
     {
-        audioSource = GetComponent<AudioSource>();
-        _timeStamper = FindObjectOfType<TimeStamper>(); 
-    }
+        [Header("Config")]
+        [SerializeField]
+        private int _textureWidth = 2048;
 
-    public float CalculateSongTimeBasedOnPosition(Vector2 position)
-    {
-        float xPos = position.x - _waveformPositionOffset.x;
-        xPos = Mathf.Clamp(xPos, 0, _songWidth);
-        
-        return xPos * _audioClipDuration / _songWidth; ;
-    }
+        [SerializeField]
+        private int _textureHeight = 512;
 
-    public void InitializeDrawer(AudioClip audioClip)
-    {
-        Destroy(_waveformTexture);
-        audioSource.clip = audioClip;
+        [SerializeField]
+        private float _heightScaleModifier = 100f;
 
-        _dataSamples = new float[audioSource.clip.samples * audioSource.clip.channels];
-        audioSource.clip.GetData(_dataSamples, 0);
+        [SerializeField]
+        private int _renderDownScaleModifier = 4;
 
-        _waveformTexture = new Texture2D(_textureWidth, _textureHeight, TextureFormat.RGBA32, false);
-        _textureColors = new Color[_waveformTexture.width * _waveformTexture.height];
+        [Header("Other")]
+        [SerializeField]
+        private Color _renderColor = Color.white;
 
-        GenerateWaveformTexture();
-        Renderer renderer = GetComponent<Renderer>();
+        [SerializeField]
+        private GameObject _drawerPrefab = null;
 
-        _waveformPositionOffset = new Vector2(-(_textureWidth + _textureWidth / _renderDownScaleModifier), curserYPosition);
-        _songWidth = Mathf.Abs(_waveformPositionOffset.x * 2);
+        [field: SerializeField]
+        public Transform cursor { get; private set; }
 
-        if (renderer != null)
-            renderer.material.mainTexture = _waveformTexture;
+        [SerializeField]
+        private float curserYPosition = -290;
 
-        _audioClipDuration = audioSource.clip.length;
-        
-        if(_timeStamper.isPaused) audioSource.Pause();
-        else audioSource.Play();
-    }
+        /// <summary>
+        /// Returns the current time in the song. Returns -1 if audioSource is empty.
+        /// </summary>
+        public float currentSongTime => audioSource != null ? audioSource.time : -1;
 
-    private void GenerateWaveformTexture()
-    {
-        for (int x = 0; x < _waveformTexture.width; x++)
+        /// <summary>
+        /// Returns the current playback speed.
+        /// </summary>
+        public float currentPlaybackSpeed => _playbackSpeed / 10f;
+
+        /// <summary>
+        /// Returns the current active song title.
+        /// </summary>
+        public string currentSongTitle => audioSource.clip.name;
+
+        /// <summary>
+        /// Checks if a audio waveform texture has been made.
+        /// </summary>
+        public bool HasActiveWaveform => _waveformTexture != null;
+
+        /// <summary>
+        /// Time amount for scrubbing through the audio track.
+        /// </summary>
+        public float timeScrubAmount { get; set; } = 2.5f;
+
+        /// <summary>
+        /// Audio source used by the waveform drawer.
+        /// </summary>
+        public AudioSource audioSource { get; private set; }
+
+        private float _playbackSpeed = 10;
+        private float _songWidth = 0;
+        private float _audioClipDuration = 0;
+        private float[] _dataSamples = null;
+
+        private Vector2 _waveformPositionOffset = Vector2.zero;
+        private Color[] _textureColors = null;
+
+        private Texture2D _waveformTexture = null;
+        private TimeStamper _timeStamper = null;
+
+        private void Awake()
         {
-            int startSample = Mathf.FloorToInt(x * (_dataSamples.Length / (float)_waveformTexture.width));
-            int endSample = Mathf.Min(startSample + (_dataSamples.Length / _waveformTexture.width), _dataSamples.Length);
-            float sum = 0;
-
-            for (int j = startSample; j < endSample; j++) 
-                sum += Mathf.Abs(_dataSamples[j]);
-
-            float averageSample = sum / (_dataSamples.Length / _waveformTexture.width);
-            float scaledAverage = averageSample * _heightScaleModifier;
-
-            for (int y = 0; y < _waveformTexture.height; y++)
-                _textureColors[x + y * _waveformTexture.width] = (y < scaledAverage) ? _renderColor : Color.clear;
+            audioSource = GetComponent<AudioSource>();
+            _timeStamper = FindObjectOfType<TimeStamper>();
         }
 
-        _waveformTexture.SetPixels(_textureColors);
-        _waveformTexture.filterMode = FilterMode.Point;
-        _waveformTexture.Apply();
-
-        GameObject drawerObject = Instantiate(_drawerPrefab, transform.position, _drawerPrefab.transform.rotation);
-        drawerObject.transform.SetParent(transform);
-
-        drawerObject.transform.localScale = new Vector3(_textureWidth / _renderDownScaleModifier, 1, _textureHeight / _renderDownScaleModifier);
-        drawerObject.GetComponent<Renderer>().material.mainTexture = _waveformTexture;
-    }
-
-    private void Update()
-    {
-        _waveformPositionOffset.y = curserYPosition; //update yOffset for possible live tweaking
-
-        CheckAudioControls();
-        UpdateCursorPosition();
-    }
-
-    private void CheckAudioControls()
-    {
-        if (!Input.GetKey(KeyCode.LeftControl))
+        /// <summary>
+        /// Calculates the correct local song time based on a point along the waveform.
+        /// </summary>
+        /// <param name="position">Position to calculate the song time.</param>
+        /// <returns>Song time (float)</returns>
+        public float CalculateSongTimeBasedOnPosition(Vector2 position)
         {
-            if (Input.GetKey(KeyCode.RightArrow)) //scrub forward in song
-                audioSource.time = Mathf.Clamp(audioSource.time + timeScrubAmount, 0, _audioClipDuration);
+            float xPos = position.x - _waveformPositionOffset.x;
+            xPos = Mathf.Clamp(xPos, 0, _songWidth);
 
-            if (Input.GetKey(KeyCode.LeftArrow)) //scrub backwards in song
-                audioSource.time = Mathf.Clamp(audioSource.time - timeScrubAmount, 0, _audioClipDuration);
+            return xPos * _audioClipDuration / _songWidth; ;
         }
 
-        //mouse playback speed control
-        if (Input.mouseScrollDelta.magnitude != 0)
+        /// <summary>
+        /// Method for initialzing the waveform drawer for a specific AudioClip.
+        /// </summary>
+        /// <param name="audioClip">Audio clip to draw.</param>
+        public void InitializeDrawer(AudioClip audioClip)
         {
-            if (Input.GetKey(KeyCode.LeftControl))
+            Destroy(_waveformTexture);
+            audioSource.clip = audioClip;
+
+            _dataSamples = new float[audioSource.clip.samples * audioSource.clip.channels];
+            audioSource.clip.GetData(_dataSamples, 0);
+
+            _waveformTexture = new Texture2D(_textureWidth, _textureHeight, TextureFormat.RGBA32, false);
+            _textureColors = new Color[_waveformTexture.width * _waveformTexture.height];
+
+            GenerateWaveformTexture();
+            Renderer renderer = GetComponent<Renderer>();
+
+            _waveformPositionOffset = new Vector2(-(_textureWidth + _textureWidth / _renderDownScaleModifier), curserYPosition);
+            _songWidth = Mathf.Abs(_waveformPositionOffset.x * 2);
+
+            if (renderer != null)
+                renderer.material.mainTexture = _waveformTexture;
+
+            _audioClipDuration = audioSource.clip.length;
+
+            if (_timeStamper.isPaused) 
+                audioSource.Pause();
+            else 
+                audioSource.Play();
+        }
+
+        /// <summary>
+        /// Generates a texture with the audio clip's audio waveform data displayed.
+        /// </summary>
+        private void GenerateWaveformTexture()
+        {
+            for (int x = 0; x < _waveformTexture.width; x++)
+            {
+                int startSample = Mathf.FloorToInt(x * (_dataSamples.Length / (float)_waveformTexture.width));
+                int endSample = Mathf.Min(startSample + (_dataSamples.Length / _waveformTexture.width), _dataSamples.Length);
+                float sum = 0;
+
+                for (int j = startSample; j < endSample; j++)
+                    sum += Mathf.Abs(_dataSamples[j]);
+
+                float averageSample = sum / (_dataSamples.Length / _waveformTexture.width);
+                float scaledAverage = averageSample * _heightScaleModifier;
+
+                for (int y = 0; y < _waveformTexture.height; y++)
+                    _textureColors[x + y * _waveformTexture.width] = (y < scaledAverage) ? _renderColor : Color.clear;
+            }
+
+            _waveformTexture.SetPixels(_textureColors);
+            _waveformTexture.filterMode = FilterMode.Point;
+            _waveformTexture.Apply();
+
+            GameObject drawerObject = Instantiate(_drawerPrefab, transform.position, _drawerPrefab.transform.rotation);
+            drawerObject.transform.SetParent(transform);
+
+            drawerObject.transform.localScale = new Vector3(_textureWidth / _renderDownScaleModifier, 1, _textureHeight / _renderDownScaleModifier);
+            drawerObject.GetComponent<Renderer>().material.mainTexture = _waveformTexture;
+        }
+
+        private void Update()
+        {
+            _waveformPositionOffset.y = curserYPosition; //update yOffset for possible live tweaking
+
+            CheckAudioControls(); //update controls for manipulating the audio track
+            UpdateCursorPosition(); //move cursor along audio waveform texture
+        }
+
+        /// <summary>
+        /// Handles all input checks related to manipulating the audio track.
+        /// </summary>
+        private void CheckAudioControls()
+        {
+            if (!Input.GetKey(KeyCode.LeftControl))
+            {
+                if (Input.GetKey(KeyCode.RightArrow)) //scrub forward in song
+                    audioSource.time = Mathf.Clamp(audioSource.time + timeScrubAmount, 0, _audioClipDuration);
+
+                if (Input.GetKey(KeyCode.LeftArrow)) //scrub backwards in song
+                    audioSource.time = Mathf.Clamp(audioSource.time - timeScrubAmount, 0, _audioClipDuration);
+            }
+
+            //mouse playback speed control
+            if (Input.mouseScrollDelta.magnitude != 0)
+            {
+                if (Input.GetKey(KeyCode.LeftControl))
+                    return;
+
+                IncreasePlaybackSpeed((int)Input.mouseScrollDelta.y);
+            }
+
+            //keyboard playback speed controls
+            if (Input.GetKey(KeyCode.LeftBracket)) 
+                IncreasePlaybackSpeed(-1);
+            
+            if (Input.GetKey(KeyCode.RightBracket)) 
+                IncreasePlaybackSpeed(1);
+        }
+
+        /// <summary>
+        /// Increases the playback speed by an arbitrary amount.
+        /// </summary>
+        /// <param name="amount">Added amount to the playback speed.</param>
+        private void IncreasePlaybackSpeed(int amount)
+        {
+            _playbackSpeed = Mathf.Clamp(_playbackSpeed + amount, 1f, 30);
+            audioSource.pitch = currentPlaybackSpeed;
+        }
+
+        /// <summary>
+        /// Moves the cursor at the right speed along the audio waveform texture.
+        /// </summary>
+        private void UpdateCursorPosition()
+        {
+            if (_audioClipDuration == 0) //check if a song is selected
                 return;
 
-            IncreasePlayBackSpeed((int)Input.mouseScrollDelta.y);
+            float x = _songWidth / _audioClipDuration * audioSource.time;
+            cursor.transform.position = new Vector2(x, 0) + _waveformPositionOffset;
         }
-
-        //keyboard playback speed controls
-        if (Input.GetKey(KeyCode.LeftBracket)) IncreasePlayBackSpeed(-1);
-        if (Input.GetKey(KeyCode.RightBracket)) IncreasePlayBackSpeed(1);
-    }
-
-    private void IncreasePlayBackSpeed(int amount)
-    {
-        playBackSpeed = Mathf.Clamp(playBackSpeed + amount, 1f, 30);
-        audioSource.pitch = currentPlayBackSpeed;
-    }
-
-    private void UpdateCursorPosition()
-    {
-        if (_audioClipDuration == 0) //check if a song is selected
-            return;
-
-        float x = _songWidth / _audioClipDuration * audioSource.time;
-        cursor.transform.position = new Vector2(x, 0) + _waveformPositionOffset;
     }
 }
