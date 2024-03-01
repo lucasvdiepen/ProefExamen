@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-namespace ProefExamen.Audio.TimeStamper
+namespace ProefExamen.Audio.TimeStamping
 {
     public class TimeStamper : MonoBehaviour
     {

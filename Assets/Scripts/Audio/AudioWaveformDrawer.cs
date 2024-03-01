@@ -1,4 +1,4 @@
-using System;
+using ProefExamen.Audio.TimeStamping;
 using UnityEngine;
 
 namespace ProefExamen.Audio.WaveFormDrawer
