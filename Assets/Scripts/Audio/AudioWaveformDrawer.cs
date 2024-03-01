@@ -1,4 +1,3 @@
-using ProefExamen.Audio.TimeStamping;
 using UnityEngine;
 
 namespace ProefExamen.Audio.WaveFormDrawer
@@ -79,12 +78,10 @@ namespace ProefExamen.Audio.WaveFormDrawer
         private Color[] _textureColors = null;
 
         private Texture2D _waveformTexture = null;
-        private TimeStamper _timeStamper = null;
 
         private void Awake()
         {
             audioSource = GetComponent<AudioSource>();
-            _timeStamper = FindObjectOfType<TimeStamper>();
         }
 
         /// <summary>
