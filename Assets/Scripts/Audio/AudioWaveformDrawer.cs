@@ -100,6 +100,11 @@ namespace ProefExamen.Audio.WaveFormDrawer
         /// </summary>
         public Action<string, string> onSongChanged { get; set; }
 
+        /// <summary>
+        /// Event for when the keybinds are shown.
+        /// </summary>
+        public Action onShowKeyBinds { get; set; }  
+
         private float _playbackSpeed = 10;
         private float _songWidth = 0;
         private float _audioClipDuration = 0;
@@ -126,6 +131,31 @@ namespace ProefExamen.Audio.WaveFormDrawer
             xPos = Mathf.Clamp(xPos, 0, _songWidth);
 
             return xPos * _audioClipDuration / _songWidth; ;
+        }
+
+        /// <summary>
+        /// Log all available keybinds to the console.
+        /// </summary>
+        public void LogKeybinds()
+        {
+            Debug.Log("<b>Available Keybinds:</b>");
+            Debug.Log("Pause song key: " + _pauseKey);
+            Debug.Log(" "); //empty line
+
+            Debug.Log("Scrub forward key: " + _forwardKey);
+            Debug.Log("Scrub backward Key: " + _backwardKey);
+            Debug.Log(" "); //empty line
+
+            Debug.Log("Speed up Key: " + _speedUpKey);
+            Debug.Log("Speed down Key: " + _speedDownKey);
+            Debug.Log(" "); //empty line
+
+            Debug.Log("Go to start Key: " + _homeKey);
+            Debug.Log("Go to end Key: " + _endKey);
+
+            Debug.Log(" "); //empty line
+            Debug.Log(" "); //empty line
+            onShowKeyBinds?.Invoke();
         }
 
         /// <summary>
@@ -243,10 +273,10 @@ namespace ProefExamen.Audio.WaveFormDrawer
             }
 
             //keyboard playback speed controls
-            if (Input.GetKey(_speedUpKey)) 
+            if (Input.GetKeyDown(_speedUpKey)) 
                 IncreasePlaybackSpeed(1);
             
-            if (Input.GetKey(_speedDownKey)) 
+            if (Input.GetKeyDown(_speedDownKey)) 
                 IncreasePlaybackSpeed(-1);
 
             //reset song time

@@ -17,6 +17,7 @@ namespace ProefExamen.Editor.MappingWindow
 
         private Slider _volumeSlider = null;
         private FloatField _scrubAmoundField = null;
+        private Button _keyBindsButton = null;
 
         private AudioWaveformDrawer _waveformDrawer = null;
         private AudioSpectrumDrawer _spectrumDrawer = null;
@@ -42,33 +43,13 @@ namespace ProefExamen.Editor.MappingWindow
             _spectrumDrawer = FindObjectOfType<AudioSpectrumDrawer>();
             _waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();
 
-            if (!Application.isPlaying) //if user tries to open tool not in playmode, notify and return early
-            {
-                ShowEnterPlayModeView();
-                return;
-            }
-
+            //create UI
             CreateSongListView();
             CreateSoundClipField();
-            CreateAudioControlInterface();
-        }
 
-        /// <summary>
-        /// Method called when user tries to use tool not in playmode
-        /// </summary>
-        private void ShowEnterPlayModeView()
-        {
-            Label label = new("Enter play-mode");
-            rootVisualElement.Add(label);
-
-            label.style.unityTextAlign = TextAnchor.MiddleCenter;
-            label.style.fontSize = 25;
-
-            label.style.paddingTop = 75;
-            label.style.color = Color.red;
-
-            rootVisualElement.style.backgroundColor = new Color(.74f, .74f, .74f, .1f);
-            PlayModeWarning();
+            //create audio control interface if in playmode
+            if (Application.isPlaying)
+                CreateAudioControlInterface();
         }
 
         /// <summary>
@@ -118,8 +99,12 @@ namespace ProefExamen.Editor.MappingWindow
             _scrubAmoundField.value = _defaultTimeScrubAmount;
             _waveformDrawer.timeScrubAmount = _scrubAmoundField.value;
 
+            _keyBindsButton = new Button(() => { _waveformDrawer.LogKeybinds(); });
+            _keyBindsButton.text = "Keybinds";
+            
             rootVisualElement.Add(_volumeSlider);
             rootVisualElement.Add(_scrubAmoundField);
+            rootVisualElement.Add(_keyBindsButton);
         }
 
         /// <summary>
@@ -159,15 +144,21 @@ namespace ProefExamen.Editor.MappingWindow
 
         private void Update()
         {
+            //update audio control values
             if (Application.isPlaying && _waveformDrawer != null)
             {
                 _waveformDrawer.audioSource.volume = _volumeSlider.value;
                 _waveformDrawer.timeScrubAmount = _scrubAmoundField.value;
             }
+            else
+            {
+                Close(); //close window if not in playmode
+            }
         }
 
         private void OnGUI()
         {
+            //close window on escape key
             if (Event.current.type == EventType.KeyDown)
             {
                 if (Event.current.keyCode == KeyCode.Escape)
@@ -180,6 +171,7 @@ namespace ProefExamen.Editor.MappingWindow
 
         private void OnDestroy()
         {
+            //remove event listener
             if (_songList == null)
                 return;
 

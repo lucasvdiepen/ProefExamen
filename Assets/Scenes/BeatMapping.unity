@@ -444,7 +444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _timeStampColor: {r: 0, g: 0, b: 1, a: 1}
   _selectedTimeStampColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  _stampLineHeightReduction: 170
+  _stampLineHeightReduction: 190
   _timeStampTweakAmount: 0.5
   _gizmoSpacing: 0.6
   _placeTimeStampKey: 32
@@ -668,6 +668,13 @@ MonoBehaviour:
   _drawerPrefab: {fileID: 2340922503210000848, guid: 1ced9fe900fe6154a9107b2c9f075a50, type: 3}
   <cursor>k__BackingField: {fileID: 555472537}
   _curserYPosition: -290
+  _pauseKey: 274
+  _forwardKey: 275
+  _backwardKey: 276
+  _speedUpKey: 93
+  _speedDownKey: 91
+  _homeKey: 278
+  _endKey: 279
 --- !u!1 &1712546992
 GameObject:
   m_ObjectHideFlags: 0

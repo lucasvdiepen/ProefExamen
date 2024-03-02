@@ -100,7 +100,9 @@ namespace ProefExamen.Audio.TimeStamping
         private void Awake()
         {
             _waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();
+
             _waveformDrawer.onSongChanged += HandleSongChanged;
+            _waveformDrawer.onShowKeyBinds += HandleShowKeybinds;
 
             _debugBoldGuiStyle.fontSize = 48;
             _debugBoldGuiStyle.fontStyle = FontStyle.Bold;
@@ -232,6 +234,27 @@ namespace ProefExamen.Audio.TimeStamping
             return bestTarget;
         }
 
+        /// <summary>
+        /// Method for showing the keybinds in the console.
+        /// </summary>
+        private void HandleShowKeybinds()
+        {
+            Debug.Log("Place TimeStamp Key: " + _placeTimeStampKey);
+            Debug.Log("Undo TimeStamp Key: CTRL + " + _undoTimeStampKey);
+            Debug.Log(" "); //empty line
+
+            Debug.Log("Select TimeStamp Key: CTRL");
+            Debug.Log("Delete selected TimeStamp Key: CTRL + " + _deleteCurrentTimeStampKey);
+            Debug.Log(" "); //empty line
+
+            Debug.Log("Export TimeStamps Key: CTRL + " + _exportTimeStampsKey);
+            Debug.Log(" "); //empty line
+
+            Debug.Log("Increase TimeStamp Key: CTRL + " + _increaseTimeStampKey);
+            Debug.Log("Decrease TimeStamp Key: CTRL + " + _decreaseTimeStampKey);
+            Debug.Log(" "); //empty line
+        }
+
 #if UNITY_EDITOR
         /// <summary>
         /// Helper method for exporting all recorded time stamps to a scribtable object
@@ -319,15 +342,6 @@ namespace ProefExamen.Audio.TimeStamping
                 ShowWarningDialog(title, message, ok, songTitle);
             }
         }
-        
-        private void OnApplicationQuit()
-        {
-            CheckForUnsavedData(_waveformDrawer.currentSongTitle); //check for unsaved data before quitting the application
-            AssetDatabase.SaveAssets();
-        }
-
-        private void OnDestroy()
-            => _waveformDrawer.onSongChanged -= HandleSongChanged;
 
         /// <summary>
         /// Draws gizmos for the time stamps
@@ -366,5 +380,18 @@ namespace ProefExamen.Audio.TimeStamping
                 GUI.Label(new Rect(0, 96, 300, 100), $"TimeStamp Time: {_currentSelectedTimeStamp.songTime}", _debugItalicsGuiStyle);
         }
 #endif
+        
+        private void OnApplicationQuit()
+        {
+            CheckForUnsavedData(_waveformDrawer.currentSongTitle); //check for unsaved data before quitting the application
+            AssetDatabase.SaveAssets();
+        }
+
+        private void OnDestroy()
+        {
+            //remove event listeners
+            _waveformDrawer.onSongChanged -= HandleSongChanged;
+            _waveformDrawer.onShowKeyBinds -= HandleShowKeybinds;
+        }
     }
 }
