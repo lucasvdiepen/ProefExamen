@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace ProefExamen.Audio.WaveFormDrawer
@@ -37,6 +38,28 @@ namespace ProefExamen.Audio.WaveFormDrawer
         [SerializeField]
         private float _curserYPosition = -290;
 
+        [Header("Input Keycodes")]
+        [SerializeField]
+        private KeyCode _pauseKey = KeyCode.DownArrow;
+
+        [SerializeField]
+        private KeyCode _forwardKey = KeyCode.RightArrow;
+
+        [SerializeField]
+        private KeyCode _backwardKey = KeyCode.LeftArrow;
+
+        [SerializeField]
+        private KeyCode _speedUpKey = KeyCode.RightBracket;
+
+        [SerializeField]
+        private KeyCode _speedDownKey = KeyCode.LeftBracket;
+
+        [SerializeField]
+        private KeyCode _homeKey = KeyCode.Home;
+             
+        [SerializeField]
+        private KeyCode _endKey = KeyCode.End;
+
         /// <summary>
         /// Returns the current time in the song. Returns -1 if audioSource is empty.
         /// </summary>
@@ -71,7 +94,12 @@ namespace ProefExamen.Audio.WaveFormDrawer
         /// Audio source used by the waveform drawer.
         /// </summary>
         public AudioSource audioSource { get; private set; }
-        
+
+        /// <summary>
+        /// Event for when the song has been changed. Returns the new song title and the old song title.
+        /// </summary>
+        public Action<string, string> onSongChanged { get; set; }
+
         private float _playbackSpeed = 10;
         private float _songWidth = 0;
         private float _audioClipDuration = 0;
@@ -107,17 +135,22 @@ namespace ProefExamen.Audio.WaveFormDrawer
         public void InitializeDrawer(AudioClip audioClip)
         {
             Destroy(_waveformTexture);
+
+            AudioClip lastClip = audioSource.clip;
             audioSource.clip = audioClip;
 
-            _dataSamples = new float[audioSource.clip.samples * audioSource.clip.channels];
-            audioSource.clip.GetData(_dataSamples, 0);
+            onSongChanged?.Invoke(audioClip.name, lastClip != null ? lastClip.name : "Null");
 
-            _waveformTexture = new Texture2D(_textureWidth, _textureHeight, TextureFormat.RGBA32, false);
-            _textureColors = new Color[_waveformTexture.width * _waveformTexture.height];
+            _dataSamples = new float[audioSource.clip.samples * audioSource.clip.channels]; // create an array to store the audio data
+            audioSource.clip.GetData(_dataSamples, 0); //get audio data from the audio clip
+
+            _waveformTexture = new Texture2D(_textureWidth, _textureHeight, TextureFormat.RGBA32, false); //prepare the waveform texture
+            _textureColors = new Color[_waveformTexture.width * _waveformTexture.height]; //create an array to store the texture pixel data
 
             GenerateWaveformTexture();
             Renderer renderer = GetComponent<Renderer>();
 
+            //set the offset for the texture
             _waveformPositionOffset = new Vector2(-(_textureWidth + _textureWidth / _renderDownScaleModifier), _curserYPosition);
             _songWidth = Mathf.Abs(_waveformPositionOffset.x * 2);
 
@@ -139,22 +172,23 @@ namespace ProefExamen.Audio.WaveFormDrawer
         {
             for (int x = 0; x < _waveformTexture.width; x++)
             {
+                //calculate the average sample value for the current x position
                 int startSample = Mathf.FloorToInt(x * (_dataSamples.Length / (float)_waveformTexture.width));
                 int endSample = Mathf.Min(startSample + (_dataSamples.Length / _waveformTexture.width), _dataSamples.Length);
                 float sum = 0;
 
                 for (int j = startSample; j < endSample; j++)
-                    sum += Mathf.Abs(_dataSamples[j]);
+                    sum += Mathf.Abs(_dataSamples[j]); //get the absolute value of the sample
 
                 float averageSample = sum / (_dataSamples.Length / _waveformTexture.width);
-                float scaledAverage = averageSample * _heightScaleModifier;
+                float scaledAverage = averageSample * _heightScaleModifier; //scale the average sample value
 
-                for (int y = 0; y < _waveformTexture.height; y++)
+                for (int y = 0; y < _waveformTexture.height; y++) //set the pixel color based on the average sample value
                     _textureColors[x + y * _waveformTexture.width] = (y < scaledAverage) ? _renderColor : Color.clear;
             }
 
             _waveformTexture.SetPixels(_textureColors);
-            _waveformTexture.filterMode = FilterMode.Point;
+            _waveformTexture.filterMode = FilterMode.Point; //set the filter mode to point for a pixelated look
             _waveformTexture.Apply();
 
             GameObject drawerObject = Instantiate(_drawerPrefab, transform.position, _drawerPrefab.transform.rotation);
@@ -179,14 +213,14 @@ namespace ProefExamen.Audio.WaveFormDrawer
         {
             if (!Input.GetKey(KeyCode.LeftControl)) //can't hold left ctrl, messes with other keybinds
             {
-                if (Input.GetKey(KeyCode.RightArrow)) //scrub forward in song
-                    audioSource.time = Mathf.Clamp(audioSource.time + timeScrubAmount, 0, _audioClipDuration);
+                if (Input.GetKey(_forwardKey)) //scrub forward in song
+                    audioSource.time = Mathf.Clamp(audioSource.time + timeScrubAmount, 0, _audioClipDuration - 1);
 
-                if (Input.GetKey(KeyCode.LeftArrow)) //scrub backwards in song
+                if (Input.GetKey(_backwardKey)) //scrub backwards in song
                     audioSource.time = Mathf.Clamp(audioSource.time - timeScrubAmount, 0, _audioClipDuration);
             }
 
-            if (Input.GetKeyDown(KeyCode.DownArrow)) //pausing song
+            if (Input.GetKeyDown(_pauseKey)) //pausing song
             {
                 if (!isPaused) audioSource.Pause();
                 else
@@ -209,11 +243,19 @@ namespace ProefExamen.Audio.WaveFormDrawer
             }
 
             //keyboard playback speed controls
-            if (Input.GetKey(KeyCode.LeftBracket)) 
-                IncreasePlaybackSpeed(-1);
-            
-            if (Input.GetKey(KeyCode.RightBracket)) 
+            if (Input.GetKey(_speedUpKey)) 
                 IncreasePlaybackSpeed(1);
+            
+            if (Input.GetKey(_speedDownKey)) 
+                IncreasePlaybackSpeed(-1);
+
+            //reset song time
+            if(Input.GetKeyDown(_homeKey)) 
+                audioSource.time = 0;
+
+            //set song time to end of song
+            if (Input.GetKeyDown(_endKey))
+                audioSource.time = _audioClipDuration - 1;
         }
 
         /// <summary>

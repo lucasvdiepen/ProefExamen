@@ -2,6 +2,7 @@ using ProefExamen.Audio.WaveFormDrawer;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEditor;
 
 namespace ProefExamen.Audio.TimeStamping
 {
@@ -53,7 +54,10 @@ namespace ProefExamen.Audio.TimeStamping
         private readonly GUIStyle _debugBoldGuiStyle = new();
         private readonly GUIStyle _debugItalicsGuiStyle = new();
 
-        private string _assetPath => $"Assets/SongTimeStampData/{_waveformDrawer.currentSongTitle}.asset";
+        /// <summary>
+        /// Returns the raw asset path for the time stamp data container.
+        /// </summary>
+        private string _rawAssetPath => "Assets/SongTimeStampData/";
 
         /// <summary>
         /// Struct responsible for holding the necessary data for a gizmo line.
@@ -96,6 +100,7 @@ namespace ProefExamen.Audio.TimeStamping
         private void Awake()
         {
             _waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();
+            _waveformDrawer.onSongChanged += HandleSongChanged;
 
             _debugBoldGuiStyle.fontSize = 48;
             _debugBoldGuiStyle.fontStyle = FontStyle.Bold;
@@ -120,6 +125,7 @@ namespace ProefExamen.Audio.TimeStamping
         /// </summary>
         private void HandleTimeStampControls()
         {
+            //placing a time stamp
             if (Input.GetKeyDown(_placeTimeStampKey))
             {
                 float startYPos = _waveformDrawer.cursor.position.y - (_waveformDrawer.cursor.localScale.y * .5f);
@@ -129,6 +135,7 @@ namespace ProefExamen.Audio.TimeStamping
                 _timeStamps.Add(new TimeStampData(startPosition, endPosition, _waveformDrawer.currentSongTime));
             }
 
+            //undo last time stamp
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_undoTimeStampKey)) //undo last time stamp
             {
                 if (_timeStamps.Count > 0)
@@ -146,6 +153,7 @@ namespace ProefExamen.Audio.TimeStamping
                 }
             }
 
+            //exporting time stamps
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_exportTimeStampsKey))
                 TryExportTimeStamps();
         }
@@ -158,11 +166,12 @@ namespace ProefExamen.Audio.TimeStamping
             if (Input.GetKey(KeyCode.LeftControl)) //try select closest time stamp to the mouse position
             {
                 Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                TimeStampData closestStampToMouse = GetClosestTimeStamp(mousePosition);
+                TimeStampData closestStampToMouse = GetClosestTimeStamp(mousePosition); //get closest time stamp to mouse position
 
                 if (closestStampToMouse == null)
                     return;
 
+                //if closest time stamp is not the current selected time stamp, select it
                 if (closestStampToMouse != _currentSelectedTimeStamp)
                 {
                     closestStampToMouse.isSelected = true;
@@ -183,7 +192,7 @@ namespace ProefExamen.Audio.TimeStamping
             if (_currentSelectedTimeStamp != null)
             {
                 Vector2 newDirection = Vector2.zero;
-                if (Input.mouseScrollDelta.magnitude > 0)
+                if (Input.mouseScrollDelta.magnitude > 0) //tweak time stamp position based on mouse scroll
                     newDirection = Vector2.right * Input.mouseScrollDelta.y * _timeStampTweakAmount;
                 else
                 {
@@ -194,6 +203,7 @@ namespace ProefExamen.Audio.TimeStamping
                 _currentSelectedTimeStamp.lineData.startLinePoint += newDirection;
                 _currentSelectedTimeStamp.lineData.endLinePoint += newDirection;
 
+                //update song time of the current selected time stamp
                 _currentSelectedTimeStamp.songTime =
                     _waveformDrawer.CalculateSongTimeBasedOnPosition(_currentSelectedTimeStamp.lineData.startLinePoint);
             }
@@ -226,7 +236,7 @@ namespace ProefExamen.Audio.TimeStamping
         /// <summary>
         /// Helper method for exporting all recorded time stamps to a scribtable object
         /// </summary>
-        private void TryExportTimeStamps()
+        private void TryExportTimeStamps(string overrideSongTitle = "")
         {
             TimeStampDataContainer obj = ScriptableObject.CreateInstance<TimeStampDataContainer>();
             
@@ -235,23 +245,89 @@ namespace ProefExamen.Audio.TimeStamping
 
             foreach (TimeStampData timeStamp in _timeStamps)
             {
-                exportedLineData.Add(timeStamp.lineData);
-                sortedExportedTimeStamps.Add(timeStamp.songTime);
+                exportedLineData.Add(timeStamp.lineData); //add the line data to the exported line data
+                sortedExportedTimeStamps.Add(timeStamp.songTime); //add the song time to the exported time stamps
             }
 
+            //sort the exported time stamps
             sortedExportedTimeStamps = sortedExportedTimeStamps.OrderByDescending(songTime => songTime).ToList();
             sortedExportedTimeStamps.Reverse();
 
             obj.songDebugLineData = exportedLineData;
             obj.timeStamps = sortedExportedTimeStamps.ToArray();
-            
-            UnityEditor.AssetDatabase.CreateAsset(obj, _assetPath);
-            UnityEditor.AssetDatabase.SaveAssets();
-            UnityEditor.AssetDatabase.Refresh();
+
+            //get the song title for the asset name
+            string assetName = overrideSongTitle == string.Empty ? _waveformDrawer.currentSongTitle : overrideSongTitle;
+
+            AssetDatabase.CreateAsset(obj, _rawAssetPath + $"{assetName}.asset"); //create the asset
+            AssetDatabase.Refresh();
 
             print("Exported timestamps");
         }
 #endif
+
+        /// <summary>
+        /// Method for showing a warning popup when trying to exit the application with unsaved time stamps.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="message"></param>
+        /// <param name="ok"></param>
+        private void ShowWarningDialog(string title, string message, string ok, string overrideSongTitle = "")
+        {
+            string cancel = "No, I know what I'm doing";
+            if (EditorUtility.DisplayDialog(title, message, ok, cancel))
+                TryExportTimeStamps(overrideSongTitle);
+        }
+
+        /// <summary>
+        /// Method for handling the song changed event.
+        /// </summary>
+        /// <param name="newSongTitle"></param>
+        /// <param name="oldSongTitle"></param>
+        private void HandleSongChanged(string newSongTitle, string oldSongTitle)
+        {
+            CheckForUnsavedData(oldSongTitle);
+            _timeStamps.Clear();
+        }
+
+        /// <summary>
+        /// Method for showing a warning popup when trying to exit the application with unsaved/unexported time stamps.
+        /// </summary>
+        private void CheckForUnsavedData(string songTitle)
+        {
+            if (_timeStamps.Count == 0) //return if no time stamps are present
+                return;
+            
+            //check if there is a time stamp data container at the path
+            TimeStampDataContainer existingContainer = AssetDatabase.LoadAssetAtPath<TimeStampDataContainer>(_rawAssetPath + $"{songTitle}.asset");
+            if (existingContainer == null) 
+            {
+                //if no time stamp data container is found, show a warning dialog
+                string title = "You have unexported time stamp data!";
+                string message = $"No TimeStampDataContainer found at the path: {_rawAssetPath + $"{songTitle}.asset"} \nDo you wish to save and export all new changes before exiting?";
+                string ok = "Yes, export data now";
+
+                ShowWarningDialog(title, message, ok, songTitle);
+            }
+            else if (existingContainer.timeStamps.Length != _timeStamps.Count)
+            {
+                //if the time stamp data container does not match with the current time stamp data, show a warning dialog
+                string title = "You have unsaved time stamp data!";
+                string message = $"Saved TimeStampDataContainer found at the path: {_rawAssetPath + $"{songTitle}.asset"} \nDoes not match with current time stamp data. Do you wish to save and update all new changes before exiting?";
+                string ok = "Yes, update data now";
+
+                ShowWarningDialog(title, message, ok, songTitle);
+            }
+        }
+        
+        private void OnApplicationQuit()
+        {
+            CheckForUnsavedData(_waveformDrawer.currentSongTitle); //check for unsaved data before quitting the application
+            AssetDatabase.SaveAssets();
+        }
+
+        private void OnDestroy()
+            => _waveformDrawer.onSongChanged -= HandleSongChanged;
 
         /// <summary>
         /// Draws gizmos for the time stamps
@@ -283,10 +359,10 @@ namespace ProefExamen.Audio.TimeStamping
             GUI.Label(new Rect(0, 0, 300, 100), $"Playback Speed: {_waveformDrawer.currentPlaybackSpeed}", _debugBoldGuiStyle);
             GUI.Label(new Rect(0, 48, 300, 100), $"Song Time: {_waveformDrawer.currentSongTime}", _debugBoldGuiStyle);
 
-            if (_waveformDrawer.isPaused)
+            if (_waveformDrawer.isPaused) //draw paused text
                 GUI.Label(new Rect(1750, 0, 300, 100), "Paused", _debugItalicsGuiStyle);
 
-            if (_currentSelectedTimeStamp != null)
+            if (_currentSelectedTimeStamp != null) //draw selected time stamp information
                 GUI.Label(new Rect(0, 96, 300, 100), $"TimeStamp Time: {_currentSelectedTimeStamp.songTime}", _debugItalicsGuiStyle);
         }
 #endif
