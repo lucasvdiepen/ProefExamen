@@ -270,45 +270,48 @@ namespace ProefExamen.Audio.TimeStamping
             //open file panel to select the TimeStampDataContainer to import
             string path = EditorUtility.OpenFilePanel("Select TimeStampDataContainer to import", "Assets", "asset");
 
-            if (!string.IsNullOrEmpty(path))
+            if(string.IsNullOrEmpty(path)) 
             {
-                path = "Assets" + path[Application.dataPath.Length..]; //get the relative path
-                var timeStampDataContainer = AssetDatabase.LoadAssetAtPath<TimeStampDataContainer>(path);
-
-                //if the time stamp data container is null, log a warning
-                if (timeStampDataContainer == null)
-                {
-                    Debug.LogWarning($"Failed to load TimeStampDataContainer at path: {path}");
-                    return;
-                }
-
-                if (timeStampDataContainer.songDebugLineData.Count == 0)
-                {
-                    Debug.LogError("No line data found in the TimeStampDataContainer (count == 0), returning...", timeStampDataContainer);
-                    return;
-                }
-
-                if (timeStampDataContainer.timeStamps.Length == 0)
-                {
-                    Debug.LogError("No time stamp data found in the TimeStampDataContainer (lenght == 0), returning...");
-                    return;
-                }
-
-                _timeStamps.Clear(); //clear the current time stamps
-
-                //import the specified time stamps
-                for (int i = 0; i < timeStampDataContainer.timeStamps.Length; i++)
-                {
-                    Vector2 startPoint = timeStampDataContainer.songDebugLineData[i].startLinePoint;
-                    Vector2 endPoint = timeStampDataContainer.songDebugLineData[i].endLinePoint;
-                    
-                    float songTime = timeStampDataContainer.timeStamps[i];
-
-                    _timeStamps.Add(new TimeStampData(startPoint, endPoint, songTime)); //add the time stamp to current list
-                }
-
-                Debug.Log("Succesfully imported time stamp data");
+                Debug.LogError($"Specified path: {path} is empty/null!");
+                return;
             }
+
+            path = "Assets" + path[Application.dataPath.Length..]; //get the relative path
+            var timeStampDataContainer = AssetDatabase.LoadAssetAtPath<TimeStampDataContainer>(path);
+
+            //if the time stamp data container is null, log a warning
+            if (timeStampDataContainer == null)
+            {
+                Debug.LogError($"Failed to load TimeStampDataContainer at path: {path}");
+                return;
+            }
+
+            if (timeStampDataContainer.songDebugLineData.Count == 0)
+            {
+                Debug.LogError("No line data found in the TimeStampDataContainer (count == 0), returning...", timeStampDataContainer);
+                return;
+            }
+
+            if (timeStampDataContainer.timeStamps.Length == 0)
+            {
+                Debug.LogError("No time stamp data found in the TimeStampDataContainer (lenght == 0), returning...");
+                return;
+            }
+
+            _timeStamps.Clear(); //clear the current time stamps
+
+            //import the specified time stamps
+            for (int i = 0; i < timeStampDataContainer.timeStamps.Length; i++)
+            {
+                Vector2 startPoint = timeStampDataContainer.songDebugLineData[i].startLinePoint;
+                Vector2 endPoint = timeStampDataContainer.songDebugLineData[i].endLinePoint;
+
+                float songTime = timeStampDataContainer.timeStamps[i];
+
+                _timeStamps.Add(new TimeStampData(startPoint, endPoint, songTime)); //add the time stamp to current list
+            }
+
+            Debug.Log("Succesfully imported time stamp data");
         }
 
 #if UNITY_EDITOR
