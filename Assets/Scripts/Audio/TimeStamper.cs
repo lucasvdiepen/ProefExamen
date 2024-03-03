@@ -62,6 +62,7 @@ namespace ProefExamen.Audio.TimeStamping
         /// <summary>
         /// Struct responsible for holding the necessary data for a gizmo line.
         /// </summary>
+        [System.Serializable]
         public struct LineData
         {
             public Vector2 startLinePoint;
@@ -253,6 +254,49 @@ namespace ProefExamen.Audio.TimeStamping
             Debug.Log("Increase TimeStamp Key: CTRL + " + _increaseTimeStampKey);
             Debug.Log("Decrease TimeStamp Key: CTRL + " + _decreaseTimeStampKey);
             Debug.Log(" "); //empty line
+        }
+
+        /// <summary>
+        /// Helper method for importing time stamps from a scriptable object (TimeStampDataContainer)
+        /// </summary>
+        public void TryImportTimeStamps()
+        {
+            string path = EditorUtility.OpenFilePanel("Select TimeStampDataContainer to import", "Assets", "asset");
+            if (!string.IsNullOrEmpty(path))
+            {
+                path = "Assets" + path[Application.dataPath.Length..];
+                TimeStampDataContainer timeStampDataContainer = AssetDatabase.LoadAssetAtPath<TimeStampDataContainer>(path);
+
+                if (timeStampDataContainer != null)
+                {
+                    if(timeStampDataContainer.songDebugLineData.Count == 0)
+                    {
+                        Debug.LogError("No line data found in the TimeStampDataContainer (count == 0), returning...", timeStampDataContainer);
+                        return;
+                    }
+
+                    if (timeStampDataContainer.timeStamps.Length == 0)
+                    {
+                        Debug.LogError("No time stamp data found in the TimeStampDataContainer (lenght == 0), returning...");
+                        return;
+                    }
+
+                    _timeStamps.Clear();
+                    for (int i = 0; i < timeStampDataContainer.timeStamps.Length; i++)
+                    {
+                        Vector2 startPoint = timeStampDataContainer.songDebugLineData[i].startLinePoint;
+                        Vector2 endPoint = timeStampDataContainer.songDebugLineData[i].endLinePoint;
+                        float songTime = timeStampDataContainer.timeStamps[i];
+
+                        _timeStamps.Add(new TimeStampData(startPoint, endPoint, songTime));
+                    }
+                    Debug.Log("Succesfully imported time stamp data");
+                }
+                else
+                {
+                    Debug.LogWarning($"Failed to load TimeStampDataContainer at path: {path}");
+                }
+            }
         }
 
 #if UNITY_EDITOR

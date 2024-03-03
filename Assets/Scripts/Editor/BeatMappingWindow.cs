@@ -1,5 +1,6 @@
 using ProefExamen.Audio.WaveFormDrawer;
 using ProefExamen.Audio.SpectrumDrawer;
+using ProefExamen.Audio.TimeStamping;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
@@ -10,6 +11,9 @@ using UnityEngine;
 namespace ProefExamen.Editor.MappingWindow
 {
 #if UNITY_EDITOR
+    /// <summary>
+    /// Editor window for beat mapping.
+    /// </summary>
     public class BeatMappingWindow : EditorWindow
     {
         private ObjectField _soundClipField = null;
@@ -17,10 +21,13 @@ namespace ProefExamen.Editor.MappingWindow
 
         private Slider _volumeSlider = null;
         private FloatField _scrubAmoundField = null;
+
         private Button _keyBindsButton = null;
+        private Button _importTimeStampsButton = null;
 
         private AudioWaveformDrawer _waveformDrawer = null;
         private AudioSpectrumDrawer _spectrumDrawer = null;
+        private TimeStamper _timeStamper = null;
 
         private readonly float _defaultTimeScrubAmount = .1f;
         private readonly string audioClipFilter = "t:AudioClip";
@@ -42,6 +49,7 @@ namespace ProefExamen.Editor.MappingWindow
             //get necessary refs
             _spectrumDrawer = FindObjectOfType<AudioSpectrumDrawer>();
             _waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();
+            _timeStamper = FindObjectOfType<TimeStamper>();
 
             //create UI
             CreateSongListView();
@@ -101,10 +109,15 @@ namespace ProefExamen.Editor.MappingWindow
 
             _keyBindsButton = new Button(() => { _waveformDrawer.LogKeybinds(); });
             _keyBindsButton.text = "Keybinds";
-            
+
+            _importTimeStampsButton = new Button(() => { _timeStamper.TryImportTimeStamps(); });
+            _importTimeStampsButton.text = "Import Time Stamps";
+
             rootVisualElement.Add(_volumeSlider);
             rootVisualElement.Add(_scrubAmoundField);
+            
             rootVisualElement.Add(_keyBindsButton);
+            rootVisualElement.Add(_importTimeStampsButton);
         }
 
         /// <summary>

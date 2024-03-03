@@ -264,9 +264,9 @@ namespace ProefExamen.Audio.WaveFormDrawer
             }
 
             //mouse playback speed control
-            if (Input.mouseScrollDelta.magnitude != 0)
+            if (Input.mouseScrollDelta.magnitude > 0)
             {
-                if (Input.GetKey(KeyCode.LeftControl))
+                if (Input.GetKey(KeyCode.LeftControl)) //can't hold ctrl, messes with other keybinds
                     return;
 
                 IncreasePlaybackSpeed((int)Input.mouseScrollDelta.y);
