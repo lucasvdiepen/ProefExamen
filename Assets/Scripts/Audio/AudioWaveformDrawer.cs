@@ -107,6 +107,7 @@ namespace ProefExamen.Audio.WaveFormDrawer
 
         private float _playbackSpeed = 10;
         private float _songWidth = 0;
+
         private float _audioClipDuration = 0;
         private float[] _dataSamples = null;
 
@@ -246,13 +247,16 @@ namespace ProefExamen.Audio.WaveFormDrawer
                 if (Input.GetKey(_forwardKey)) //scrub forward in song
                     audioSource.time = Mathf.Clamp(audioSource.time + timeScrubAmount, 0, _audioClipDuration - 1);
 
-                if (Input.GetKey(_backwardKey)) //scrub backwards in song
+                if (Input.GetKey(_backwardKey)) //scrub backward in song
                     audioSource.time = Mathf.Clamp(audioSource.time - timeScrubAmount, 0, _audioClipDuration);
             }
 
             if (Input.GetKeyDown(_pauseKey)) //pausing song
             {
-                if (!isPaused) audioSource.Pause();
+                if (!isPaused)
+                {
+                    audioSource.Pause();
+                }
                 else
                 {
                     audioSource.UnPause();
@@ -260,7 +264,7 @@ namespace ProefExamen.Audio.WaveFormDrawer
                         audioSource.Play();
                 }
 
-                isPaused = !isPaused;
+                isPaused = !isPaused; //toggle pause state
             }
 
             //mouse playback speed control

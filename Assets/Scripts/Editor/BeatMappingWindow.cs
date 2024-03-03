@@ -30,7 +30,7 @@ namespace ProefExamen.Editor.MappingWindow
         private TimeStamper _timeStamper = null;
 
         private readonly float _defaultTimeScrubAmount = .1f;
-        private readonly string audioClipFilter = "t:AudioClip";
+        private readonly string _audioClipFilter = "t:AudioClip";
 
         /// <summary>
         /// Static method called when window is created.
@@ -65,7 +65,7 @@ namespace ProefExamen.Editor.MappingWindow
         /// </summary>
         private void CreateSongListView()
         {
-            string[] allObjectGuids = AssetDatabase.FindAssets(audioClipFilter);
+            string[] allObjectGuids = AssetDatabase.FindAssets(_audioClipFilter);
             List<AudioClip> allObjects = new();
 
             foreach (string guid in allObjectGuids)

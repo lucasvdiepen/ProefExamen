@@ -7,6 +7,6 @@ using UnityEngine;
 /// </summary>
 public class TimeStampDataContainer : ScriptableObject
 {
-    public List<TimeStamper.LineData> songDebugLineData = new();
-    public float[] timeStamps;
+    public List<TimeStamper.LineData> songDebugLineData = new(); //debug data used for drawing gizmo lines
+    public float[] timeStamps; //time stamps
 }

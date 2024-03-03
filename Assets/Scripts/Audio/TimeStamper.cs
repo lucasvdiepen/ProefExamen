@@ -105,6 +105,7 @@ namespace ProefExamen.Audio.TimeStamping
             _waveformDrawer.onSongChanged += HandleSongChanged;
             _waveformDrawer.onShowKeyBinds += HandleShowKeybinds;
 
+            //set up the debug gui styles
             _debugBoldGuiStyle.fontSize = 48;
             _debugBoldGuiStyle.fontStyle = FontStyle.Bold;
             _debugBoldGuiStyle.normal.textColor = Color.white;
@@ -196,11 +197,14 @@ namespace ProefExamen.Audio.TimeStamping
             {
                 Vector2 newDirection = Vector2.zero;
                 if (Input.mouseScrollDelta.magnitude > 0) //tweak time stamp position based on mouse scroll
-                    newDirection = Vector2.right * Input.mouseScrollDelta.y * _timeStampTweakAmount;
+                    newDirection = _timeStampTweakAmount * Input.mouseScrollDelta.y * Vector2.right;
                 else
                 {
-                    if (Input.GetKey(_decreaseTimeStampKey)) newDirection = Vector2.left * _timeStampTweakAmount;
-                    if (Input.GetKey(_increaseTimeStampKey)) newDirection = Vector2.right * _timeStampTweakAmount;
+                    if (Input.GetKey(_decreaseTimeStampKey)) //decrease
+                        newDirection = Vector2.left * _timeStampTweakAmount;
+
+                    if (Input.GetKey(_increaseTimeStampKey)) //increase
+                        newDirection = Vector2.right * _timeStampTweakAmount;
                 }
 
                 _currentSelectedTimeStamp.lineData.startLinePoint += newDirection;
@@ -221,11 +225,13 @@ namespace ProefExamen.Audio.TimeStamping
         {
             TimeStampData bestTarget = default;
             float closestDistanceSqr = Mathf.Infinity;
+
             foreach (TimeStampData timeStampData in _timeStamps)
             {
-                Vector3 directionToTarget = timeStampData.lineData.startLinePoint - originPosition;
-                float dSqrToTarget = directionToTarget.sqrMagnitude;
-                if (dSqrToTarget < closestDistanceSqr)
+                Vector3 directionToTarget = timeStampData.lineData.startLinePoint - originPosition; //get the direction to the target
+                float dSqrToTarget = directionToTarget.sqrMagnitude; //get the squared distance to the target
+                
+                if (dSqrToTarget < closestDistanceSqr) //check if the current time stamp is closer than the previous closest time stamp
                 {
                     closestDistanceSqr = dSqrToTarget;
                     bestTarget = timeStampData;
@@ -261,13 +267,15 @@ namespace ProefExamen.Audio.TimeStamping
         /// </summary>
         public void TryImportTimeStamps()
         {
+            //open file panel to select the TimeStampDataContainer to import
             string path = EditorUtility.OpenFilePanel("Select TimeStampDataContainer to import", "Assets", "asset");
+
             if (!string.IsNullOrEmpty(path))
             {
-                path = "Assets" + path[Application.dataPath.Length..];
-                TimeStampDataContainer timeStampDataContainer = AssetDatabase.LoadAssetAtPath<TimeStampDataContainer>(path);
+                path = "Assets" + path[Application.dataPath.Length..]; //get the relative path
+                var timeStampDataContainer = AssetDatabase.LoadAssetAtPath<TimeStampDataContainer>(path);
 
-                if (timeStampDataContainer != null)
+                if (timeStampDataContainer != null) 
                 {
                     if(timeStampDataContainer.songDebugLineData.Count == 0)
                     {
@@ -281,18 +289,21 @@ namespace ProefExamen.Audio.TimeStamping
                         return;
                     }
 
-                    _timeStamps.Clear();
+                    _timeStamps.Clear(); //clear the current time stamps
+
+                    //import the specified time stamps
                     for (int i = 0; i < timeStampDataContainer.timeStamps.Length; i++)
                     {
                         Vector2 startPoint = timeStampDataContainer.songDebugLineData[i].startLinePoint;
                         Vector2 endPoint = timeStampDataContainer.songDebugLineData[i].endLinePoint;
                         float songTime = timeStampDataContainer.timeStamps[i];
 
-                        _timeStamps.Add(new TimeStampData(startPoint, endPoint, songTime));
+                        _timeStamps.Add(new TimeStampData(startPoint, endPoint, songTime)); //add the time stamp to current list
                     }
+
                     Debug.Log("Succesfully imported time stamp data");
                 }
-                else
+                else //if the time stamp data container is null, log a warning
                 {
                     Debug.LogWarning($"Failed to load TimeStampDataContainer at path: {path}");
                 }
@@ -308,7 +319,7 @@ namespace ProefExamen.Audio.TimeStamping
             TimeStampDataContainer obj = ScriptableObject.CreateInstance<TimeStampDataContainer>();
             
             List<LineData> exportedLineData = new(_timeStamps.Count);
-            List<float> sortedExportedTimeStamps = new(_timeStamps.Count);
+            List<float> sortedExportedTimeStamps = new(_timeStamps.Count); 
 
             foreach (TimeStampData timeStamp in _timeStamps)
             {
