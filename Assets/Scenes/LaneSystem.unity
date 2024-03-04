@@ -1147,7 +1147,7 @@ MonoBehaviour:
   okThreshold: 0.75
   alrightThreshold: 0.5
   niceThreshold: 0.25
-  lerpAlphaHitThreshold: 0.2
+  lerpAlphaHitThreshold: 0.1
   levels: {fileID: 11400000, guid: 0201bf37a9e02104786709aee9d87157, type: 2}
   note: {fileID: 8865070559718813142, guid: 778813d51c727894e89f15617b02c6d2, type: 3}
   audioSource: {fileID: 12134962}
