@@ -1,12 +1,23 @@
 using UnityEngine;
 
-using ProefExamen.Framework.Buttons;
 using ProefExamen.Framework.StateMachine;
 
-public class SwitchStateButton : BasicButton
+namespace ProefExamen.Framework.Buttons.StateMachine
 {
-    [SerializeField]
-    private State _targetState;
+    /// <summary>
+    /// A class that represents a button that switches to a specific state in the state machine.
+    /// </summary>
+    public class SwitchStateButton : BasicButton
+    {
+        /// <summary>
+        /// The state to switch to.
+        /// </summary>
+        [SerializeField]
+        private State _targetState;
 
-    private protected override void OnButtonPressed() => StateMachine.Instance.GoToState(_targetState);
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        private protected override void OnButtonPressed() => StateMachine.Instance.GoToState(_targetState);
+    }
 }
