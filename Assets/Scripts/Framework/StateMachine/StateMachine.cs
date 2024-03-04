@@ -65,14 +65,14 @@ namespace ProefExamen.Framework.StateMachine
         /// Checks if the given state is the current state.
         /// </summary>
         /// <typeparam name="T">The type of the state to check.</typeparam>
-        /// <returns>True if the given state is the current state, false otherwise.</returns>
+        /// <returns>True if the given state is the current state, otherwise false.</returns>
         public bool IsCurrentState<T>() where T : State => CurrentState.GetType() == typeof(T);
 
         /// <summary>
         /// Checks if the given state is the current state.
         /// </summary>
         /// <param name="state">The type of the state to check.</param>
-        /// <returns>True if the given state is the current state, false otherwise.</returns>
+        /// <returns>True if the given state is the current state, otherwise false.</returns>
         public bool IsCurrentState(State state)
             => CurrentState.GetType() == state.GetType();
 
@@ -80,24 +80,24 @@ namespace ProefExamen.Framework.StateMachine
         /// Goes to the given state.
         /// </summary>
         /// <typeparam name="T">The target state.</typeparam>
-        /// <param name="addToHistory">Whether to add the state to the navigation history.</param>
-        public void GoToState<T>(bool addToHistory = true) where T : State
-            => GoToState(typeof(T), addToHistory);
+        /// <param name="shouldAddToHistory">Whether to add the state to the navigation history.</param>
+        public void GoToState<T>(bool shouldAddToHistory = true) where T : State
+            => GoToState(typeof(T), shouldAddToHistory);
 
         /// <summary>
         /// Goes to the given state.
         /// </summary>
         /// <param name="state">The target state.</param>
-        /// <param name="addToHistory">Whether to add the state to the navigation history.</param>
-        public void GoToState(State state, bool addToHistory = true)
-            => GoToState(state.GetType(), addToHistory);
+        /// <param name="shouldAddToHistory">Whether to add the state to the navigation history.</param>
+        public void GoToState(State state, bool shouldAddToHistory = true)
+            => GoToState(state.GetType(), shouldAddToHistory);
 
         /// <summary>
         /// Goes to the given state.
         /// </summary>
         /// <param name="state">The target state</param>
-        /// <param name="addToHistory">Whether to add the state to the navigation history.</param>
-        public void GoToState(Type state, bool addToHistory = true)
+        /// <param name="shouldAddToHistory">Whether to add the state to the navigation history.</param>
+        public void GoToState(Type state, bool shouldAddToHistory = true)
         {
             if (CurrentState != null && CurrentState.GetType() == state)
             {
@@ -111,7 +111,7 @@ namespace ProefExamen.Framework.StateMachine
                 return;
             }
 
-            StartCoroutine(TransitionToState(targetState, addToHistory));
+            StartCoroutine(TransitionToState(targetState, shouldAddToHistory));
         }
 
         /// <summary>
@@ -197,9 +197,8 @@ namespace ProefExamen.Framework.StateMachine
         /// Transitions to the given state.
         /// </summary>
         /// <param name="state">The target state.</param>
-        /// <param name="addToHistory">Whether to add the state to the navigation history.</param>
-        /// <returns></returns>
-        private IEnumerator TransitionToState(State state, bool addToHistory = true)
+        /// <param name="shouldAddToHistory">Whether to add the state to the navigation history.</param>
+        private IEnumerator TransitionToState(State state, bool shouldAddToHistory = true)
         {
             TargetState = state;
 
@@ -210,7 +209,7 @@ namespace ProefExamen.Framework.StateMachine
 
             yield return CurrentState.OnStateEnter();
 
-            if(addToHistory)
+            if(shouldAddToHistory)
                 AddToHistory(CurrentState.GetType());
 
             OnStateChanged?.Invoke(CurrentState);
@@ -220,7 +219,7 @@ namespace ProefExamen.Framework.StateMachine
         /// Checks if the given state is registered.
         /// </summary>
         /// <typeparam name="T">The type of the state to check.</typeparam>
-        /// <returns>True if the given state is registered, false otherwise.</returns>
+        /// <returns>True if the given state is registered, otherwise false.</returns>
         private bool IsStateRegistered<T>() where T : State
             => _states.ContainsKey(typeof(T));
 
@@ -228,7 +227,7 @@ namespace ProefExamen.Framework.StateMachine
         /// Checks if the given state is registered.
         /// </summary>
         /// <param name="state">The type of the state to check.</param>
-        /// <returns>True if the given state is registered, false otherwise.</returns>
+        /// <returns>True if the given state is registered, otherwise false.</returns>
         private bool IsStateRegistered(State state)
             => _states.ContainsKey(state.GetType());
 
@@ -237,7 +236,7 @@ namespace ProefExamen.Framework.StateMachine
         /// </summary>
         /// <typeparam name="T">The type of the state to get.</typeparam>
         /// <param name="state">The output state.</param>
-        /// <returns>True if the state was found, false otherwise.</returns>
+        /// <returns>True if the state was found, otherwise false.</returns>
         private bool TryGetState<T>(out State state) where T : State
             => TryGetState(typeof(T), out state);
 
@@ -246,7 +245,7 @@ namespace ProefExamen.Framework.StateMachine
         /// </summary>
         /// <param name="type">The type of the state to get.</param>
         /// <param name="state">The output state.</param>
-        /// <returns>True if the state was found, false otherwise.</returns>
+        /// <returns>True if the state was found, otherwise false.</returns>
         private bool TryGetState(Type type, out State state)
             => _states.TryGetValue(type, out state);
     }
