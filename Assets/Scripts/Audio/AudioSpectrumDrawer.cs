@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace ProefExamen.Audio.SpectrumDrawer
 {
+    /// <summary>
+    /// Class which is used for drawing the audio spectrum of a song.
+    /// </summary>
     public class AudioSpectrumDrawer : MonoBehaviour
     {
         [SerializeField]
@@ -22,14 +25,14 @@ namespace ProefExamen.Audio.SpectrumDrawer
         private GameObject _imagePrefab;
 
         private GameObject[] _visualizers;
-        private AudioWaveformDrawer waveformDrawer;
+        private AudioWaveformDrawer _waveformDrawer;
 
         private float[] _samples;
 
         private void Awake()
         {
             _samples = new float[_audioSamples];
-            waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();
+            _waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();
         }
 
         /// <summary>
@@ -42,7 +45,7 @@ namespace ProefExamen.Audio.SpectrumDrawer
             foreach (Transform child in transform)
                 Destroy(child.gameObject);
 
-            waveformDrawer.InitializeDrawer(clip);
+            _waveformDrawer.InitializeDrawer(clip);
             _visualizers = new GameObject[_samples.Length];
 
             CreateBandVisualizers();
@@ -55,21 +58,21 @@ namespace ProefExamen.Audio.SpectrumDrawer
         {
             for (int i = 0; i < _visualizers.Length; i++)
             {
-                GameObject objToSpawn = Instantiate(_imagePrefab, transform);
-                objToSpawn.transform.position = transform.position;
-                objToSpawn.transform.parent = transform;
+                GameObject newBandVisualizer = Instantiate(_imagePrefab, transform);
+                newBandVisualizer.transform.position = transform.position;
+                newBandVisualizer.transform.parent = transform;
 
-                objToSpawn.name = "BandVisualizer " + i;
-                objToSpawn.transform.position = new Vector3(transform.position.x + (i * transform.localScale.x), transform.position.y, 0);
+                newBandVisualizer.name = "BandVisualizer " + i;
+                newBandVisualizer.transform.position = new Vector3(transform.position.x + (i * transform.localScale.x), transform.position.y, 0);
 
-                _visualizers[i] = objToSpawn;
+                _visualizers[i] = newBandVisualizer;
             }
         }
 
         //update all bandvisualizers
         private void Update()
         {
-            waveformDrawer.audioSource.GetSpectrumData(_samples, 0, FFTWindow.Blackman);
+            _waveformDrawer.audioSource.GetSpectrumData(_samples, 0, FFTWindow.Blackman);
             if (_visualizers == null)
                 return;
 

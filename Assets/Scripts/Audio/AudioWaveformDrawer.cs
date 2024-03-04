@@ -125,7 +125,7 @@ namespace ProefExamen.Audio.WaveFormDrawer
         /// Calculates the correct local song time based on a point along the waveform.
         /// </summary>
         /// <param name="position">Position to calculate the song time.</param>
-        /// <returns>Song time (float)</returns>
+        /// <returns>Song time (float).</returns>
         public float CalculateSongTimeBasedOnPosition(Vector2 position)
         {
             float xPos = position.x - _waveformPositionOffset.x;
