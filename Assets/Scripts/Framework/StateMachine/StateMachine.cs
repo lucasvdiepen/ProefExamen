@@ -53,6 +53,7 @@ namespace ProefExamen.Framework.StateMachine
                 if(_navigationHistory.Count < 2)
                     return null;
 
+                // Tries to get the second to last state in the navigation history.
                 if (!TryGetState(_navigationHistory[^2], out State state))
                     return null;
 
