@@ -89,7 +89,8 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                 _targetNotePosition, 
                 _laneID, 
                 SessionValues.Instance.currentLevel.levelID, 
-                timeStamp);
+                timeStamp
+            );
         }
 
         /// <summary>
@@ -111,46 +112,54 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             Gizmos.color = Color.red;
             Gizmos.DrawLine(
                 new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), 
-                new Vector3(_initialNotePosition.x + .4f, targetHeight, 0));
+                new Vector3(_initialNotePosition.x + .4f, targetHeight, 0)
+             );
             Gizmos.DrawLine(
                 new Vector3(_initialNotePosition.x - .4f, targetHeight * -1, 0), 
-                new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0));
+                new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0)
+             );
 
-            targetHeight = total * 
-                (SessionValues.Instance.lerpAlphaHitThreshold * 
-                SessionValues.Instance.okThreshold);
+            targetHeight = total
+                * SessionValues.Instance.lerpAlphaHitThreshold 
+                * SessionValues.Instance.okThreshold;
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(
                 new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), 
-                new Vector3(_initialNotePosition.x + .4f, targetHeight, 0));
+                new Vector3(_initialNotePosition.x + .4f, targetHeight, 0)
+             );
             Gizmos.DrawLine(
                 new Vector3(_initialNotePosition.x - .4f, targetHeight * -1, 0), 
-                new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0));
+                new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0)
+             );
 
-            targetHeight = total *
-                (SessionValues.Instance.lerpAlphaHitThreshold * 
-                SessionValues.Instance.alrightThreshold);
+            targetHeight = total
+                * SessionValues.Instance.lerpAlphaHitThreshold 
+                * SessionValues.Instance.alrightThreshold;
 
             Gizmos.color = Color.green;
             Gizmos.DrawLine(
                 new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), 
-                new Vector3(_initialNotePosition.x + .4f, targetHeight, 0));
+                new Vector3(_initialNotePosition.x + .4f, targetHeight, 0)
+             );
             Gizmos.DrawLine(
                 new Vector3(_initialNotePosition.x - .4f, targetHeight * -1, 0), 
-                new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0));
+                new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0)
+             );
 
-            targetHeight = total * 
-                (SessionValues.Instance.lerpAlphaHitThreshold * 
-                SessionValues.Instance.niceThreshold);
+            targetHeight = total 
+                * SessionValues.Instance.lerpAlphaHitThreshold 
+                * SessionValues.Instance.niceThreshold;
 
             Gizmos.color = Color.blue;
             Gizmos.DrawLine(
                 new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), 
-                new Vector3(_initialNotePosition.x + .4f, targetHeight, 0));
+                new Vector3(_initialNotePosition.x + .4f, targetHeight, 0)
+             );
             Gizmos.DrawLine(
                 new Vector3(_initialNotePosition.x - .4f, targetHeight * -1, 0), 
-                new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0));
+                new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0)
+             );
         }
     }
 }
