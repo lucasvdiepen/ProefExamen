@@ -422,7 +422,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 560951818}
+  - component: {fileID: 560951820}
   - component: {fileID: 560951817}
+  - component: {fileID: 560951819}
   m_Layer: 0
   m_Name: TimeStamper
   m_TagString: Untagged
@@ -442,8 +444,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b2bb93b534a0b348b90b32dc81410d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeStampColor: {r: 0, g: 0, b: 1, a: 1}
-  _selectedTimeStampColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   _stampLineHeightReduction: 190
   _timeStampTweakAmount: 0.5
   _gizmoSpacing: 0.6
@@ -469,6 +469,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 1, y: 0, z: 0}
+--- !u!114 &560951819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560951816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72a7f47e57278e24492adf5328dd2634, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &560951820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 560951816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20bbd4280f3e92b4fb2f1a2940050326, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _timeStampColor: {r: 0, g: 0, b: 1, a: 1}
+  _selectedTimeStampColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  _stampLineHeightReduction: 190
+  _gizmoSpacing: 0.6
 --- !u!1 &600010996
 GameObject:
   m_ObjectHideFlags: 0

@@ -134,30 +134,6 @@ namespace ProefExamen.Audio.WaveFormDrawer
             return xPos * _audioClipDuration / _songWidth; ;
         }
 
-        /// <summary>
-        /// Log all available keybinds to the console.
-        /// </summary>
-        public void LogKeybinds()
-        {
-            Debug.Log("<b>Available Keybinds:</b>");
-            Debug.Log("Pause song key: " + _pauseKey);
-            Debug.Log(" "); //empty line
-
-            Debug.Log("Scrub forward key: " + _forwardKey);
-            Debug.Log("Scrub backward Key: " + _backwardKey);
-            Debug.Log(" "); //empty line
-
-            Debug.Log("Speed up Key: " + _speedUpKey);
-            Debug.Log("Speed down Key: " + _speedDownKey);
-            Debug.Log(" "); //empty line
-
-            Debug.Log("Go to start Key: " + _homeKey);
-            Debug.Log("Go to end Key: " + _endKey);
-
-            Debug.Log(" "); //empty line
-            Debug.Log(" "); //empty line
-            onShowKeyBinds?.Invoke();
-        }
 
         /// <summary>
         /// Method for initialzing the waveform drawer for a specific AudioClip.
@@ -253,7 +229,7 @@ namespace ProefExamen.Audio.WaveFormDrawer
 
             if (Input.GetKeyDown(_pauseKey)) //pausing song
             {
-                if (!isPaused)
+                if (!isPaused && audioSource.isPlaying)
                 {
                     audioSource.Pause();
                 }
@@ -312,6 +288,32 @@ namespace ProefExamen.Audio.WaveFormDrawer
 
             float x = _songWidth / _audioClipDuration * audioSource.time;
             cursor.transform.position = new Vector2(x, 0) + _waveformPositionOffset;
+        }
+
+        /// <summary>
+        /// Log all available keybinds to the console.
+        /// </summary>
+        public void LogKeybinds() //Gets called from custom editor button "Show Keybinds"
+        {
+            Debug.Log("<b>Available Keybinds:</b>");
+            Debug.Log("Pause song key: " + _pauseKey);
+            Debug.Log(" "); //empty line
+
+            Debug.Log("Scrub forward key: " + _forwardKey);
+            Debug.Log("Scrub backward Key: " + _backwardKey);
+            Debug.Log(" "); //empty line
+
+            Debug.Log("Speed up Key: " + _speedUpKey);
+            Debug.Log("Speed down Key: " + _speedDownKey);
+            Debug.Log(" "); //empty line
+
+            Debug.Log("Go to start Key: " + _homeKey);
+            Debug.Log("Go to end Key: " + _endKey);
+
+            Debug.Log(" "); //empty line
+            Debug.Log(" "); //empty line
+
+            onShowKeyBinds?.Invoke();
         }
     }
 }

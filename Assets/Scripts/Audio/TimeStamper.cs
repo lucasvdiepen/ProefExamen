@@ -91,6 +91,12 @@ namespace ProefExamen.Audio.TimeStamping
             /// </summary>
             public bool isSelected;
 
+            /// <summary>
+            /// Constructor for the time stamp data.
+            /// </summary>
+            /// <param name="start">Start point of verticle line.</param>
+            /// <param name="end">End point of vertical line.</param>
+            /// <param name="time">Associated song time.</param>
             public TimeStampData(Vector2 start, Vector2 end, float time)
             {
                 lineData.startLinePoint = start;
@@ -320,7 +326,7 @@ namespace ProefExamen.Audio.TimeStamping
         /// <summary>
         /// Method for showing the keybinds in the console.
         /// </summary>
-        private void HandleShowKeybinds()
+        private void HandleShowKeybinds() //Gets called from custom editor button "Show Keybinds"
         {
             Debug.Log("Place TimeStamp Key: " + _placeTimeStampKey);
             Debug.Log("Undo TimeStamp Key: CTRL + " + _undoTimeStampKey);
