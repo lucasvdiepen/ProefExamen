@@ -12,12 +12,6 @@ namespace ProefExamen.Audio.TimeStamping
     public class TimeStamper : MonoBehaviour
     {
         [SerializeField]
-        private Color _timeStampColor = Color.blue;
-
-        [SerializeField]
-        private Color _selectedTimeStampColor = Color.yellow;
-
-        [SerializeField]
         private float _stampLineHeightReduction = 100;
 
         [SerializeField]
@@ -48,18 +42,22 @@ namespace ProefExamen.Audio.TimeStamping
         [SerializeField]
         private List<TimeStampData> _timeStamps = new();
 
+        /// <summary>
+        /// Points to the list of time stamps.
+        /// </summary>
         public List<TimeStampData> timeStamps => _timeStamps;
 
-        private AudioWaveformDrawer _waveformDrawer = null;
-        private TimeStampData _currentSelectedTimeStamp = null;
-
-        private readonly GUIStyle _debugBoldGuiStyle = new();
-        private readonly GUIStyle _debugItalicsGuiStyle = new();
+        /// <summary>
+        /// Returns the current selected time stamp.
+        /// </summary>
+        public TimeStampData currentSelectedTimeStamp { get; private set;}
 
         /// <summary>
         /// Returns the raw asset path for the time stamp data container.
         /// </summary>
         public string rawAssetPath => "Assets/SongTimeStampData/";
+
+        private AudioWaveformDrawer _waveformDrawer = null;
 
         /// <summary>
         /// Struct responsible for holding the necessary data for a gizmo line.
@@ -104,15 +102,6 @@ namespace ProefExamen.Audio.TimeStamping
         {
             _waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();
             _waveformDrawer.onShowKeyBinds += HandleShowKeybinds;
-
-            //set up the debug gui styles
-            _debugBoldGuiStyle.fontSize = 48;
-            _debugBoldGuiStyle.fontStyle = FontStyle.Bold;
-            _debugBoldGuiStyle.normal.textColor = Color.white;
-
-            _debugItalicsGuiStyle.fontSize = 48;
-            _debugItalicsGuiStyle.fontStyle = FontStyle.Italic;
-            _debugItalicsGuiStyle.normal.textColor = Color.white;
         }
 
         private void Update()
@@ -149,10 +138,10 @@ namespace ProefExamen.Audio.TimeStamping
             //deleting selected time stamp
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_deleteCurrentTimeStampKey))
             {
-                if (_currentSelectedTimeStamp != null)
+                if (currentSelectedTimeStamp != null)
                 {
-                    TimeStampData timeStampToDelete = _currentSelectedTimeStamp;
-                    _currentSelectedTimeStamp = null;
+                    TimeStampData timeStampToDelete = currentSelectedTimeStamp;
+                    currentSelectedTimeStamp = null;
                     _timeStamps.Remove(timeStampToDelete);
                 }
             }
@@ -176,24 +165,24 @@ namespace ProefExamen.Audio.TimeStamping
                     return;
 
                 //if closest time stamp is not the current selected time stamp, select it
-                if (closestStampToMouse != _currentSelectedTimeStamp)
+                if (closestStampToMouse != currentSelectedTimeStamp)
                 {
                     closestStampToMouse.isSelected = true;
-                    if (_currentSelectedTimeStamp != null)
-                        _currentSelectedTimeStamp.isSelected = false;
-                    _currentSelectedTimeStamp = closestStampToMouse;
+                    if (currentSelectedTimeStamp != null)
+                        currentSelectedTimeStamp.isSelected = false;
+                    currentSelectedTimeStamp = closestStampToMouse;
                 }
             }
 
             //when releasing ctrl, remove current time stamp selection
-            if (Input.GetKeyUp(KeyCode.LeftControl) && _currentSelectedTimeStamp != null)
+            if (Input.GetKeyUp(KeyCode.LeftControl) && currentSelectedTimeStamp != null)
             {
-                _currentSelectedTimeStamp.isSelected = false;
-                _currentSelectedTimeStamp = null;
+                currentSelectedTimeStamp.isSelected = false;
+                currentSelectedTimeStamp = null;
             }
 
             //tweak current selected time stamp if it is not null
-            if (_currentSelectedTimeStamp != null)
+            if (currentSelectedTimeStamp != null)
             {
                 Vector2 newDirection = Vector2.zero;
                 if (Input.mouseScrollDelta.magnitude > 0) //tweak time stamp position based on mouse scroll
@@ -207,12 +196,12 @@ namespace ProefExamen.Audio.TimeStamping
                         newDirection = Vector2.right * _timeStampTweakAmount;
                 }
 
-                _currentSelectedTimeStamp.lineData.startLinePoint += newDirection;
-                _currentSelectedTimeStamp.lineData.endLinePoint += newDirection;
+                currentSelectedTimeStamp.lineData.startLinePoint += newDirection;
+                currentSelectedTimeStamp.lineData.endLinePoint += newDirection;
 
                 //update song time of the current selected time stamp
-                _currentSelectedTimeStamp.songTime =
-                    _waveformDrawer.CalculateSongTimeBasedOnPosition(_currentSelectedTimeStamp.lineData.startLinePoint);
+                currentSelectedTimeStamp.songTime =
+                    _waveformDrawer.CalculateSongTimeBasedOnPosition(currentSelectedTimeStamp.lineData.startLinePoint);
             }
         }
 
@@ -345,44 +334,6 @@ namespace ProefExamen.Audio.TimeStamping
             AssetDatabase.Refresh();
 
             print("Exported timestamps");
-        }
-#endif
-
-        /// <summary>
-        /// Draws gizmos for the time stamps
-        /// </summary>
-        private void OnDrawGizmos()
-        {
-            for (int i = 0; i < _timeStamps.Count; i++)
-            {
-                //Little hacky but SOMETIME I HATE UNITY, you can't set the thickness of the gizmos line. 
-                //This fixes the gizmo flickering when it's ony 1px wide.
-
-                Vector2 offset = new(_gizmoSpacing, 0);
-                Gizmos.color = _timeStamps[i].isSelected ? _selectedTimeStampColor : _timeStampColor;
-
-                Gizmos.DrawLine(_timeStamps[i].lineData.startLinePoint, _timeStamps[i].lineData.endLinePoint); //center
-                Gizmos.DrawLine(_timeStamps[i].lineData.startLinePoint - offset, _timeStamps[i].lineData.endLinePoint - offset); //left
-                Gizmos.DrawLine(_timeStamps[i].lineData.startLinePoint + offset, _timeStamps[i].lineData.endLinePoint + offset); //right
-            }
-        }
-
-#if UNITY_EDITOR
-        /// <summary>
-        /// Draws debug information on the screen.
-        /// </summary>
-        private void OnGUI()
-        {
-            GUI.color = Color.white;
-
-            GUI.Label(new Rect(0, 0, 300, 100), $"Playback Speed: {_waveformDrawer.currentPlaybackSpeed}", _debugBoldGuiStyle);
-            GUI.Label(new Rect(0, 48, 300, 100), $"Song Time: {_waveformDrawer.currentSongTime}", _debugBoldGuiStyle);
-
-            if (_waveformDrawer.isPaused) //draw paused text
-                GUI.Label(new Rect(1750, 0, 300, 100), "Paused", _debugItalicsGuiStyle);
-
-            if (_currentSelectedTimeStamp != null) //draw selected time stamp information
-                GUI.Label(new Rect(0, 96, 300, 100), $"TimeStamp Time: {_currentSelectedTimeStamp.songTime}", _debugItalicsGuiStyle);
         }
 #endif
 
