@@ -18,6 +18,6 @@ namespace ProefExamen.Framework.Buttons.StateMachine
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        private protected override void OnButtonPressed() => StateMachine.Instance.GoToState(_targetState);
+        private protected override void OnButtonPressed() => Framework.StateMachine.StateMachine.Instance.GoToState(_targetState);
     }
 }

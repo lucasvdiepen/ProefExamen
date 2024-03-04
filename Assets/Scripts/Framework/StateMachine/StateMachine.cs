@@ -1,8 +1,9 @@
-using ProefExamen.Framework.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+using ProefExamen.Framework.Utils;
 
 namespace ProefExamen.Framework.StateMachine
 {
