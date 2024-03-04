@@ -32,6 +32,8 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private int _index;
 
+        private void Awake() => Application.targetFrameRate = 60;
+
         private void Start()
         {
             OnNoteHit += RemoveNoteFromLane;
@@ -118,7 +120,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
             for (int i = 0; i < inputsLength; i++)
                 if (Input.GetKeyDown(_inputs[i]))
-                    _lanes[i].Button.onClick?.Invoke();
+                    _lanes[i].OnButtonPressed();
         }
     }
 }

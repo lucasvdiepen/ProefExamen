@@ -17,8 +17,6 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         private int _laneID = -1;
 
         [Header("References")]
-        [SerializeField]
-        private Button _button;
 
         [SerializeField]
         private List<Note> _notes = new();
@@ -35,34 +33,19 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// </summary>
         public List<Note> Notes => _notes;
 
-        /// <summary>
-        /// Gets the private button component of the Lane.
-        /// </summary>
-        public Button Button => _button;
-
-        private void Awake()
-        {
-            if(_button == null)
-                _button = gameObject.GetComponent<Button>();
-        }
-
         private void Start()
         {
-            if (_button == null)
-            {
-                Debug.LogError("Lane with ID");
-                return;
-            }
             if (_laneID == -1)
             {
-                Debug.LogError("Lane with button " + _button.name + " has no assigned ID!");
+                Debug.LogError("Lane has no assigned ID!");
                 return;
             }
-
-            _button.onClick.AddListener(SendButtonPress);
         }
 
-        private void SendButtonPress()
+        /// <summary>
+        /// Called when the lane button is pressed.
+        /// </summary>
+        public void OnButtonPressed()
         {
             HitStatus hitResult = _notes.Count == 0
                 ? HitStatus.Miss
