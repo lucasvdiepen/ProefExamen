@@ -9,6 +9,9 @@ namespace ProefExamen.Framework.Gameplay.Level
     [CreateAssetMenu(fileName = "Levels", menuName = "ScriptableObjects/Levels")]
     public class Levels : ScriptableObject
     {
+        /// <summary>
+        /// The list that holds levels.
+        /// </summary>
         public List<LevelData> levels = new();
     }
 }

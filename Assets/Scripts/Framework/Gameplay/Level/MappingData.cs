@@ -6,8 +6,19 @@ namespace ProefExamen.Framework.Gameplay.Level
     [System.Serializable]
     public struct MappingData
     {
+        /// <summary>
+        /// The difficulty for this mapping data.
+        /// </summary>
         public Difficulty difficulty;
+
+        /// <summary>
+        /// The timestamps for notes.
+        /// </summary>
         public float[] timestamps;
+
+        /// <summary>
+        /// The lane ID for each timestamp that the notes have to be spawned on.
+        /// </summary>
         public int[] laneIDs;
     }
 }

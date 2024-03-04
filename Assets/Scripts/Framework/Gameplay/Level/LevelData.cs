@@ -10,8 +10,20 @@ namespace ProefExamen.Framework.Gameplay.Level
     [System.Serializable]
     public struct LevelData
     {
+        /// <summary>
+        /// The ID of a level.
+        /// </summary>
         public int levelID;
+
+        /// <summary>
+        /// The playable sound of this level.
+        /// </summary>
         public AudioClip song;
+
+        /// <summary>
+        /// All the mapping data of this level needs to contain Easy, Normal and Hard
+        /// even if not used.
+        /// </summary>
         public MappingData[] mappingData;
 
         /// <summary>

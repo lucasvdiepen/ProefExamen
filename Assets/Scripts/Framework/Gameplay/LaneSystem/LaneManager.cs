@@ -49,6 +49,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
                 Destroy(target.gameObject);
             }
+
             SessionValues.Instance.score += (int)hitStatus * SessionValues.Instance.scoreMultiplier;
         }
 
@@ -69,6 +70,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                     yield return null;
                     continue;
                 }
+
                 QueueUpcomingNotes();
 
                 yield return null;
