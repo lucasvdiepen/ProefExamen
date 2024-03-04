@@ -67,13 +67,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             if (_notes.Count == 0)
                 hitResult = HitStatus.Miss;
             else
-            {
-                Note nextNote = _notes[0];
-                hitResult = LaneUtils.CalculateHitStatus(nextNote.LerpAlpha);
-
-                if(hitResult != HitStatus.Miss)
-                    Destroy(nextNote.gameObject);
-            }
+                hitResult = LaneUtils.CalculateHitStatus(_notes[0].LerpAlpha);
 
             LaneManager.Instance.OnNoteHit?.Invoke(hitResult, _laneID);
         }
@@ -91,6 +85,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             _notes.Add(newNote);
 
             newNote.SetNoteValues(
+                this,
                 _initialNotePosition, 
                 _targetNotePosition, 
                 _laneID, 
@@ -103,7 +98,11 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// Remove a note from the tracked notes list.
         /// </summary>
         /// <param name="note">The targeted note.</param>
-        public void RemoveNote(Note note) => _notes.Remove(note);
+        public void RemoveNote(Note note)
+        {
+            if(_notes.Contains(note))
+                _notes.Remove(note);
+        }
 
         private void OnDrawGizmos()
         {

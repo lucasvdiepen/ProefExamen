@@ -17,6 +17,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         private int _laneID = -1;
 
         [SerializeField]
+        private Lane _lane;
+
+        [SerializeField]
         private int _levelID = -1;
         
         [SerializeField]
@@ -45,8 +48,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// <param name="laneID">The Lane ID of the Lane that the Note is on.</param>
         /// <param name="levelID">The Level ID of the level that the Note originates from.</param>
         /// <param name="timeStamp">The timestamp that the Note needs to be hit on.</param>
-        public void SetNoteValues(Vector2 initialPosition, Vector2 targetPosition, int laneID, int levelID, float timeStamp)
+        public void SetNoteValues(Lane lane,Vector2 initialPosition, Vector2 targetPosition, int laneID, int levelID, float timeStamp)
         {
+            _lane = lane;
             _initialPosition = initialPosition;
             _targetPosition = targetPosition;
             _laneID = laneID;
@@ -72,6 +76,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                 return;
 
             _isRemovalCalled = true;
+            _lane.RemoveNote(this);
             LaneManager.Instance.OnNoteHit?.Invoke(HitStatus.Miss, _laneID);
         }
     }
