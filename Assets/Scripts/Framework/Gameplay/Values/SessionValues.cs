@@ -6,24 +6,17 @@ using ProefExamen.Framework.Gameplay.Level;
 namespace ProefExamen.Framework.Gameplay.Values
 {
     /// <summary>
-    /// A class responsible for setting the default variables of the static class SessionValues. 
-    /// Is also used to view values of SessionValues realtime which is usefull for debuggin.
+    /// A class responsible for holding settings that are widely used and edited throughout multiple classes.
     /// </summary>
     public class SessionValues : AbstractSingleton<SessionValues>
     {
         /// <summary>
-        /// A bool that decides if the values here must be updated during a session to watch values.
-        /// Used for debugging.
-        /// </summary>
-        public bool shouldUpdateLive = true;
-
-        /// <summary>
-        /// The travelTime default.
+        /// The travelTime for a note.
         /// </summary>
         public float travelTime;
 
         /// <summary>
-        /// The time through a song default.
+        /// The current time through a song.
         /// </summary>
         public float time => audioSource.time;
 
@@ -33,27 +26,27 @@ namespace ProefExamen.Framework.Gameplay.Values
         public int score;
 
         /// <summary>
-        /// The score multiplier default.
+        /// The score multiplier.
         /// </summary>
         public int scoreMultiplier;
 
         /// <summary>
-        /// The paused bool default.
+        /// The bool that reflects if the game is paused.
         /// </summary>
         public bool paused;
 
         /// <summary>
-        /// The currentLevelID default.
+        /// The the target levelID.
         /// </summary>
         public int currentLevelID;
 
         /// <summary>
-        /// The currentLevel default.
+        /// The currently selected level.
         /// </summary>
         public LevelData currentLevel;
 
         /// <summary>
-        /// The default difficulty.
+        /// The currently selected difficulty.
         /// </summary>
         public Difficulty difficulty;
 
@@ -79,15 +72,18 @@ namespace ProefExamen.Framework.Gameplay.Values
         public float lerpAlphaHitThreshold = .2f;
 
         /// <summary>
-        /// The levels default.
+        /// The list of levels that is used to look up a level with ID.
         /// </summary>
         public Levels levels;
 
         /// <summary>
-        /// The Note default.
+        /// The Note that is used during runtime.
         /// </summary>
         public GameObject note;
 
+        /// <summary>
+        /// The audio source that is used to play sound.
+        /// </summary>
         public AudioSource audioSource;
 
         /// <summary>
