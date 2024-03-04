@@ -1,25 +1,20 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace ProefExamen.Framework.StateMachine.States
 {
+    /// <summary>
+    /// A class that represents a test menu state 2 in the state machine.
+    /// </summary>
     public class TestMenuState2 : MenuState
     {
-        public override IEnumerator OnStateEnter()
-        {
-            yield return base.OnStateEnter();
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override IEnumerator OnStateEnter() => base.OnStateEnter();
 
-            Debug.Log("Test Menu State 2 Entered");
-            yield return null;
-        }
-
-        public override IEnumerator OnStateExit()
-        {
-            yield return base.OnStateExit();
-
-            Debug.Log("Test Menu State 2 Exited");
-            yield return null;
-        }
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override IEnumerator OnStateExit() => base.OnStateExit();
     }
 }

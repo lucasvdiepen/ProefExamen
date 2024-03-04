@@ -1,48 +1,80 @@
-using ProefExamen.Framework.StateMachine;
 using System.Collections;
 using UnityEngine;
 
-public abstract class MenuState : State
+namespace ProefExamen.Framework.StateMachine
 {
-    [SerializeField]
-    private CanvasGroup _canvasGroup;
-
-    [SerializeField]
-    private float _fadeDuration = 0.5f;
-
-    private protected override void Awake()
+    /// <summary>
+    /// A class that represents a menu state in the state machine.
+    /// </summary>
+    public abstract class MenuState : State
     {
-        _canvasGroup.alpha = 0;
+        /// <summary>
+        /// The canvas group that is used to fade in and out.
+        /// </summary>
+        [SerializeField]
+        private CanvasGroup _canvasGroup;
 
-        base.Awake();
-    }
+        /// <summary>
+        /// The duration of the fade effect.
+        /// </summary>
+        [SerializeField]
+        private float _fadeDuration = 0.5f;
 
-    public override IEnumerator OnStateEnter()
-    {
-        yield return base.OnStateEnter();
-
-        yield return FadeIn();
-    }
-
-    public override IEnumerator OnStateExit()
-    {
-        yield return FadeOut();
-
-        yield return base.OnStateExit();
-    }
-
-    private protected virtual IEnumerator FadeIn() => ExecuteFadeEffect(0, 1);
-
-    private protected virtual IEnumerator FadeOut() => ExecuteFadeEffect(1, 0);
-
-    private IEnumerator ExecuteFadeEffect(float fromAlpha, float targetAlpha)
-    {
-        float elapsedTime = 0;
-        while (elapsedTime < _fadeDuration)
+        /// <summary>
+        /// <inheritdoc/>
+        /// Menu state also sets the alpha to 0.
+        /// </summary>
+        private protected override void Awake()
         {
-            elapsedTime += Time.deltaTime;
-            _canvasGroup.alpha = Mathf.Lerp(fromAlpha, targetAlpha, elapsedTime / _fadeDuration);
-            yield return null;
+            _canvasGroup.alpha = 0;
+
+            base.Awake();
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override IEnumerator OnStateEnter()
+        {
+            yield return base.OnStateEnter();
+
+            yield return FadeIn();
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override IEnumerator OnStateExit()
+        {
+            yield return FadeOut();
+
+            yield return base.OnStateExit();
+        }
+
+        /// <summary>
+        /// Fades in the menu.
+        /// </summary>
+        private protected virtual IEnumerator FadeIn() => ExecuteFadeEffect(0, 1);
+
+        /// <summary>
+        /// Fades out the menu.
+        /// </summary>
+        private protected virtual IEnumerator FadeOut() => ExecuteFadeEffect(1, 0);
+
+        /// <summary>
+        /// Executes the fade effect.
+        /// </summary>
+        /// <param name="fromAlpha">From alpha value.</param>
+        /// <param name="targetAlpha">Target alpha value.</param>
+        private IEnumerator ExecuteFadeEffect(float fromAlpha, float targetAlpha)
+        {
+            float elapsedTime = 0;
+            while (elapsedTime < _fadeDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                _canvasGroup.alpha = Mathf.Lerp(fromAlpha, targetAlpha, elapsedTime / _fadeDuration);
+                yield return null;
+            }
         }
     }
 }
