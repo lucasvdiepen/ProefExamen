@@ -333,6 +333,7 @@ GameObject:
   - component: {fileID: 3628566448154623194}
   - component: {fileID: 8768506479407420187}
   - component: {fileID: 1438585066448208182}
+  - component: {fileID: 8601023187582841693}
   m_Layer: 5
   m_Name: HighscoreText
   m_TagString: Untagged
@@ -458,6 +459,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8601023187582841693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4291115927107921348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f218d3edd365144fb281cbd48098adb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tag: 
 --- !u!1 &8398797225538392449
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,7 +519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderCamera: {fileID: 8296380854836951643}
-  _highscoreText: {fileID: 1438585066448208182}
+  _highscoreText: {fileID: 8601023187582841693}
   _subject: Look at my highscore
   _text: Try to beat my highscore!
 --- !u!1 &9073581452890130729
