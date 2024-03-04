@@ -113,11 +113,11 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             Gizmos.DrawLine(
                 new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), 
                 new Vector3(_initialNotePosition.x + .4f, targetHeight, 0)
-             );
+            );
             Gizmos.DrawLine(
                 new Vector3(_initialNotePosition.x - .4f, targetHeight * -1, 0), 
                 new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0)
-             );
+            );
 
             targetHeight = total
                 * SessionValues.Instance.lerpAlphaHitThreshold 
@@ -127,11 +127,11 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             Gizmos.DrawLine(
                 new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), 
                 new Vector3(_initialNotePosition.x + .4f, targetHeight, 0)
-             );
+            );
             Gizmos.DrawLine(
                 new Vector3(_initialNotePosition.x - .4f, targetHeight * -1, 0), 
                 new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0)
-             );
+            );
 
             targetHeight = total
                 * SessionValues.Instance.lerpAlphaHitThreshold 
@@ -141,11 +141,11 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             Gizmos.DrawLine(
                 new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), 
                 new Vector3(_initialNotePosition.x + .4f, targetHeight, 0)
-             );
+            );
             Gizmos.DrawLine(
                 new Vector3(_initialNotePosition.x - .4f, targetHeight * -1, 0), 
                 new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0)
-             );
+            );
 
             targetHeight = total 
                 * SessionValues.Instance.lerpAlphaHitThreshold 
@@ -155,11 +155,11 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             Gizmos.DrawLine(
                 new Vector3(_initialNotePosition.x - .4f, targetHeight, 0), 
                 new Vector3(_initialNotePosition.x + .4f, targetHeight, 0)
-             );
+            );
             Gizmos.DrawLine(
                 new Vector3(_initialNotePosition.x - .4f, targetHeight * -1, 0), 
                 new Vector3(_initialNotePosition.x + .4f, targetHeight * -1, 0)
-             );
+            );
         }
     }
 }
