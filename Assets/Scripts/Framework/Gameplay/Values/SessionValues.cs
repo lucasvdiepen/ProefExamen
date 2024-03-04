@@ -105,7 +105,10 @@ namespace ProefExamen.Framework.Gameplay.Values
 
             for (int i = 0; i < listLength; i++)
                 if (levels.levels[i].levelID == currentLevelID)
+                {
                     currentLevel = levels.levels[i];
+                    return;
+                }
         }
 
         /// <summary>
