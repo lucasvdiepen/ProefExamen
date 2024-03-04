@@ -1,12 +1,13 @@
-using ProefExamen.Audio.WaveFormDrawer;
-using ProefExamen.Audio.SpectrumDrawer;
-using ProefExamen.Audio.TimeStamping;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+
+using ProefExamen.Audio.WaveFormDrawer;
+using ProefExamen.Audio.SpectrumDrawer;
+using ProefExamen.Audio.TimeStamping;
 
 namespace ProefExamen.Editor.MappingWindow
 {
@@ -44,6 +45,9 @@ namespace ProefExamen.Editor.MappingWindow
             window.minSize = new Vector2(50, 100);
         }
 
+        /// <summary>
+        /// Method for creating the GUI of the window.
+        /// </summary>
         public void CreateGUI()
         {
             //get necessary refs
@@ -179,8 +183,7 @@ namespace ProefExamen.Editor.MappingWindow
             }
         }
 
-        private void OnFocus()
-            => PlayModeWarning();
+        private void OnFocus() => PlayModeWarning();
 
         private void OnDestroy()
         {

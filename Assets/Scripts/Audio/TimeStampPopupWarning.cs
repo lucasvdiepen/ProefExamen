@@ -1,7 +1,8 @@
-using ProefExamen.Audio.WaveFormDrawer;
 using UnityEditor;
 using UnityEngine;
 using System;
+
+using ProefExamen.Audio.WaveFormDrawer;
 
 namespace ProefExamen.Audio.TimeStamping.PopupWarning
 {
@@ -26,8 +27,8 @@ namespace ProefExamen.Audio.TimeStamping.PopupWarning
         /// <summary>
         /// Method for handling the song changed event.
         /// </summary>
-        /// <param name="newSongTitle"></param>
-        /// <param name="oldSongTitle"></param>
+        /// <param name="newSongTitle">New song title</param>
+        /// <param name="oldSongTitle">Old song title</param>
         private void HandleSongChanged(string newSongTitle, string oldSongTitle)
         {
             CheckForUnsavedData(oldSongTitle);
@@ -67,9 +68,9 @@ namespace ProefExamen.Audio.TimeStamping.PopupWarning
         /// <summary>
         /// Method for showing a warning popup when trying to exit the application with unsaved time stamps.
         /// </summary>
-        /// <param name="title"></param>
-        /// <param name="message"></param>
-        /// <param name="ok"></param>
+        /// <param name="title">Title of dialog screen</param>
+        /// <param name="message">Text message of dialog box</param>
+        /// <param name="ok">Ok button text</param>
         private void ShowWarningDialog(string title, string message, string ok, Action<bool> onSubmit, string overrideSongTitle = "")
         {
             string cancel = "No, I know what I'm doing";

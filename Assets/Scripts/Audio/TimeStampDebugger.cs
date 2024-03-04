@@ -1,5 +1,6 @@
-using ProefExamen.Audio.WaveFormDrawer;
 using UnityEngine;
+
+using ProefExamen.Audio.WaveFormDrawer;
 
 namespace ProefExamen.Audio.TimeStamping.Debugger
 {

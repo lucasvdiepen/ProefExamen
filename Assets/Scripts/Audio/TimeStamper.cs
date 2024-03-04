@@ -1,8 +1,9 @@
-using ProefExamen.Audio.WaveFormDrawer;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
+
+using ProefExamen.Audio.WaveFormDrawer;
 
 namespace ProefExamen.Audio.TimeStamping
 {
@@ -88,7 +89,7 @@ namespace ProefExamen.Audio.TimeStamping
             /// <summary>
             /// Returns if this time stamp is selected.
             /// </summary>
-            public bool isSelected = false;
+            public bool isSelected;
 
             public TimeStampData(Vector2 start, Vector2 end, float time)
             {
@@ -231,27 +232,6 @@ namespace ProefExamen.Audio.TimeStamping
         }
 
         /// <summary>
-        /// Method for showing the keybinds in the console.
-        /// </summary>
-        private void HandleShowKeybinds()
-        {
-            Debug.Log("Place TimeStamp Key: " + _placeTimeStampKey);
-            Debug.Log("Undo TimeStamp Key: CTRL + " + _undoTimeStampKey);
-            Debug.Log(" "); //empty line
-
-            Debug.Log("Select TimeStamp Key: CTRL");
-            Debug.Log("Delete selected TimeStamp Key: CTRL + " + _deleteCurrentTimeStampKey);
-            Debug.Log(" "); //empty line
-
-            Debug.Log("Export TimeStamps Key: CTRL + " + _exportTimeStampsKey);
-            Debug.Log(" "); //empty line
-
-            Debug.Log("Increase TimeStamp Key: CTRL + " + _increaseTimeStampKey);
-            Debug.Log("Decrease TimeStamp Key: CTRL + " + _decreaseTimeStampKey);
-            Debug.Log(" "); //empty line
-        }
-
-        /// <summary>
         /// Helper method for importing time stamps from a scriptable object (TimeStampDataContainer)
         /// </summary>
         public void TryImportTimeStamps()
@@ -336,6 +316,27 @@ namespace ProefExamen.Audio.TimeStamping
             print("Exported timestamps");
         }
 #endif
+
+        /// <summary>
+        /// Method for showing the keybinds in the console.
+        /// </summary>
+        private void HandleShowKeybinds()
+        {
+            Debug.Log("Place TimeStamp Key: " + _placeTimeStampKey);
+            Debug.Log("Undo TimeStamp Key: CTRL + " + _undoTimeStampKey);
+            Debug.Log(" "); //empty line
+
+            Debug.Log("Select TimeStamp Key: CTRL");
+            Debug.Log("Delete selected TimeStamp Key: CTRL + " + _deleteCurrentTimeStampKey);
+            Debug.Log(" "); //empty line
+
+            Debug.Log("Export TimeStamps Key: CTRL + " + _exportTimeStampsKey);
+            Debug.Log(" "); //empty line
+
+            Debug.Log("Increase TimeStamp Key: CTRL + " + _increaseTimeStampKey);
+            Debug.Log("Decrease TimeStamp Key: CTRL + " + _decreaseTimeStampKey);
+            Debug.Log(" "); //empty line
+        }
 
         private void OnDestroy()
         {
