@@ -2,9 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using System;
 
-using ProefExamen.Audio.WaveFormDrawer;
-
-namespace ProefExamen.Audio.TimeStamping.PopupWarning
+namespace ProefExamen.Framework.BeatMapping
 {
     /// <summary>
     /// Class for showing a warning popup when trying to exit the application with unsaved time stamps.
@@ -14,6 +12,17 @@ namespace ProefExamen.Audio.TimeStamping.PopupWarning
     {
         private AudioWaveformDrawer _waveformDrawer;
         private TimeStamper _timeStamper;
+
+        private const string _unexportedDataTitle = "You have unexported time stamp data!";
+        private const string _unsavedDataTitle = "You have unsaved time stamp data!";
+        
+        private const string _noContainerMessage = "No TimeStampDataContainer found at the path: {0} " +
+            "\nDo you wish to save and export all new changes before exiting?";
+        private const string _mismatchDataMessage = "Saved TimeStampDataContainer found at the path: {0} " +
+            "\nDoes not match with current time stamp data. Do you wish to save and update all new changes before exiting?";
+        
+        private const string _exportDataButton = "Yes, export data now";
+        private const string _updateDataButton = "Yes, update data now";
 
         private void Awake()
         {
@@ -41,28 +50,24 @@ namespace ProefExamen.Audio.TimeStamping.PopupWarning
         private void CheckForUnsavedData(string songTitle)
         {
             //Return if no time stamps are present.
-            if (_timeStamper.timeStamps.Count == 0) 
+            if (_timeStamper.timeStamps.Count == 0)
                 return;
 
+            string pathToCheck = _timeStamper.rawAssetPath + $"{songTitle}.asset";
+
             //Check if there is a time stamp data container at the path.
-            TimeStampDataContainer existingContainer = AssetDatabase.LoadAssetAtPath<TimeStampDataContainer>(_timeStamper.rawAssetPath + $"{songTitle}.asset");
+            var existingContainer = AssetDatabase.LoadAssetAtPath<TimeStampDataContainer>(pathToCheck);
             if (existingContainer == null)
             {
                 //If no time stamp data container is found, show a warning dialog.
-                string title = "You have unexported time stamp data!";
-                string message = $"No TimeStampDataContainer found at the path: {_timeStamper.rawAssetPath + $"{songTitle}.asset"} \nDo you wish to save and export all new changes before exiting?";
-                string ok = "Yes, export data now";
-
-                ShowWarningDialog(title, message, ok, null, songTitle);
+                string message = string.Format(_noContainerMessage, _timeStamper.rawAssetPath + $"{songTitle}.asset");
+                ShowWarningDialog(_unexportedDataTitle, message, _exportDataButton, null, songTitle);
             }
             else if (existingContainer.timeStamps.Length != _timeStamper.timeStamps.Count)
             {
                 //if the time stamp data container does not match with the current time stamp data, show a warning dialog.
-                string title = "You have unsaved time stamp data!";
-                string message = $"Saved TimeStampDataContainer found at the path: {_timeStamper.rawAssetPath + $"{songTitle}.asset"} \nDoes not match with current time stamp data. Do you wish to save and update all new changes before exiting?";
-                string ok = "Yes, update data now";
-
-                ShowWarningDialog(title, message, ok, null, songTitle);
+                string message = string.Format(_mismatchDataMessage, _timeStamper.rawAssetPath + $"{songTitle}.asset");
+                ShowWarningDialog(_unsavedDataTitle, message, _updateDataButton, null, songTitle);
             }
         }
 

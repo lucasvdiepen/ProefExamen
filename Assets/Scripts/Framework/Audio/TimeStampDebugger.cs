@@ -1,8 +1,6 @@
 using UnityEngine;
 
-using ProefExamen.Audio.WaveFormDrawer;
-
-namespace ProefExamen.Audio.TimeStamping.Debugger
+namespace ProefExamen.Framework.BeatMapping
 {
     /// <summary>
     /// Class for debugging the time stamps.

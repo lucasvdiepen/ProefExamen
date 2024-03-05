@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-namespace ProefExamen.Audio.WaveFormDrawer
+namespace ProefExamen.Framework.BeatMapping
 {
     /// <summary>
     /// Class responsible for drawing the waveform of an audioclip to a texture.
@@ -244,16 +244,20 @@ namespace ProefExamen.Audio.WaveFormDrawer
         /// </summary>
         private void CheckAudioControls()
         {
-            if (!Input.GetKey(KeyCode.LeftControl)) //can't hold left ctrl, messes with other keybinds
+            //Can't hold left ctrl, messes with other keybinds.
+            if (!Input.GetKey(KeyCode.LeftControl)) 
             {
-                if (Input.GetKey(_forwardKey)) //scrub forward in song
+                //Scrub forward in song.
+                if (Input.GetKey(_forwardKey)) 
                     AudioSource.time = Mathf.Clamp(AudioSource.time + TimeScrubAmount, 0, _audioClipDuration - 1);
 
-                if (Input.GetKey(_backwardKey)) //scrub backward in song
+                //Scrub backward in song.
+                if (Input.GetKey(_backwardKey))
                     AudioSource.time = Mathf.Clamp(AudioSource.time - TimeScrubAmount, 0, _audioClipDuration);
             }
 
-            if (Input.GetKeyDown(_pauseKey)) //pausing song
+            //Pause toggle.
+            if (Input.GetKeyDown(_pauseKey))
             {
                 if (!IsPaused && AudioSource.isPlaying)
                 {
@@ -266,13 +270,15 @@ namespace ProefExamen.Audio.WaveFormDrawer
                         AudioSource.Play();
                 }
 
-                IsPaused = !IsPaused; //toggle pause state
+                //Toggle pause state.
+                IsPaused = !IsPaused;
             }
 
             //mouse playback speed control
             if (Input.mouseScrollDelta.magnitude > 0)
             {
-                if (Input.GetKey(KeyCode.LeftControl)) //can't hold ctrl, messes with other keybinds
+                //Can't hold ctrl, messes with other keybinds.
+                if (Input.GetKey(KeyCode.LeftControl))
                     return;
 
                 IncreasePlaybackSpeed((int)Input.mouseScrollDelta.y);
@@ -309,7 +315,8 @@ namespace ProefExamen.Audio.WaveFormDrawer
         /// </summary>
         private void UpdateCursorPosition()
         {
-            if (_audioClipDuration == 0) //check if a song is selected
+            //Check if a song is selected.
+            if (_audioClipDuration == 0)
                 return;
 
             float x = _songWidth / _audioClipDuration * AudioSource.time;
@@ -317,27 +324,27 @@ namespace ProefExamen.Audio.WaveFormDrawer
         }
 
         /// <summary>
-        /// Log all available keybinds to the console.
+        /// Log all available keybinds to the console. Gets called from custom editor button "Show Keybinds".
         /// </summary>
-        public void LogKeybinds() //Gets called from custom editor button "Show Keybinds"
+        public void LogKeybinds()
         {
             Debug.Log("<b>Available Keybinds:</b>");
             Debug.Log("Pause song key: " + _pauseKey);
-            Debug.Log(" "); //empty line
+            Debug.Log(" ");
 
             Debug.Log("Scrub forward key: " + _forwardKey);
             Debug.Log("Scrub backward Key: " + _backwardKey);
-            Debug.Log(" "); //empty line
+            Debug.Log(" ");
 
             Debug.Log("Speed up Key: " + _speedUpKey);
             Debug.Log("Speed down Key: " + _speedDownKey);
-            Debug.Log(" "); //empty line
+            Debug.Log(" ");
 
             Debug.Log("Go to start Key: " + _homeKey);
             Debug.Log("Go to end Key: " + _endKey);
 
-            Debug.Log(" "); //empty line
-            Debug.Log(" "); //empty line
+            Debug.Log(" ");
+            Debug.Log(" ");
 
             OnShowKeyBinds?.Invoke();
         }

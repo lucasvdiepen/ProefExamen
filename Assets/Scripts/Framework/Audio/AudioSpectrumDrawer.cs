@@ -1,8 +1,6 @@
 using UnityEngine;
 
-using ProefExamen.Audio.WaveFormDrawer;
-
-namespace ProefExamen.Audio.SpectrumDrawer
+namespace ProefExamen.Framework.BeatMapping
 {
     /// <summary>
     /// Class which is used for drawing the audio spectrum of a song.

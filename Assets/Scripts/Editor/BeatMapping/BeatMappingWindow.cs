@@ -5,11 +5,9 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-using ProefExamen.Audio.WaveFormDrawer;
-using ProefExamen.Audio.SpectrumDrawer;
-using ProefExamen.Audio.TimeStamping;
+using ProefExamen.Framework.BeatMapping;
 
-namespace ProefExamen.Editor.MappingWindow
+namespace ProefExamen.Editor.BeatMapping
 {
 #if UNITY_EDITOR
     /// <summary>
@@ -178,11 +176,13 @@ namespace ProefExamen.Editor.MappingWindow
         private void OnGUI()
         {
             // Close window on escape key.
-            if (Event.current.type == EventType.KeyDown)
-            {
-                if (Event.current.keyCode == KeyCode.Escape)
-                    Close();
-            }
+            if (Event.current.type != EventType.KeyDown)
+                return;
+
+            if (Event.current.keyCode != KeyCode.Escape)
+                return;
+
+            Close();
         }
 
         private void OnFocus() => PlayModeWarning();

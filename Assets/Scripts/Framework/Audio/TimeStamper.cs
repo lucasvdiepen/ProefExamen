@@ -3,9 +3,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEditor;
 
-using ProefExamen.Audio.WaveFormDrawer;
-
-namespace ProefExamen.Audio.TimeStamping
+namespace ProefExamen.Framework.BeatMapping
 {
     /// <summary>
     /// Class responsible for adding time stamps to a song.
