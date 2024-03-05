@@ -447,7 +447,7 @@ MonoBehaviour:
   _stampLineHeightReduction: 190
   _timeStampTweakAmount: 0.5
   _gizmoSpacing: 0.6
-  _placeTimeStampKey: 32
+  _placeTimeStampKeys: 61000000730000003b00000027000000
   _undoTimeStampKey: 122
   _deleteCurrentTimeStampKey: 120
   _exportTimeStampsKey: 115
@@ -493,7 +493,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20bbd4280f3e92b4fb2f1a2940050326, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeStampColor: {r: 0, g: 0, b: 1, a: 1}
+  _timeStampLaneColor:
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
   _selectedTimeStampColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   _stampLineHeightReduction: 190
   _gizmoSpacing: 0.6

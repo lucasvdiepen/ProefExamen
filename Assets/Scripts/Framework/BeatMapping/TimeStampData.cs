@@ -19,6 +19,11 @@ public class TimeStampData
     public float songTime;
 
     /// <summary>
+    /// Holds the lane ID of the time stamp.
+    /// </summary>
+    public int laneID;
+
+    /// <summary>
     /// Returns if this time stamp is selected.
     /// </summary>
     public bool isSelected;
@@ -29,10 +34,12 @@ public class TimeStampData
     /// <param name="start">Start point of verticle line.</param>
     /// <param name="end">End point of vertical line.</param>
     /// <param name="time">Associated song time.</param>
-    public TimeStampData(Vector2 start, Vector2 end, float time)
+    public TimeStampData(Vector2 start, Vector2 end, float time, int laneID)
     {
         lineData.startLinePoint = start;
         lineData.endLinePoint = end;
+
         songTime = time;
+        this.laneID = laneID;   
     }
 }

@@ -21,7 +21,7 @@ namespace ProefExamen.Framework.BeatMapping
 
         [Header("Input KeyCodes")]
         [SerializeField]
-        private KeyCode _placeTimeStampKey;
+        private KeyCode[] _placeTimeStampKeys;
 
         [SerializeField]
         private KeyCode _undoTimeStampKey;
@@ -78,14 +78,17 @@ namespace ProefExamen.Framework.BeatMapping
         /// </summary>
         private void HandleTimeStampControls()
         {
-            //Placing a time stamp.
-            if (Input.GetKeyDown(_placeTimeStampKey))
+            for (int i = 0; i < _placeTimeStampKeys.Length; i++)
             {
-                float startYPos = _waveformDrawer.Cursor.position.y - (_waveformDrawer.Cursor.localScale.y * .5f);
-                Vector2 startPosition = new(_waveformDrawer.Cursor.position.x, startYPos);
-                Vector2 endPosition = new(_waveformDrawer.Cursor.position.x, -_stampLineHeightReduction);
+                //Placing a time stamp.
+                if (Input.GetKeyDown(_placeTimeStampKeys[i]))
+                {
+                    float startYPos = _waveformDrawer.Cursor.position.y - (_waveformDrawer.Cursor.localScale.y * .5f);
+                    Vector2 startPosition = new(_waveformDrawer.Cursor.position.x, startYPos);
+                    Vector2 endPosition = new(_waveformDrawer.Cursor.position.x, -_stampLineHeightReduction);
 
-                _timeStamps.Add(new TimeStampData(startPosition, endPosition, _waveformDrawer.CurrentSongTime));
+                    _timeStamps.Add(new TimeStampData(startPosition, endPosition, _waveformDrawer.CurrentSongTime, i));
+                }
             }
 
             //Undo last time stamp.
@@ -250,7 +253,7 @@ namespace ProefExamen.Framework.BeatMapping
                 float songTime = timeStampDataContainer.timeStamps[i];
 
                 //Add the time stamp to current list.
-                _timeStamps.Add(new TimeStampData(startPoint, endPoint, songTime)); 
+                _timeStamps.Add(new TimeStampData(startPoint, endPoint, songTime, timeStampDataContainer.laneIDs[i])); 
             }
 
             Debug.Log("Succesfully imported time stamp data");
@@ -265,12 +268,14 @@ namespace ProefExamen.Framework.BeatMapping
             TimeStampDataContainer obj = ScriptableObject.CreateInstance<TimeStampDataContainer>();
             
             List<LineData> exportedLineData = new(_timeStamps.Count);
-            List<float> sortedExportedTimeStamps = new(_timeStamps.Count); 
+            List<float> sortedExportedTimeStamps = new(_timeStamps.Count);
+            List<int> exportedLaneIDs = new(_timeStamps.Count);
 
             foreach (TimeStampData timeStamp in _timeStamps)
             {
                 exportedLineData.Add(timeStamp.lineData);
                 sortedExportedTimeStamps.Add(timeStamp.songTime);
+                exportedLaneIDs.Add(timeStamp.laneID);
             }
 
             //Sort the exported time stamps.
@@ -279,6 +284,7 @@ namespace ProefExamen.Framework.BeatMapping
 
             obj.songDebugLineData = exportedLineData;
             obj.timeStamps = sortedExportedTimeStamps.ToArray();
+            obj.laneIDs = exportedLaneIDs.ToArray(); 
 
             //Get the song title for the asset name.
             string assetName = overrideSongTitle == string.Empty ? _waveformDrawer.CurrentSongTitle : overrideSongTitle;
@@ -295,7 +301,7 @@ namespace ProefExamen.Framework.BeatMapping
         /// </summary>
         private void HandleShowKeybinds()
         {
-            Debug.Log("Place TimeStamp Key: " + _placeTimeStampKey);
+            Debug.Log("Place TimeStamp Key: " + _placeTimeStampKeys[0]);
             Debug.Log("Undo TimeStamp Key: CTRL + " + _undoTimeStampKey);
             Debug.Log(" ");
 

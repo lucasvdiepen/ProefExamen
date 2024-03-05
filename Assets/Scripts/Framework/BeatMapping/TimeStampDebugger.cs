@@ -9,7 +9,7 @@ namespace ProefExamen.Framework.BeatMapping
     public class TimeStampDebugger : MonoBehaviour
     {
         [SerializeField]
-        private Color _timeStampColor = Color.blue;
+        private Color[] _timeStampLaneColor;
 
         [SerializeField]
         private Color _selectedTimeStampColor = Color.yellow;
@@ -56,7 +56,9 @@ namespace ProefExamen.Framework.BeatMapping
                 // This fixes the gizmo flickering when it's ony 1px wide.
 
                 Vector2 offset = new(_gizmoSpacing, 0);
-                Gizmos.color = _timeStamper.TimeStamps[i].isSelected ? _selectedTimeStampColor : _timeStampColor;
+
+                Color normalGizmoColor = _timeStampLaneColor[_timeStamper.TimeStamps[i].laneID];
+                Gizmos.color = _timeStamper.TimeStamps[i].isSelected ? _selectedTimeStampColor : normalGizmoColor;
 
                 Vector2 startPoint = _timeStamper.TimeStamps[i].lineData.startLinePoint;
                 Vector2 endPoint = _timeStamper.TimeStamps[i].lineData.endLinePoint;

@@ -17,5 +17,10 @@ namespace ProefExamen.Framework.BeatMapping
         /// Array of time stamps.
         /// </summary>
         public float[] timeStamps;
+
+        /// <summary>
+        /// Array of lane IDs.
+        /// </summary>
+        public int[] laneIDs;
     }
 }
