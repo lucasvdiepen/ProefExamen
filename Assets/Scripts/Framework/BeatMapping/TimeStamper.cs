@@ -226,13 +226,15 @@ namespace ProefExamen.Framework.BeatMapping
 
             if (timeStampDataContainer.songDebugLineData.Count == 0)
             {
-                Debug.LogError("No line data found in the TimeStampDataContainer (count == 0), returning...", timeStampDataContainer);
+                Debug.LogError("No line data found in the TimeStampDataContainer (count == 0), returning...", 
+                    timeStampDataContainer);
                 return;
             }
 
             if (timeStampDataContainer.timeStamps.Length == 0)
             {
-                Debug.LogError("No time stamp data found in the TimeStampDataContainer (lenght == 0), returning...");
+                Debug.LogError("No time stamp data found in the TimeStampDataContainer (lenght == 0), returning...", 
+                    timeStampDataContainer);
                 return;
             }
 
