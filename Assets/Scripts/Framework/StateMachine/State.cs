@@ -8,6 +8,8 @@ namespace ProefExamen.Framework.StateMachine
     /// </summary>
     public abstract class State : MonoBehaviour
     {
+        public bool IsActive { get; private set; }
+
         /// <summary>
         /// Deactive the game object and registers the state.
         /// </summary>
@@ -39,6 +41,7 @@ namespace ProefExamen.Framework.StateMachine
         public virtual IEnumerator OnStateEnter()
         {
             gameObject.SetActive(true);
+            IsActive = true;
             yield return null;
         }
 
@@ -48,6 +51,7 @@ namespace ProefExamen.Framework.StateMachine
         public virtual IEnumerator OnStateExit()
         {
             gameObject.SetActive(false);
+            IsActive = false;
             yield return null;
         }
     }

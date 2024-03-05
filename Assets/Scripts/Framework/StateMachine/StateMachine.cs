@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using ProefExamen.Framework.Utils;
+using System.Linq;
 
 namespace ProefExamen.Framework.StateMachine
 {
@@ -163,7 +164,7 @@ namespace ProefExamen.Framework.StateMachine
                 Debug.LogError($"State of type {state.GetType()} is already registered");
                 return;
             }
-
+            
             _states.Add(state.GetType(), state);
 
             if (!isDefault)
@@ -202,8 +203,16 @@ namespace ProefExamen.Framework.StateMachine
         {
             TargetState = state;
 
-            if(CurrentState != null)
+            List<State> targetStateTree = GetStateTree(TargetState);
+
+            if (CurrentState != null)
+            {
+                List<State> currentStateTree = GetStateTree(CurrentState);
+
+                IEnumerable<State> statesToExit = currentStateTree.Except(targetStateTree);
+
                 yield return CurrentState.OnStateExit();
+            }
 
             CurrentState = TargetState;
 
@@ -213,6 +222,30 @@ namespace ProefExamen.Framework.StateMachine
                 AddToHistory(CurrentState.GetType());
 
             OnStateChanged?.Invoke(CurrentState);
+        }
+
+        private List<State> GetStateTree(State state)
+        {
+            List<State> tree = new();
+
+            State currentState = state;
+
+            while(true)
+            {
+                ParentStateAttribute parentStateAttribute = (ParentStateAttribute)Attribute.GetCustomAttribute(currentState.GetType(), typeof(ParentStateAttribute));
+                if (parentStateAttribute == null)
+                    break;
+
+                if (parentStateAttribute.ParentState == null || TryGetState(parentStateAttribute.ParentState, out State parentState))
+                    break;
+                
+                tree.Add(parentState);
+                currentState = parentState;
+            }
+
+            tree.Add(state);
+            
+            return tree;
         }
 
         /// <summary>
