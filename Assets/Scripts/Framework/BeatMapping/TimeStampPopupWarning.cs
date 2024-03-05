@@ -14,14 +14,18 @@ namespace ProefExamen.Framework.BeatMapping
         private TimeStamper _timeStamper;
 
         private const string _unexportedDataTitle = "You have unexported time stamp data!";
+
         private const string _unsavedDataTitle = "You have unsaved time stamp data!";
         
-        private const string _noContainerMessage = "No TimeStampDataContainer found at the path: {0} " +
-            "\nDo you wish to save and export all new changes before exiting?";
-        private const string _mismatchDataMessage = "Saved TimeStampDataContainer found at the path: {0} " +
-            "\nDoes not match with current time stamp data. Do you wish to save and update all new changes before exiting?";
+        private const string _noContainerMessage = "No TimeStampDataContainer " +
+            "found at the path: {0} " + "\nDo you wish to save and export all new changes before exiting?";
+
+        private const string _mismatchDataMessage = "Saved TimeStampDataContainer " +
+            "found at the path: {0} " + "\nDoes not match with current time stamp data. " +
+            "Do you wish to save and update all new changes before exiting?";
         
         private const string _exportDataButton = "Yes, export data now";
+
         private const string _updateDataButton = "Yes, update data now";
 
         private void Awake()
@@ -56,14 +60,14 @@ namespace ProefExamen.Framework.BeatMapping
             string pathToCheck = _timeStamper.rawAssetPath + $"{songTitle}.asset";
 
             //Check if there is a time stamp data container at the path.
-            var existingContainer = AssetDatabase.LoadAssetAtPath<TimeStampDataContainer>(pathToCheck);
-            if (existingContainer == null)
+            TimeStampDataContainer container = AssetDatabase.LoadAssetAtPath<TimeStampDataContainer>(pathToCheck);
+            if (container == null)
             {
                 //If no time stamp data container is found, show a warning dialog.
                 string message = string.Format(_noContainerMessage, _timeStamper.rawAssetPath + $"{songTitle}.asset");
                 ShowWarningDialog(_unexportedDataTitle, message, _exportDataButton, null, songTitle);
             }
-            else if (existingContainer.timeStamps.Length != _timeStamper.timeStamps.Count)
+            else if (container.timeStamps.Length != _timeStamper.timeStamps.Count)
             {
                 //if the time stamp data container does not match with the current time stamp data, show a warning dialog.
                 string message = string.Format(_mismatchDataMessage, _timeStamper.rawAssetPath + $"{songTitle}.asset");

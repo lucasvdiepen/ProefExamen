@@ -68,7 +68,9 @@ namespace ProefExamen.Framework.BeatMapping
             }
         }
 
-        //update all bandvisualizers
+        /// <summary>
+        /// Method used for updating the visualizers.
+        /// </summary>
         private void Update()
         {
             _waveformDrawer.AudioSource.GetSpectrumData(_samples, 0, FFTWindow.Blackman);
