@@ -50,16 +50,16 @@ namespace ProefExamen.Editor.MappingWindow
         /// </summary>
         public void CreateGUI()
         {
-            //get necessary refs
+            // Get necessary refs.
             _spectrumDrawer = FindObjectOfType<AudioSpectrumDrawer>();
             _waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();
             _timeStamper = FindObjectOfType<TimeStamper>();
 
-            //create UI
+            // Create UI.
             CreateSongListView();
             CreateSoundClipField();
 
-            //create audio control interface if in playmode
+            // Create audio control interface if in playmode.
             if (Application.isPlaying)
                 CreateAudioControlInterface();
         }
@@ -127,15 +127,19 @@ namespace ProefExamen.Editor.MappingWindow
         /// <summary>
         /// Callback method which is called when user clicks on one of the song names in the list view.
         /// </summary>
-        /// <param name="obj">Selected audioclip</param>
+        /// <param name="obj">The selected audioclip.</param>
         private void OnSongIndexChanged(IEnumerable<object> obj)
         {
             List<object> objectList = obj.ToList();
-            if (objectList.Count == 0) //check if selected song is not empty
+
+            // Check if selected song is not empty.
+            if (objectList.Count == 0)
                 return;
 
             AudioClip audioClip = (AudioClip)objectList[0];
-            if (audioClip == null) //check if cast to audio clip was valid
+
+            // Check if cast to audio clip was valid.
+            if (audioClip == null)
                 return;
 
             _soundClipField.value = audioClip;
@@ -161,7 +165,7 @@ namespace ProefExamen.Editor.MappingWindow
 
         private void Update()
         {
-            //update audio control values
+            // Update audio control values.
             if (Application.isPlaying && _waveformDrawer != null)
             {
                 _waveformDrawer.audioSource.volume = _volumeSlider.value;
@@ -175,7 +179,7 @@ namespace ProefExamen.Editor.MappingWindow
 
         private void OnGUI()
         {
-            //close window on escape key
+            // Close window on escape key.
             if (Event.current.type == EventType.KeyDown)
             {
                 if (Event.current.keyCode == KeyCode.Escape)
@@ -187,7 +191,7 @@ namespace ProefExamen.Editor.MappingWindow
 
         private void OnDestroy()
         {
-            //remove event listener
+            // Remove event listener.
             if (_songList == null)
                 return;
 

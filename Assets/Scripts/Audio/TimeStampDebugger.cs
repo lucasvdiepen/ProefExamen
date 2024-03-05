@@ -33,7 +33,7 @@ namespace ProefExamen.Audio.TimeStamping.Debugger
             _timeStamper = GetComponent<TimeStamper>();
             _waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();
 
-            //set up the debug gui styles
+            // Set up the debug gui styles.
             _debugBoldGuiStyle.fontSize = 48;
             _debugBoldGuiStyle.fontStyle = FontStyle.Bold;
             _debugBoldGuiStyle.normal.textColor = Color.white;
@@ -44,17 +44,18 @@ namespace ProefExamen.Audio.TimeStamping.Debugger
         }
 
         /// <summary>
-        /// Draws gizmos for the time stamps
+        /// Draws gizmos for the time stamps.
         /// </summary>
         private void OnDrawGizmos()
         {
-            if (!Application.isPlaying) //return if the application is not playing
+            // Return if the application is not playing.
+            if (!Application.isPlaying)
                 return;
 
             for (int i = 0; i < _timeStamper.timeStamps.Count; i++)
             {
-                //Little hacky but SOMETIME I HATE UNITY, you can't set the thickness of the gizmos line. 
-                //This fixes the gizmo flickering when it's ony 1px wide.
+                // Little hacky but SOMETIME I HATE UNITY, you can't set the thickness of the gizmos line. 
+                // This fixes the gizmo flickering when it's ony 1px wide.
 
                 Vector2 offset = new(_gizmoSpacing, 0);
                 Gizmos.color = _timeStamper.timeStamps[i].isSelected ? _selectedTimeStampColor : _timeStampColor;
@@ -62,9 +63,14 @@ namespace ProefExamen.Audio.TimeStamping.Debugger
                 Vector2 startPoint = _timeStamper.timeStamps[i].lineData.startLinePoint;
                 Vector2 endPoint = _timeStamper.timeStamps[i].lineData.endLinePoint;
 
-                Gizmos.DrawLine(startPoint, endPoint); //center
-                Gizmos.DrawLine(startPoint - offset, endPoint - offset); //left
-                Gizmos.DrawLine(startPoint + offset, endPoint + offset); //right
+                // Center.
+                Gizmos.DrawLine(startPoint, endPoint);
+                
+                // Left.
+                Gizmos.DrawLine(startPoint - offset, endPoint - offset);
+                
+                // Right.
+                Gizmos.DrawLine(startPoint + offset, endPoint + offset);
             }
         }
 
@@ -76,14 +82,26 @@ namespace ProefExamen.Audio.TimeStamping.Debugger
         {
             GUI.color = Color.white;
 
-            GUI.Label(new Rect(0, 0, 300, 100), $"Playback Speed: {_waveformDrawer.currentPlaybackSpeed}", _debugBoldGuiStyle);
+            GUI.Label(
+                new Rect(0, 0, 300, 100),
+                $"Playback Speed: {_waveformDrawer.currentPlaybackSpeed}",
+                _debugBoldGuiStyle
+            );
             GUI.Label(new Rect(0, 48, 300, 100), $"Song Time: {_waveformDrawer.currentSongTime}", _debugBoldGuiStyle);
 
-            if (_waveformDrawer.isPaused) //draw paused text
+            // Draw paused text.
+            if (_waveformDrawer.isPaused)
                 GUI.Label(new Rect(1750, 0, 300, 100), "Paused", _debugItalicsGuiStyle);
 
-            if (_timeStamper.currentSelectedTimeStamp != null) //draw selected time stamp information
-                GUI.Label(new Rect(0, 96, 300, 100), $"TimeStamp Time: {_timeStamper.currentSelectedTimeStamp.songTime}", _debugItalicsGuiStyle);
+            // Draw selected time stamp information.
+            if (_timeStamper.currentSelectedTimeStamp != null)
+            {
+                GUI.Label(
+                    new Rect(0, 96, 300, 100),
+                    $"TimeStamp Time: {_timeStamper.currentSelectedTimeStamp.songTime}",
+                    _debugItalicsGuiStyle
+                );
+            }
         }
 #endif
     }

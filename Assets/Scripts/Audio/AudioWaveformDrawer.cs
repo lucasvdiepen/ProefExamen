@@ -116,10 +116,7 @@ namespace ProefExamen.Audio.WaveFormDrawer
 
         private Texture2D _waveformTexture = null;
 
-        private void Awake()
-        {
-            audioSource = GetComponent<AudioSource>();
-        }
+        private void Awake() => audioSource = GetComponent<AudioSource>();
 
         /// <summary>
         /// Calculates the correct local song time based on a point along the waveform.
@@ -131,7 +128,7 @@ namespace ProefExamen.Audio.WaveFormDrawer
             float xPos = position.x - _waveformPositionOffset.x;
             xPos = Mathf.Clamp(xPos, 0, _songWidth);
 
-            return xPos * _audioClipDuration / _songWidth; ;
+            return xPos * _audioClipDuration / _songWidth;
         }
 
 
@@ -148,17 +145,26 @@ namespace ProefExamen.Audio.WaveFormDrawer
 
             onSongChanged?.Invoke(audioClip.name, lastClip != null ? lastClip.name : "Null");
 
-            _dataSamples = new float[audioSource.clip.samples * audioSource.clip.channels]; // create an array to store the audio data
-            audioSource.clip.GetData(_dataSamples, 0); //get audio data from the audio clip
+            // Create an array to store the audio data.
+            _dataSamples = new float[audioSource.clip.samples * audioSource.clip.channels];
+            
+            // Get audio data from the audio clip.
+            audioSource.clip.GetData(_dataSamples, 0);
 
-            _waveformTexture = new Texture2D(_textureWidth, _textureHeight, TextureFormat.RGBA32, false); //prepare the waveform texture
-            _textureColors = new Color[_waveformTexture.width * _waveformTexture.height]; //create an array to store the texture pixel data
+            // Prepare the waveform texture.
+            _waveformTexture = new Texture2D(_textureWidth, _textureHeight, TextureFormat.RGBA32, false);
+            
+            // Create an array to store the texture pixel data.
+            _textureColors = new Color[_waveformTexture.width * _waveformTexture.height]; 
 
             GenerateWaveformTexture();
             Renderer renderer = GetComponent<Renderer>();
 
-            //set the offset for the texture
-            _waveformPositionOffset = new Vector2(-(_textureWidth + _textureWidth / _renderDownScaleModifier), _curserYPosition);
+            // Set the offset for the texture.
+            _waveformPositionOffset = new Vector2(
+                -(_textureWidth + _textureWidth / _renderDownScaleModifier),
+                _curserYPosition
+             );
             _songWidth = Mathf.Abs(_waveformPositionOffset.x * 2);
 
             if (renderer != null)
@@ -179,38 +185,58 @@ namespace ProefExamen.Audio.WaveFormDrawer
         {
             for (int x = 0; x < _waveformTexture.width; x++)
             {
-                //calculate the average sample value for the current x position
+                // Calculate the average sample value for the current x position.
                 int startSample = Mathf.FloorToInt(x * (_dataSamples.Length / (float)_waveformTexture.width));
-                int endSample = Mathf.Min(startSample + (_dataSamples.Length / _waveformTexture.width), _dataSamples.Length);
+                int endSample = Mathf.Min(
+                    startSample + (_dataSamples.Length / _waveformTexture.width),
+                    _dataSamples.Length
+                );
                 float sum = 0;
 
                 for (int j = startSample; j < endSample; j++)
-                    sum += Mathf.Abs(_dataSamples[j]); //get the absolute value of the sample
+                {
+                    // Get the absolute value of the sample.
+                    sum += Mathf.Abs(_dataSamples[j]);
+                }
 
                 float averageSample = sum / (_dataSamples.Length / _waveformTexture.width);
-                float scaledAverage = averageSample * _heightScaleModifier; //scale the average sample value
+                
+                // Scale the average sample value.
+                float scaledAverage = averageSample * _heightScaleModifier;
 
-                for (int y = 0; y < _waveformTexture.height; y++) //set the pixel color based on the average sample value
+                // Set the pixel color based on the average sample value.
+                for (int y = 0; y < _waveformTexture.height; y++)
                     _textureColors[x + y * _waveformTexture.width] = (y < scaledAverage) ? _renderColor : Color.clear;
             }
 
             _waveformTexture.SetPixels(_textureColors);
-            _waveformTexture.filterMode = FilterMode.Point; //set the filter mode to point for a pixelated look
+            
+            // Set the filter mode to point for a pixelated look
+            _waveformTexture.filterMode = FilterMode.Point;
+            
             _waveformTexture.Apply();
 
             GameObject drawerObject = Instantiate(_drawerPrefab, transform.position, _drawerPrefab.transform.rotation);
             drawerObject.transform.SetParent(transform);
 
-            drawerObject.transform.localScale = new Vector3(_textureWidth / _renderDownScaleModifier, 1, _textureHeight / _renderDownScaleModifier);
+            drawerObject.transform.localScale = new Vector3(
+                _textureWidth / _renderDownScaleModifier,
+                1,
+                _textureHeight / _renderDownScaleModifier
+            );
             drawerObject.GetComponent<Renderer>().material.mainTexture = _waveformTexture;
         }
 
         private void Update()
         {
-            _waveformPositionOffset.y = _curserYPosition; //update yOffset for possible live tweaking
+            // Update yOffset for possible live tweaking.
+            _waveformPositionOffset.y = _curserYPosition;
 
-            CheckAudioControls(); //update controls for manipulating the audio track
-            UpdateCursorPosition(); //move cursor along audio waveform texture
+            // Update controls for manipulating the audio track.
+            CheckAudioControls();
+            
+            // Move cursor along audio waveform texture.
+            UpdateCursorPosition();
         }
 
         /// <summary>
