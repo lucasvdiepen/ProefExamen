@@ -108,12 +108,12 @@ namespace ProefExamen.Audio.TimeStamping
         private void Awake()
         {
             _waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();
-            _waveformDrawer.onShowKeyBinds += HandleShowKeybinds;
+            _waveformDrawer.OnShowKeyBinds += HandleShowKeybinds;
         }
 
         private void Update()
         {
-            if (!_waveformDrawer.hasActiveWaveform)
+            if (!_waveformDrawer.HasActiveWaveform)
                 return;
 
             HandleTimeStampControls();
@@ -128,11 +128,11 @@ namespace ProefExamen.Audio.TimeStamping
             //placing a time stamp
             if (Input.GetKeyDown(_placeTimeStampKey))
             {
-                float startYPos = _waveformDrawer.cursor.position.y - (_waveformDrawer.cursor.localScale.y * .5f);
-                Vector2 startPosition = new(_waveformDrawer.cursor.position.x, startYPos);
-                Vector2 endPosition = new(_waveformDrawer.cursor.position.x, -_stampLineHeightReduction);
+                float startYPos = _waveformDrawer.Cursor.position.y - (_waveformDrawer.Cursor.localScale.y * .5f);
+                Vector2 startPosition = new(_waveformDrawer.Cursor.position.x, startYPos);
+                Vector2 endPosition = new(_waveformDrawer.Cursor.position.x, -_stampLineHeightReduction);
 
-                _timeStamps.Add(new TimeStampData(startPosition, endPosition, _waveformDrawer.currentSongTime));
+                _timeStamps.Add(new TimeStampData(startPosition, endPosition, _waveformDrawer.CurrentSongTime));
             }
 
             //undo last time stamp
@@ -314,7 +314,7 @@ namespace ProefExamen.Audio.TimeStamping
             obj.timeStamps = sortedExportedTimeStamps.ToArray();
 
             //get the song title for the asset name
-            string assetName = overrideSongTitle == string.Empty ? _waveformDrawer.currentSongTitle : overrideSongTitle;
+            string assetName = overrideSongTitle == string.Empty ? _waveformDrawer.CurrentSongTitle : overrideSongTitle;
 
             AssetDatabase.CreateAsset(obj, rawAssetPath + $"{assetName}.asset"); //create the asset
             AssetDatabase.Refresh();
@@ -347,7 +347,7 @@ namespace ProefExamen.Audio.TimeStamping
         private void OnDestroy()
         {
             //remove event listener
-            _waveformDrawer.onShowKeyBinds -= HandleShowKeybinds;
+            _waveformDrawer.OnShowKeyBinds -= HandleShowKeybinds;
         }
     }
 }

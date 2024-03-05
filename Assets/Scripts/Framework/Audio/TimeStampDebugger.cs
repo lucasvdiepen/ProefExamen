@@ -84,13 +84,13 @@ namespace ProefExamen.Audio.TimeStamping.Debugger
 
             GUI.Label(
                 new Rect(0, 0, 300, 100),
-                $"Playback Speed: {_waveformDrawer.currentPlaybackSpeed}",
+                $"Playback Speed: {_waveformDrawer.CurrentPlaybackSpeed}",
                 _debugBoldGuiStyle
             );
-            GUI.Label(new Rect(0, 48, 300, 100), $"Song Time: {_waveformDrawer.currentSongTime}", _debugBoldGuiStyle);
+            GUI.Label(new Rect(0, 48, 300, 100), $"Song Time: {_waveformDrawer.CurrentSongTime}", _debugBoldGuiStyle);
 
             // Draw paused text.
-            if (_waveformDrawer.isPaused)
+            if (_waveformDrawer.IsPaused)
                 GUI.Label(new Rect(1750, 0, 300, 100), "Paused", _debugItalicsGuiStyle);
 
             // Draw selected time stamp information.

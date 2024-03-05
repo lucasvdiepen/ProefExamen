@@ -21,7 +21,7 @@ namespace ProefExamen.Audio.TimeStamping.PopupWarning
             _timeStamper = GetComponent<TimeStamper>();
             _waveformDrawer = FindObjectOfType<AudioWaveformDrawer>();
 
-            _waveformDrawer.onSongChanged += HandleSongChanged;
+            _waveformDrawer.OnSongChanged += HandleSongChanged;
         }
 
         /// <summary>
@@ -40,14 +40,15 @@ namespace ProefExamen.Audio.TimeStamping.PopupWarning
         /// </summary>
         private void CheckForUnsavedData(string songTitle)
         {
-            if (_timeStamper.timeStamps.Count == 0) //return if no time stamps are present
+            //Return if no time stamps are present.
+            if (_timeStamper.timeStamps.Count == 0) 
                 return;
 
-            //check if there is a time stamp data container at the path
+            //Check if there is a time stamp data container at the path.
             TimeStampDataContainer existingContainer = AssetDatabase.LoadAssetAtPath<TimeStampDataContainer>(_timeStamper.rawAssetPath + $"{songTitle}.asset");
             if (existingContainer == null)
             {
-                //if no time stamp data container is found, show a warning dialog
+                //If no time stamp data container is found, show a warning dialog.
                 string title = "You have unexported time stamp data!";
                 string message = $"No TimeStampDataContainer found at the path: {_timeStamper.rawAssetPath + $"{songTitle}.asset"} \nDo you wish to save and export all new changes before exiting?";
                 string ok = "Yes, export data now";
@@ -56,7 +57,7 @@ namespace ProefExamen.Audio.TimeStamping.PopupWarning
             }
             else if (existingContainer.timeStamps.Length != _timeStamper.timeStamps.Count)
             {
-                //if the time stamp data container does not match with the current time stamp data, show a warning dialog
+                //if the time stamp data container does not match with the current time stamp data, show a warning dialog.
                 string title = "You have unsaved time stamp data!";
                 string message = $"Saved TimeStampDataContainer found at the path: {_timeStamper.rawAssetPath + $"{songTitle}.asset"} \nDoes not match with current time stamp data. Do you wish to save and update all new changes before exiting?";
                 string ok = "Yes, update data now";
@@ -79,12 +80,12 @@ namespace ProefExamen.Audio.TimeStamping.PopupWarning
         }
 
         private void OnDestroy()
-            => _waveformDrawer.onSongChanged -= HandleSongChanged;
+            => _waveformDrawer.OnSongChanged -= HandleSongChanged;
 
         private void OnApplicationQuit()
         {
             // Check for unsaved data before quitting the application.
-            CheckForUnsavedData(_waveformDrawer.currentSongTitle);
+            CheckForUnsavedData(_waveformDrawer.CurrentSongTitle);
             
             AssetDatabase.SaveAssets();
         }

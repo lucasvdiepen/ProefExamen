@@ -105,11 +105,11 @@ namespace ProefExamen.Editor.MappingWindow
         private void CreateAudioControlInterface()
         {
             _volumeSlider = new Slider("Volume Slider", 0, 1);
-            _volumeSlider.value = _waveformDrawer.audioSource.volume;
+            _volumeSlider.value = _waveformDrawer.AudioSource.volume;
 
             _scrubAmoundField = new FloatField("Time Scrub Amount");
             _scrubAmoundField.value = _defaultTimeScrubAmount;
-            _waveformDrawer.timeScrubAmount = _scrubAmoundField.value;
+            _waveformDrawer.TimeScrubAmount = _scrubAmoundField.value;
 
             _keyBindsButton = new Button(() => { _waveformDrawer.LogKeybinds(); });
             _keyBindsButton.text = "Keybinds";
@@ -147,11 +147,10 @@ namespace ProefExamen.Editor.MappingWindow
             {
                 if (_spectrumDrawer != null) //tell spectrum data to draw the waveform of the selected audio clip
                     _spectrumDrawer.VisualizeSongSpectrum(audioClip);
+
+                return;
             }
-            else
-            {
-                PlayModeWarning();
-            }
+            PlayModeWarning();
         }
 
         /// <summary>
@@ -168,13 +167,12 @@ namespace ProefExamen.Editor.MappingWindow
             // Update audio control values.
             if (Application.isPlaying && _waveformDrawer != null)
             {
-                _waveformDrawer.audioSource.volume = _volumeSlider.value;
-                _waveformDrawer.timeScrubAmount = _scrubAmoundField.value;
+                _waveformDrawer.AudioSource.volume = _volumeSlider.value;
+                _waveformDrawer.TimeScrubAmount = _scrubAmoundField.value;
+                return;
             }
-            else
-            {
-                Close(); //close window if not in playmode
-            }
+                
+            Close(); //Close window if not in playmode.
         }
 
         private void OnGUI()

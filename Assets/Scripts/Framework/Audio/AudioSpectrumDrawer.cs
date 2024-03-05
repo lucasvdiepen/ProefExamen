@@ -73,7 +73,7 @@ namespace ProefExamen.Audio.SpectrumDrawer
         //update all bandvisualizers
         private void Update()
         {
-            _waveformDrawer.audioSource.GetSpectrumData(_samples, 0, FFTWindow.Blackman);
+            _waveformDrawer.AudioSource.GetSpectrumData(_samples, 0, FFTWindow.Blackman);
             if (_visualizers == null)
                 return;
 

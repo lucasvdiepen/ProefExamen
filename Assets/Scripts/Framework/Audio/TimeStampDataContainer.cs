@@ -11,10 +11,10 @@ public class TimeStampDataContainer : ScriptableObject
     /// <summary>
     /// List of line data used for drawing gizmo lines.
     /// </summary>
-    public List<TimeStamper.LineData> songDebugLineData = new(); //debug data used for drawing gizmo lines
+    public List<TimeStamper.LineData> songDebugLineData = new();
 
     /// <summary>
     /// Array of time stamps.
     /// </summary>
-    public float[] timeStamps; //time stamps
+    public float[] timeStamps;
 }

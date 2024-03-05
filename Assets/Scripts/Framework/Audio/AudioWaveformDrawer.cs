@@ -29,11 +29,11 @@ namespace ProefExamen.Audio.WaveFormDrawer
         [SerializeField]
         private GameObject _drawerPrefab = null;
 
-        [field: SerializeField]
         /// <summary>
         /// Cursor object used to display the current time in the song.
         /// </summary>
-        public Transform cursor { get; private set; }
+        [field: SerializeField]
+        public Transform Cursor { get; private set; }
 
         [SerializeField]
         private float _curserYPosition = -290;
@@ -63,47 +63,47 @@ namespace ProefExamen.Audio.WaveFormDrawer
         /// <summary>
         /// Returns the current time in the song. Returns -1 if audioSource is empty.
         /// </summary>
-        public float currentSongTime => audioSource != null ? audioSource.time : -1;
+        public float CurrentSongTime => AudioSource != null ? AudioSource.time : -1;
 
         /// <summary>
         /// Returns the current playback speed.
         /// </summary>
-        public float currentPlaybackSpeed => _playbackSpeed / 10f;
+        public float CurrentPlaybackSpeed => _playbackSpeed / 10f;
 
         /// <summary>
         /// Returns the current active song title.
         /// </summary>
-        public string currentSongTitle => audioSource.clip.name;
+        public string CurrentSongTitle => AudioSource.clip.name;
 
         /// <summary>
         /// Checks if a audio waveform texture has been made.
         /// </summary>
-        public bool hasActiveWaveform => _waveformTexture != null;
+        public bool HasActiveWaveform => _waveformTexture != null;
 
         /// <summary>
         /// Returns if audio is paused.
         /// </summary>
-        public bool isPaused { get; private set; }
+        public bool IsPaused { get; private set; }
 
         /// <summary>
         /// Time amount for scrubbing through the audio track.
         /// </summary>
-        public float timeScrubAmount { get; set; } = 2.5f;
+        public float TimeScrubAmount { get; set; } = 2.5f;
 
         /// <summary>
         /// Audio source used by the waveform drawer.
         /// </summary>
-        public AudioSource audioSource { get; private set; }
+        public AudioSource AudioSource { get; private set; }
 
         /// <summary>
         /// Event for when the song has been changed. Returns the new song title and the old song title.
         /// </summary>
-        public Action<string, string> onSongChanged { get; set; }
+        public Action<string, string> OnSongChanged { get; set; }
 
         /// <summary>
         /// Event for when the keybinds are shown.
         /// </summary>
-        public Action onShowKeyBinds { get; set; }  
+        public Action OnShowKeyBinds { get; set; }  
 
         private float _playbackSpeed = 10;
         private float _songWidth = 0;
@@ -116,7 +116,7 @@ namespace ProefExamen.Audio.WaveFormDrawer
 
         private Texture2D _waveformTexture = null;
 
-        private void Awake() => audioSource = GetComponent<AudioSource>();
+        private void Awake() => AudioSource = GetComponent<AudioSource>();
 
         /// <summary>
         /// Calculates the correct local song time based on a point along the waveform.
@@ -140,16 +140,16 @@ namespace ProefExamen.Audio.WaveFormDrawer
         {
             Destroy(_waveformTexture);
 
-            AudioClip lastClip = audioSource.clip;
-            audioSource.clip = audioClip;
+            AudioClip lastClip = AudioSource.clip;
+            AudioSource.clip = audioClip;
 
-            onSongChanged?.Invoke(audioClip.name, lastClip != null ? lastClip.name : "Null");
+            OnSongChanged?.Invoke(audioClip.name, lastClip != null ? lastClip.name : "Null");
 
             // Create an array to store the audio data.
-            _dataSamples = new float[audioSource.clip.samples * audioSource.clip.channels];
+            _dataSamples = new float[AudioSource.clip.samples * AudioSource.clip.channels];
             
             // Get audio data from the audio clip.
-            audioSource.clip.GetData(_dataSamples, 0);
+            AudioSource.clip.GetData(_dataSamples, 0);
 
             // Prepare the waveform texture.
             _waveformTexture = new Texture2D(_textureWidth, _textureHeight, TextureFormat.RGBA32, false);
@@ -170,12 +170,12 @@ namespace ProefExamen.Audio.WaveFormDrawer
             if (renderer != null)
                 renderer.material.mainTexture = _waveformTexture;
 
-            _audioClipDuration = audioSource.clip.length;
+            _audioClipDuration = AudioSource.clip.length;
 
-            if (isPaused) 
-                audioSource.Pause();
+            if (IsPaused) 
+                AudioSource.Pause();
             else 
-                audioSource.Play();
+                AudioSource.Play();
         }
 
         /// <summary>
@@ -247,26 +247,26 @@ namespace ProefExamen.Audio.WaveFormDrawer
             if (!Input.GetKey(KeyCode.LeftControl)) //can't hold left ctrl, messes with other keybinds
             {
                 if (Input.GetKey(_forwardKey)) //scrub forward in song
-                    audioSource.time = Mathf.Clamp(audioSource.time + timeScrubAmount, 0, _audioClipDuration - 1);
+                    AudioSource.time = Mathf.Clamp(AudioSource.time + TimeScrubAmount, 0, _audioClipDuration - 1);
 
                 if (Input.GetKey(_backwardKey)) //scrub backward in song
-                    audioSource.time = Mathf.Clamp(audioSource.time - timeScrubAmount, 0, _audioClipDuration);
+                    AudioSource.time = Mathf.Clamp(AudioSource.time - TimeScrubAmount, 0, _audioClipDuration);
             }
 
             if (Input.GetKeyDown(_pauseKey)) //pausing song
             {
-                if (!isPaused && audioSource.isPlaying)
+                if (!IsPaused && AudioSource.isPlaying)
                 {
-                    audioSource.Pause();
+                    AudioSource.Pause();
                 }
                 else
                 {
-                    audioSource.UnPause();
-                    if (!audioSource.isPlaying)
-                        audioSource.Play();
+                    AudioSource.UnPause();
+                    if (!AudioSource.isPlaying)
+                        AudioSource.Play();
                 }
 
-                isPaused = !isPaused; //toggle pause state
+                IsPaused = !IsPaused; //toggle pause state
             }
 
             //mouse playback speed control
@@ -287,11 +287,11 @@ namespace ProefExamen.Audio.WaveFormDrawer
 
             //reset song time
             if(Input.GetKeyDown(_homeKey)) 
-                audioSource.time = 0;
+                AudioSource.time = 0;
 
             //set song time to end of song
             if (Input.GetKeyDown(_endKey))
-                audioSource.time = _audioClipDuration - 1;
+                AudioSource.time = _audioClipDuration - 1;
         }
 
         /// <summary>
@@ -301,7 +301,7 @@ namespace ProefExamen.Audio.WaveFormDrawer
         private void IncreasePlaybackSpeed(int amount)
         {
             _playbackSpeed = Mathf.Clamp(_playbackSpeed + amount, 1f, 30);
-            audioSource.pitch = currentPlaybackSpeed;
+            AudioSource.pitch = CurrentPlaybackSpeed;
         }
 
         /// <summary>
@@ -312,8 +312,8 @@ namespace ProefExamen.Audio.WaveFormDrawer
             if (_audioClipDuration == 0) //check if a song is selected
                 return;
 
-            float x = _songWidth / _audioClipDuration * audioSource.time;
-            cursor.transform.position = new Vector2(x, 0) + _waveformPositionOffset;
+            float x = _songWidth / _audioClipDuration * AudioSource.time;
+            Cursor.transform.position = new Vector2(x, 0) + _waveformPositionOffset;
         }
 
         /// <summary>
@@ -339,7 +339,7 @@ namespace ProefExamen.Audio.WaveFormDrawer
             Debug.Log(" "); //empty line
             Debug.Log(" "); //empty line
 
-            onShowKeyBinds?.Invoke();
+            OnShowKeyBinds?.Invoke();
         }
     }
 }
