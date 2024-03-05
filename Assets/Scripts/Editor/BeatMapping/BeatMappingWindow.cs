@@ -143,11 +143,13 @@ namespace ProefExamen.Editor.BeatMapping
             _soundClipField.value = audioClip;
             if (Application.isPlaying)
             {
-                if (_spectrumDrawer != null) //tell spectrum data to draw the waveform of the selected audio clip
+                // Tell spectrum data to draw the waveform of the selected audio clip.
+                if (_spectrumDrawer != null)
                     _spectrumDrawer.VisualizeSongSpectrum(audioClip);
 
                 return;
             }
+            
             PlayModeWarning();
         }
 
@@ -170,7 +172,8 @@ namespace ProefExamen.Editor.BeatMapping
                 return;
             }
                 
-            Close(); //Close window if not in playmode.
+            // Close window if not in playmode.
+            Close();
         }
 
         private void OnGUI()

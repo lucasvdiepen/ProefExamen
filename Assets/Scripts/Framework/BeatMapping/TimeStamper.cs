@@ -49,12 +49,12 @@ namespace ProefExamen.Framework.BeatMapping
         /// <summary>
         /// Returns the current selected time stamp.
         /// </summary>
-        public TimeStampData currentSelectedTimeStamp { get; private set;}
+        public TimeStampData CurrentSelectedTimeStamp { get; private set;}
 
         /// <summary>
         /// Returns the raw asset path for the time stamp data container.
         /// </summary>
-        public string rawAssetPath => "Assets/SongTimeStampData/";
+        public string RawAssetPath => "Assets/SongTimeStampData/";
 
         private AudioWaveformDrawer _waveformDrawer = null;
 
@@ -116,7 +116,7 @@ namespace ProefExamen.Framework.BeatMapping
         /// </summary>
         private void HandleTimeStampSelection()
         {
-            //try select closest time stamp to the mouse position.
+            // Try select closest time stamp to the mouse position.
             if (Input.GetKey(KeyCode.LeftControl)) 
             {
                 //Get closest time stamp to mouse position.
@@ -132,6 +132,7 @@ namespace ProefExamen.Framework.BeatMapping
                     closestStampToMouse.isSelected = true;
                     if (currentSelectedTimeStamp != null)
                         currentSelectedTimeStamp.isSelected = false;
+                    
                     currentSelectedTimeStamp = closestStampToMouse;
                 }
             }
@@ -148,7 +149,9 @@ namespace ProefExamen.Framework.BeatMapping
             {
                 Vector2 newDirection = Vector2.zero;
                 if (Input.mouseScrollDelta.magnitude > 0) 
+                {
                     newDirection = _timeStampTweakAmount * Input.mouseScrollDelta.y * Vector2.right;
+                }
                 else
                 {
                     if (Input.GetKey(_decreaseTimeStampKey))
@@ -179,10 +182,14 @@ namespace ProefExamen.Framework.BeatMapping
 
             foreach (TimeStampData timeStampData in _timeStamps)
             {
-                Vector3 directionToTarget = timeStampData.lineData.startLinePoint - originPosition; //get the direction to the target
-                float dSqrToTarget = directionToTarget.sqrMagnitude; //get the squared distance to the target
+                // Get the direction to the target.
+                Vector3 directionToTarget = timeStampData.lineData.startLinePoint - originPosition;
                 
-                if (dSqrToTarget < closestDistanceSqr) //check if the current time stamp is closer than the previous closest time stamp
+                // Get the squared distance to the target.
+                float dSqrToTarget = directionToTarget.sqrMagnitude;
+                
+                // Check if the current time stamp is closer than the previous closest time stamp.
+                if (dSqrToTarget < closestDistanceSqr)
                 {
                     closestDistanceSqr = dSqrToTarget;
                     bestTarget = timeStampData;
@@ -193,7 +200,7 @@ namespace ProefExamen.Framework.BeatMapping
         }
 
         /// <summary>
-        /// Helper method for importing time stamps from a scriptable object (TimeStampDataContainer)
+        /// Helper method for importing time stamps from a scriptable object (TimeStampDataContainer).
         /// </summary>
         public void TryImportTimeStamps()
         {
@@ -277,12 +284,12 @@ namespace ProefExamen.Framework.BeatMapping
             AssetDatabase.CreateAsset(obj, rawAssetPath + $"{assetName}.asset");
             AssetDatabase.Refresh();
 
-            print("Exported timestamps");
+            Debug.Log("Exported timestamps");
         }
 #endif
 
         /// <summary>
-        /// Method for showing the keybinds in the console. //Gets called from custom editor button "Show Keybinds".
+        /// Method for showing the keybinds in the console. Gets called from custom editor button "Show Keybinds".
         /// </summary>
         private void HandleShowKeybinds()
         {
