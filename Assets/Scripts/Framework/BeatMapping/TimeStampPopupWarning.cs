@@ -45,7 +45,7 @@ namespace ProefExamen.Framework.BeatMapping
         private void HandleSongChanged(string newSongTitle, string oldSongTitle)
         {
             CheckForUnsavedData(oldSongTitle);
-            _timeStamper.timeStamps.Clear();
+            _timeStamper.TimeStamps.Clear();
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace ProefExamen.Framework.BeatMapping
         private void CheckForUnsavedData(string songTitle)
         {
             //Return if no time stamps are present.
-            if (_timeStamper.timeStamps.Count == 0)
+            if (_timeStamper.TimeStamps.Count == 0)
                 return;
 
             string pathToCheck = _timeStamper.RawAssetPath + $"{songTitle}.asset";
@@ -67,7 +67,7 @@ namespace ProefExamen.Framework.BeatMapping
                 string message = string.Format(_noContainerMessage, _timeStamper.RawAssetPath + $"{songTitle}.asset");
                 ShowWarningDialog(_unexportedDataTitle, message, _exportDataButton, null, songTitle);
             }
-            else if (container.timeStamps.Length != _timeStamper.timeStamps.Count)
+            else if (container.timeStamps.Length != _timeStamper.TimeStamps.Count)
             {
                 // If the time stamp data container does not match with the current time stamp data, show a warning dialog.
                 string message = string.Format(_mismatchDataMessage, _timeStamper.RawAssetPath + $"{songTitle}.asset");

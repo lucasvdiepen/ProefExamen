@@ -44,7 +44,7 @@ namespace ProefExamen.Framework.BeatMapping
         /// <summary>
         /// Points to the list of time stamps.
         /// </summary>
-        public List<TimeStampData> timeStamps => _timeStamps;
+        public List<TimeStampData> TimeStamps => _timeStamps;
 
         /// <summary>
         /// Returns the current selected time stamp.

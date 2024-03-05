@@ -50,16 +50,16 @@ namespace ProefExamen.Framework.BeatMapping
             if (!Application.isPlaying)
                 return;
 
-            for (int i = 0; i < _timeStamper.timeStamps.Count; i++)
+            for (int i = 0; i < _timeStamper.TimeStamps.Count; i++)
             {
                 // Little hacky but SOMETIME I HATE UNITY, you can't set the thickness of the gizmos line. 
                 // This fixes the gizmo flickering when it's ony 1px wide.
 
                 Vector2 offset = new(_gizmoSpacing, 0);
-                Gizmos.color = _timeStamper.timeStamps[i].isSelected ? _selectedTimeStampColor : _timeStampColor;
+                Gizmos.color = _timeStamper.TimeStamps[i].isSelected ? _selectedTimeStampColor : _timeStampColor;
 
-                Vector2 startPoint = _timeStamper.timeStamps[i].lineData.startLinePoint;
-                Vector2 endPoint = _timeStamper.timeStamps[i].lineData.endLinePoint;
+                Vector2 startPoint = _timeStamper.TimeStamps[i].lineData.startLinePoint;
+                Vector2 endPoint = _timeStamper.TimeStamps[i].lineData.endLinePoint;
 
                 // Center.
                 Gizmos.DrawLine(startPoint, endPoint);
