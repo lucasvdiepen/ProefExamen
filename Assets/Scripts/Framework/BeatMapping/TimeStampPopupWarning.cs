@@ -57,20 +57,20 @@ namespace ProefExamen.Framework.BeatMapping
             if (_timeStamper.timeStamps.Count == 0)
                 return;
 
-            string pathToCheck = _timeStamper.rawAssetPath + $"{songTitle}.asset";
+            string pathToCheck = _timeStamper.RawAssetPath + $"{songTitle}.asset";
 
             //Check if there is a time stamp data container at the path.
             TimeStampDataContainer container = AssetDatabase.LoadAssetAtPath<TimeStampDataContainer>(pathToCheck);
             if (container == null)
             {
                 //If no time stamp data container is found, show a warning dialog.
-                string message = string.Format(_noContainerMessage, _timeStamper.rawAssetPath + $"{songTitle}.asset");
+                string message = string.Format(_noContainerMessage, _timeStamper.RawAssetPath + $"{songTitle}.asset");
                 ShowWarningDialog(_unexportedDataTitle, message, _exportDataButton, null, songTitle);
             }
             else if (container.timeStamps.Length != _timeStamper.timeStamps.Count)
             {
                 // If the time stamp data container does not match with the current time stamp data, show a warning dialog.
-                string message = string.Format(_mismatchDataMessage, _timeStamper.rawAssetPath + $"{songTitle}.asset");
+                string message = string.Format(_mismatchDataMessage, _timeStamper.RawAssetPath + $"{songTitle}.asset");
                 ShowWarningDialog(_unsavedDataTitle, message, _updateDataButton, null, songTitle);
             }
         }

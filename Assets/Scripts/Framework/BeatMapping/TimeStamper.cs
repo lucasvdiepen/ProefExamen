@@ -98,10 +98,10 @@ namespace ProefExamen.Framework.BeatMapping
             //Deleting selected time stamp.
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_deleteCurrentTimeStampKey))
             {
-                if (currentSelectedTimeStamp != null)
+                if (CurrentSelectedTimeStamp != null)
                 {
-                    TimeStampData timeStampToDelete = currentSelectedTimeStamp;
-                    currentSelectedTimeStamp = null;
+                    TimeStampData timeStampToDelete = CurrentSelectedTimeStamp;
+                    CurrentSelectedTimeStamp = null;
                     _timeStamps.Remove(timeStampToDelete);
                 }
             }
@@ -127,25 +127,25 @@ namespace ProefExamen.Framework.BeatMapping
                     return;
 
                 //If closest time stamp is not the current selected time stamp, select it.
-                if (closestStampToMouse != currentSelectedTimeStamp)
+                if (closestStampToMouse != CurrentSelectedTimeStamp)
                 {
                     closestStampToMouse.isSelected = true;
-                    if (currentSelectedTimeStamp != null)
-                        currentSelectedTimeStamp.isSelected = false;
-                    
-                    currentSelectedTimeStamp = closestStampToMouse;
+                    if (CurrentSelectedTimeStamp != null)
+                        CurrentSelectedTimeStamp.isSelected = false;
+
+                    CurrentSelectedTimeStamp = closestStampToMouse;
                 }
             }
 
             //When releasing ctrl, remove current time stamp selection.
-            if (Input.GetKeyUp(KeyCode.LeftControl) && currentSelectedTimeStamp != null)
+            if (Input.GetKeyUp(KeyCode.LeftControl) && CurrentSelectedTimeStamp != null)
             {
-                currentSelectedTimeStamp.isSelected = false;
-                currentSelectedTimeStamp = null;
+                CurrentSelectedTimeStamp.isSelected = false;
+                CurrentSelectedTimeStamp = null;
             }
 
             //Tweak current selected time stamp if it is not null.
-            if (currentSelectedTimeStamp != null)
+            if (CurrentSelectedTimeStamp != null)
             {
                 Vector2 newDirection = Vector2.zero;
                 if (Input.mouseScrollDelta.magnitude > 0) 
@@ -161,12 +161,12 @@ namespace ProefExamen.Framework.BeatMapping
                         newDirection = Vector2.right * _timeStampTweakAmount;
                 }
 
-                currentSelectedTimeStamp.lineData.startLinePoint += newDirection;
-                currentSelectedTimeStamp.lineData.endLinePoint += newDirection;
+                CurrentSelectedTimeStamp.lineData.startLinePoint += newDirection;
+                CurrentSelectedTimeStamp.lineData.endLinePoint += newDirection;
 
                 //Update song time of the current selected time stamp.
-                currentSelectedTimeStamp.songTime =
-                    _waveformDrawer.CalculateSongTimeBasedOnPosition(currentSelectedTimeStamp.lineData.startLinePoint);
+                CurrentSelectedTimeStamp.songTime =
+                    _waveformDrawer.CalculateSongTimeBasedOnPosition(CurrentSelectedTimeStamp.lineData.startLinePoint);
             }
         }
 
@@ -281,7 +281,7 @@ namespace ProefExamen.Framework.BeatMapping
             //Get the song title for the asset name.
             string assetName = overrideSongTitle == string.Empty ? _waveformDrawer.CurrentSongTitle : overrideSongTitle;
 
-            AssetDatabase.CreateAsset(obj, rawAssetPath + $"{assetName}.asset");
+            AssetDatabase.CreateAsset(obj, RawAssetPath + $"{assetName}.asset");
             AssetDatabase.Refresh();
 
             Debug.Log("Exported timestamps");

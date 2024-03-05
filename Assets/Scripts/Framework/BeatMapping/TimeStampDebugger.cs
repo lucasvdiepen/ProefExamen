@@ -92,11 +92,11 @@ namespace ProefExamen.Framework.BeatMapping
                 GUI.Label(new Rect(1750, 0, 300, 100), "Paused", _debugItalicsGuiStyle);
 
             // Draw selected time stamp information.
-            if (_timeStamper.currentSelectedTimeStamp != null)
+            if (_timeStamper.CurrentSelectedTimeStamp != null)
             {
                 GUI.Label(
                     new Rect(0, 96, 300, 100),
-                    $"TimeStamp Time: {_timeStamper.currentSelectedTimeStamp.songTime}",
+                    $"TimeStamp Time: {_timeStamper.CurrentSelectedTimeStamp.songTime}",
                     _debugItalicsGuiStyle
                 );
             }
