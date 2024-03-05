@@ -123,7 +123,7 @@ namespace ProefExamen.Framework.BeatMapping
         /// </summary>
         private void HandleTimeStampControls()
         {
-            //placing a time stamp
+            //Placing a time stamp.
             if (Input.GetKeyDown(_placeTimeStampKey))
             {
                 float startYPos = _waveformDrawer.Cursor.position.y - (_waveformDrawer.Cursor.localScale.y * .5f);
@@ -133,14 +133,14 @@ namespace ProefExamen.Framework.BeatMapping
                 _timeStamps.Add(new TimeStampData(startPosition, endPosition, _waveformDrawer.CurrentSongTime));
             }
 
-            //undo last time stamp
-            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_undoTimeStampKey)) //undo last time stamp
+            //Undo last time stamp.
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_undoTimeStampKey))
             {
                 if (_timeStamps.Count > 0)
                     _timeStamps.RemoveAt(_timeStamps.Count - 1);
             }
 
-            //deleting selected time stamp
+            //Deleting selected time stamp.
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_deleteCurrentTimeStampKey))
             {
                 if (currentSelectedTimeStamp != null)
@@ -151,7 +151,7 @@ namespace ProefExamen.Framework.BeatMapping
                 }
             }
 
-            //exporting time stamps
+            //Exporting time stamps.
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_exportTimeStampsKey))
                 TryExportTimeStamps();
         }
@@ -161,15 +161,17 @@ namespace ProefExamen.Framework.BeatMapping
         /// </summary>
         private void HandleTimeStampSelection()
         {
-            if (Input.GetKey(KeyCode.LeftControl)) //try select closest time stamp to the mouse position
+            //try select closest time stamp to the mouse position.
+            if (Input.GetKey(KeyCode.LeftControl)) 
             {
+                //Get closest time stamp to mouse position.
                 Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                TimeStampData closestStampToMouse = GetClosestTimeStamp(mousePosition); //get closest time stamp to mouse position
+                TimeStampData closestStampToMouse = GetClosestTimeStamp(mousePosition);
 
                 if (closestStampToMouse == null)
                     return;
 
-                //if closest time stamp is not the current selected time stamp, select it
+                //If closest time stamp is not the current selected time stamp, select it.
                 if (closestStampToMouse != currentSelectedTimeStamp)
                 {
                     closestStampToMouse.isSelected = true;
@@ -179,32 +181,32 @@ namespace ProefExamen.Framework.BeatMapping
                 }
             }
 
-            //when releasing ctrl, remove current time stamp selection
+            //When releasing ctrl, remove current time stamp selection.
             if (Input.GetKeyUp(KeyCode.LeftControl) && currentSelectedTimeStamp != null)
             {
                 currentSelectedTimeStamp.isSelected = false;
                 currentSelectedTimeStamp = null;
             }
 
-            //tweak current selected time stamp if it is not null
+            //Tweak current selected time stamp if it is not null.
             if (currentSelectedTimeStamp != null)
             {
                 Vector2 newDirection = Vector2.zero;
-                if (Input.mouseScrollDelta.magnitude > 0) //tweak time stamp position based on mouse scroll
+                if (Input.mouseScrollDelta.magnitude > 0) 
                     newDirection = _timeStampTweakAmount * Input.mouseScrollDelta.y * Vector2.right;
                 else
                 {
-                    if (Input.GetKey(_decreaseTimeStampKey)) //decrease
+                    if (Input.GetKey(_decreaseTimeStampKey))
                         newDirection = Vector2.left * _timeStampTweakAmount;
 
-                    if (Input.GetKey(_increaseTimeStampKey)) //increase
+                    if (Input.GetKey(_increaseTimeStampKey))
                         newDirection = Vector2.right * _timeStampTweakAmount;
                 }
 
                 currentSelectedTimeStamp.lineData.startLinePoint += newDirection;
                 currentSelectedTimeStamp.lineData.endLinePoint += newDirection;
 
-                //update song time of the current selected time stamp
+                //Update song time of the current selected time stamp.
                 currentSelectedTimeStamp.songTime =
                     _waveformDrawer.CalculateSongTimeBasedOnPosition(currentSelectedTimeStamp.lineData.startLinePoint);
             }
@@ -240,7 +242,7 @@ namespace ProefExamen.Framework.BeatMapping
         /// </summary>
         public void TryImportTimeStamps()
         {
-            //open file panel to select the TimeStampDataContainer to import
+            //Open file panel to select the TimeStampDataContainer to import.
             string path = EditorUtility.OpenFilePanel("Select TimeStampDataContainer to import", "Assets", "asset");
 
             if(string.IsNullOrEmpty(path)) 
@@ -249,10 +251,11 @@ namespace ProefExamen.Framework.BeatMapping
                 return;
             }
 
-            path = "Assets" + path[Application.dataPath.Length..]; //get the relative path
+            //Get the relative path.
+            path = "Assets" + path[Application.dataPath.Length..];
             var timeStampDataContainer = AssetDatabase.LoadAssetAtPath<TimeStampDataContainer>(path);
 
-            //if the time stamp data container is null, log a warning
+            //If the time stamp data container is null, log a warning.
             if (timeStampDataContainer == null)
             {
                 Debug.LogError($"Failed to load TimeStampDataContainer at path: {path}");
@@ -271,9 +274,10 @@ namespace ProefExamen.Framework.BeatMapping
                 return;
             }
 
-            _timeStamps.Clear(); //clear the current time stamps
+            //Clear the current time stamps.
+            _timeStamps.Clear(); 
 
-            //import the specified time stamps
+            //Import the specified time stamps.
             for (int i = 0; i < timeStampDataContainer.timeStamps.Length; i++)
             {
                 Vector2 startPoint = timeStampDataContainer.songDebugLineData[i].startLinePoint;
@@ -281,7 +285,8 @@ namespace ProefExamen.Framework.BeatMapping
 
                 float songTime = timeStampDataContainer.timeStamps[i];
 
-                _timeStamps.Add(new TimeStampData(startPoint, endPoint, songTime)); //add the time stamp to current list
+                //Add the time stamp to current list.
+                _timeStamps.Add(new TimeStampData(startPoint, endPoint, songTime)); 
             }
 
             Debug.Log("Succesfully imported time stamp data");
@@ -289,7 +294,7 @@ namespace ProefExamen.Framework.BeatMapping
 
 #if UNITY_EDITOR
         /// <summary>
-        /// Helper method for exporting all recorded time stamps to a scribtable object
+        /// Helper method for exporting all recorded time stamps to a scribtable object.
         /// </summary>
         public void TryExportTimeStamps(string overrideSongTitle = "")
         {
@@ -300,21 +305,21 @@ namespace ProefExamen.Framework.BeatMapping
 
             foreach (TimeStampData timeStamp in _timeStamps)
             {
-                exportedLineData.Add(timeStamp.lineData); //add the line data to the exported line data
-                sortedExportedTimeStamps.Add(timeStamp.songTime); //add the song time to the exported time stamps
+                exportedLineData.Add(timeStamp.lineData);
+                sortedExportedTimeStamps.Add(timeStamp.songTime);
             }
 
-            //sort the exported time stamps
+            //Sort the exported time stamps.
             sortedExportedTimeStamps = sortedExportedTimeStamps.OrderByDescending(songTime => songTime).ToList();
             sortedExportedTimeStamps.Reverse();
 
             obj.songDebugLineData = exportedLineData;
             obj.timeStamps = sortedExportedTimeStamps.ToArray();
 
-            //get the song title for the asset name
+            //Get the song title for the asset name.
             string assetName = overrideSongTitle == string.Empty ? _waveformDrawer.CurrentSongTitle : overrideSongTitle;
 
-            AssetDatabase.CreateAsset(obj, rawAssetPath + $"{assetName}.asset"); //create the asset
+            AssetDatabase.CreateAsset(obj, rawAssetPath + $"{assetName}.asset");
             AssetDatabase.Refresh();
 
             print("Exported timestamps");
@@ -322,29 +327,29 @@ namespace ProefExamen.Framework.BeatMapping
 #endif
 
         /// <summary>
-        /// Method for showing the keybinds in the console.
+        /// Method for showing the keybinds in the console. //Gets called from custom editor button "Show Keybinds".
         /// </summary>
-        private void HandleShowKeybinds() //Gets called from custom editor button "Show Keybinds"
+        private void HandleShowKeybinds()
         {
             Debug.Log("Place TimeStamp Key: " + _placeTimeStampKey);
             Debug.Log("Undo TimeStamp Key: CTRL + " + _undoTimeStampKey);
-            Debug.Log(" "); //empty line
+            Debug.Log(" ");
 
             Debug.Log("Select TimeStamp Key: CTRL");
             Debug.Log("Delete selected TimeStamp Key: CTRL + " + _deleteCurrentTimeStampKey);
-            Debug.Log(" "); //empty line
+            Debug.Log(" ");
 
             Debug.Log("Export TimeStamps Key: CTRL + " + _exportTimeStampsKey);
-            Debug.Log(" "); //empty line
+            Debug.Log(" ");
 
             Debug.Log("Increase TimeStamp Key: CTRL + " + _increaseTimeStampKey);
             Debug.Log("Decrease TimeStamp Key: CTRL + " + _decreaseTimeStampKey);
-            Debug.Log(" "); //empty line
+            Debug.Log(" ");
         }
 
         private void OnDestroy()
         {
-            //remove event listener
+            //Remove event listener.
             _waveformDrawer.OnShowKeyBinds -= HandleShowKeybinds;
         }
     }
