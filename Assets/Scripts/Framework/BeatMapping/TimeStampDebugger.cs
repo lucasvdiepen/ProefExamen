@@ -20,6 +20,15 @@ namespace ProefExamen.Framework.BeatMapping
         [SerializeField]
         private float _gizmoSpacing = .6f;
 
+        [SerializeField]
+        private Texture selectedGizmoTexture = null;
+
+        [SerializeField, Space]
+        private Vector2 _arrowOffsetPosition;
+
+        [SerializeField]
+        private Vector2 _arrowScale = Vector2.one;
+
         private TimeStamper _timeStamper;
         private AudioWaveformDrawer _waveformDrawer;
 
@@ -57,8 +66,21 @@ namespace ProefExamen.Framework.BeatMapping
 
                 Vector2 offset = new(_gizmoSpacing, 0);
 
+                bool isSelected = _timeStamper.TimeStamps[i].isSelected;
                 Color normalGizmoColor = _timeStampLaneColor[_timeStamper.TimeStamps[i].laneID];
-                Gizmos.color = _timeStamper.TimeStamps[i].isSelected ? _selectedTimeStampColor : normalGizmoColor;
+
+                Gizmos.color = isSelected ? _selectedTimeStampColor : normalGizmoColor;
+
+                if (isSelected)
+                {
+                    float startRect = _timeStamper.TimeStamps[i].lineData.startLinePoint.x + _arrowOffsetPosition.x;
+                    float endRect = _timeStamper.TimeStamps[i].lineData.endLinePoint.y + _arrowOffsetPosition.y;
+
+                    endRect += 5 * Mathf.Sin(Mathf.PI * 2 * Time.time);
+
+                    Rect rect = new(startRect, endRect, _arrowScale.x, _arrowScale.y);
+                    Gizmos.DrawGUITexture(rect, selectedGizmoTexture);
+                }
 
                 Vector2 startPoint = _timeStamper.TimeStamps[i].lineData.startLinePoint;
                 Vector2 endPoint = _timeStamper.TimeStamps[i].lineData.endLinePoint;
