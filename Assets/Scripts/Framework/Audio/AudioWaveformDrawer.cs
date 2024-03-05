@@ -131,7 +131,6 @@ namespace ProefExamen.Framework.BeatMapping
             return xPos * _audioClipDuration / _songWidth;
         }
 
-
         /// <summary>
         /// Method for initialzing the waveform drawer for a specific AudioClip.
         /// </summary>
@@ -211,7 +210,7 @@ namespace ProefExamen.Framework.BeatMapping
 
             _waveformTexture.SetPixels(_textureColors);
             
-            // Set the filter mode to point for a pixelated look
+            // Set the filter mode to point for a pixelated look.
             _waveformTexture.filterMode = FilterMode.Point;
             
             _waveformTexture.Apply();
@@ -274,7 +273,7 @@ namespace ProefExamen.Framework.BeatMapping
                 IsPaused = !IsPaused;
             }
 
-            //mouse playback speed control
+            // Mouse playback speed control.
             if (Input.mouseScrollDelta.magnitude > 0)
             {
                 //Can't hold ctrl, messes with other keybinds.
@@ -284,18 +283,18 @@ namespace ProefExamen.Framework.BeatMapping
                 IncreasePlaybackSpeed((int)Input.mouseScrollDelta.y);
             }
 
-            //keyboard playback speed controls
+            // Keyboard playback speed controls.
             if (Input.GetKeyDown(_speedUpKey)) 
                 IncreasePlaybackSpeed(1);
             
             if (Input.GetKeyDown(_speedDownKey)) 
                 IncreasePlaybackSpeed(-1);
 
-            //reset song time
+            // Reset song time.
             if(Input.GetKeyDown(_homeKey)) 
                 AudioSource.time = 0;
 
-            //set song time to end of song
+            // Set song time to end of song.
             if (Input.GetKeyDown(_endKey))
                 AudioSource.time = _audioClipDuration - 1;
         }

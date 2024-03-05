@@ -19,8 +19,7 @@ namespace ProefExamen.Framework.BeatMapping
         [SerializeField]
         private Vector3 _offsetPosition = Vector3.zero;
 
-        [Space]
-        [SerializeField]
+        [SerializeField, Space]
         private GameObject _imagePrefab;
 
         private GameObject[] _visualizers;
@@ -77,9 +76,11 @@ namespace ProefExamen.Framework.BeatMapping
 
             for (int i = 0; i < _visualizers.Length; i++)
             {
-                _visualizers[i].transform.localScale =
-                Vector3.Lerp(_visualizers[i].transform.localScale,
-                new Vector3(1, (_samples[i] * _maxScale) + 2, 1), _lerpAmount * Time.deltaTime);
+                _visualizers[i].transform.localScale = Vector3.Lerp(
+                    _visualizers[i].transform.localScale,
+                    new Vector3(1, (_samples[i] * _maxScale) + 2, 1),
+                    _lerpAmount * Time.deltaTime
+                );
             }
         }
 

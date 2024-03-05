@@ -65,7 +65,7 @@ namespace ProefExamen.Framework.BeatMapping
             }
             else if (existingContainer.timeStamps.Length != _timeStamper.timeStamps.Count)
             {
-                //if the time stamp data container does not match with the current time stamp data, show a warning dialog.
+                // If the time stamp data container does not match with the current time stamp data, show a warning dialog.
                 string message = string.Format(_mismatchDataMessage, _timeStamper.rawAssetPath + $"{songTitle}.asset");
                 ShowWarningDialog(_unsavedDataTitle, message, _updateDataButton, null, songTitle);
             }
