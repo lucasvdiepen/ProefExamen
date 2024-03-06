@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3138330497964954940}
   - component: {fileID: 1569526431925608971}
   - component: {fileID: 3465336855669931118}
-  - component: {fileID: 2013977716099343080}
+  - component: {fileID: 8055380400743699627}
   m_Layer: 0
-  m_Name: NoteGreen
+  m_Name: NoteBlue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 259
-  m_Sprite: {fileID: -725872948, guid: f362d888db4ff1840bc189d40d516799, type: 3}
+  m_Sprite: {fileID: 742716038, guid: 98e958ed00a36194e8d2e3b35d9d2929, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -105,12 +105,12 @@ MonoBehaviour:
   _initialPosition: {x: 0, y: 0}
   _targetPosition: {x: 0, y: 0}
   _spriteRenderer: {fileID: 1569526431925608971}
-  _animator: {fileID: 2013977716099343080}
+  _animator: {fileID: 8055380400743699627}
   _animationSpeed: 8
-  _deathSprite: {fileID: 21300000, guid: 213b8c71dfeca824e8c3b7ce837e9d31, type: 3}
+  _deathSprite: {fileID: 21300000, guid: 52aaefcc8872dff40bb32c1138dac9ed, type: 3}
   _lerpAlpha: 0
   _isRemovalCalled: 0
---- !u!95 &2013977716099343080
+--- !u!95 &8055380400743699627
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -120,7 +120,7 @@ Animator:
   m_GameObject: {fileID: 8865070559718813142}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1057d0ee61f0d244488657c727e25411, type: 2}
+  m_Controller: {fileID: 9100000, guid: f48dd3c9bcd59044083262803eaffafd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
