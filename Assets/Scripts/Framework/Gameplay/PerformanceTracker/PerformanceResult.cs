@@ -1,33 +1,51 @@
-using ProefExamen.Framework.Gameplay.LaneSystem;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace ProefExamen.Framework.Gameplay.PerformanceTracker
+using ProefExamen.Framework.Gameplay.LaneSystem;
+using ProefExamen.Framework.Gameplay.Level;
+using ProefExamen.Framework.Gameplay.Values;
+
+namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 {
     /// <summary>
     /// A struct that holds a players performance from playing a level.
     /// </summary>
+    [System.Serializable]
     public struct PerformanceResult
     {
-        public PerformanceResult(int levelID)
+        /// <summary>
+        /// Create a new initial Performance Result with assigned Level ID and difficulty.
+        /// </summary>
+        /// <param name="levelID">The Level ID of this result.</param>
+        /// <param name="difficulty">The difficulty of this result.</param>
+        public PerformanceResult(int levelID, Difficulty difficulty)
         {
             this.levelID = levelID;
+            this.difficulty = difficulty;
+
             misses = 0;
             missClicks = 0;
             okHits = 0;
             alrightHits = 0;
             niceHits = 0;
             perfectHits = 0;
+            totalScore = 0;
         }
+
         /// <summary>
         /// The Level ID of this result.
         /// </summary>
+        [Header("Level Data")]
         public int levelID;
+
+        /// <summary>
+        /// The difficulty of this result.
+        /// </summary>
+        public Difficulty difficulty;
 
         /// <summary>
         /// The amount of Misses in this result.
         /// </summary>
+        [Header("Performance")]
         public int misses;
 
         /// <summary>
@@ -56,11 +74,27 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracker
         public int perfectHits;
 
         /// <summary>
+        /// The total score in this result.
+        /// </summary>
+        [Header("Score")]
+        public int totalScore;
+
+        /// <summary>
+        /// Returns the result of if a passed level is the same as this one.
+        /// </summary>
+        /// <param name="newResult">The level to compare this level to.</param>
+        /// <returns>The result for if these levels are the same</returns>
+        public bool CompareLevels(PerformanceResult newResult) => 
+            newResult.levelID == levelID && newResult.difficulty == difficulty;
+
+        /// <summary>
         /// Adds the hit to the result.
         /// </summary>
         /// <param name="hit">The new hit.</param>
         public void CountHit(HitStatus hit)
         {
+            totalScore = SessionValues.Instance.score;
+
             switch (hit)
             {
                 case HitStatus.Miss:

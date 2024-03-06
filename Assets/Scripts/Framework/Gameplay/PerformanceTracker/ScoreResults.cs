@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ProefExamen.Framework.Gameplay.PerformanceTracker
+namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 {
     /// <summary>
     /// A scriptable object holding a list of results for levels.
