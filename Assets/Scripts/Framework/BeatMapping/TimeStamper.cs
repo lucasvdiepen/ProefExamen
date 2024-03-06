@@ -118,16 +118,16 @@ namespace ProefExamen.Framework.BeatMapping
 
             //Tweak the lane ID of the current selected time stamp.
             if (Input.GetKeyDown(KeyCode.Alpha1))
-                CurrentSelectedTimeStamp.laneID = 0;
+                ChangeTimeStampLaneID(CurrentSelectedTimeStamp, 0);
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
-                CurrentSelectedTimeStamp.laneID = 1;
+                ChangeTimeStampLaneID(CurrentSelectedTimeStamp, 1);
             
             if (Input.GetKeyDown(KeyCode.Alpha3))
-                CurrentSelectedTimeStamp.laneID = 2;
-            
+                ChangeTimeStampLaneID(CurrentSelectedTimeStamp, 2);
+
             if (Input.GetKeyDown(KeyCode.Alpha4))
-                CurrentSelectedTimeStamp.laneID = 3;
+                ChangeTimeStampLaneID(CurrentSelectedTimeStamp, 3);
         }
 
         /// <summary>
@@ -187,6 +187,17 @@ namespace ProefExamen.Framework.BeatMapping
                 CurrentSelectedTimeStamp.songTime =
                     _waveformDrawer.CalculateSongTimeBasedOnPosition(CurrentSelectedTimeStamp.lineData.startLinePoint);
             }
+        }
+
+        /// <summary>
+        /// Changes the lane ID of the specified time stamp.
+        /// </summary>
+        /// <param name="timeStampData">TimeStamp to change.</param>
+        /// <param name="newID">New lane id.</param>
+        private void ChangeTimeStampLaneID(TimeStampData timeStampData, int newID)
+        {
+            Debug.Log($"Changed TimeStamp #{TimeStamps.IndexOf(timeStampData)} from {timeStampData.laneID} to {newID}");
+            timeStampData.laneID = newID;
         }
 
         /// <summary>
