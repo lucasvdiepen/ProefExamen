@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ProefExamen.Framework.BeatMapping
 {
@@ -29,11 +30,19 @@ namespace ProefExamen.Framework.BeatMapping
         [SerializeField]
         private Vector2 _arrowScale = Vector2.one;
 
+        [SerializeField, Space]
+        private Toggle[] laneToggles;
+
         private TimeStamper _timeStamper;
         private AudioWaveformDrawer _waveformDrawer;
 
         private readonly GUIStyle _debugBoldGuiStyle = new();
         private readonly GUIStyle _debugItalicsGuiStyle = new();
+
+        private bool lane1Enabled = true;
+        private bool lane2Enabled = true;
+        private bool lane3Enabled = true;
+        private bool lane4Enabled = true;
 
         private void Awake()
         {
@@ -48,6 +57,12 @@ namespace ProefExamen.Framework.BeatMapping
             _debugItalicsGuiStyle.fontSize = 24;
             _debugItalicsGuiStyle.fontStyle = FontStyle.Italic;
             _debugItalicsGuiStyle.normal.textColor = Color.white;
+
+            // Set up the lane toggles.
+            laneToggles[0].onValueChanged.AddListener((value) => lane1Enabled = value);
+            laneToggles[1].onValueChanged.AddListener((value) => lane2Enabled = value);
+            laneToggles[2].onValueChanged.AddListener((value) => lane3Enabled = value);
+            laneToggles[3].onValueChanged.AddListener((value) => lane4Enabled = value);
         }
 
         /// <summary>
@@ -61,8 +76,13 @@ namespace ProefExamen.Framework.BeatMapping
 
             for (int i = 0; i < _timeStamper.TimeStamps.Count; i++)
             {
-                // Little hacky but SOMETIME I HATE UNITY, you can't set the thickness of the gizmos line. 
-                // This fixes the gizmo flickering when it's ony 1px wide.
+                bool lane1Disabled = _timeStamper.TimeStamps[i].laneID == 0 && !lane1Enabled;
+                bool lane2Disabled = _timeStamper.TimeStamps[i].laneID == 1 && !lane2Enabled;
+                bool lane3Disabled = _timeStamper.TimeStamps[i].laneID == 2 && !lane3Enabled;
+                bool lane4Disabled = _timeStamper.TimeStamps[i].laneID == 3 && !lane4Enabled;
+
+                if(lane1Disabled || lane2Disabled || lane3Disabled || lane4Disabled)
+                    continue;   
 
                 Vector2 offset = new(_gizmoSpacing, 0);
 
@@ -85,13 +105,11 @@ namespace ProefExamen.Framework.BeatMapping
                 Vector2 startPoint = _timeStamper.TimeStamps[i].lineData.startLinePoint;
                 Vector2 endPoint = _timeStamper.TimeStamps[i].lineData.endLinePoint;
 
-                // Center.
+                // Little hacky but SOMETIME I HATE UNITY, you can't set the thickness of the gizmos line. 
+                // This fixes the gizmo flickering when it's ony 1px wide.
+
                 Gizmos.DrawLine(startPoint, endPoint);
-                
-                // Left.
                 Gizmos.DrawLine(startPoint - offset, endPoint - offset);
-                
-                // Right.
                 Gizmos.DrawLine(startPoint + offset, endPoint + offset);
             }
         }
@@ -130,18 +148,18 @@ namespace ProefExamen.Framework.BeatMapping
                     _debugItalicsGuiStyle
                 );
             }
-
-            // Move down on screen
-            GUILayout.BeginArea(new Rect(0, 200, 200, 200));
-            GUILayout.Box("Visible Gizmos", GUILayout.Height(50), GUILayout.Width(50));
-
-            bool isLane1Visible = GUILayout.Toggle(false, $"Lane 1");
-            bool isLane2Visible = GUILayout.Toggle(false, $"Lane 2");
-            bool isLane3Visible = GUILayout.Toggle(false, $"Lane 3");
-            bool isLane4Visible = GUILayout.Toggle(false, $"Lane 4");
-
-            GUILayout.EndArea();
         }
 #endif
+
+        /// <summary>
+        /// Unsubscribe from the lane toggles.
+        /// </summary>
+        private void OnDestroy()
+        {
+            laneToggles[0].onValueChanged.RemoveAllListeners();
+            laneToggles[1].onValueChanged.RemoveAllListeners();
+            laneToggles[2].onValueChanged.RemoveAllListeners();
+            laneToggles[3].onValueChanged.RemoveAllListeners();
+        }
     }
 }
