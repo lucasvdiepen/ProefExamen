@@ -112,6 +112,22 @@ namespace ProefExamen.Framework.BeatMapping
             //Exporting time stamps.
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_exportTimeStampsKey))
                 TryExportTimeStamps();
+
+            if (CurrentSelectedTimeStamp == null)
+                return;
+
+            //Tweak the lane ID of the current selected time stamp.
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                CurrentSelectedTimeStamp.laneID = 0;
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+                CurrentSelectedTimeStamp.laneID = 1;
+            
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+                CurrentSelectedTimeStamp.laneID = 2;
+            
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+                CurrentSelectedTimeStamp.laneID = 3;
         }
 
         /// <summary>
@@ -301,7 +317,9 @@ namespace ProefExamen.Framework.BeatMapping
         /// </summary>
         private void HandleShowKeybinds()
         {
-            Debug.Log("Place TimeStamp Key: " + _placeTimeStampKeys[0]);
+            Debug.Log("Place TimeStamp Key: " + $"{ _placeTimeStampKeys[0]}, {_placeTimeStampKeys[1]}," +
+                $" {_placeTimeStampKeys[2]} and {_placeTimeStampKeys[3]}");
+
             Debug.Log("Undo TimeStamp Key: CTRL + " + _undoTimeStampKey);
             Debug.Log(" ");
 
@@ -314,6 +332,9 @@ namespace ProefExamen.Framework.BeatMapping
 
             Debug.Log("Increase TimeStamp Key: CTRL + " + _increaseTimeStampKey);
             Debug.Log("Decrease TimeStamp Key: CTRL + " + _decreaseTimeStampKey);
+            Debug.Log(" ");
+
+            Debug.Log("Change selected TimeStamp LaneID: 1, 2, 3 and 4");
             Debug.Log(" ");
         }
 
