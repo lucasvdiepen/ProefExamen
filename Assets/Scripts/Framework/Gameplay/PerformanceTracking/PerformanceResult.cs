@@ -83,7 +83,7 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         /// Returns the result of if a passed level is the same as this one.
         /// </summary>
         /// <param name="newResult">The level to compare this level to.</param>
-        /// <returns>The result for if these levels are the same</returns>
+        /// <returns>The result for if these levels are the same.</returns>
         public bool CompareLevels(PerformanceResult newResult) => 
             newResult.levelID == levelID && newResult.difficulty == difficulty;
 
@@ -91,7 +91,7 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         /// Adds the hit to the result.
         /// </summary>
         /// <param name="hit">The new hit.</param>
-        public void CountHit(HitStatus hit)
+        public void AddHit(HitStatus hit)
         {
             totalScore = SessionValues.Instance.score;
 

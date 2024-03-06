@@ -53,7 +53,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                 Destroy(target.gameObject);
             }
 
-            SessionValues.Instance.score += (int)HitStatus.Perfect * SessionValues.Instance.scoreMultiplier;
+            SessionValues.Instance.score += (int)hitStatus * SessionValues.Instance.scoreMultiplier;
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             _index = 0;
 
-            PerformanceTracker.Instance.StartNewLevelTracking();
+            PerformanceTracker.Instance.StartTracking();
 
             SessionValues.Instance.audioSource.clip = SessionValues.Instance.currentLevel.song;
             SessionValues.Instance.audioSource.Play();
@@ -81,7 +81,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                 yield return null;
             }
 
-            PerformanceTracker.Instance.CompleteCurrentScore();
+            PerformanceTracker.Instance.CompleteTracking();
             yield return null;
         }
 

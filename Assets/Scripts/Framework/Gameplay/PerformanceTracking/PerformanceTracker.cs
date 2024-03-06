@@ -14,11 +14,11 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
     {
         [Header("The high scores")]
         [SerializeField]
-        private ScoreResults scoreResults;
+        private ScoreResults _scoreResults;
 
         [Header("The current performance")]
         [SerializeField]
-        private PerformanceResult newResult;
+        private PerformanceResult _newResult;
 
         /// <summary>
         /// An action that shares the performance on a level.
@@ -31,23 +31,29 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         /// Counts an extra hit onto the current result.
         /// </summary>
         /// <param name="hit">The new hit to count.</param>
-        public void RegisterNewHit(HitStatus hit, int laneID) => newResult.CountHit(hit);
+        public void RegisterNewHit(HitStatus hit, int laneID) => _newResult.AddHit(hit);
 
         /// <summary>
         /// Initiates a new PerformanceResult with the currentLevelID and current difficulty.
         /// </summary>
-        public void StartNewLevelTracking() =>
-            newResult = new PerformanceResult(SessionValues.Instance.currentLevelID, SessionValues.Instance.difficulty);
+        public void StartTracking() =>
+            _newResult = new PerformanceResult(SessionValues.Instance.currentLevelID, SessionValues.Instance.difficulty);
 
         /// <summary>
         /// Completes the currently tracking level and overwrites the old high score if the level score was beaten
         /// then shares the result of the level through an action.
         /// </summary>
         /// <param name="levelBeaten">If the level was beaten.</param>
-        public void CompleteCurrentScore(bool levelBeaten = true)
+        public void CompleteTracking(bool levelBeaten = true)
         {
-            ScoreCompletionStatus scoreCompletionStatus = levelBeaten 
-                ? CheckCurrentScoreResult() 
+            if(_newResult.levelID != SessionValues.Instance.currentLevelID)
+            {
+                Debug.LogError("Current level is not equal to the _newResult level! Check PerformanceTracker!");
+                return;
+            }
+
+            ScoreCompletionStatus scoreCompletionStatus = levelBeaten
+                ? CheckCurrentScoreResult()
                 : ScoreCompletionStatus.Failed;
 
             OnScoreCompletion(scoreCompletionStatus);
@@ -55,30 +61,30 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 
         private ScoreCompletionStatus CheckCurrentScoreResult()
         {
-            int listLength = scoreResults.highScores.Count;
+            int listLength = _scoreResults.highScores.Count;
 
-            newResult.totalScore = SessionValues.Instance.score;
+            _newResult.totalScore = SessionValues.Instance.score;
 
             for (int i = 0; i < listLength; i++)
             {
-                if (scoreResults.highScores[i].CompareLevels(newResult))
-                {
-                    if (scoreResults.highScores[i].totalScore >= newResult.totalScore)
-                        return ScoreCompletionStatus.NotBeaten;
+                if (!_scoreResults.highScores[i].CompareLevels(_newResult))
+                    continue;
 
-                    scoreResults.highScores[i] = newResult;
-                    return ScoreCompletionStatus.Beaten;
-                }
+                if (_scoreResults.highScores[i].totalScore >= _newResult.totalScore)
+                    return ScoreCompletionStatus.NotBeaten;
+
+                _scoreResults.highScores[i] = _newResult;
+                return ScoreCompletionStatus.Beaten;
             }
 
-            if (scoreResults == null)
+            if (_scoreResults == null)
             {
-                Debug.LogError("No reference set for 'scoreResults' on PerformanceTracker!");
+                Debug.LogError("No reference set for '_scoreResults' on PerformanceTracker!");
 
                 return ScoreCompletionStatus.NotBeaten;
             }
 
-            scoreResults.highScores.Add(newResult);
+            _scoreResults.highScores.Add(_newResult);
             return ScoreCompletionStatus.Beaten;
         }
     }
