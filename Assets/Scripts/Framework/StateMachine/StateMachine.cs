@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using ProefExamen.Framework.Utils;
 using ProefExamen.Framework.StateMachine.Attributes;
 
 namespace ProefExamen.Framework.StateMachine
@@ -12,8 +11,51 @@ namespace ProefExamen.Framework.StateMachine
     /// <summary>
     /// A class responsible for managing all the states.
     /// </summary>
-    public class StateMachine : AbstractSingleton<StateMachine>
+    public class StateMachine : MonoBehaviour
     {
+        /// <summary>
+        /// The instance of the state machine.
+        /// </summary>
+        private static StateMachine _instance;
+
+        /// <summary>
+        /// Whether the state machine has been initialized.
+        /// </summary>
+        private static bool _hasBeenInitialized;
+
+        /// <summary>
+        /// Gets the instance of the state machine. The instance will only be created once.
+        /// </summary>
+        public static StateMachine Instance
+        {
+            get
+            {
+                if (_instance != null)
+                {
+                    _hasBeenInitialized = true;
+                    return _instance;
+                }
+
+                _instance = FindObjectOfType<StateMachine>();
+
+                if (_instance != null)
+                {
+                    _hasBeenInitialized = true;
+                    return _instance;
+                }
+
+                if (_hasBeenInitialized)
+                    return null;
+
+                GameObject container = new(typeof(StateMachine).Name);
+                _instance = container.AddComponent<StateMachine>();
+
+                _hasBeenInitialized = true;
+
+                return _instance;
+            }
+        }
+
         /// <summary>
         /// The maximum size of the navigation history.
         /// </summary>

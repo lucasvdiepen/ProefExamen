@@ -30,10 +30,12 @@ namespace ProefExamen.Framework.StateMachine
         /// </summary>
         private protected virtual void RegisterState() => StateMachine.Instance.RegisterState(this);
 
+#pragma warning disable UNT0008
         /// <summary>
         /// Unregisters the state from the state machine.
         /// </summary>
-        private protected virtual void UnregisterState() => StateMachine.Instance.UnregisterState(this);
+        private protected virtual void UnregisterState() => StateMachine.Instance?.UnregisterState(this);
+#pragma warning restore UNT0008
 
         /// <summary>
         /// Method that gets called when the state is entered.
