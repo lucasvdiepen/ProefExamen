@@ -1,10 +1,11 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 using ProefExamen.Framework.Utils;
-using System.Linq;
+using ProefExamen.Framework.StateMachine.Attributes;
 
 namespace ProefExamen.Framework.StateMachine
 {
@@ -167,7 +168,10 @@ namespace ProefExamen.Framework.StateMachine
             
             _states.Add(state.GetType(), state);
 
-            if (!isDefault)
+            DefaultStateAttribute defaultStateAttribute =
+                (DefaultStateAttribute)Attribute.GetCustomAttribute(state.GetType(), typeof(DefaultStateAttribute));
+
+            if (!isDefault && defaultStateAttribute == null)
                 return;
 
             if(CurrentState != null)
@@ -201,50 +205,99 @@ namespace ProefExamen.Framework.StateMachine
         /// <param name="shouldAddToHistory">Whether to add the state to the navigation history.</param>
         private IEnumerator TransitionToState(State state, bool shouldAddToHistory = true)
         {
+            // Set the new target state.
             TargetState = state;
 
+            // Get the current and target state trees.
+            List<State> currentStateTree = null;
             List<State> targetStateTree = GetStateTree(TargetState);
 
+            // Exit the current states.
             if (CurrentState != null)
             {
-                List<State> currentStateTree = GetStateTree(CurrentState);
+                currentStateTree = GetStateTree(CurrentState);
 
-                IEnumerable<State> statesToExit = currentStateTree.Except(targetStateTree);
-
-                yield return CurrentState.OnStateExit();
+                yield return ExitStates(currentStateTree, targetStateTree);
             }
 
+            // Set the target state to the current state.
             CurrentState = TargetState;
 
-            yield return CurrentState.OnStateEnter();
+            // Enter the target states.
+            yield return EnterStates(currentStateTree, targetStateTree);
 
+            // Adds the new state to the navigation history.
             if(shouldAddToHistory)
                 AddToHistory(CurrentState.GetType());
 
+            // Invokes the state changed event.
             OnStateChanged?.Invoke(CurrentState);
         }
 
+        /// <summary>
+        /// Enters the given states minus the states that are already entered.
+        /// </summary>
+        /// <param name="currentStateTree">The currently active state tree.</param>
+        /// <param name="targetStateTree">The target state tree.</param>
+        private IEnumerator EnterStates(List<State> currentStateTree, List<State> targetStateTree)
+        {
+            State[] statesToEnter = currentStateTree == null
+                ? targetStateTree.ToArray()
+                : targetStateTree.Except(currentStateTree).ToArray();
+
+            for (int i = 0; i < statesToEnter.Length; i++)
+                yield return statesToEnter[i].OnStateEnter();
+        }
+
+        /// <summary>
+        /// Exits the given states minus the states that should remain active.
+        /// </summary>
+        /// <param name="currentStateTree">The currently active state tree.</param>
+        /// <param name="targetStateTree">The target state tree.</param>
+        private IEnumerator ExitStates(List<State> currentStateTree, List<State> targetStateTree)
+        {
+            State[] statesToExit = currentStateTree.Except(targetStateTree).ToArray();
+
+            for (int i = statesToExit.Length - 1; i >= 0; i--)
+                yield return statesToExit[i].OnStateExit();
+        }
+
+        /// <summary>
+        /// Gets the state tree of the given state. 
+        /// The root parent state is first in the list.
+        /// The target state is last in the list.
+        /// </summary>
+        /// <param name="state">The state to get the tree of.</param>
+        /// <returns>The state tree of the given state.</returns>
         private List<State> GetStateTree(State state)
         {
-            List<State> tree = new();
+            List<State> tree = new()
+            {
+                state
+            };
 
             State currentState = state;
 
             while(true)
             {
-                ParentStateAttribute parentStateAttribute = (ParentStateAttribute)Attribute.GetCustomAttribute(currentState.GetType(), typeof(ParentStateAttribute));
+                ParentStateAttribute parentStateAttribute = 
+                    (ParentStateAttribute)Attribute.GetCustomAttribute(currentState.GetType(), typeof(ParentStateAttribute));
+
                 if (parentStateAttribute == null)
                     break;
 
-                if (parentStateAttribute.ParentState == null || TryGetState(parentStateAttribute.ParentState, out State parentState))
+                if (parentStateAttribute.ParentState == null ||
+                    !TryGetState(parentStateAttribute.ParentState, out State parentState))
+                {
                     break;
+                }
                 
                 tree.Add(parentState);
                 currentState = parentState;
             }
 
-            tree.Add(state);
-            
+            tree.Reverse();
+
             return tree;
         }
 
