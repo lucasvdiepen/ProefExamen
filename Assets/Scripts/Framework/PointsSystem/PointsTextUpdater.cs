@@ -1,3 +1,4 @@
+using ProefExamen.Framework.UI;
 using TMPro;
 using UnityEngine;
 
@@ -7,24 +8,14 @@ namespace ProefExamen.Framework.PointsSystem
     /// A class responsible for updating the points text.
     /// </summary>
     [RequireComponent(typeof(TextMeshProUGUI))]
-    public class PointsTextUpdater : MonoBehaviour
+    public class PointsTextUpdater : TextUpdater
     {
-        private TextMeshProUGUI _pointsText;
-        private string _defaultPointsText;
-
-        private void Awake()
-        {
-            _pointsText = GetComponent<TextMeshProUGUI>();
-            _defaultPointsText = _pointsText.text;
-        }
-
         private void Start() => UpdatePointsText(PointsSystem.Points);
 
         private void OnEnable() => PointsSystem.OnPointsChanged += UpdatePointsText;
 
         private void OnDisable() => PointsSystem.OnPointsChanged -= UpdatePointsText;
 
-        private void UpdatePointsText(int points)
-            => _pointsText.text = _defaultPointsText.Replace("[points]", points.ToString());
+        private void UpdatePointsText(int points) => ReplaceTag(points.ToString());
     }
 }
