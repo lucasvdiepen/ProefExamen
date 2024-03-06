@@ -45,7 +45,7 @@ namespace ProefExamen.Framework.BeatMapping
             _debugBoldGuiStyle.fontStyle = FontStyle.Bold;
             _debugBoldGuiStyle.normal.textColor = Color.white;
 
-            _debugItalicsGuiStyle.fontSize = 48;
+            _debugItalicsGuiStyle.fontSize = 24;
             _debugItalicsGuiStyle.fontStyle = FontStyle.Italic;
             _debugItalicsGuiStyle.normal.textColor = Color.white;
         }
@@ -119,11 +119,28 @@ namespace ProefExamen.Framework.BeatMapping
             if (_timeStamper.CurrentSelectedTimeStamp != null)
             {
                 GUI.Label(
-                    new Rect(0, 96, 300, 100),
+                    new Rect(0, 105, 300, 100),
                     $"TimeStamp Time: {_timeStamper.CurrentSelectedTimeStamp.songTime}",
                     _debugItalicsGuiStyle
                 );
+
+                GUI.Label(
+                    new Rect(0, 129, 300, 100),
+                    $"TimeStamp LaneID: {_timeStamper.CurrentSelectedTimeStamp.laneID}", 
+                    _debugItalicsGuiStyle
+                );
             }
+
+            // Move down on screen
+            GUILayout.BeginArea(new Rect(0, 200, 200, 200));
+            GUILayout.Box("Visible Gizmos", GUILayout.Height(50), GUILayout.Width(50));
+
+            bool isLane1Visible = GUILayout.Toggle(false, $"Lane 1");
+            bool isLane2Visible = GUILayout.Toggle(false, $"Lane 2");
+            bool isLane3Visible = GUILayout.Toggle(false, $"Lane 3");
+            bool isLane4Visible = GUILayout.Toggle(false, $"Lane 4");
+
+            GUILayout.EndArea();
         }
 #endif
     }
