@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3758c98f2218b843aad62d1861e771e, type: 3}
+  m_Name: KDrewBullseye
+  m_EditorClassIdentifier: 
+  songDebugLineData:
+  - startLinePoint: {x: -5054.0977, y: -390}
+    endLinePoint: {x: -5054.0977, y: -190}
+  - startLinePoint: {x: -5016.313, y: -390}
+    endLinePoint: {x: -5016.313, y: -190}
+  - startLinePoint: {x: -4964.469, y: -390}
+    endLinePoint: {x: -4964.469, y: -190}
+  - startLinePoint: {x: -4958.318, y: -390}
+    endLinePoint: {x: -4958.318, y: -190}
+  - startLinePoint: {x: -4952.1675, y: -390}
+    endLinePoint: {x: -4952.1675, y: -190}
+  - startLinePoint: {x: -4946.016, y: -390}
+    endLinePoint: {x: -4946.016, y: -190}
+  - startLinePoint: {x: -4939.8657, y: -390}
+    endLinePoint: {x: -4939.8657, y: -190}
+  - startLinePoint: {x: -4934.5933, y: -390}
+    endLinePoint: {x: -4934.5933, y: -190}
+  - startLinePoint: {x: -4927.563, y: -390}
+    endLinePoint: {x: -4927.563, y: -190}
+  - startLinePoint: {x: -4909.111, y: -390}
+    endLinePoint: {x: -4909.111, y: -190}
+  - startLinePoint: {x: -4866.0537, y: -390}
+    endLinePoint: {x: -4866.0537, y: -190}
+  - startLinePoint: {x: -4830.0273, y: -390}
+    endLinePoint: {x: -4830.0273, y: -190}
+  - startLinePoint: {x: -4780.8193, y: -390}
+    endLinePoint: {x: -4780.8193, y: -190}
+  - startLinePoint: {x: -4774.668, y: -390}
+    endLinePoint: {x: -4774.668, y: -190}
+  - startLinePoint: {x: -4768.5176, y: -390}
+    endLinePoint: {x: -4768.5176, y: -190}
+  - startLinePoint: {x: -4754.458, y: -390}
+    endLinePoint: {x: -4754.458, y: -190}
+  - startLinePoint: {x: -4743.913, y: -390}
+    endLinePoint: {x: -4743.913, y: -190}
+  - startLinePoint: {x: -4736.884, y: -390}
+    endLinePoint: {x: -4736.884, y: -190}
+  - startLinePoint: {x: -4729.8535, y: -390}
+    endLinePoint: {x: -4729.8535, y: -190}
+  - startLinePoint: {x: -4721.0664, y: -390}
+    endLinePoint: {x: -4721.0664, y: -190}
+  - startLinePoint: {x: -4680.647, y: -390}
+    endLinePoint: {x: -4680.647, y: -190}
+  - startLinePoint: {x: -4533.9023, y: -390}
+    endLinePoint: {x: -4533.9023, y: -190}
+  - startLinePoint: {x: -4507.541, y: -390}
+    endLinePoint: {x: -4507.541, y: -190}
+  - startLinePoint: {x: -4498.754, y: -390}
+    endLinePoint: {x: -4498.754, y: -190}
+  - startLinePoint: {x: -4478.544, y: -390}
+    endLinePoint: {x: -4478.544, y: -190}
+  - startLinePoint: {x: -4468.878, y: -390}
+    endLinePoint: {x: -4468.878, y: -190}
+  - startLinePoint: {x: -4458.333, y: -390}
+    endLinePoint: {x: -4458.333, y: -190}
+  - startLinePoint: {x: -4449.546, y: -390}
+    endLinePoint: {x: -4449.546, y: -190}
+  timeStamps:
+  - 1.5999774
+  - 2.5173242
+  - 3.7759864
+  - 3.946644
+  - 4.0746484
+  - 4.223991
+  - 4.3733106
+  - 4.522653
+  - 4.6719956
+  - 5.1199775
+  - 6.165329
+  - 7.0399776
+  - 8.255986
+  - 8.405329
+  - 8.533311
+  - 8.874648
+  - 9.130657
+  - 9.301315
+  - 9.471995
+  - 9.6853285
+  - 10.687982
+  - 14.22932
+  - 14.890657
+  - 15.082653
+  - 15.594648
+  - 15.82932
+  - 16.063992
+  - 16.277327
