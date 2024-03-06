@@ -28,6 +28,19 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         [SerializeField]
         private Vector2 _targetPosition;
 
+        [Header("Visuals")]
+        [SerializeField]
+        private SpriteRenderer _spriteRenderer;
+
+        [SerializeField]
+        private Animator _animator;
+
+        [SerializeField]
+        private float _animationSpeed = 4;
+
+        [SerializeField]
+        private Sprite _deathSprite;
+
         [Header("Lerping")]
         [SerializeField]
         private float _lerpAlpha = 0;
@@ -39,6 +52,15 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// The LerpAlpha 0-1 float value that is used to place the note on the lane.
         /// </summary>
         public float LerpAlpha => _lerpAlpha;
+
+        private void Start()
+        {
+            if(_animator == null)
+                _animator = gameObject.GetComponent<Animator>();
+
+            if (_spriteRenderer == null)
+                _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        }
 
         /// <summary>
         /// A function that is used to set the Note's initial values correctly.
@@ -60,10 +82,24 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             transform.position = _initialPosition;
         }
 
+        public void HitNote()
+        {
+            GameObject deadNote = Instantiate(SessionValues.Instance.deadNote);
+
+            deadNote.GetComponent<DeadNote>().SetDeadNoteValues(_deathSprite, gameObject.transform);
+
+            Destroy(gameObject);
+        }
+
         private void Update()
         {
             if (SessionValues.Instance.paused || _laneID == -1)
+            {
+                _animator.speed = 0;
                 return;
+            }
+            else
+                _animator.speed = _animationSpeed / SessionValues.Instance.travelTime;
 
             if (_lerpAlpha > .99f)
                 Destroy(gameObject);
@@ -72,7 +108,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
             transform.position = Vector3.Lerp(_initialPosition, _targetPosition, _lerpAlpha);
 
-            if (_isRemovalCalled || _lerpAlpha <= (SessionValues.Instance.lerpAlphaHitThreshold + .5f)) 
+            if (_isRemovalCalled || _lerpAlpha <= (SessionValues.Instance.lerpAlphaHitThreshold + .5f))
                 return;
 
             _isRemovalCalled = true;
