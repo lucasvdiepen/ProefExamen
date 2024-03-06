@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 64b008f171ae9d74591400085c690c5b
+guid: f362d888db4ff1840bc189d40d516799
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -44,7 +44,7 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 0
+  spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
@@ -110,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Enemy_Alien_Green_SpriteSheet_512x512_02_0
+      name: SH_Enemy_Green_512x512_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +124,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cb975ae8318e4c043905518a084704f2
-      internalID: -89294208
+      spriteID: ae4d50306edeedc4c8bd028e49552d3d
+      internalID: -725872948
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Alien_Green_SpriteSheet_512x512_02_1
+      name: SH_Enemy_Green_512x512_1
       rect:
         serializedVersion: 2
         x: 512
@@ -145,14 +145,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b030b3426a8e3194dba72a0711e7bcd3
-      internalID: -1207894375
+      spriteID: 635b1b7f411ce4242ba43bc3a3705b92
+      internalID: -2017135126
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Alien_Green_SpriteSheet_512x512_02_2
+      name: SH_Enemy_Green_512x512_2
       rect:
         serializedVersion: 2
         x: 1024
@@ -166,14 +166,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5729247b3400c5842882eb9d80290893
-      internalID: -1439291808
+      spriteID: f80140fac9fae384a8adbb17e39b149b
+      internalID: -1964547397
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Alien_Green_SpriteSheet_512x512_02_3
+      name: SH_Enemy_Green_512x512_3
       rect:
         serializedVersion: 2
         x: 1536
@@ -187,14 +187,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dc6ab591290a4fa408a1dfea42d3fe1b
-      internalID: 353366423
+      spriteID: 39a030b378235414ea433ac2e7929a6c
+      internalID: 1283310584
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Alien_Green_SpriteSheet_512x512_02_4
+      name: SH_Enemy_Green_512x512_4
       rect:
         serializedVersion: 2
         x: 0
@@ -208,14 +208,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 60884f8e40e644b45b111eeda00aed7d
-      internalID: 459349121
+      spriteID: b22c482c334b372478e90999ed5df8fc
+      internalID: -900319951
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Alien_Green_SpriteSheet_512x512_02_5
+      name: SH_Enemy_Green_512x512_5
       rect:
         serializedVersion: 2
         x: 512
@@ -229,14 +229,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 559f06b18b632c04c8df55f384aafafc
-      internalID: 996929869
+      spriteID: 711628573d9d5f447be6603ba28b3e1c
+      internalID: 1741595721
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Alien_Green_SpriteSheet_512x512_02_6
+      name: SH_Enemy_Green_512x512_6
       rect:
         serializedVersion: 2
         x: 1024
@@ -250,14 +250,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3699125e9e6d0894e8c81ced514e6f14
-      internalID: -1567764691
+      spriteID: 395e47d3fdb259349b92362b459e6172
+      internalID: 124556073
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Alien_Green_SpriteSheet_512x512_02_7
+      name: SH_Enemy_Green_512x512_7
       rect:
         serializedVersion: 2
         x: 1536
@@ -271,14 +271,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9b97184251d56f84cab53ae90f47c34c
-      internalID: -1551209956
+      spriteID: b6482481363f8ec4f8d542ab3c20662d
+      internalID: 1652085556
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Alien_Green_SpriteSheet_512x512_02_8
+      name: SH_Enemy_Green_512x512_8
       rect:
         serializedVersion: 2
         x: 0
@@ -292,14 +292,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6f1c43b9b6fd44a40921696a52b469d0
-      internalID: 1175487400
+      spriteID: c59d6f8bfc50ea2458f3244b9343c636
+      internalID: 2010636067
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Alien_Green_SpriteSheet_512x512_02_9
+      name: SH_Enemy_Green_512x512_9
       rect:
         serializedVersion: 2
         x: 512
@@ -313,14 +313,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5e24d079b36d7584a8dd4e68e7cfdb96
-      internalID: -425300858
+      spriteID: 363b8319bbf67ee43936658949ac440c
+      internalID: -1848973561
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Alien_Green_SpriteSheet_512x512_02_10
+      name: SH_Enemy_Green_512x512_10
       rect:
         serializedVersion: 2
         x: 1024
@@ -334,14 +334,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b732b9b7175a80e4e9ab96ab6c36d36a
-      internalID: -1002444018
+      spriteID: dbefb8950834ae44fae48d11bdebe58a
+      internalID: 238270265
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Alien_Green_SpriteSheet_512x512_02_11
+      name: SH_Enemy_Green_512x512_11
       rect:
         serializedVersion: 2
         x: 1536
@@ -355,14 +355,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 58a8c911117cd80498e8627b62eee213
-      internalID: 2050681955
+      spriteID: 383d52cc2ff17f34a9c206bb82e1f271
+      internalID: -65125401
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Alien_Green_SpriteSheet_512x512_02_12
+      name: SH_Enemy_Green_512x512_12
       rect:
         serializedVersion: 2
         x: 0
@@ -376,14 +376,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dcf855d9584cdd84abce9b756ada3d47
-      internalID: 401216424
+      spriteID: 4e2f96cdeebc9504881405d745467fd9
+      internalID: -1090770906
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Alien_Green_SpriteSheet_512x512_02_13
+      name: SH_Enemy_Green_512x512_13
       rect:
         serializedVersion: 2
         x: 512
@@ -397,14 +397,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e9cf06bbfc3db94cb89ff15d16956c9
-      internalID: 1514192736
+      spriteID: 713e60051d883c742a841e4fac8fd3cc
+      internalID: -1015551334
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Alien_Green_SpriteSheet_512x512_02_14
+      name: SH_Enemy_Green_512x512_14
       rect:
         serializedVersion: 2
         x: 1024
@@ -418,14 +418,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ea303fe0f370b9c4fab28f560d44c3c1
-      internalID: -910526878
+      spriteID: 802899ca805c53a4f974c343aff4f91e
+      internalID: -1066451191
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Alien_Green_SpriteSheet_512x512_02_15
+      name: SH_Enemy_Green_512x512_15
       rect:
         serializedVersion: 2
         x: 1536
@@ -439,8 +439,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b35c1fe223b5f5e4c8453e53b928289b
-      internalID: 2090382266
+      spriteID: fb77188bed9100a4ab80c0722216ac47
+      internalID: -741575371
       vertices: []
       indices: 
       edges: []
@@ -456,22 +456,22 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Enemy_Alien_Green_SpriteSheet_512x512_02_0: -89294208
-      Enemy_Alien_Green_SpriteSheet_512x512_02_1: -1207894375
-      Enemy_Alien_Green_SpriteSheet_512x512_02_10: -1002444018
-      Enemy_Alien_Green_SpriteSheet_512x512_02_11: 2050681955
-      Enemy_Alien_Green_SpriteSheet_512x512_02_12: 401216424
-      Enemy_Alien_Green_SpriteSheet_512x512_02_13: 1514192736
-      Enemy_Alien_Green_SpriteSheet_512x512_02_14: -910526878
-      Enemy_Alien_Green_SpriteSheet_512x512_02_15: 2090382266
-      Enemy_Alien_Green_SpriteSheet_512x512_02_2: -1439291808
-      Enemy_Alien_Green_SpriteSheet_512x512_02_3: 353366423
-      Enemy_Alien_Green_SpriteSheet_512x512_02_4: 459349121
-      Enemy_Alien_Green_SpriteSheet_512x512_02_5: 996929869
-      Enemy_Alien_Green_SpriteSheet_512x512_02_6: -1567764691
-      Enemy_Alien_Green_SpriteSheet_512x512_02_7: -1551209956
-      Enemy_Alien_Green_SpriteSheet_512x512_02_8: 1175487400
-      Enemy_Alien_Green_SpriteSheet_512x512_02_9: -425300858
+      SH_Enemy_Green_512x512_0: -725872948
+      SH_Enemy_Green_512x512_1: -2017135126
+      SH_Enemy_Green_512x512_10: 238270265
+      SH_Enemy_Green_512x512_11: -65125401
+      SH_Enemy_Green_512x512_12: -1090770906
+      SH_Enemy_Green_512x512_13: -1015551334
+      SH_Enemy_Green_512x512_14: -1066451191
+      SH_Enemy_Green_512x512_15: -741575371
+      SH_Enemy_Green_512x512_2: -1964547397
+      SH_Enemy_Green_512x512_3: 1283310584
+      SH_Enemy_Green_512x512_4: -900319951
+      SH_Enemy_Green_512x512_5: 1741595721
+      SH_Enemy_Green_512x512_6: 124556073
+      SH_Enemy_Green_512x512_7: 1652085556
+      SH_Enemy_Green_512x512_8: 2010636067
+      SH_Enemy_Green_512x512_9: -1848973561
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
