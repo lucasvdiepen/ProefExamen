@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -131,20 +132,22 @@ namespace ProefExamen.Framework.BeatMapping
 
             // Draw paused text.
             if (_waveformDrawer.IsPaused)
-                GUI.Label(new Rect(1750, 0, 300, 100), "Paused", _debugItalicsGuiStyle);
+                GUI.Label(new Rect(1800, 0, 300, 100), "Paused", _debugItalicsGuiStyle);
 
             // Draw selected time stamp information.
             if (_timeStamper.CurrentSelectedTimeStamp != null)
             {
+                int selectedIndex = _timeStamper.TimeStamps.IndexOf(_timeStamper.CurrentSelectedTimeStamp);
+
                 GUI.Label(
                     new Rect(0, 105, 300, 100),
-                    $"TimeStamp Time: {_timeStamper.CurrentSelectedTimeStamp.songTime}",
+                    $"TimeStamp #{selectedIndex} Time: {_timeStamper.CurrentSelectedTimeStamp.songTime}",
                     _debugItalicsGuiStyle
                 );
 
                 GUI.Label(
                     new Rect(0, 129, 300, 100),
-                    $"TimeStamp LaneID: {_timeStamper.CurrentSelectedTimeStamp.laneID}", 
+                    $"TimeStamp #{selectedIndex} LaneID: {_timeStamper.CurrentSelectedTimeStamp.laneID}", 
                     _debugItalicsGuiStyle
                 );
             }
