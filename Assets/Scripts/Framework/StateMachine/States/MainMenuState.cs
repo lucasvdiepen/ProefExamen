@@ -1,17 +1,15 @@
 using System.Collections;
 
+using ProefExamen.Framework.StateMachine.Attributes;
+
 namespace ProefExamen.Framework.StateMachine.States
 {
     /// <summary>
     /// A class that represents the main menu state in the state machine.
     /// </summary>
+    [DefaultState]
     public class MainMenuState : State
     {
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        private protected override void RegisterState() => StateMachine.Instance.RegisterState(this, true);
-
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
