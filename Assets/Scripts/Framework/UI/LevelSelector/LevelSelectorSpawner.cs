@@ -6,7 +6,7 @@ using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Buttons.LevelSelector;
 using ProefExamen.Framework.UI;
 
-namespace ProefExamen.Framework.LevelSelector
+namespace ProefExamen.Framework.UI.LevelSelector
 {
     public class LevelSelectorSpawner : MonoBehaviour
     {
