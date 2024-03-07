@@ -71,13 +71,18 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 
         private void LoadData()
         {
-            PerformanceTrackerData performanceTrackerData =
-                JsonUtility.FromJson<PerformanceTrackerData>(PlayerPrefs.GetString("highscores"));
+            string jsonData = PlayerPrefs.GetString("highscores");
 
-            if (performanceTrackerData.highscores != null)
+            if (!string.IsNullOrEmpty(jsonData))
             {
-                _highscores = performanceTrackerData.highscores;
-                return;
+                PerformanceTrackerData performanceTrackerData =
+                JsonUtility.FromJson<PerformanceTrackerData>(jsonData);
+
+                if (performanceTrackerData.highscores != null)
+                {
+                    _highscores = performanceTrackerData.highscores;
+                    return;
+                }
             }
 
             _highscores = new List<PerformanceResult>();
