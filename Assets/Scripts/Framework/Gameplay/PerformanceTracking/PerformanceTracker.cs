@@ -33,7 +33,8 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 
         private void LoadData()
         {
-            PerformanceTrackerData performanceTrackerData = JsonUtility.FromJson<PerformanceTrackerData>(PlayerPrefs.GetString("highscores"));
+            PerformanceTrackerData performanceTrackerData =
+                JsonUtility.FromJson<PerformanceTrackerData>(PlayerPrefs.GetString("highscores"));
 
             if (performanceTrackerData.highscores != null)
             {
@@ -53,8 +54,13 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         /// <summary>
         /// Initiates a new PerformanceResult with the currentLevelID and current difficulty.
         /// </summary>
-        public void StartTracking() =>
-            _newResult = new PerformanceResult(SessionValues.Instance.currentLevelID, SessionValues.Instance.difficulty);
+        public void StartTracking()
+        {
+            _newResult = new PerformanceResult(
+                SessionValues.Instance.currentLevelID,
+                SessionValues.Instance.difficulty
+            );
+        }
 
         /// <summary>
         /// Completes the currently tracking level and overwrites the old high score if the level score was beaten
