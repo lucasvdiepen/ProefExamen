@@ -60,6 +60,11 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         /// </summary>
         public Action<ScoreCompletionStatus> OnScoreCompletion;
 
+        /// <summary>
+        /// An action that broadcasts the new health value when its changed.
+        /// </summary>
+        public Action<float> OnHealthChanged;
+
         private void Awake() => LoadData();
 
         private void Start() => LaneManager.Instance.OnNoteHit += ProcessNewHit;
@@ -94,8 +99,12 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
                 ? _healthLossMultiplier
                 : _healthGainMultiplier;
 
-            _health += pointsToAdd * chosenMultiplier;
-            _health = Math.Clamp(_health, 0, _maxHealth);
+            float healthToAdd = pointsToAdd * chosenMultiplier;
+            if(_health < _maxHealth)
+            {
+                _health = Math.Clamp(_health + healthToAdd, 0, _maxHealth);
+                OnHealthChanged?.Invoke(_health);
+            }
 
             _newResult.AddHit(hit);
             OnPointsChanged?.Invoke(_score);
