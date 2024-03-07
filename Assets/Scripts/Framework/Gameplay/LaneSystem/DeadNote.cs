@@ -1,9 +1,14 @@
-using ProefExamen.Framework.Gameplay.Values;
 using System.Collections;
 using UnityEngine;
 
+using ProefExamen.Framework.Gameplay.Values;
+
 namespace ProefExamen.Framework.Gameplay.LaneSystem
 {
+    /// <summary>
+    /// A class responsible for displaying a hit note that slowly fades.
+    /// </summary>
+    [RequireComponent(typeof(SpriteRenderer))]
     public class DeadNote : MonoBehaviour
     {
         [SerializeField]
@@ -11,12 +16,17 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private float _lerpAlpha = 1;
 
-        private void Start()
+        private void Awake()
         {
             if(_spriteRenderer == null)
                 _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         }
 
+        /// <summary>
+        /// Sets the DeadNote's values.
+        /// </summary>
+        /// <param name="sprite">The sprite to display.</param>
+        /// <param name="newTransform">The transform of the DeadNote.</param>
         public void SetDeadNoteValues(Sprite sprite, Transform newTransform)
         {
             _spriteRenderer.sprite = sprite;

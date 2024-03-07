@@ -53,7 +53,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// </summary>
         public float LerpAlpha => _lerpAlpha;
 
-        private void Start()
+        private void Awake()
         {
             if(_animator == null)
                 _animator = gameObject.GetComponent<Animator>();
@@ -82,6 +82,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             transform.position = _initialPosition;
         }
 
+        /// <summary>
+        /// Instantiates a DeadNote and destroys this Note.
+        /// </summary>
         public void HitNote()
         {
             GameObject deadNote = Instantiate(SessionValues.Instance.deadNote);
