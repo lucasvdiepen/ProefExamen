@@ -42,6 +42,7 @@ namespace ProefExamen.Framework.BeatMapping
 
         private bool lane1Enabled = true;
         private bool lane2Enabled = true;
+
         private bool lane3Enabled = true;
         private bool lane4Enabled = true;
 

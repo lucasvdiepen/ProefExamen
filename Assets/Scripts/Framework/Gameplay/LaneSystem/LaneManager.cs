@@ -6,6 +6,7 @@ using ProefExamen.Framework.Utils;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.Gameplay.PerformanceTracking;
+using UnityEngine.Rendering;
 
 namespace ProefExamen.Framework.Gameplay.LaneSystem
 {
@@ -25,6 +26,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         [SerializeField]
         private KeyCode[] _inputs;
 
+        [SerializeField]
+        private bool _isBeatMapping;
+
         /// <summary>
         /// A status update for notes that are either being hit or have been missed.
         /// Hitstatus giving an idea of what happend and the integer being the lane ID of origin.
@@ -39,7 +43,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             OnNoteHit += RemoveNoteFromLane;
 
-            SessionValues.Instance.SelectLevel(SessionValues.Instance.currentLevelID);
+            if(!_isBeatMapping)
+                SessionValues.Instance.SelectLevel(SessionValues.Instance.currentLevelID);
+
             StartCoroutine(PlayThroughLevel());
         }
 
@@ -65,8 +71,11 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
             PerformanceTracker.Instance.StartTracking();
 
-            SessionValues.Instance.audioSource.clip = SessionValues.Instance.currentLevel.song;
-            SessionValues.Instance.audioSource.Play();
+            if (_isBeatMapping)
+            {
+                SessionValues.Instance.audioSource.clip = SessionValues.Instance.currentLevel.song;
+                SessionValues.Instance.audioSource.Play();
+            }
 
             while (SessionValues.Instance.time < SessionValues.Instance.currentLevel.song.length)
             {
@@ -98,6 +107,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                 return;
 
             int laneID = currentLevel.laneIDs[_index];
+
             _lanes[laneID].SpawnNote(upcomingTime);
             _index++;
 

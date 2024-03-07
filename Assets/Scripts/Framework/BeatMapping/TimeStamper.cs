@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.PackageManager.UI;
 
 namespace ProefExamen.Framework.BeatMapping
 {
@@ -21,7 +22,7 @@ namespace ProefExamen.Framework.BeatMapping
 
         [Header("Input KeyCodes")]
         [SerializeField]
-        private KeyCode[] _placeTimeStampKeys;
+        private KeyCode _placeTimeStampKeys;
 
         [SerializeField]
         private KeyCode _undoTimeStampKey;
@@ -78,17 +79,14 @@ namespace ProefExamen.Framework.BeatMapping
         /// </summary>
         private void HandleTimeStampControls()
         {
-            for (int i = 0; i < _placeTimeStampKeys.Length; i++)
+            //Placing a time stamp.
+            if (Input.GetKeyDown(_placeTimeStampKeys))
             {
-                //Placing a time stamp.
-                if (Input.GetKeyDown(_placeTimeStampKeys[i]))
-                {
-                    float startYPos = _waveformDrawer.Cursor.position.y - (_waveformDrawer.Cursor.localScale.y * .5f);
-                    Vector2 startPosition = new(_waveformDrawer.Cursor.position.x, startYPos);
-                    Vector2 endPosition = new(_waveformDrawer.Cursor.position.x, -_stampLineHeightReduction);
+                float startYPos = _waveformDrawer.Cursor.position.y - (_waveformDrawer.Cursor.localScale.y * .5f);
+                Vector2 startPosition = new(_waveformDrawer.Cursor.position.x, startYPos);
+                Vector2 endPosition = new(_waveformDrawer.Cursor.position.x, -_stampLineHeightReduction);
 
-                    _timeStamps.Add(new TimeStampData(startPosition, endPosition, _waveformDrawer.CurrentSongTime, i));
-                }
+                _timeStamps.Add(new TimeStampData(startPosition, endPosition, _waveformDrawer.CurrentSongTime, 4));
             }
 
             //Undo last time stamp.
@@ -328,8 +326,7 @@ namespace ProefExamen.Framework.BeatMapping
         /// </summary>
         private void HandleShowKeybinds()
         {
-            Debug.Log("Place TimeStamp Key: " + $"{ _placeTimeStampKeys[0]}, {_placeTimeStampKeys[1]}," +
-                $" {_placeTimeStampKeys[2]} and {_placeTimeStampKeys[3]}");
+            Debug.Log("Place TimeStamp Key: " + $"{ _placeTimeStampKeys}");
 
             Debug.Log("Undo TimeStamp Key: CTRL + " + _undoTimeStampKey);
             Debug.Log(" ");
