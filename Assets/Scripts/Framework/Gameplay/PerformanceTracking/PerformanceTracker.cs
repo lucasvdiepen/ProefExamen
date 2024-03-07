@@ -56,7 +56,7 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         public Action<int> OnPointsChanged;
 
         /// <summary>
-        /// An action that shares the performance on a level.
+        /// An action that broadcasts the performance on a level.
         /// </summary>
         public Action<ScoreCompletionStatus> OnScoreCompletion;
 
