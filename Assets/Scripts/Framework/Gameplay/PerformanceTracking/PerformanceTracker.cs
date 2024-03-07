@@ -1,10 +1,10 @@
-using UnityEngine;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 using ProefExamen.Framework.Gameplay.LaneSystem;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Utils;
-using System.Collections.Generic;
 
 namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 {
@@ -70,7 +70,7 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
             }
 
             ScoreCompletionStatus scoreCompletionStatus = levelBeaten
-                ? CheckCurrentScoreResult()
+                ? ProcessNewScoreResult()
                 : ScoreCompletionStatus.Failed;
 
             SaveData();
@@ -78,7 +78,7 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
             OnScoreCompletion?.Invoke(scoreCompletionStatus);
         }
 
-        private ScoreCompletionStatus CheckCurrentScoreResult()
+        private ScoreCompletionStatus ProcessNewScoreResult()
         {
             if (_highscores == null)
             {
