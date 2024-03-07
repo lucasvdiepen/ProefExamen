@@ -8,6 +8,9 @@ namespace ProefExamen.Framework.StateMachine
     /// </summary>
     public abstract class State : MonoBehaviour
     {
+        /// <summary>
+        /// Wheter the state is active or not.
+        /// </summary>
         public bool IsActive { get; private set; }
 
         /// <summary>
