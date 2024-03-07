@@ -5,6 +5,7 @@ using UnityEngine;
 using ProefExamen.Framework.Utils;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Gameplay.Level;
+using ProefExamen.Framework.Gameplay.PerformanceTracking;
 
 namespace ProefExamen.Framework.Gameplay.LaneSystem
 {
@@ -62,6 +63,8 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             _index = 0;
 
+            PerformanceTracker.Instance.StartTracking();
+
             SessionValues.Instance.audioSource.clip = SessionValues.Instance.currentLevel.song;
             SessionValues.Instance.audioSource.Play();
 
@@ -77,6 +80,8 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
                 yield return null;
             }
+
+            PerformanceTracker.Instance.CompleteTracking();
             yield return null;
         }
 
