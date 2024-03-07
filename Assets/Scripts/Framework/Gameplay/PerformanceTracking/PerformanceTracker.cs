@@ -4,6 +4,7 @@ using System;
 using ProefExamen.Framework.Gameplay.LaneSystem;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Utils;
+using System.Collections.Generic;
 
 namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 {
@@ -12,20 +13,36 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
     /// </summary>
     public class PerformanceTracker : AbstractSingleton<PerformanceTracker>
     {
-        [Header("The high scores")]
-        [SerializeField]
-        private ScoreResults _scoreResults;
-
         [Header("The current performance")]
         [SerializeField]
         private PerformanceResult _newResult;
+
+        /// <summary>
+        /// A list containing HighScores for levels.
+        /// </summary>
+        private List<PerformanceResult> _highscores = null;
 
         /// <summary>
         /// An action that shares the performance on a level.
         /// </summary>
         public Action<ScoreCompletionStatus> OnScoreCompletion;
 
+        private void Awake() => LoadData();
+
         private void Start() => LaneManager.Instance.OnNoteHit += RegisterNewHit;
+
+        private void LoadData()
+        {
+            PerformanceTrackerData performanceTrackerData = JsonUtility.FromJson<PerformanceTrackerData>(PlayerPrefs.GetString("highscores"));
+
+            if (performanceTrackerData.highscores != null)
+            {
+                _highscores = performanceTrackerData.highscores;
+                return;
+            }
+
+            _highscores = new List<PerformanceResult>();
+        }
 
         /// <summary>
         /// Counts an extra hit onto the current result.
@@ -56,36 +73,44 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
                 ? CheckCurrentScoreResult()
                 : ScoreCompletionStatus.Failed;
 
-            OnScoreCompletion(scoreCompletionStatus);
+            SaveData();
+
+            OnScoreCompletion?.Invoke(scoreCompletionStatus);
         }
 
         private ScoreCompletionStatus CheckCurrentScoreResult()
         {
-            int listLength = _scoreResults.highScores.Count;
+            if (_highscores == null)
+            {
+                Debug.LogError("No reference set for 'highscores' on PerformanceTracker!");
+
+                return ScoreCompletionStatus.NotBeaten;
+            }
+
+            int listLength = _highscores.Count;
 
             _newResult.totalScore = SessionValues.Instance.score;
 
             for (int i = 0; i < listLength; i++)
             {
-                if (!_scoreResults.highScores[i].CompareLevels(_newResult))
+                if (!_highscores[i].CompareLevels(_newResult))
                     continue;
 
-                if (_scoreResults.highScores[i].totalScore >= _newResult.totalScore)
+                if (_highscores[i].totalScore >= _newResult.totalScore)
                     return ScoreCompletionStatus.NotBeaten;
 
-                _scoreResults.highScores[i] = _newResult;
+                _highscores[i] = _newResult;
                 return ScoreCompletionStatus.Beaten;
             }
 
-            if (_scoreResults == null)
-            {
-                Debug.LogError("No reference set for '_scoreResults' on PerformanceTracker!");
-
-                return ScoreCompletionStatus.NotBeaten;
-            }
-
-            _scoreResults.highScores.Add(_newResult);
+            _highscores.Add(_newResult);
             return ScoreCompletionStatus.Beaten;
+        }
+
+        private void SaveData()
+        {
+            string data = JsonUtility.ToJson(new PerformanceTrackerData { highscores = _highscores});
+            PlayerPrefs.SetString("highscores", data);
         }
     }
 }
