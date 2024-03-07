@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 {
     /// <summary>
-    /// A struct that holds the highscores for parsing to and from JSON.
+    /// A struct that holds a list of the highscores for parsing to and from JSON.
     /// </summary>
     [Serializable]
     public struct PerformanceTrackerData
