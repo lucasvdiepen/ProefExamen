@@ -1257,6 +1257,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 964fa624b2c749d488d8f5de57c8f0aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1566684808
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1566684810}
+  - component: {fileID: 1566684809}
+  m_Layer: 0
+  m_Name: PerformanceTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1566684809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566684808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f4cafbe8280d574b82f5ac00766c818, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreResults: {fileID: 11400000, guid: 00c037aa527f2f4408b9af8d290f75ba, type: 2}
+  newResult:
+    levelID: 0
+    difficulty: 0
+    misses: 0
+    missClicks: 0
+    okHits: 0
+    alrightHits: 0
+    niceHits: 0
+    perfectHits: 0
+    totalScore: 0
+--- !u!4 &1566684810
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566684808}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5040958, y: -0.17065263, z: -37.38084}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1581116972
 GameObject:
   m_ObjectHideFlags: 0
@@ -1820,3 +1875,4 @@ SceneRoots:
   - {fileID: 140838789}
   - {fileID: 12134963}
   - {fileID: 5449451329245073595}
+  - {fileID: 1566684810}
