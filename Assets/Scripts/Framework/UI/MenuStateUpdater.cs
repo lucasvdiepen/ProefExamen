@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
+using UnityEngine;
+
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.Utils;
-using UnityEngine;
 
 namespace ProefExamen.Framework.UI
 {
