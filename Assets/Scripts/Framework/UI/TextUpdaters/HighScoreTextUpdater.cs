@@ -1,3 +1,5 @@
+using UnityEngine;
+
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.Gameplay.PerformanceTracking;
 
@@ -8,7 +10,6 @@ namespace ProefExamen.Framework.UI.TextUpdaters
         private void OnEnable() => MenuStateUpdater.Instance.OnDifficultyChanged += GetNewHighscore;
 
         private void OnDisable() => MenuStateUpdater.Instance.OnDifficultyChanged -= GetNewHighscore;
-
         private void GetNewHighscore(Difficulty newDifficulty)
         {
             int newHighscore = PerformanceTracker.Instance.GetHighScoreFromLevel();
