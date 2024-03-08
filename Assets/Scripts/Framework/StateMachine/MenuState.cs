@@ -40,10 +40,10 @@ namespace ProefExamen.Framework.StateMachine
         {
             yield return base.OnStateEnter();
 
+            yield return FadeIn();
+
             _canvasGroup.interactable = true;
             _canvasGroup.blocksRaycasts = true;
-
-            yield return FadeIn();
         }
 
         /// <summary>
@@ -51,10 +51,10 @@ namespace ProefExamen.Framework.StateMachine
         /// </summary>
         public override IEnumerator OnStateExit()
         {
-            yield return FadeOut();
-
             _canvasGroup.interactable = false;
             _canvasGroup.blocksRaycasts = false;
+            
+            yield return FadeOut();
 
             yield return base.OnStateExit();
         }

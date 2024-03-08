@@ -35,12 +35,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void Awake() => Application.targetFrameRate = 60;
 
-        private void Start()
-        {
-            OnNoteHit += RemoveNoteFromLane;
-
-            StartCoroutine(PlayThroughLevel());
-        }
+        private void Start() => OnNoteHit += RemoveNoteFromLane;
 
         private void RemoveNoteFromLane(HitStatus hitStatus, int laneID)
         {
@@ -53,10 +48,12 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             target.HitNote();
         }
 
+        public void PlayLevel() => StartCoroutine(PlayThroughLevel());
+
         /// <summary>
         /// Starts the level that is currently selected on the selected difficulty and song.
         /// </summary>
-        public IEnumerator PlayThroughLevel()
+        private IEnumerator PlayThroughLevel()
         {
             _index = 0;
 
