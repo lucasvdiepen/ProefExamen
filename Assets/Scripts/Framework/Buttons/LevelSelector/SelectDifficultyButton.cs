@@ -4,6 +4,7 @@ using ProefExamen.Framework.Buttons;
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.UI;
+using System;
 
 namespace ProefExamen.Framework.Buttons.LevelSelector
 {
@@ -26,6 +27,21 @@ namespace ProefExamen.Framework.Buttons.LevelSelector
         private protected override void OnEnable()
         {
             base.OnEnable();
+
+            foreach(Difficulty difficulty in Enum.GetValues(typeof(Difficulty)))
+            {
+                if (SessionValues.Instance.currentLevel.LevelHasDifficulty(difficulty))
+                {
+                    OnButtonPressed();
+                    return;
+                }
+
+                if (difficulty == _difficulty)
+                {
+                    Button.interactable = false;
+                }
+            }
+
             ChangeVisualState(SessionValues.Instance.difficulty);
             MenuStateUpdater.Instance.OnDifficultyChanged += ChangeVisualState;
         }
