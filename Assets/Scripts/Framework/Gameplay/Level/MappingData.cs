@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace ProefExamen.Framework.Gameplay.Level
 {
     /// <summary>
@@ -15,6 +19,11 @@ namespace ProefExamen.Framework.Gameplay.Level
         /// The timestamps for notes.
         /// </summary>
         public float[] timestamps;
+
+        /// <summary>
+        /// The lane ID for each live timestamp that the notes have to be spawned on.
+        /// </summary>
+        public List<Tuple<float, int>> liveTimeStamps;
 
         /// <summary>
         /// The lane ID for each timestamp that the notes have to be spawned on.

@@ -94,6 +94,9 @@ namespace ProefExamen.Framework.Gameplay.Values
         public bool IsTimeStampReadyForQueue(float timeStamp) =>
             timeStamp > time && timeStamp - (travelTime * 1.1) < time;
 
+        public bool IsLiveTimeStampReadyForQueue(float timeStamp) =>
+            time - travelTime <= timeStamp && timeStamp - travelTime <= time;
+
         /// <summary>
         /// Will loop over levels and update SessionValues currentLevel and currentLevelID.
         /// </summary>

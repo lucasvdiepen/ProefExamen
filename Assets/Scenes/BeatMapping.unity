@@ -2024,6 +2024,10 @@ PrefabInstance:
       value: LaneManager
       objectReference: {fileID: 0}
     - target: {fileID: 7396402876481356687, guid: 4291b5ad010434342afa1634e286472c, type: 3}
+      propertyPath: _isBeatMapping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7396402876481356687, guid: 4291b5ad010434342afa1634e286472c, type: 3}
       propertyPath: _lanes.Array.size
       value: 5
       objectReference: {fileID: 0}

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
-using UnityEditor.PackageManager.UI;
+using ProefExamen.Framework.Gameplay.Values;
 
 namespace ProefExamen.Framework.BeatMapping
 {
@@ -22,7 +22,7 @@ namespace ProefExamen.Framework.BeatMapping
 
         [Header("Input KeyCodes")]
         [SerializeField]
-        private KeyCode _placeTimeStampKeys;
+        private KeyCode[] _placeTimeStampKeys;
 
         [SerializeField]
         private KeyCode _undoTimeStampKey;
@@ -79,14 +79,20 @@ namespace ProefExamen.Framework.BeatMapping
         /// </summary>
         private void HandleTimeStampControls()
         {
-            //Placing a time stamp.
-            if (Input.GetKeyDown(_placeTimeStampKeys))
+            for (int i = 0; i < _placeTimeStampKeys.Length; i++)
             {
-                float startYPos = _waveformDrawer.Cursor.position.y - (_waveformDrawer.Cursor.localScale.y * .5f);
-                Vector2 startPosition = new(_waveformDrawer.Cursor.position.x, startYPos);
-                Vector2 endPosition = new(_waveformDrawer.Cursor.position.x, -_stampLineHeightReduction);
+                //Placing a time stamp.
+                if (Input.GetKeyDown(_placeTimeStampKeys[i]))
+                {
+                    print(i);
 
-                _timeStamps.Add(new TimeStampData(startPosition, endPosition, _waveformDrawer.CurrentSongTime, 4));
+                    float startYPos = _waveformDrawer.Cursor.position.y - (_waveformDrawer.Cursor.localScale.y * .5f);
+                    Vector2 startPosition = new(_waveformDrawer.Cursor.position.x, startYPos);
+                    Vector2 endPosition = new(_waveformDrawer.Cursor.position.x, -_stampLineHeightReduction);
+
+                    _timeStamps.Add(new TimeStampData(startPosition, endPosition, _waveformDrawer.CurrentSongTime, i));
+                    SessionValues.Instance.currentLevel.GetLevel().liveTimeStamps.Add(new System.Tuple<float, int>(_waveformDrawer.CurrentSongTime, i));
+                }
             }
 
             //Undo last time stamp.

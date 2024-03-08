@@ -6,7 +6,6 @@ using ProefExamen.Framework.Utils;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.Gameplay.PerformanceTracking;
-using UnityEngine.Rendering;
 
 namespace ProefExamen.Framework.Gameplay.LaneSystem
 {
@@ -43,8 +42,12 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             OnNoteHit += RemoveNoteFromLane;
 
-            if(!_isBeatMapping)
+            if (!_isBeatMapping)
                 SessionValues.Instance.SelectLevel(SessionValues.Instance.currentLevelID);
+
+            var level = SessionValues.Instance.currentLevel.GetLevel();
+            level.liveTimeStamps = new();
+            SessionValues.Instance.currentLevel.mappingData[2] = level;
 
             StartCoroutine(PlayThroughLevel());
         }
@@ -98,15 +101,16 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             MappingData currentLevel = SessionValues.Instance.currentLevel.GetLevel();
 
-            if (currentLevel.timestamps.Length <= _index)
+            if (currentLevel.liveTimeStamps.Count <= _index)
                 return;
 
-            float upcomingTime = currentLevel.timestamps[_index];
+            float upcomingTime = currentLevel.liveTimeStamps[_index].Item1;
 
-            if (!SessionValues.Instance.IsTimeStampReadyForQueue(upcomingTime))
+            if (!SessionValues.Instance.IsLiveTimeStampReadyForQueue(upcomingTime))
                 return;
 
-            int laneID = currentLevel.laneIDs[_index];
+            //int laneID = currentLevel.laneIDs[_index];
+            int laneID = currentLevel.liveTimeStamps[_index].Item2;
 
             _lanes[laneID].SpawnNote(upcomingTime);
             _index++;
