@@ -11,6 +11,26 @@ namespace ProefExamen.Framework.Gameplay.Level
     public struct LevelData
     {
         /// <summary>
+        /// The cover of the song that gets displayed.
+        /// </summary>
+        public Sprite songCover;
+
+        /// <summary>
+        /// The title of the song.
+        /// </summary>
+        public string title;
+
+        /// <summary>
+        /// The artists of the song.
+        /// </summary>
+        public string artists;
+
+        /// <summary>
+        /// The name of the album this song is from.
+        /// </summary>
+        public string album;
+
+        /// <summary>
         /// The ID of a level.
         /// </summary>
         public int levelID;
