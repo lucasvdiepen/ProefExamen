@@ -26,16 +26,6 @@ namespace ProefExamen.Framework.Gameplay.Values
         public float time => audioSource.time;
 
         /// <summary>
-        /// The score default.
-        /// </summary>
-        public int score;
-
-        /// <summary>
-        /// The score multiplier.
-        /// </summary>
-        public int scoreMultiplier;
-
-        /// <summary>
         /// The bool that reflects if the game is paused.
         /// </summary>
         public bool paused;
