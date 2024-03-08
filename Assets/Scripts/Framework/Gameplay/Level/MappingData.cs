@@ -33,7 +33,7 @@ namespace ProefExamen.Framework.Gameplay.Level
         /// <summary>
         /// The amount of lanes that the notes have to be spawned on.
         /// </summary>
-        public void SortLiveTimeStamps()
+        public readonly void SortLiveTimeStamps()
         {
             if (liveTimeStamps.Count <= 1)
                 return;

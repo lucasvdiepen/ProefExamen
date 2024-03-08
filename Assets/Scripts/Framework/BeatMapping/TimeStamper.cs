@@ -27,9 +27,6 @@ namespace ProefExamen.Framework.BeatMapping
         private KeyCode[] _placeTimeStampKeys;
 
         [SerializeField]
-        private KeyCode _undoTimeStampKey;
-
-        [SerializeField]
         private KeyCode _deleteCurrentTimeStampKey;
 
         [SerializeField]
@@ -97,44 +94,24 @@ namespace ProefExamen.Framework.BeatMapping
                 }
             }
 
-            //Undo last time stamp.
-            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_undoTimeStampKey))
-            {
-                if (_timeStamps.Count > 0)
-                    _timeStamps.RemoveAt(_timeStamps.Count - 1);
-            }
-
             //Deleting selected time stamp.
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_deleteCurrentTimeStampKey))
             {
                 if (CurrentSelectedTimeStamp != null)
                 {
                     TimeStampData timeStampToDelete = CurrentSelectedTimeStamp;
-                    CurrentSelectedTimeStamp = null;
+
+                    int index = TimeStamps.IndexOf(timeStampToDelete);
+                    SessionValues.Instance.currentLevel.GetLevel().liveTimeStamps.RemoveAt(index);
+
                     _timeStamps.Remove(timeStampToDelete);
+                    CurrentSelectedTimeStamp = null;
                 }
             }
 
             //Exporting time stamps.
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_exportTimeStampsKey))
                 TryExportTimeStamps();
-
-            if (CurrentSelectedTimeStamp == null)
-                return;
-
-            //Tweak the lane ID of the current selected time stamp.
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-                ChangeTimeStampLaneID(CurrentSelectedTimeStamp, 0);
-
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-                ChangeTimeStampLaneID(CurrentSelectedTimeStamp, 1);
-            
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-                ChangeTimeStampLaneID(CurrentSelectedTimeStamp, 2);
-
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-                ChangeTimeStampLaneID(CurrentSelectedTimeStamp, 3);
-
         }
 
         /// <summary>
@@ -201,17 +178,6 @@ namespace ProefExamen.Framework.BeatMapping
             MappingData mappingData = SessionValues.Instance.currentLevel.GetLevel();
             mappingData.liveTimeStamps.Add(new System.Tuple<float, int>(timeStampData.songTime, timeStampData.laneID));
             mappingData.SortLiveTimeStamps();
-        }
-
-        /// <summary>
-        /// Changes the lane ID of the specified time stamp.
-        /// </summary>
-        /// <param name="timeStampData">TimeStamp to change.</param>
-        /// <param name="newID">New lane id.</param>
-        private void ChangeTimeStampLaneID(TimeStampData timeStampData, int newID)
-        {
-            Debug.Log($"Changed TimeStamp #{TimeStamps.IndexOf(timeStampData)} from {timeStampData.laneID} to {newID}");
-            timeStampData.laneID = newID;
         }
 
         /// <summary>
@@ -347,8 +313,6 @@ namespace ProefExamen.Framework.BeatMapping
         private void HandleShowKeybinds()
         {
             Debug.Log("Place TimeStamp Key: " + $"{ _placeTimeStampKeys}");
-
-            Debug.Log("Undo TimeStamp Key: CTRL + " + _undoTimeStampKey);
             Debug.Log(" ");
 
             Debug.Log("Select TimeStamp Key: CTRL");
@@ -360,9 +324,6 @@ namespace ProefExamen.Framework.BeatMapping
 
             Debug.Log("Increase TimeStamp Key: CTRL + " + _increaseTimeStampKey);
             Debug.Log("Decrease TimeStamp Key: CTRL + " + _decreaseTimeStampKey);
-            Debug.Log(" ");
-
-            Debug.Log("Change selected TimeStamp LaneID: 1, 2, 3 and 4");
             Debug.Log(" ");
         }
 
