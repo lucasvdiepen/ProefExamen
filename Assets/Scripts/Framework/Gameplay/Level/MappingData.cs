@@ -39,9 +39,6 @@ namespace ProefExamen.Framework.Gameplay.Level
                 return;
 
             liveTimeStamps.Sort((x, y) => x.Item1.CompareTo(y.Item1));
-
-            Debug.Log(liveTimeStamps[0].Item1);
-            Debug.Log(liveTimeStamps[1].Item1);
         }
     }
 }
