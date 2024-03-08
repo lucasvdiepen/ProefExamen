@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 
 namespace ProefExamen.Framework.BeatMapping
@@ -72,7 +73,6 @@ namespace ProefExamen.Framework.BeatMapping
             }
         }
 
-#if UNITY_EDITOR
         /// <summary>
         /// Draws debug information on the screen.
         /// </summary>
@@ -101,6 +101,6 @@ namespace ProefExamen.Framework.BeatMapping
                 );
             }
         }
-#endif
     }
 }
+#endif
