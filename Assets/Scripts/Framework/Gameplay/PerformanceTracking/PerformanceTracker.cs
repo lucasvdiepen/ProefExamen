@@ -20,6 +20,7 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         /// <summary>
         /// A list containing HighScores for levels.
         /// </summary>
+        [SerializeField]
         private List<PerformanceResult> _highscores = null;
 
         /// <summary>
@@ -30,6 +31,23 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         private void Awake() => LoadData();
 
         private void Start() => LaneManager.Instance.OnNoteHit += RegisterNewHit;
+
+        public int GetHighScoreFromLevel() => GetHighScoreFromLevel(SessionValues.Instance.currentLevelID);
+        public int GetHighScoreFromLevel(int levelID)
+        {
+            int listLength = _highscores.Count;
+
+            for(int i = 0; i < listLength; i++)
+            {
+                if (_highscores[i].levelID == SessionValues.Instance.currentLevelID && 
+                    _highscores[i].difficulty == SessionValues.Instance.difficulty)
+                {
+                    return _highscores[i].totalScore;
+                }
+            }
+
+            return 0;
+        }
 
         private void LoadData()
         {

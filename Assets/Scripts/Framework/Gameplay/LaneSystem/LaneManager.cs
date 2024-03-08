@@ -120,6 +120,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void Update()
         {
+            if (!_usingInputs)
+                return;
+
             int inputsLength = _inputs.Length;
 
             for (int i = 0; i < inputsLength; i++)

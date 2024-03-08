@@ -1,9 +1,9 @@
-using ProefExamen.Framework.UI;
-using ProefExamen.Framework.Utils;
 using System;
 using System.Collections;
-using TMPro;
 using UnityEngine;
+
+using ProefExamen.Framework.UI.TextUpdaters;
+using ProefExamen.Framework.Utils;
 
 namespace ProefExamen.Framework.AdSystem
 {
