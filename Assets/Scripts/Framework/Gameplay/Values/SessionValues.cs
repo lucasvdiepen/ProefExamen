@@ -16,19 +16,14 @@ namespace ProefExamen.Framework.Gameplay.Values
         public float travelTime;
 
         /// <summary>
+        /// The amount of time that a dead should take to fade.
+        /// </summary>
+        public float deadNoteFadeTime;
+
+        /// <summary>
         /// The current time through a song.
         /// </summary>
         public float time => audioSource.time;
-
-        /// <summary>
-        /// The score default.
-        /// </summary>
-        public int score;
-
-        /// <summary>
-        /// The score multiplier.
-        /// </summary>
-        public int scoreMultiplier;
 
         /// <summary>
         /// The bool that reflects if the game is paused.
@@ -77,9 +72,9 @@ namespace ProefExamen.Framework.Gameplay.Values
         public Levels levels;
 
         /// <summary>
-        /// The Note that is used during runtime.
+        /// The DeadNote prefab used to spawn dead notes.
         /// </summary>
-        public GameObject note;
+        public GameObject deadNote;
 
         /// <summary>
         /// The audio source that is used to play sound.
