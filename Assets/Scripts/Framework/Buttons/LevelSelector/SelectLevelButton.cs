@@ -1,5 +1,6 @@
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.StateMachine.States;
+using ProefExamen.Framework.UI;
 
 namespace ProefExamen.Framework.Buttons.LevelSelector
 {
@@ -16,6 +17,7 @@ namespace ProefExamen.Framework.Buttons.LevelSelector
         private protected override void OnButtonPressed()
         {
             SessionValues.Instance.SelectLevel(levelID);
+            MenuStateUpdater.Instance.OnSelectedLevelIDChanged?.Invoke(levelID);
             Framework.StateMachine.StateMachine.Instance.GoToState<PlayLevelState>();
         }
     }
