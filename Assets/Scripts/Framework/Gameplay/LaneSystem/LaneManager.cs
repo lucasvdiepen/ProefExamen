@@ -103,7 +103,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         }
 
         /// <summary>
-        /// Pauses the game based on the passed bool, 
+        /// Pauses the game based on the passed bool,
         /// this will be passed to the SessionValues and pause any playing audio.
         /// </summary>
         /// <param name="paused">The new paused value.</param>
