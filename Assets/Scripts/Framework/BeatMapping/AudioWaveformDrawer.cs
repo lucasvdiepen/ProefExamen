@@ -262,8 +262,9 @@ namespace ProefExamen.Framework.BeatMapping
                 
                 if (Input.GetKeyUp(_forwardKey) || Input.GetKeyUp(_backwardKey))
                 {
-                    print("Refresh index");
-                    LaneManager.Instance.index = _timeStamper.TimeStamps.IndexOf(_timeStamper.GetClosestTimeStamp(Cursor.transform.position));
+                    TimeStampData closestTimeStamp = _timeStamper.GetClosestTimeStamp(Cursor.transform.position);
+                    int closestIndex = _timeStamper.TimeStamps.IndexOf(closestTimeStamp);
+                    LaneManager.Instance.index = closestIndex;
                 }
             }
 

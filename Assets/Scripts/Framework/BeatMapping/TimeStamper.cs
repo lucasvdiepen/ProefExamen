@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
+
 using ProefExamen.Framework.Gameplay.Values;
-using ProefExamen.Framework.Gameplay.LaneSystem;
+using ProefExamen.Framework.Gameplay.Level;
 
 namespace ProefExamen.Framework.BeatMapping
 {
@@ -89,8 +90,10 @@ namespace ProefExamen.Framework.BeatMapping
                     Vector2 startPosition = new(_waveformDrawer.Cursor.position.x, startYPos);
                     Vector2 endPosition = new(_waveformDrawer.Cursor.position.x, -_stampLineHeightReduction);
 
-                    _timeStamps.Add(new TimeStampData(startPosition, endPosition, _waveformDrawer.CurrentSongTime, i));
-                    SessionValues.Instance.currentLevel.GetLevel().liveTimeStamps.Add(new System.Tuple<float, int>(_waveformDrawer.CurrentSongTime, i));
+                    TimeStampData timeStamp = new(startPosition, endPosition, _waveformDrawer.CurrentSongTime, i);
+
+                    _timeStamps.Add(timeStamp);
+                    AddLiveTimeStamp(timeStamp);
                 }
             }
 
@@ -193,6 +196,13 @@ namespace ProefExamen.Framework.BeatMapping
             }
         }
 
+        private void AddLiveTimeStamp(TimeStampData timeStampData)
+        {
+            MappingData mappingData = SessionValues.Instance.currentLevel.GetLevel();
+            mappingData.liveTimeStamps.Add(new System.Tuple<float, int>(timeStampData.songTime, timeStampData.laneID));
+            mappingData.SortLiveTimeStamps();
+        }
+
         /// <summary>
         /// Changes the lane ID of the specified time stamp.
         /// </summary>
@@ -284,7 +294,11 @@ namespace ProefExamen.Framework.BeatMapping
                 float songTime = timeStampDataContainer.timeStamps[i];
 
                 //Add the time stamp to current list.
-                _timeStamps.Add(new TimeStampData(startPoint, endPoint, songTime, timeStampDataContainer.laneIDs[i])); 
+                TimeStampData timeStamp = new(startPoint, endPoint, songTime, timeStampDataContainer.laneIDs[i]);
+
+                _timeStamps.Add(timeStamp);
+                AddLiveTimeStamp(timeStamp);
+
             }
 
             Debug.Log("Succesfully imported time stamp data");

@@ -104,8 +104,10 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             if (currentLevel.liveTimeStamps.Count <= index)
                 return;
 
+            if (currentLevel.liveTimeStamps.Count == 0 || index == -1)
+                return;
+                
             float upcomingTime = currentLevel.liveTimeStamps[index].Item1;
-
             if (!SessionValues.Instance.IsLiveTimeStampReadyForQueue(upcomingTime))
                 return;
 

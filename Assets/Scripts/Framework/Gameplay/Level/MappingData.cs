@@ -29,5 +29,19 @@ namespace ProefExamen.Framework.Gameplay.Level
         /// The lane ID for each timestamp that the notes have to be spawned on.
         /// </summary>
         public int[] laneIDs;
+
+        /// <summary>
+        /// The amount of lanes that the notes have to be spawned on.
+        /// </summary>
+        public void SortLiveTimeStamps()
+        {
+            if (liveTimeStamps.Count <= 1)
+                return;
+
+            liveTimeStamps.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+
+            Debug.Log(liveTimeStamps[0].Item1);
+            Debug.Log(liveTimeStamps[1].Item1);
+        }
     }
 }
