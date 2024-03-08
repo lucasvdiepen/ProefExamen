@@ -101,8 +101,8 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                 _animator.speed = 0;
                 return;
             }
-            else
-                _animator.speed = _animationSpeed / SessionValues.Instance.travelTime;
+
+            _animator.speed = _animationSpeed / SessionValues.Instance.travelTime;
 
             if (_lerpAlpha > .99f)
                 Destroy(gameObject);
