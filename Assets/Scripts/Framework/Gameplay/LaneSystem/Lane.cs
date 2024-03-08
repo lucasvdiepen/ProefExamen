@@ -28,6 +28,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         [SerializeField]
         private Vector3 _targetNotePosition;
 
+        [SerializeField]
+        private GameObject _notePrefab;
+
         /// <summary>
         /// Gets the registered Notes of this lane.
         /// </summary>
@@ -60,7 +63,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// <param name="timeStamp">The TimeStamp that the new note must be hit on.</param>
         public void SpawnNote(float timeStamp)
         {
-            GameObject newNoteObject = Instantiate(SessionValues.Instance.note);
+            GameObject newNoteObject = Instantiate(_notePrefab);
 
             Note newNote = newNoteObject.GetComponent<Note>();
 

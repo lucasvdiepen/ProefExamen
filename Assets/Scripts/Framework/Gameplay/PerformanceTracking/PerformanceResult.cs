@@ -7,10 +7,10 @@ using ProefExamen.Framework.Gameplay.Values;
 namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 {
     /// <summary>
-    /// A struct that holds a players performance from playing a level.
+    /// A class that holds a players performance from playing a level.
     /// </summary>
     [System.Serializable]
-    public struct PerformanceResult
+    public class PerformanceResult
     {
         /// <summary>
         /// Create a new initial Performance Result with assigned Level ID and difficulty.
@@ -29,6 +29,13 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
             niceHits = 0;
             perfectHits = 0;
             totalScore = 0;
+
+            PerformanceTracker.Instance.OnPointsChanged += UpdateTotalScore;
+        }
+
+        ~PerformanceResult()
+        {
+            PerformanceTracker.Instance.OnPointsChanged -= UpdateTotalScore;
         }
 
         /// <summary>
@@ -79,6 +86,8 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         [Header("Score")]
         public int totalScore;
 
+        private void UpdateTotalScore(int newScore) => totalScore = newScore;
+
         /// <summary>
         /// Returns the result of if a passed level is the same as this one.
         /// </summary>
@@ -93,8 +102,6 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         /// <param name="hit">The new hit.</param>
         public void AddHit(HitStatus hit)
         {
-            totalScore = SessionValues.Instance.score;
-
             switch (hit)
             {
                 case HitStatus.Miss:
