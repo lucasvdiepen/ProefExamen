@@ -119,7 +119,7 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         /// Updates the streak and combo with a newly passed hit.
         /// </summary>
         /// <param name="hit">The hit to update the streak with.</param>
-        /// <returns>Returns if the combo is broken.</returns>
+        /// <returns>Returns true if the combo is broken, otherwise false</returns>
         private bool UpdateStreak(HitStatus hit)
         {
             if(hit == HitStatus.Miss || hit == HitStatus.MissClick)
