@@ -105,7 +105,7 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
                 : _healthGainMultiplier;
 
             float healthToAdd = pointsToAdd * chosenMultiplier;
-            if(_health < _maxHealth)
+            if(_health < _maxHealth || isComboBroken)
             {
                 _health = Math.Clamp(_health + healthToAdd, 0, _maxHealth);
                 OnHealthChanged?.Invoke(_health);
