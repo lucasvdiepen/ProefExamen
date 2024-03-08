@@ -473,7 +473,7 @@ MonoBehaviour:
   _notes: []
   _initialNotePosition: {x: 2.1, y: 5.5, z: 0}
   _targetNotePosition: {x: 2.1, y: -5.5, z: 0}
-  notePrefab: {fileID: 8865070559718813142, guid: 088ef6dbd6c43fc49a283b48df371c5a, type: 3}
+  _notePrefab: {fileID: 8865070559718813142, guid: 778813d51c727894e89f15617b02c6d2, type: 3}
 --- !u!114 &246268236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1246,7 +1246,7 @@ MonoBehaviour:
   _notes: []
   _initialNotePosition: {x: -0.7, y: 5.5, z: 0}
   _targetNotePosition: {x: -0.7, y: -5.5, z: 0}
-  notePrefab: {fileID: 8865070559718813142, guid: 778813d51c727894e89f15617b02c6d2, type: 3}
+  _notePrefab: {fileID: 8865070559718813142, guid: 088ef6dbd6c43fc49a283b48df371c5a, type: 3}
 --- !u!114 &1373917191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1568,7 +1568,7 @@ MonoBehaviour:
   _notes: []
   _initialNotePosition: {x: 0.7, y: 5.5, z: 0}
   _targetNotePosition: {x: 0.7, y: -5.5, z: 0}
-  notePrefab: {fileID: 8865070559718813142, guid: 088ef6dbd6c43fc49a283b48df371c5a, type: 3}
+  _notePrefab: {fileID: 8865070559718813142, guid: 088ef6dbd6c43fc49a283b48df371c5a, type: 3}
 --- !u!114 &2059155170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1591,6 +1591,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2072741718754345884, guid: dbb267881ef9b474fbb6934657985c43, type: 3}
       propertyPath: notePrefab
+      value: 
+      objectReference: {fileID: 8865070559718813142, guid: 778813d51c727894e89f15617b02c6d2, type: 3}
+    - target: {fileID: 2072741718754345884, guid: dbb267881ef9b474fbb6934657985c43, type: 3}
+      propertyPath: _notePrefab
       value: 
       objectReference: {fileID: 8865070559718813142, guid: 778813d51c727894e89f15617b02c6d2, type: 3}
     - target: {fileID: 5781010449543045737, guid: dbb267881ef9b474fbb6934657985c43, type: 3}
