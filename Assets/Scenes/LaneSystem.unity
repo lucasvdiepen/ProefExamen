@@ -1568,7 +1568,7 @@ MonoBehaviour:
   _notes: []
   _initialNotePosition: {x: 0.7, y: 5.5, z: 0}
   _targetNotePosition: {x: 0.7, y: -5.5, z: 0}
-  _notePrefab: {fileID: 8865070559718813142, guid: 088ef6dbd6c43fc49a283b48df371c5a, type: 3}
+  _notePrefab: {fileID: 1033076537193964925, guid: d55c20cf5398dbd4ebf961ff19c16ec3, type: 3}
 --- !u!114 &2059155170
 MonoBehaviour:
   m_ObjectHideFlags: 0
