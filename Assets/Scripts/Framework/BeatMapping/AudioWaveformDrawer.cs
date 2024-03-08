@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using ProefExamen.Framework.Gameplay.LaneSystem;
 
 namespace ProefExamen.Framework.BeatMapping
 {
@@ -115,8 +116,13 @@ namespace ProefExamen.Framework.BeatMapping
         private Color[] _textureColors = null;
 
         private Texture2D _waveformTexture = null;
+        private TimeStamper _timeStamper = null;
 
-        private void Awake() => AudioSource = GetComponent<AudioSource>();
+        private void Awake()
+        {
+            AudioSource = GetComponent<AudioSource>();
+            _timeStamper = FindObjectOfType<TimeStamper>(); 
+        }
 
         /// <summary>
         /// Calculates the correct local song time based on a point along the waveform.
@@ -249,10 +255,16 @@ namespace ProefExamen.Framework.BeatMapping
                 //Scrub forward in song.
                 if (Input.GetKey(_forwardKey)) 
                     AudioSource.time = Mathf.Clamp(AudioSource.time + TimeScrubAmount, 0, _audioClipDuration - 1);
-
+                
                 //Scrub backward in song.
                 if (Input.GetKey(_backwardKey))
                     AudioSource.time = Mathf.Clamp(AudioSource.time - TimeScrubAmount, 0, _audioClipDuration);
+                
+                if (Input.GetKeyUp(_forwardKey) || Input.GetKeyUp(_backwardKey))
+                {
+                    print("Refresh index");
+                    LaneManager.Instance.index = _timeStamper.TimeStamps.IndexOf(_timeStamper.GetClosestTimeStamp(Cursor.transform.position));
+                }
             }
 
             //Pause toggle.
@@ -291,12 +303,17 @@ namespace ProefExamen.Framework.BeatMapping
                 IncreasePlaybackSpeed(-1);
 
             // Reset song time.
-            if(Input.GetKeyDown(_homeKey)) 
+            if(Input.GetKeyDown(_homeKey))
+            {
                 AudioSource.time = 0;
+                LaneManager.Instance.index = 0;
+            }
 
             // Set song time to end of song.
             if (Input.GetKeyDown(_endKey))
+            {
                 AudioSource.time = _audioClipDuration - 1;
+            }
         }
 
         /// <summary>

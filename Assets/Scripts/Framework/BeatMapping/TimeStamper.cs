@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEditor;
 using ProefExamen.Framework.Gameplay.Values;
+using ProefExamen.Framework.Gameplay.LaneSystem;
 
 namespace ProefExamen.Framework.BeatMapping
 {
@@ -84,8 +85,6 @@ namespace ProefExamen.Framework.BeatMapping
                 //Placing a time stamp.
                 if (Input.GetKeyDown(_placeTimeStampKeys[i]))
                 {
-                    print(i);
-
                     float startYPos = _waveformDrawer.Cursor.position.y - (_waveformDrawer.Cursor.localScale.y * .5f);
                     Vector2 startPosition = new(_waveformDrawer.Cursor.position.x, startYPos);
                     Vector2 endPosition = new(_waveformDrawer.Cursor.position.x, -_stampLineHeightReduction);
@@ -132,6 +131,7 @@ namespace ProefExamen.Framework.BeatMapping
 
             if (Input.GetKeyDown(KeyCode.Alpha4))
                 ChangeTimeStampLaneID(CurrentSelectedTimeStamp, 3);
+
         }
 
         /// <summary>
@@ -209,7 +209,7 @@ namespace ProefExamen.Framework.BeatMapping
         /// </summary>
         /// <param name="originPosition">Origin of the distance check.</param>
         /// <returns>Data of the closest time stamp.</returns>
-        private TimeStampData GetClosestTimeStamp(Vector2 originPosition)
+        public TimeStampData GetClosestTimeStamp(Vector2 originPosition)
         {
             TimeStampData bestTarget = default;
             float closestDistanceSqr = Mathf.Infinity;

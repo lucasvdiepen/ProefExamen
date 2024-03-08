@@ -34,7 +34,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// </summary>
         public Action<HitStatus, int> OnNoteHit;
 
-        private int _index;
+        public int index { get; set; }
 
         private void Awake() => Application.targetFrameRate = 60;
 
@@ -70,7 +70,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// </summary>
         public IEnumerator PlayThroughLevel()
         {
-            _index = 0;
+            index = 0;
 
             PerformanceTracker.Instance.StartTracking();
 
@@ -101,19 +101,18 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             MappingData currentLevel = SessionValues.Instance.currentLevel.GetLevel();
 
-            if (currentLevel.liveTimeStamps.Count <= _index)
+            if (currentLevel.liveTimeStamps.Count <= index)
                 return;
 
-            float upcomingTime = currentLevel.liveTimeStamps[_index].Item1;
+            float upcomingTime = currentLevel.liveTimeStamps[index].Item1;
 
             if (!SessionValues.Instance.IsLiveTimeStampReadyForQueue(upcomingTime))
                 return;
 
-            //int laneID = currentLevel.laneIDs[_index];
-            int laneID = currentLevel.liveTimeStamps[_index].Item2;
+            int laneID = currentLevel.liveTimeStamps[index].Item2;
 
             _lanes[laneID].SpawnNote(upcomingTime);
-            _index++;
+            index++;
 
             QueueUpcomingNotes();
         }
