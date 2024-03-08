@@ -3,7 +3,7 @@ using System.IO;
 using UnityEngine;
 
 using ProefExamen.Framework.Utils;
-using ProefExamen.Framework.UI;
+using ProefExamen.Framework.UI.TextUpdaters;
 
 namespace ProefExamen.Framework.Sharing
 {

@@ -4,9 +4,9 @@ using UnityEngine;
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Buttons.LevelSelector;
-using ProefExamen.Framework.UI;
+using ProefExamen.Framework.UI.TextUpdaters;
 
-namespace ProefExamen.Framework.UI.LevelSelector
+namespace ProefExamen.Framework.UI.Level
 {
     public class LevelSelectorSpawner : MonoBehaviour
     {
