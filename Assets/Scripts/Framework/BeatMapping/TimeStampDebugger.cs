@@ -22,7 +22,11 @@ namespace ProefExamen.Framework.BeatMapping
 
         [SerializeField]
         private float _gizmoSpacing = .6f;
+        
+        [SerializeField]
+        private Toggle[] laneToggles;
 
+        [Header("Gizmo Selection")]
         [SerializeField]
         private Texture selectedGizmoTexture = null;
 
@@ -32,9 +36,12 @@ namespace ProefExamen.Framework.BeatMapping
         [SerializeField]
         private Vector2 _arrowScale = Vector2.one;
 
-        [SerializeField, Space]
-        private Toggle[] laneToggles;
+        [SerializeField]
+        private float _sineAmplitude = 5;
 
+        [SerializeField]
+        private float _sineFrequency = 2;
+            
         private TimeStamper _timeStamper;
         private AudioWaveformDrawer _waveformDrawer;
 
@@ -99,7 +106,7 @@ namespace ProefExamen.Framework.BeatMapping
                     float startRect = _timeStamper.TimeStamps[i].lineData.startLinePoint.x + _arrowOffsetPosition.x;
                     float endRect = _timeStamper.TimeStamps[i].lineData.endLinePoint.y + _arrowOffsetPosition.y;
 
-                    endRect += 5 * Mathf.Sin(Mathf.PI * 2 * Time.time);
+                    endRect += _sineAmplitude * Mathf.Sin(Mathf.PI * _sineFrequency * Time.time);
 
                     Rect rect = new(startRect, endRect, _arrowScale.x, _arrowScale.y);
                     Gizmos.DrawGUITexture(rect, selectedGizmoTexture);
@@ -142,13 +149,13 @@ namespace ProefExamen.Framework.BeatMapping
 
                 GUI.Label(
                     new Rect(0, 105, 300, 100),
-                    $"TimeStamp #{selectedIndex} Time: {_timeStamper.CurrentSelectedTimeStamp.songTime}",
+                    $"TimeStamp (#{selectedIndex}) Time: {_timeStamper.CurrentSelectedTimeStamp.songTime}",
                     _debugItalicsGuiStyle
                 );
 
                 GUI.Label(
                     new Rect(0, 129, 300, 100),
-                    $"TimeStamp #{selectedIndex} LaneID: {_timeStamper.CurrentSelectedTimeStamp.laneID}", 
+                    $"TimeStamp (#{selectedIndex}) LaneID: {_timeStamper.CurrentSelectedTimeStamp.laneID}", 
                     _debugItalicsGuiStyle
                 );
             }
