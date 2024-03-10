@@ -175,7 +175,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void Update()
         {
-            if (!_usingInputs)
+            if (!_usingInputs || IsBeatMapping)
                 return;
 
             int inputsLength = _inputs.Length;
