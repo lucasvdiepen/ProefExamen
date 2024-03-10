@@ -6,6 +6,7 @@ using ProefExamen.Framework.Utils;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.Gameplay.PerformanceTracking;
+using System.Collections.Generic;
 
 namespace ProefExamen.Framework.Gameplay.LaneSystem
 {
@@ -32,6 +33,11 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         public bool IsBeatMapping { get; set; }
 
         /// <summary>
+        /// The lane ID for each live timestamp that the notes have to be spawned on.
+        /// </summary>
+        public List<Tuple<float, int>> liveTimeStamps;
+
+        /// <summary>
         /// A status update for notes that are either being hit or have been missed.
         /// Hitstatus giving an idea of what happend and the integer being the lane ID of origin.
         /// </summary>
@@ -40,6 +46,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// <summary>
         /// The index of the current shown time stamp.
         /// </summary>
+        [field:SerializeField]
         public int Index { get; set; }
 
         private void Awake() => Application.targetFrameRate = 60;
@@ -49,11 +56,8 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             OnNoteHit += RemoveNoteFromLane;
 
             SessionValues.Instance.SelectLevel(SessionValues.Instance.currentLevelID);
-
-            // Clear the liveTimeStamps list.
-            var level = SessionValues.Instance.currentLevel.GetLevel();
-            level.liveTimeStamps = new();
-            SessionValues.Instance.currentLevel.mappingData[0] = level;
+            
+            liveTimeStamps = new();
 
             StartCoroutine(PlayThroughLevel());
         }
@@ -103,27 +107,52 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void QueueUpcomingNotes()
         {
+            if (IsBeatMapping)
+            {
+                QueueUpcomingBeatMappingNotes();
+                return;
+            }
+
             MappingData currentLevel = SessionValues.Instance.currentLevel.GetLevel();
 
-            if (currentLevel.liveTimeStamps.Count <= Index)
+            if (currentLevel.timeStamps.Length <= Index)
                 return;
 
-            if (currentLevel.liveTimeStamps.Count == 0)
+            float upcomingTime = currentLevel.timeStamps[Index];
+
+            if (!SessionValues.Instance.IsTimeStampReadyForQueue(upcomingTime))
                 return;
 
-            if (Index == -1)
-                Index = 0;
-
-            float upcomingTime = currentLevel.liveTimeStamps[Index].Item1;
-            if (!SessionValues.Instance.IsLiveTimeStampReadyForQueue(upcomingTime))
-                return;
-
-            int laneID = currentLevel.liveTimeStamps[Index].Item2;
+            int laneID = currentLevel.laneIDs[Index];
 
             _lanes[laneID].SpawnNote(upcomingTime);
             Index++;
 
             QueueUpcomingNotes();
+        }
+
+        private void QueueUpcomingBeatMappingNotes()
+        {
+            if (liveTimeStamps.Count <= Index)
+                return;
+
+            if (liveTimeStamps.Count == 0)
+                return;
+
+            if (Index == -1)
+                Index = 0;
+
+            float upcomingTime = liveTimeStamps[Index].Item1;
+
+            if (!SessionValues.Instance.IsLiveTimeStampReadyForQueue(upcomingTime))
+                return;
+
+            int laneID = liveTimeStamps[Index].Item2;
+
+            _lanes[laneID].SpawnNote(upcomingTime);
+            Index++;
+
+            QueueUpcomingBeatMappingNotes();
         }
 
         /// <summary>

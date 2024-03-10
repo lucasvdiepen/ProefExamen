@@ -16,29 +16,13 @@ namespace ProefExamen.Framework.Gameplay.Level
         public Difficulty difficulty;
 
         /// <summary>
-        /// The timestamps for notes.
+        /// The timeStamps for notes.
         /// </summary>
-        public float[] timestamps;
-
-        /// <summary>
-        /// The lane ID for each live timestamp that the notes have to be spawned on.
-        /// </summary>
-        public List<Tuple<float, int>> liveTimeStamps;
+        public float[] timeStamps;
 
         /// <summary>
         /// The lane ID for each timestamp that the notes have to be spawned on.
         /// </summary>
         public int[] laneIDs;
-
-        /// <summary>
-        /// The amount of lanes that the notes have to be spawned on.
-        /// </summary>
-        public readonly void SortLiveTimeStamps()
-        {
-            if (liveTimeStamps.Count <= 1)
-                return;
-
-            liveTimeStamps.Sort((x, y) => x.Item1.CompareTo(y.Item1));
-        }
     }
 }

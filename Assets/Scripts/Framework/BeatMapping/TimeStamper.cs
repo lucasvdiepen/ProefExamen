@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
-
-using ProefExamen.Framework.Gameplay.Values;
-using ProefExamen.Framework.Gameplay.Level;
 using System;
+
+using ProefExamen.Framework.Gameplay.LaneSystem;
 
 namespace ProefExamen.Framework.BeatMapping
 {
@@ -107,7 +106,7 @@ namespace ProefExamen.Framework.BeatMapping
                     TimeStampData timeStampToDelete = CurrentSelectedTimeStamp;
 
                     int index = TimeStamps.IndexOf(timeStampToDelete);
-                    SessionValues.Instance.currentLevel.GetLevel().liveTimeStamps.RemoveAt(index);
+                    LaneManager.Instance.liveTimeStamps.RemoveAt(index);
 
                     _timeStamps.Remove(timeStampToDelete);
                     CurrentSelectedTimeStamp = null;
@@ -119,7 +118,13 @@ namespace ProefExamen.Framework.BeatMapping
             {
                 if (_timeStamps.Count > 0)
                 {
-                    SessionValues.Instance.currentLevel.GetLevel().liveTimeStamps.RemoveAt(_timeStamps.Count - 1);
+                    LaneManager.Instance.liveTimeStamps.RemoveAt(_timeStamps.Count - 1);
+
+                    Note[] notes = FindObjectsOfType(typeof(Note)) as Note[];
+
+                    foreach(Note note in notes)
+                        note.CheckIfNoteShouldExist();
+
                     _timeStamps.RemoveAt(_timeStamps.Count - 1);
                 }
             }
@@ -190,9 +195,13 @@ namespace ProefExamen.Framework.BeatMapping
 
         private void AddLiveTimeStamp(TimeStampData timeStampData)
         {
-            MappingData mappingData = SessionValues.Instance.currentLevel.GetLevel();
-            mappingData.liveTimeStamps.Add(new Tuple<float, int>(timeStampData.songTime, timeStampData.laneID));
-            mappingData.SortLiveTimeStamps();
+            LaneManager.Instance.liveTimeStamps.Add(new Tuple<float, int>(timeStampData.songTime, timeStampData.laneID));
+
+            //Sorts the timestamps
+            if (LaneManager.Instance.liveTimeStamps.Count <= 1)
+                return;
+
+            LaneManager.Instance.liveTimeStamps.Sort((x, y) => x.Item1.CompareTo(y.Item1));
         }
 
         /// <summary>
