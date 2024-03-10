@@ -1,3 +1,4 @@
+using ProefExamen.Framework.Gameplay.Level;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,11 @@ namespace ProefExamen.Framework.BeatMapping
         /// List of line data used for drawing gizmo lines.
         /// </summary>
         public List<LineData> songDebugLineData = new();
+
+        /// <summary>
+        /// The difficulty of this saved level.
+        /// </summary>
+        public Difficulty difficulty;
 
         /// <summary>
         /// Array of time stamps.

@@ -91,7 +91,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                 SessionValues.Instance.audioSource.Play();
             }
 
-            while (SessionValues.Instance.time < SessionValues.Instance.currentLevel.song.length || IsBeatMapping)
+            while (IsBeatMapping || SessionValues.Instance.time < SessionValues.Instance.currentLevel.song.length)
             {
                 if (SessionValues.Instance.paused)
                 {
