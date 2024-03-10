@@ -98,11 +98,13 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             if (SessionValues.Instance.paused || _laneID == -1)
             {
-                _animator.speed = 0;
+                if (!LaneManager.Instance.IsBeatMapping)
+                    _animator.speed = 0;
                 return;
             }
 
-            _animator.speed = _animationSpeed / SessionValues.Instance.travelTime;
+            if (!LaneManager.Instance.IsBeatMapping)
+                _animator.speed = _animationSpeed / SessionValues.Instance.travelTime;
 
             if (_lerpAlpha > .99f)
                 Destroy(gameObject);

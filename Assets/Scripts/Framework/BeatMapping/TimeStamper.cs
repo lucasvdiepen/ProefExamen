@@ -5,6 +5,7 @@ using UnityEditor;
 
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Gameplay.Level;
+using System;
 
 namespace ProefExamen.Framework.BeatMapping
 {
@@ -176,7 +177,7 @@ namespace ProefExamen.Framework.BeatMapping
         private void AddLiveTimeStamp(TimeStampData timeStampData)
         {
             MappingData mappingData = SessionValues.Instance.currentLevel.GetLevel();
-            mappingData.liveTimeStamps.Add(new System.Tuple<float, int>(timeStampData.songTime, timeStampData.laneID));
+            mappingData.liveTimeStamps.Add(new Tuple<float, int>(timeStampData.songTime, timeStampData.laneID));
             mappingData.SortLiveTimeStamps();
         }
 
@@ -264,7 +265,6 @@ namespace ProefExamen.Framework.BeatMapping
 
                 _timeStamps.Add(timeStamp);
                 AddLiveTimeStamp(timeStamp);
-
             }
 
             Debug.Log("Succesfully imported time stamp data");

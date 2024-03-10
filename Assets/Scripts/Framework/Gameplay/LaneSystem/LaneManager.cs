@@ -25,8 +25,11 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         [SerializeField]
         private KeyCode[] _inputs;
 
-        [SerializeField]
-        private bool _isBeatMapping;
+        /// <summary>
+        /// A bool that checks if the level is being beatmapped or not.
+        /// </summary>
+        [field: SerializeField]
+        public bool IsBeatMapping { get; set; }
 
         /// <summary>
         /// A status update for notes that are either being hit or have been missed.
@@ -42,11 +45,13 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             OnNoteHit += RemoveNoteFromLane;
 
-            if (!_isBeatMapping)
+            if (IsBeatMapping)
                 SessionValues.Instance.SelectLevel(SessionValues.Instance.currentLevelID);
 
             var level = SessionValues.Instance.currentLevel.GetLevel();
             level.liveTimeStamps = new();
+
+            print(level.liveTimeStamps.Count);  
             SessionValues.Instance.currentLevel.mappingData[2] = level;
 
             StartCoroutine(PlayThroughLevel());
@@ -72,7 +77,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
             PerformanceTracker.Instance.StartTracking();
 
-            if (_isBeatMapping)
+            if (!IsBeatMapping)
             {
                 SessionValues.Instance.audioSource.clip = SessionValues.Instance.currentLevel.song;
                 SessionValues.Instance.audioSource.Play();

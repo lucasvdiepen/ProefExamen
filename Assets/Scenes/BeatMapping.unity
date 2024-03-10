@@ -157,7 +157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 77.83678, y: -10.1}
+  m_AnchoredPosition: {x: 77.83678, y: 0}
   m_SizeDelta: {x: 537.5997, y: 3.1677}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &227413567
@@ -723,6 +723,10 @@ PrefabInstance:
       propertyPath: m_text
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2072741718754345884, guid: dbb267881ef9b474fbb6934657985c43, type: 3}
+      propertyPath: _notePrefab
+      value: 
+      objectReference: {fileID: 8865070559718813142, guid: 562aa439cdde6cb488cae417cdbb4c40, type: 3}
     - target: {fileID: 2072741718754345884, guid: dbb267881ef9b474fbb6934657985c43, type: 3}
       propertyPath: _targetNotePosition.x
       value: 475.8647
@@ -1475,6 +1479,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2072741718754345884, guid: dbb267881ef9b474fbb6934657985c43, type: 3}
+      propertyPath: _notePrefab
+      value: 
+      objectReference: {fileID: 8865070559718813142, guid: 562aa439cdde6cb488cae417cdbb4c40, type: 3}
+    - target: {fileID: 2072741718754345884, guid: dbb267881ef9b474fbb6934657985c43, type: 3}
       propertyPath: _targetNotePosition.x
       value: 880.8647
       objectReference: {fileID: 0}
@@ -1815,6 +1823,10 @@ PrefabInstance:
       propertyPath: _lanes.Array.data[4]
       value: 
       objectReference: {fileID: 1728655042}
+    - target: {fileID: 7396402876481356687, guid: 4291b5ad010434342afa1634e286472c, type: 3}
+      propertyPath: <IsBeatMapping>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2370,6 +2382,10 @@ PrefabInstance:
       propertyPath: _laneID
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2072741718754345884, guid: dbb267881ef9b474fbb6934657985c43, type: 3}
+      propertyPath: _notePrefab
+      value: 
+      objectReference: {fileID: 8865070559718813142, guid: 562aa439cdde6cb488cae417cdbb4c40, type: 3}
     - target: {fileID: 2072741718754345884, guid: dbb267881ef9b474fbb6934657985c43, type: 3}
       propertyPath: _targetNotePosition.x
       value: 745.8647
@@ -3157,6 +3173,10 @@ PrefabInstance:
       propertyPath: _laneID
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2072741718754345884, guid: dbb267881ef9b474fbb6934657985c43, type: 3}
+      propertyPath: _notePrefab
+      value: 
+      objectReference: {fileID: 8865070559718813142, guid: 562aa439cdde6cb488cae417cdbb4c40, type: 3}
     - target: {fileID: 2072741718754345884, guid: dbb267881ef9b474fbb6934657985c43, type: 3}
       propertyPath: _targetNotePosition.x
       value: 610.8647
