@@ -1338,7 +1338,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 523091158}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -3109,7 +3109,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 505.57645, y: 0}
   m_SizeDelta: {x: 1011.1529, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1122730477
@@ -4308,7 +4308,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 505.57645, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1876775903
@@ -4684,7 +4684,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3878683428849642610, guid: fb909566e57f752449f686ae3c483afa, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 859.1666
       objectReference: {fileID: 0}
     - target: {fileID: 3878683428849642610, guid: fb909566e57f752449f686ae3c483afa, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -4968,7 +4968,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3878683428849642610, guid: fb909566e57f752449f686ae3c483afa, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 549.5
       objectReference: {fileID: 0}
     - target: {fileID: 3878683428849642610, guid: fb909566e57f752449f686ae3c483afa, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5227,6 +5227,7 @@ GameObject:
   - component: {fileID: 2141367372}
   - component: {fileID: 2141367374}
   - component: {fileID: 2141367373}
+  - component: {fileID: 2141367375}
   m_Layer: 5
   m_Name: MusicInfoHeader
   m_TagString: Untagged
@@ -5294,6 +5295,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141367371}
   m_CullTransparentMesh: 1
+--- !u!114 &2141367375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2141367371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 112b8fd4d6f4ac1438cac83ce60cd8dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _songCover: {fileID: 751491040}
+  _songTitleText: {fileID: 40770100}
+  _songArtistsText: {fileID: 1339752511}
 --- !u!1001 &2841746238590983179
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5388,7 +5404,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3878683428849642610, guid: fb909566e57f752449f686ae3c483afa, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 239.83333
       objectReference: {fileID: 0}
     - target: {fileID: 3878683428849642610, guid: fb909566e57f752449f686ae3c483afa, type: 3}
       propertyPath: m_AnchoredPosition.y

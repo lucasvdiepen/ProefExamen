@@ -1,5 +1,6 @@
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.Gameplay.PerformanceTracking;
+using ProefExamen.Framework.Gameplay.Values;
 
 namespace ProefExamen.Framework.UI.TextUpdaters
 {
@@ -15,7 +16,10 @@ namespace ProefExamen.Framework.UI.TextUpdaters
         }
 
         private void OnDisable() => MenuStateUpdater.Instance.OnDifficultyChanged -= GetNewHighscore;
-        private void GetNewHighscore(Difficulty newDifficulty = Difficulty.Easy)
+
+        private void GetNewHighscore() => GetNewHighscore(SessionValues.Instance.difficulty);
+
+        private void GetNewHighscore(Difficulty newDifficulty)
         {
             int newHighscore = PerformanceTracker.Instance.GetHighScoreFromLevel();
             UpdateHighScore(newHighscore);

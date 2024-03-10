@@ -20,10 +20,22 @@ public class LevelInfoUpdater : MonoBehaviour
     private void OnEnable()
     {
         UpdateLevelInfo();
+        ResetLevelDifficulty();
         MenuStateUpdater.Instance.OnSelectedLevelIDChanged += UpdateLevelInfo;
     }
 
     private void OnDisable() => MenuStateUpdater.Instance.OnSelectedLevelIDChanged -= UpdateLevelInfo;
+
+    private void ResetLevelDifficulty()
+    {
+        foreach(MappingData mapData in SessionValues.Instance.currentLevel.mappingData)
+        {
+            SessionValues.Instance.difficulty = mapData.difficulty;
+            MenuStateUpdater.Instance.OnDifficultyChanged?.Invoke(mapData.difficulty);
+
+            return;
+        }
+    }
 
     private void UpdateLevelInfo(int levelID) => UpdateLevelInfo();
 
@@ -33,6 +45,9 @@ public class LevelInfoUpdater : MonoBehaviour
 
         _songCover.sprite = currentLevel.songCover;
         _songTitleText.text = currentLevel.title;
-        _songArtistsText.text = currentLevel.artists + " | " + currentLevel.album;
+        _songArtistsText.text = currentLevel.artists;
+
+        if(currentLevel.album != "")
+            _songArtistsText.text = _songArtistsText.text + " | " + currentLevel.album;
     }
 }

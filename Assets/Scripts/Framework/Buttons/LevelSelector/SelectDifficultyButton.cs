@@ -28,20 +28,6 @@ namespace ProefExamen.Framework.Buttons.LevelSelector
         {
             base.OnEnable();
 
-            foreach(Difficulty difficulty in Enum.GetValues(typeof(Difficulty)))
-            {
-                if (SessionValues.Instance.currentLevel.LevelHasDifficulty(difficulty))
-                {
-                    OnButtonPressed();
-                    return;
-                }
-
-                if (difficulty == _difficulty)
-                {
-                    Button.interactable = false;
-                }
-            }
-
             ChangeVisualState(SessionValues.Instance.difficulty);
             MenuStateUpdater.Instance.OnDifficultyChanged += ChangeVisualState;
         }
@@ -56,14 +42,13 @@ namespace ProefExamen.Framework.Buttons.LevelSelector
         {
             if (newDifficulty == _difficulty)
             {
-                Debug.Log("This selected now");
                 Image.sprite = _selectedSprite;
                 return;
             }
 
             Image.sprite = _nonSelectedSprite;
-            Debug.Log("Not selected now");
         }
+
         private protected override void OnButtonPressed()
         {
             SessionValues.Instance.difficulty = _difficulty;

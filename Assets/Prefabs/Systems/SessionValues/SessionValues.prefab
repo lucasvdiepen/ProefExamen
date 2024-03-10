@@ -56,7 +56,7 @@ MonoBehaviour:
     levelID: 0
     song: {fileID: 0}
     mappingData: []
-  difficulty: 2
+  difficulty: 0
   okThreshold: 0.75
   alrightThreshold: 0.5
   niceThreshold: 0.25
