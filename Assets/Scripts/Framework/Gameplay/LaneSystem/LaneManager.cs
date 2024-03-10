@@ -55,8 +55,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             OnNoteHit += RemoveNoteFromLane;
 
-            SessionValues.Instance.SelectLevel(SessionValues.Instance.currentLevelID);
-            
+            if (!IsBeatMapping)
+                return;
+
             liveTimeStamps = new();
 
             StartCoroutine(PlayThroughLevel());
@@ -73,10 +74,12 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             target.HitNote();
         }
 
+        public void PlayLevel() => StartCoroutine(PlayThroughLevel());
+
         /// <summary>
         /// Starts the level that is currently selected on the selected difficulty and song.
         /// </summary>
-        public IEnumerator PlayThroughLevel()
+        private IEnumerator PlayThroughLevel()
         {
             Index = 0;
 
@@ -88,7 +91,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                 SessionValues.Instance.audioSource.Play();
             }
 
-            while (SessionValues.Instance.time < SessionValues.Instance.currentLevel.song.length)
+            while (SessionValues.Instance.time < SessionValues.Instance.currentLevel.song.length || IsBeatMapping)
             {
                 if (SessionValues.Instance.paused)
                 {
@@ -172,6 +175,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void Update()
         {
+            if (!_usingInputs)
+                return;
+
             int inputsLength = _inputs.Length;
 
             for (int i = 0; i < inputsLength; i++)
