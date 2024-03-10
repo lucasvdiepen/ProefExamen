@@ -41,6 +41,9 @@ namespace ProefExamen.Framework.BeatMapping
         private KeyCode _decreaseTimeStampKey;
 
         [SerializeField]
+        private KeyCode _undoTimeStampKey;
+
+        [SerializeField]
         private List<TimeStampData> _timeStamps = new();
 
         /// <summary>
@@ -108,6 +111,16 @@ namespace ProefExamen.Framework.BeatMapping
 
                     _timeStamps.Remove(timeStampToDelete);
                     CurrentSelectedTimeStamp = null;
+                }
+            }
+
+            //Undo last time stamp.
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_undoTimeStampKey))
+            {
+                if (_timeStamps.Count > 0)
+                {
+                    SessionValues.Instance.currentLevel.GetLevel().liveTimeStamps.RemoveAt(_timeStamps.Count - 1);
+                    _timeStamps.RemoveAt(_timeStamps.Count - 1);
                 }
             }
 

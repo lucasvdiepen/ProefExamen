@@ -53,7 +53,7 @@ MonoBehaviour:
   _drawerPrefab: {fileID: 2340922503210000848, guid: 1ced9fe900fe6154a9107b2c9f075a50, type: 3}
   <Cursor>k__BackingField: {fileID: 0}
   _curserYPosition: -290
-  _pauseKey: 274
+  _pauseKey: 32
   _forwardKey: 275
   _backwardKey: 276
   _speedUpKey: 93
