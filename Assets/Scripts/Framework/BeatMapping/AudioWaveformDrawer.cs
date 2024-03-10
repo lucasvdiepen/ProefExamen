@@ -264,7 +264,7 @@ namespace ProefExamen.Framework.BeatMapping
                 {
                     TimeStampData closestTimeStamp = _timeStamper.GetClosestTimeStamp(Cursor.transform.position);
                     int closestIndex = _timeStamper.TimeStamps.IndexOf(closestTimeStamp);
-                    LaneManager.Instance.index = closestIndex;
+                    LaneManager.Instance.Index = closestIndex;
                 }
             }
 
@@ -307,7 +307,7 @@ namespace ProefExamen.Framework.BeatMapping
             if(Input.GetKeyDown(_homeKey))
             {
                 AudioSource.time = 0;
-                LaneManager.Instance.index = 0;
+                LaneManager.Instance.Index = 0;
             }
 
             // Set song time to end of song.

@@ -37,7 +37,10 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// </summary>
         public Action<HitStatus, int> OnNoteHit;
 
-        public int index { get; set; }
+        /// <summary>
+        /// The index of the current shown time stamp.
+        /// </summary>
+        public int Index { get; set; }
 
         private void Awake() => Application.targetFrameRate = 60;
 
@@ -51,8 +54,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             var level = SessionValues.Instance.currentLevel.GetLevel();
             level.liveTimeStamps = new();
 
-            print(level.liveTimeStamps.Count);  
-            SessionValues.Instance.currentLevel.mappingData[2] = level;
+            SessionValues.Instance.currentLevel.mappingData[0] = level;
 
             StartCoroutine(PlayThroughLevel());
         }
@@ -73,7 +75,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// </summary>
         public IEnumerator PlayThroughLevel()
         {
-            index = 0;
+            Index = 0;
 
             PerformanceTracker.Instance.StartTracking();
 
@@ -104,23 +106,23 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             MappingData currentLevel = SessionValues.Instance.currentLevel.GetLevel();
 
-            if (currentLevel.liveTimeStamps.Count <= index)
+            if (currentLevel.liveTimeStamps.Count <= Index)
                 return;
 
             if (currentLevel.liveTimeStamps.Count == 0)
                 return;
 
-            if (index == -1)
-                index = 0;
+            if (Index == -1)
+                Index = 0;
 
-            float upcomingTime = currentLevel.liveTimeStamps[index].Item1;
+            float upcomingTime = currentLevel.liveTimeStamps[Index].Item1;
             if (!SessionValues.Instance.IsLiveTimeStampReadyForQueue(upcomingTime))
                 return;
 
-            int laneID = currentLevel.liveTimeStamps[index].Item2;
+            int laneID = currentLevel.liveTimeStamps[Index].Item2;
 
             _lanes[laneID].SpawnNote(upcomingTime);
-            index++;
+            Index++;
 
             QueueUpcomingNotes();
         }

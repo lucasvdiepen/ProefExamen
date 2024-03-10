@@ -467,16 +467,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8865070559718813142, guid: 562aa439cdde6cb488cae417cdbb4c40, type: 3}
     - target: {fileID: 8758190836295812502, guid: a464397d5ea06514096a385eb00082a2, type: 3}
+      propertyPath: difficulty
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758190836295812502, guid: a464397d5ea06514096a385eb00082a2, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1177861139}
     - target: {fileID: 8758190836295812502, guid: a464397d5ea06514096a385eb00082a2, type: 3}
       propertyPath: currentLevelID
-      value: 10
+      value: 99
       objectReference: {fileID: 0}
     - target: {fileID: 8758190836295812502, guid: a464397d5ea06514096a385eb00082a2, type: 3}
       propertyPath: currentLevel.song
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758190836295812502, guid: a464397d5ea06514096a385eb00082a2, type: 3}
+      propertyPath: currentLevel.levelID
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3571,11 +3579,11 @@ SceneRoots:
   m_Roots:
   - {fileID: 462446574}
   - {fileID: 1262429747}
-  - {fileID: 511441680}
+  - {fileID: 2523830258299828582}
   - {fileID: 8334221053368837007}
   - {fileID: 133580325965248084}
   - {fileID: 555472537}
   - {fileID: 1022734800}
   - {fileID: 638000107}
   - {fileID: 1572033683}
-  - {fileID: 2523830258299828582}
+  - {fileID: 511441680}
