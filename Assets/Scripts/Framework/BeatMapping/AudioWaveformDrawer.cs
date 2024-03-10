@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using ProefExamen.Framework.Gameplay.LaneSystem;
+using ProefExamen.Framework.Gameplay.Values;
 
 namespace ProefExamen.Framework.BeatMapping
 {
@@ -147,6 +148,8 @@ namespace ProefExamen.Framework.BeatMapping
 
             AudioClip lastClip = AudioSource.clip;
             AudioSource.clip = audioClip;
+
+            SessionValues.Instance.currentLevel.song = audioClip;
 
             OnSongChanged?.Invoke(audioClip.name, lastClip != null ? lastClip.name : "Null");
 
