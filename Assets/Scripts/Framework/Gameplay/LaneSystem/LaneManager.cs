@@ -48,12 +48,11 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             OnNoteHit += RemoveNoteFromLane;
 
-            if (IsBeatMapping)
-                SessionValues.Instance.SelectLevel(SessionValues.Instance.currentLevelID);
+            SessionValues.Instance.SelectLevel(SessionValues.Instance.currentLevelID);
 
+            // Clear the liveTimeStamps list.
             var level = SessionValues.Instance.currentLevel.GetLevel();
             level.liveTimeStamps = new();
-
             SessionValues.Instance.currentLevel.mappingData[0] = level;
 
             StartCoroutine(PlayThroughLevel());
