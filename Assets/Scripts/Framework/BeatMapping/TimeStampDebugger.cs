@@ -149,13 +149,13 @@ namespace ProefExamen.Framework.BeatMapping
 
                 GUI.Label(
                     new Rect(0, 105, 300, 100),
-                    $"TimeStamp #{selectedIndex} Time: {_timeStamper.CurrentSelectedTimeStamp.songTime}",
+                    $"TimeStamp (#{selectedIndex}) Time: {_timeStamper.CurrentSelectedTimeStamp.songTime}",
                     _debugItalicsGuiStyle
                 );
 
                 GUI.Label(
                     new Rect(0, 129, 300, 100),
-                    $"TimeStamp #{selectedIndex} LaneID: {_timeStamper.CurrentSelectedTimeStamp.laneID}", 
+                    $"TimeStamp (#{selectedIndex}) LaneID: {_timeStamper.CurrentSelectedTimeStamp.laneID}", 
                     _debugItalicsGuiStyle
                 );
             }
