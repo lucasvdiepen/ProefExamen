@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -116,7 +118,6 @@ namespace ProefExamen.Framework.BeatMapping
             }
         }
 
-#if UNITY_EDITOR
         /// <summary>
         /// Draws debug information on the screen.
         /// </summary>
@@ -153,8 +154,7 @@ namespace ProefExamen.Framework.BeatMapping
                 );
             }
         }
-#endif
-
+        
         /// <summary>
         /// Unsubscribe from the lane toggles.
         /// </summary>
@@ -167,3 +167,4 @@ namespace ProefExamen.Framework.BeatMapping
         }
     }
 }
+#endif
