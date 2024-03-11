@@ -1,6 +1,7 @@
-using ProefExamen.Framework.Gameplay.Level;
 using System.Collections.Generic;
 using UnityEngine;
+
+using ProefExamen.Framework.Gameplay.Level;
 
 namespace ProefExamen.Framework.BeatMapping
 {

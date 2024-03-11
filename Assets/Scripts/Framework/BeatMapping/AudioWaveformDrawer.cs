@@ -263,6 +263,7 @@ namespace ProefExamen.Framework.BeatMapping
                 if (Input.GetKey(_backwardKey))
                     AudioSource.time = Mathf.Clamp(AudioSource.time - TimeScrubAmount, 0, _audioClipDuration);
                 
+                //Refresh lanemanager index on scrub button release
                 if (Input.GetKeyUp(_forwardKey) || Input.GetKeyUp(_backwardKey))
                 {
                     TimeStampData closestTimeStamp = _timeStamper.GetClosestTimeStamp(Cursor.transform.position);
@@ -317,6 +318,7 @@ namespace ProefExamen.Framework.BeatMapping
             if (Input.GetKeyDown(_endKey))
             {
                 AudioSource.time = _audioClipDuration - 1;
+                LaneManager.Instance.Index = _timeStamper.TimeStamps.Count;
             }
         }
 

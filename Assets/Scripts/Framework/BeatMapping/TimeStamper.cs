@@ -58,7 +58,7 @@ namespace ProefExamen.Framework.BeatMapping
         /// <summary>
         /// Returns the raw asset path for the time stamp data container.
         /// </summary>
-        public string RawAssetPath => "Assets/SongTimeStampData/";
+        public readonly string RawAssetPath = "Assets/SongTimeStampData/";
 
         private AudioWaveformDrawer _waveformDrawer = null;
 

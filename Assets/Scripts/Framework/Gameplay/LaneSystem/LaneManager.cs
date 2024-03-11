@@ -1,12 +1,12 @@
-using System;
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using System;
 
 using ProefExamen.Framework.Utils;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.Gameplay.PerformanceTracking;
-using System.Collections.Generic;
 
 namespace ProefExamen.Framework.Gameplay.LaneSystem
 {
