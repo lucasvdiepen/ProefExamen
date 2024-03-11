@@ -8,7 +8,7 @@ namespace ProefExamen.Framework.StateMachine.States
     /// A class that represents the main menu state in the state machine.
     /// </summary>
     [DefaultState]
-    public class MainMenuState : MenuState
+    public class MainMenuState : State
     {
         /// <summary>
         /// <inheritdoc/>

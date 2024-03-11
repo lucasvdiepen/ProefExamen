@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace ProefExamen.Framework.UI.TextUpdaters
+namespace ProefExamen.Framework.UI
 {
     /// <summary>
     /// A class responsible for updating text with tags.

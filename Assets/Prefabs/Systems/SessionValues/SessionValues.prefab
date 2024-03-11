@@ -46,21 +46,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   travelTime: 2
   deadNoteFadeTime: 1
+  score: 0
+  scoreMultiplier: 1
   paused: 0
   currentLevelID: 10
   currentLevel:
-    songCover: {fileID: 0}
-    title: 
-    artists: 
-    album: 
     levelID: 0
     song: {fileID: 0}
     mappingData: []
-  difficulty: 0
+  difficulty: 2
   okThreshold: 0.75
   alrightThreshold: 0.5
   niceThreshold: 0.25
   lerpAlphaHitThreshold: 0.1
-  _levels: {fileID: 11400000, guid: 0201bf37a9e02104786709aee9d87157, type: 2}
+  levels: {fileID: 11400000, guid: 0201bf37a9e02104786709aee9d87157, type: 2}
   deadNote: {fileID: 7856340080275606727, guid: 6d391bcd263f58c47bd4882b6c5e8d50, type: 3}
   audioSource: {fileID: 0}

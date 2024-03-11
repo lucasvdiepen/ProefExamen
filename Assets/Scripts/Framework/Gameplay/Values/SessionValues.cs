@@ -69,8 +69,7 @@ namespace ProefExamen.Framework.Gameplay.Values
         /// <summary>
         /// The list of levels that is used to look up a level with ID.
         /// </summary>
-        [SerializeField]
-        private Levels _levels;
+        public Levels levels;
 
         /// <summary>
         /// The DeadNote prefab used to spawn dead notes.
@@ -81,11 +80,6 @@ namespace ProefExamen.Framework.Gameplay.Values
         /// The audio source that is used to play sound.
         /// </summary>
         public AudioSource audioSource;
-
-        /// <summary>
-        /// Gets all the levels.
-        /// </summary>
-        public Levels Levels => _levels;
 
         /// <summary>
         /// Returns a bool for if the upcoming timestamp should be queued yet.
@@ -101,14 +95,14 @@ namespace ProefExamen.Framework.Gameplay.Values
         /// <param name="levelID">The new Level ID that is from the target level.</param>
         public void SelectLevel(int levelID)
         {
-            int listLength = _levels.levels.Count;
+            int listLength = levels.levels.Count;
             currentLevelID = levelID;
 
             for (int i = 0; i < listLength; i++)
             {
-                if (_levels.levels[i].levelID == currentLevelID)
+                if (levels.levels[i].levelID == currentLevelID)
                 {
-                    currentLevel = _levels.levels[i];
+                    currentLevel = levels.levels[i];
                     return;
                 }
             }
