@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+
 using ProefExamen.Framework.Gameplay.LaneSystem;
 using ProefExamen.Framework.Gameplay.Values;
 

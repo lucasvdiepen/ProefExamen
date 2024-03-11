@@ -318,10 +318,12 @@ namespace ProefExamen.Framework.BeatMapping
 
             obj.songDebugLineData = exportedLineData;
             obj.timeStamps = sortedExportedTimeStamps.ToArray();
-            obj.laneIDs = exportedLaneIDs.ToArray(); 
+            obj.laneIDs = exportedLaneIDs.ToArray();
 
             //Get the song title for the asset name.
-            string assetName = overrideSongTitle == string.Empty ? _waveformDrawer.CurrentSongTitle : overrideSongTitle;
+            string assetName = overrideSongTitle == string.Empty
+                      ? _waveformDrawer.CurrentSongTitle
+                      : overrideSongTitle;
 
             AssetDatabase.CreateAsset(obj, RawAssetPath + $"{assetName}.asset");
             AssetDatabase.Refresh();

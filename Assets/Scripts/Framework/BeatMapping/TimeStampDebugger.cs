@@ -1,5 +1,4 @@
 #if UNITY_EDITOR
-
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,7 +23,7 @@ namespace ProefExamen.Framework.BeatMapping
         private float _gizmoSpacing = .6f;
         
         [SerializeField]
-        private Toggle[] laneToggles;
+        private Toggle[] _laneToggles;
 
         [Header("Gizmo Selection")]
         [SerializeField]
@@ -48,11 +47,11 @@ namespace ProefExamen.Framework.BeatMapping
         private readonly GUIStyle _debugBoldGuiStyle = new();
         private readonly GUIStyle _debugItalicsGuiStyle = new();
 
-        private bool lane1Enabled = true;
-        private bool lane2Enabled = true;
+        private bool _firstLaneEnabled = true;
+        private bool _secondLaneEnabled = true;
 
-        private bool lane3Enabled = true;
-        private bool lane4Enabled = true;
+        private bool _thirdLaneEnabled = true;
+        private bool _fourthLaneEnabled = true;
 
         private void Awake()
         {
@@ -69,10 +68,10 @@ namespace ProefExamen.Framework.BeatMapping
             _debugItalicsGuiStyle.normal.textColor = Color.white;
 
             // Set up the lane toggles.
-            laneToggles[0].onValueChanged.AddListener((value) => lane1Enabled = value);
-            laneToggles[1].onValueChanged.AddListener((value) => lane2Enabled = value);
-            laneToggles[2].onValueChanged.AddListener((value) => lane3Enabled = value);
-            laneToggles[3].onValueChanged.AddListener((value) => lane4Enabled = value);
+            _laneToggles[0].onValueChanged.AddListener((value) => _firstLaneEnabled = value);
+            _laneToggles[1].onValueChanged.AddListener((value) => _secondLaneEnabled = value);
+            _laneToggles[2].onValueChanged.AddListener((value) => _thirdLaneEnabled = value);
+            _laneToggles[3].onValueChanged.AddListener((value) => _fourthLaneEnabled = value);
         }
 
         /// <summary>
@@ -86,10 +85,10 @@ namespace ProefExamen.Framework.BeatMapping
 
             for (int i = 0; i < _timeStamper.TimeStamps.Count; i++)
             {
-                bool lane1Disabled = _timeStamper.TimeStamps[i].laneID == 0 && !lane1Enabled;
-                bool lane2Disabled = _timeStamper.TimeStamps[i].laneID == 1 && !lane2Enabled;
-                bool lane3Disabled = _timeStamper.TimeStamps[i].laneID == 2 && !lane3Enabled;
-                bool lane4Disabled = _timeStamper.TimeStamps[i].laneID == 3 && !lane4Enabled;
+                bool lane1Disabled = _timeStamper.TimeStamps[i].laneID == 0 && !_firstLaneEnabled;
+                bool lane2Disabled = _timeStamper.TimeStamps[i].laneID == 1 && !_secondLaneEnabled;
+                bool lane3Disabled = _timeStamper.TimeStamps[i].laneID == 2 && !_thirdLaneEnabled;
+                bool lane4Disabled = _timeStamper.TimeStamps[i].laneID == 3 && !_fourthLaneEnabled;
 
                 if(lane1Disabled || lane2Disabled || lane3Disabled || lane4Disabled)
                     continue;   
@@ -166,10 +165,10 @@ namespace ProefExamen.Framework.BeatMapping
         /// </summary>
         private void OnDestroy()
         {
-            laneToggles[0].onValueChanged.RemoveAllListeners();
-            laneToggles[1].onValueChanged.RemoveAllListeners();
-            laneToggles[2].onValueChanged.RemoveAllListeners();
-            laneToggles[3].onValueChanged.RemoveAllListeners();
+            _laneToggles[0].onValueChanged.RemoveAllListeners();
+            _laneToggles[1].onValueChanged.RemoveAllListeners();
+            _laneToggles[2].onValueChanged.RemoveAllListeners();
+            _laneToggles[3].onValueChanged.RemoveAllListeners();
         }
     }
 }
