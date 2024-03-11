@@ -3,7 +3,13 @@ guid: 0f6dc48d6b1f39a4ba339942138054e8
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _levelSelectorPrefab: {fileID: 5620486008483422010, guid: 5f00d282f2a503242806d6e888a1b697, type: 3}
+  - _levelSelectorParent: {instanceID: 0}
+  - noDifficulty: {fileID: 21300000, guid: 3ffc1cd5abd6043bfa804bbbabe63889, type: 3}
+  - diffEasy: {fileID: 21300000, guid: 5379562effb014d6cbd10dd132a3fd4b, type: 3}
+  - diffNormal: {fileID: 21300000, guid: d2a4f248a946a41a48c753cced55e4c1, type: 3}
+  - diffHard: {fileID: 21300000, guid: 5cad55a68964e4a189fee3d982e176ff, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

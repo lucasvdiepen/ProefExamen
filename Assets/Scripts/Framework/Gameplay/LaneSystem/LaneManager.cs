@@ -39,7 +39,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void RemoveNoteFromLane(HitStatus hitStatus, int laneID)
         {
-            if (hitStatus == HitStatus.Miss)
+            if (hitStatus == HitStatus.Miss || hitStatus == HitStatus.MissClick)
                 return;
 
             Note target = _lanes[laneID].Notes[0];
@@ -48,11 +48,18 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             target.HitNote();
         }
 
-        public void PlayLevel() => StartCoroutine(PlayThroughLevel());
+        public void DestroyAllNotes()
+        {
+            foreach(Lane lane in _lanes)
+                foreach (Note note in lane.Notes)
+                    Destroy(note);
+        }
 
         /// <summary>
         /// Starts the level that is currently selected on the selected difficulty and song.
         /// </summary>
+        public void PlayLevel() => StartCoroutine(PlayThroughLevel());
+
         private IEnumerator PlayThroughLevel()
         {
             _index = 0;

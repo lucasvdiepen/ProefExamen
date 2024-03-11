@@ -114,6 +114,13 @@ namespace ProefExamen.Framework.Gameplay.Values
             }
         }
 
+        public void SelectLevel(LevelData levelData)
+        {
+            currentLevel = levelData;
+            currentLevelID = levelData.levelID;
+            return;
+        }
+
         /// <summary>
         /// Calculates the alpha 0-1 value for a note through a given timestamp.
         /// </summary>
