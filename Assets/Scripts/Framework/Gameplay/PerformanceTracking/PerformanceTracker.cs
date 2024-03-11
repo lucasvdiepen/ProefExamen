@@ -51,6 +51,11 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         private List<PerformanceResult> _highscores = null;
 
         /// <summary>
+        /// Getter for max health stat.
+        /// </summary>
+        public float MaxHealth => _maxHealth;
+
+        /// <summary>
         /// An action that broadcasts the new amount of points when they change.
         /// </summary>
         public Action<int> OnPointsChanged;
