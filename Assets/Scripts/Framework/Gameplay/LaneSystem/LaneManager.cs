@@ -58,12 +58,26 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
             foreach (Note note in notes)
                 Destroy(note.gameObject);
+
+            DeadNote[] deadNotes = FindObjectsOfType<DeadNote>();
+
+            foreach (DeadNote deadNote in deadNotes)
+                Destroy(deadNote.gameObject);
         }
 
         /// <summary>
         /// Starts the level that is currently selected on the selected difficulty and song.
         /// </summary>
-        public void PlayLevel() => StartCoroutine(PlayThroughLevel());
+        public void PlayLevel()
+        {
+            if(SessionValues.Instance.audioSource.clip != null)
+            {
+                SessionValues.Instance.audioSource.time = 0;
+                SessionValues.Instance.paused = false;
+            }
+
+            StartCoroutine(PlayThroughLevel());
+        }
 
         private IEnumerator PlayThroughLevel()
         {
