@@ -1,7 +1,7 @@
 /// <summary>
 /// Enum for the different types of UI audio.
 /// </summary>
-public enum AudioUITypes
+public enum AudioCollectionTypes
 {
     Back,
     Select,

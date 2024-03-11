@@ -1,3 +1,4 @@
+using ProefExamen.Framework.Utils;
 using UnityEngine;
 
 namespace ProefExamen.Framework.Audio
@@ -5,19 +6,22 @@ namespace ProefExamen.Framework.Audio
     /// <summary>
     /// Class responsible for managing general audio effect
     /// </summary>
-    public class AudioSystem : MonoBehaviour
+    [RequireComponent(typeof(AudioSource))] 
+    public class AudioSystem : AbstractSingleton<AudioSystem>
     {
         [Header("UI Sounds"), SerializeField]
-        private AudioCollectionContainer _backAudioClips;
+        private AudioCollectionContainer[] _audioCollectionClips;
 
-        [SerializeField]
-        private AudioCollectionContainer _selectAudioClips;
+        private AudioSource _audioSource;
 
-        [SerializeField]
-        private AudioCollectionContainer _confirmAudioClips;
+        private void Awake()
+        {
+            _audioSource = GetComponent<AudioSource>();
+        }
 
-        [SerializeField]
-        private AudioCollectionContainer _deniedAudioClips;
-
+        public void PlayRandomSoundEffect()
+        {
+            //_audioSource.clip = _audioCollectionClips[Random.Range(0, _audioCollectionClips.Length)].clips[Random.Range(0, ;
+        }
     }
 }

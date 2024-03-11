@@ -12,5 +12,10 @@ namespace ProefExamen.Framework.Audio
         /// Array which holds all the clips for it's specified audio collection.
         /// </summary>
         public AudioClip[] clips;
+
+        /// <summary>
+        /// Audio collection type.
+        /// </summary>
+        public AudioCollectionTypes collectionType;
     }
 }
