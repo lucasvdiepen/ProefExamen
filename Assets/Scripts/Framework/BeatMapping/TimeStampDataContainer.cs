@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using ProefExamen.Framework.Gameplay.Level;
+
 namespace ProefExamen.Framework.BeatMapping
 {
     /// <summary>
@@ -14,8 +16,18 @@ namespace ProefExamen.Framework.BeatMapping
         public List<LineData> songDebugLineData = new();
 
         /// <summary>
+        /// The difficulty of this saved level.
+        /// </summary>
+        public Difficulty difficulty;
+
+        /// <summary>
         /// Array of time stamps.
         /// </summary>
         public float[] timeStamps;
+
+        /// <summary>
+        /// Array of lane IDs.
+        /// </summary>
+        public int[] laneIDs;
     }
 }

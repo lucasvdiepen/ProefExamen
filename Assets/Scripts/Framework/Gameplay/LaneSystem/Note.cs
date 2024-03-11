@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 using ProefExamen.Framework.Gameplay.Values;
 
@@ -87,9 +88,26 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// </summary>
         public void HitNote()
         {
+            if (LaneManager.Instance.IsBeatMapping)
+                return;
+
             GameObject deadNote = Instantiate(SessionValues.Instance.deadNote);
 
             deadNote.GetComponent<DeadNote>().SetDeadNoteValues(_deathSprite, gameObject.transform);
+
+            Destroy(gameObject);
+        }
+
+        /// <summary>
+        /// Checks if the note should exist when called during BeatMapping, when it shouldn't it will destroy itself.
+        /// </summary>
+        public void CheckIfNoteShouldExist()
+        {
+            if (!LaneManager.Instance.IsBeatMapping)
+                return;
+
+            if (LaneManager.Instance.liveTimeStamps.Contains(new Tuple<float, int>(_timeStamp, _laneID)))
+                return;
 
             Destroy(gameObject);
         }
@@ -98,11 +116,13 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             if (SessionValues.Instance.paused || _laneID == -1)
             {
-                _animator.speed = 0;
+                if (!LaneManager.Instance.IsBeatMapping)
+                    _animator.speed = 0;
                 return;
             }
 
-            _animator.speed = _animationSpeed / SessionValues.Instance.travelTime;
+            if (!LaneManager.Instance.IsBeatMapping)
+                _animator.speed = _animationSpeed / SessionValues.Instance.travelTime;
 
             if (_lerpAlpha > .99f)
                 Destroy(gameObject);

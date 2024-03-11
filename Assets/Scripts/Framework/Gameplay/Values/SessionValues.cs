@@ -96,6 +96,14 @@ namespace ProefExamen.Framework.Gameplay.Values
             timeStamp > time && timeStamp - (travelTime * 1.1) < time;
 
         /// <summary>
+        /// Returns a bool for if the upcoming live timestamp should be queued yet.
+        /// </summary>
+        /// <param name="timeStamp"></param>
+        /// <returns></returns>
+        public bool IsLiveTimeStampReadyForQueue(float timeStamp) =>
+            time - travelTime <= timeStamp && timeStamp - travelTime <= time;
+
+        /// <summary>
         /// Will loop over levels and update SessionValues currentLevel and currentLevelID.
         /// </summary>
         /// <param name="levelID">The new Level ID that is from the target level.</param>

@@ -1,19 +1,29 @@
 using System;
-using System.Collections;
-using UnityEngine;
 
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.Utils;
-using ProefExamen.Framework.Gameplay.Values;
 
 namespace ProefExamen.Framework.UI
 {
+
+    /// <summary>
+    /// State responsible for updating menu state.
+    /// </summary>
     public class MenuStateUpdater : AbstractSingleton<MenuStateUpdater>
     {
+        /// <summary>
+        /// Event invoked when difficulty is changed.
+        /// </summary>
         public Action<Difficulty> OnDifficultyChanged;
 
+        /// <summary>
+        /// Event invoked when high score is changed.
+        /// </summary>
         public Action<int> OnHighScoreChanged;
 
+        /// <summary>
+        /// Event invoked when selected level ID is changed
+        /// </summary>
         public Action<int> OnSelectedLevelIDChanged;
     }
 }
