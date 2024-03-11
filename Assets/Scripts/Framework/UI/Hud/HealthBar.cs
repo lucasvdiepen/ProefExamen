@@ -4,7 +4,7 @@ using DG.Tweening;
 
 using ProefExamen.Framework.Gameplay.PerformanceTracking;
 
-namespace ProefExamen.Framework.Hud
+namespace ProefExamen.Framework.UI.Hud
 {
     /// <summary>
     /// Class responsible for updating the player health bar
