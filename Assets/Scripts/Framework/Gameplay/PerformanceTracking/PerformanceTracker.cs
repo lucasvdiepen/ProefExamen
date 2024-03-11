@@ -105,8 +105,6 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 
         private void Awake() => LoadData();
 
-        private void Start() => LaneManager.Instance.OnNoteHit += ProcessNewHit;
-
         /// <summary>
         /// Gets the highscore from the curretnly selected level.
         /// </summary>
@@ -213,7 +211,7 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
             {
                 _multiplierStreak = 0;
                 _scoreMultiplier = nextMultiplier;
-                OnStreakChanged?.Invoke(_scoreMultiplier);
+                OnMultiplierChanged?.Invoke(_scoreMultiplier);
             }
 
             return false;

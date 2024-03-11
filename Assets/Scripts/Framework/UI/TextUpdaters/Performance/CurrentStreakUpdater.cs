@@ -9,12 +9,12 @@ namespace ProefExamen.Framework.UI.TextUpdaters.Performance
     {
         private void OnEnable()
         {
-            UpdateComboText(PerformanceTracker.Instance.Streak);
-            PerformanceTracker.Instance.OnStreakChanged += UpdateComboText;
+            UpdateStreakText(PerformanceTracker.Instance.Streak);
+            PerformanceTracker.Instance.OnStreakChanged += UpdateStreakText;
         }
 
-        private void OnDisable() => PerformanceTracker.Instance.OnStreakChanged -= UpdateComboText;
+        private void OnDisable() => PerformanceTracker.Instance.OnStreakChanged -= UpdateStreakText;
 
-        private void UpdateComboText(int combo) => ReplaceTag(combo.ToString());
+        private void UpdateStreakText(int combo) => ReplaceTag(combo.ToString());
     }
 }
