@@ -2,7 +2,7 @@ using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.Gameplay.PerformanceTracking;
 using ProefExamen.Framework.Gameplay.Values;
 
-namespace ProefExamen.Framework.UI.TextUpdaters
+namespace ProefExamen.Framework.UI.TextUpdaters.Performance
 {
     /// <summary>
     /// A TextUpdater class that is responsible for updating the HighScoreText.
