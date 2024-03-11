@@ -28,7 +28,9 @@ namespace ProefExamen.Framework.Buttons.LevelSelector
         {
             base.OnEnable();
 
+            Button.interactable = SessionValues.Instance.currentLevel.LevelHasDifficulty(_difficulty);
             ChangeVisualState(SessionValues.Instance.difficulty);
+
             MenuStateUpdater.Instance.OnDifficultyChanged += ChangeVisualState;
         }
 
