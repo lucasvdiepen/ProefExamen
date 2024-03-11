@@ -24,39 +24,22 @@ namespace ProefExamen.Framework.Hud
         private float _secundaryResetDuration = .4f;
 
         [SerializeField]
-        private Ease _ease = Ease.Linear;
+        private Ease _ease = Ease.InOutBounce;
 
         [SerializeField]
         private RectTransform _rectTransform;
         
-        [SerializeField]
-        private CanvasGroup _canvasGroup;
-
-        [SerializeField]
-        private float _testMaxHealth = 1000;
-
-        [SerializeField]
-        private float _testCurrentHealth = 1000;
-
         private void Awake()
         {
-            //_performanceTracker.OnHealthChanged += UpdateHealthBar;
+            _performanceTracker.OnHealthChanged += UpdateHealthBar;
 
             _primaryBar.fillAmount = 1;
             _secondaryBar.fillAmount = 1;
         }
 
-        [ContextMenu("Debug Deplete Health")]
-        public void DebugHealthDeplete()
-        {
-            UpdateHealthBar(_testCurrentHealth -= 200);
-        }
-
         public void UpdateHealthBar(float currentHealth)
         {
-            //float max = _performanceTracker.MaxHealth;
-
-            float max = _testMaxHealth;
+            float max = _performanceTracker.MaxHealth;
             float alpha = currentHealth / max;
 
             _primaryBar.fillAmount = alpha;
@@ -69,7 +52,7 @@ namespace ProefExamen.Framework.Hud
 
         private void OnDestroy()
         {
-            //_performanceTracker.OnHealthChanged -= UpdateHealthBar;
+            _performanceTracker.OnHealthChanged -= UpdateHealthBar;
         }
     }
 }
