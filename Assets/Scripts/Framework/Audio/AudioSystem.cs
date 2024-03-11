@@ -8,15 +8,16 @@ namespace ProefExamen.Framework.Audio
     public class AudioSystem : MonoBehaviour
     {
         [Header("UI Sounds"), SerializeField]
-        private AudioClip[] _backAudioClips;
+        private AudioCollectionContainer _backAudioClips;
 
         [SerializeField]
-        private AudioClip[] _selectAudioClips;
+        private AudioCollectionContainer _selectAudioClips;
 
         [SerializeField]
-        private AudioClip[] _clickAudioClips;
+        private AudioCollectionContainer _confirmAudioClips;
 
         [SerializeField]
-        private AudioClip[] _deniedAudioClips;
+        private AudioCollectionContainer _deniedAudioClips;
+
     }
 }

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4576875a15479be469bd54b8a86295ae, type: 3}
+  m_Name: ConfirmCollection
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 3116170b178149d4cb944d164651442b, type: 3}
+  - {fileID: 8300000, guid: a753a7bbf9469f34f8d57039f63e191a, type: 3}
+  - {fileID: 8300000, guid: f0d31a446f9c5354983f0701642b0615, type: 3}
+  - {fileID: 8300000, guid: f6a6cbd79709e9840a5675d8b44cfb0b, type: 3}
