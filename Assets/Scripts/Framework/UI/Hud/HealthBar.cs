@@ -7,12 +7,15 @@ using ProefExamen.Framework.Gameplay.PerformanceTracking;
 namespace ProefExamen.Framework.UI.Hud
 {
     /// <summary>
-    /// Class responsible for updating the player health bar
+    /// Class responsible for updating the player health bar.
     /// </summary>
     public class HealthBar : MonoBehaviour
     {
         [SerializeField]
-        private Image _primaryBar, _secondaryBar;
+        private Image _primaryBar;
+
+        [SerializeField]
+        private Image _secondaryBar;
 
         [SerializeField]
         private PerformanceTracker _performanceTracker;
@@ -28,15 +31,22 @@ namespace ProefExamen.Framework.UI.Hud
 
         [SerializeField]
         private RectTransform _rectTransform;
-        
-        private void Awake()
+
+        private void OnEnable()
         {
             _performanceTracker.OnHealthChanged += UpdateHealthBar;
+        }
 
+        private void Awake()
+        {
             _primaryBar.fillAmount = 1;
             _secondaryBar.fillAmount = 1;
         }
 
+        /// <summary>
+        /// Method responsible for updating health bar visual
+        /// </summary>
+        /// <param name="currentHealth"></param>
         public void UpdateHealthBar(float currentHealth)
         {
             float max = _performanceTracker.MaxHealth;
@@ -50,7 +60,7 @@ namespace ProefExamen.Framework.UI.Hud
                 .SetEase(_ease);
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             _performanceTracker.OnHealthChanged -= UpdateHealthBar;
         }
