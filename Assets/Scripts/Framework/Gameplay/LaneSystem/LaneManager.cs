@@ -6,6 +6,7 @@ using ProefExamen.Framework.Utils;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.Gameplay.PerformanceTracking;
+using System.Linq;
 
 namespace ProefExamen.Framework.Gameplay.LaneSystem
 {
@@ -51,8 +52,12 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         public void DestroyAllNotes()
         {
             foreach(Lane lane in _lanes)
-                foreach (Note note in lane.Notes)
-                    Destroy(note);
+                lane.Notes.Clear();
+
+            Note[] notes = FindObjectsOfType<Note>();
+
+            foreach (Note note in notes)
+                Destroy(note.gameObject);
         }
 
         /// <summary>

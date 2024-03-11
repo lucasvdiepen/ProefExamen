@@ -23,6 +23,7 @@ namespace ProefExamen.Framework.StateMachine.States
 
         private void UpdateStateOnScoreCompletion(ScoreCompletionStatus status)
         {
+            LaneManager.Instance.SetPaused(true);
             LaneManager.Instance.DestroyAllNotes();
 
             switch (status)

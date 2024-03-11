@@ -219,6 +219,14 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
             return false;
         }
 
+        private void CheckIfPlayerFailed(float health)
+        {
+            if (health > 0f)
+                return;
+
+            CompleteTracking(false);
+        }
+
         /// <summary>
         /// Initiates a new PerformanceResult with the currentLevelID and current difficulty.
         /// </summary>
@@ -236,6 +244,7 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
                 SessionValues.Instance.difficulty
             );
 
+            OnHealthChanged += CheckIfPlayerFailed;
             LaneManager.Instance.OnNoteHit += ProcessNewHit;
         }
 
@@ -258,6 +267,9 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 
             if(levelBeaten)
                 SaveData();
+
+            OnHealthChanged -= CheckIfPlayerFailed;
+            LaneManager.Instance.OnNoteHit -= ProcessNewHit;
 
             OnScoreCompletion?.Invoke(_lastCompletionStatus);
         }
