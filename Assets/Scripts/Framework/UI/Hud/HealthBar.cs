@@ -32,10 +32,7 @@ namespace ProefExamen.Framework.UI.Hud
         [SerializeField]
         private RectTransform _rectTransform;
 
-        private void OnEnable()
-        {
-            _performanceTracker.OnHealthChanged += UpdateHealthBar;
-        }
+        private void OnEnable() => _performanceTracker.OnHealthChanged += UpdateHealthBar;
 
         private void Awake()
         {
@@ -44,7 +41,7 @@ namespace ProefExamen.Framework.UI.Hud
         }
 
         /// <summary>
-        /// Method responsible for updating health bar visual
+        /// Method responsible for updating health bar visual.
         /// </summary>
         /// <param name="currentHealth"></param>
         public void UpdateHealthBar(float currentHealth)
@@ -60,9 +57,6 @@ namespace ProefExamen.Framework.UI.Hud
                 .SetEase(_ease);
         }
 
-        private void OnDisable()
-        {
-            _performanceTracker.OnHealthChanged -= UpdateHealthBar;
-        }
+        private void OnDisable() => _performanceTracker.OnHealthChanged -= UpdateHealthBar;
     }
 }
