@@ -1,0 +1,248 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+using ProefExamen.Framework.Gameplay.LaneSystem;
+using ProefExamen.Framework.Gameplay.Values;
+using ProefExamen.Framework.Utils;
+
+namespace ProefExamen.Framework.Gameplay.PerformanceTracking
+{
+    /// <summary>
+    /// A class responsible for tracking the performance of the player.
+    /// </summary>
+    public class PerformanceTracker : AbstractSingleton<PerformanceTracker>
+    {
+        [Header("Player's performance")]
+        [SerializeField]
+        private PerformanceResult _newResult;
+
+        [SerializeField]
+        private int _score = 0;
+
+        [Header("Score multipliers and streaks")]
+        [SerializeField]
+        private int _scoreMultiplier = 1;
+
+        [SerializeField]
+        private int _maxMultiplier = 8;
+
+        [SerializeField]
+        private int _multiplierStreak = 0;
+
+        [SerializeField]
+        private int _totalStreak = 0;
+
+        [Header("Health")]
+        [SerializeField]
+        private float _maxHealth = 1000f;
+
+        [SerializeField]
+        private float _health;
+
+        [SerializeField]
+        private float _healthLossMultiplier = 3;
+
+        [SerializeField]
+        private float _healthGainMultiplier = 1;
+
+        [Header("Highscores object")]
+        [SerializeField]
+        private List<PerformanceResult> _highscores = null;
+
+        /// <summary>
+        /// Getter for max health stat.
+        /// </summary>
+        public float MaxHealth => _maxHealth;
+
+        /// <summary>
+        /// An action that broadcasts the new amount of points when they change.
+        /// </summary>
+        public Action<int> OnPointsChanged;
+
+        /// <summary>
+        /// An action that broadcasts the performance on a level.
+        /// </summary>
+        public Action<ScoreCompletionStatus> OnScoreCompletion;
+
+        /// <summary>
+        /// An action that broadcasts the new health value when its changed.
+        /// </summary>
+        public Action<float> OnHealthChanged;
+
+        private void Awake() => LoadData();
+
+        private void Start() => LaneManager.Instance.OnNoteHit += ProcessNewHit;
+
+        public int GetHighScoreFromLevel() => GetHighScoreFromLevel(SessionValues.Instance.currentLevelID);
+        public int GetHighScoreFromLevel(int levelID)
+        {
+            int listLength = _highscores.Count;
+
+            for(int i = 0; i < listLength; i++)
+            {
+                if (_highscores[i].levelID == SessionValues.Instance.currentLevelID &&
+                    _highscores[i].difficulty == SessionValues.Instance.difficulty)
+                {
+                    return _highscores[i].totalScore;
+                }
+            }
+
+            return 0;
+        }
+
+        private void LoadData()
+        {
+            string jsonData = PlayerPrefs.GetString("highscores");
+
+            if (!string.IsNullOrEmpty(jsonData))
+            {
+                PerformanceTrackerData performanceTrackerData =
+                JsonUtility.FromJson<PerformanceTrackerData>(jsonData);
+
+                if (performanceTrackerData.highscores != null)
+                {
+                    _highscores = performanceTrackerData.highscores;
+                    return;
+                }
+            }
+
+            _highscores = new List<PerformanceResult>();
+        }
+
+        /// <summary>
+        /// Counts an extra hit onto the current result.
+        /// </summary>
+        /// <param name="hit">The new hit to count.</param>
+        public void ProcessNewHit(HitStatus hit, int laneID)
+        {
+            bool isComboBroken = UpdateStreak(hit);
+
+            int pointsToAdd = (int)hit * _scoreMultiplier;
+
+            _score += pointsToAdd;
+
+            float chosenMultiplier = isComboBroken
+                ? _healthLossMultiplier
+                : _healthGainMultiplier;
+
+            float healthToAdd = pointsToAdd * chosenMultiplier;
+            if(_health < _maxHealth || isComboBroken)
+            {
+                _health = Math.Clamp(_health + healthToAdd, 0, _maxHealth);
+                OnHealthChanged?.Invoke(_health);
+            }
+
+            _newResult.AddHit(hit);
+            OnPointsChanged?.Invoke(_score);
+        }
+
+        /// <summary>
+        /// Updates the streak and combo with a newly passed hit.
+        /// </summary>
+        /// <param name="hit">The hit to update the streak with.</param>
+        /// <returns>Returns true if the combo is broken, otherwise false</returns>
+        private bool UpdateStreak(HitStatus hit)
+        {
+            if(hit == HitStatus.Miss || hit == HitStatus.MissClick)
+            {
+                _multiplierStreak = 0;
+                _totalStreak = 0;
+                _scoreMultiplier = 1;
+                return true;
+            }
+
+            int nextMultiplier = _scoreMultiplier * 2 < _maxMultiplier
+                ? _scoreMultiplier * 2
+                : _maxMultiplier;
+
+            _multiplierStreak++;
+            _totalStreak++;
+
+            if (_multiplierStreak == nextMultiplier)
+            {
+                _multiplierStreak = 0;
+                _scoreMultiplier = nextMultiplier;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Initiates a new PerformanceResult with the currentLevelID and current difficulty.
+        /// </summary>
+        public void StartTracking()
+        {
+            _score = 0;
+            _totalStreak = 0;
+            _multiplierStreak = 0;
+            _scoreMultiplier = 1;
+            _health = 1000f;
+
+            _newResult = new PerformanceResult
+            (
+                SessionValues.Instance.currentLevelID,
+                SessionValues.Instance.difficulty
+            );
+
+            LaneManager.Instance.OnNoteHit += ProcessNewHit;
+        }
+
+        /// <summary>
+        /// Completes the currently tracking level and overwrites the old high score if the level score was beaten
+        /// then shares the result of the level through an action.
+        /// </summary>
+        /// <param name="levelBeaten">If the level was beaten.</param>
+        public void CompleteTracking(bool levelBeaten = true)
+        {
+            if(_newResult.levelID != SessionValues.Instance.currentLevelID)
+            {
+                Debug.LogError("Current level is not equal to the _newResult level! Check PerformanceTracker!");
+                return;
+            }
+
+            ScoreCompletionStatus scoreCompletionStatus = levelBeaten
+                ? ProcessNewScoreResult()
+                : ScoreCompletionStatus.Failed;
+
+            SaveData();
+
+            OnScoreCompletion?.Invoke(scoreCompletionStatus);
+        }
+
+        private ScoreCompletionStatus ProcessNewScoreResult()
+        {
+            if (_highscores == null)
+            {
+                Debug.LogError("No reference set for 'highscores' on PerformanceTracker!");
+
+                return ScoreCompletionStatus.NotBeaten;
+            }
+
+            int listLength = _highscores.Count;
+
+            _newResult.totalScore = _score;
+
+            for (int i = 0; i < listLength; i++)
+            {
+                if (!_highscores[i].CompareLevels(_newResult))
+                    continue;
+
+                if (_highscores[i].totalScore >= _newResult.totalScore)
+                    return ScoreCompletionStatus.NotBeaten;
+
+                _highscores[i] = _newResult;
+                return ScoreCompletionStatus.Beaten;
+            }
+
+            _highscores.Add(_newResult);
+            return ScoreCompletionStatus.Beaten;
+        }
+
+        private void SaveData()
+        {
+            string data = JsonUtility.ToJson(new PerformanceTrackerData { highscores = _highscores});
+            PlayerPrefs.SetString("highscores", data);
+        }
+    }
+}

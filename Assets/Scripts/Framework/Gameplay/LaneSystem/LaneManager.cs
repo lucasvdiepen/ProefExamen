@@ -5,6 +5,7 @@ using UnityEngine;
 using ProefExamen.Framework.Utils;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Gameplay.Level;
+using ProefExamen.Framework.Gameplay.PerformanceTracking;
 
 namespace ProefExamen.Framework.Gameplay.LaneSystem
 {
@@ -34,33 +35,29 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void Awake() => Application.targetFrameRate = 60;
 
-        private void Start()
-        {
-            OnNoteHit += RemoveNoteFromLane;
-
-            SessionValues.Instance.SelectLevel(SessionValues.Instance.currentLevelID);
-            StartCoroutine(PlayThroughLevel());
-        }
+        private void Start() => OnNoteHit += RemoveNoteFromLane;
 
         private void RemoveNoteFromLane(HitStatus hitStatus, int laneID)
         {
-            if(hitStatus != HitStatus.Miss)
-            {
-                Note target = _lanes[laneID].Notes[0];
-                _lanes[laneID].Notes.Remove(target);
+            if (hitStatus == HitStatus.Miss)
+                return;
 
-                target.HitNote();
-            }
+            Note target = _lanes[laneID].Notes[0];
+            _lanes[laneID].Notes.Remove(target);
 
-            SessionValues.Instance.score += (int)hitStatus * SessionValues.Instance.scoreMultiplier;
+            target.HitNote();
         }
+
+        public void PlayLevel() => StartCoroutine(PlayThroughLevel());
 
         /// <summary>
         /// Starts the level that is currently selected on the selected difficulty and song.
         /// </summary>
-        public IEnumerator PlayThroughLevel()
+        private IEnumerator PlayThroughLevel()
         {
             _index = 0;
+
+            PerformanceTracker.Instance.StartTracking();
 
             SessionValues.Instance.audioSource.clip = SessionValues.Instance.currentLevel.song;
             SessionValues.Instance.audioSource.Play();
@@ -77,6 +74,8 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
                 yield return null;
             }
+
+            PerformanceTracker.Instance.CompleteTracking();
             yield return null;
         }
 
@@ -100,7 +99,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         }
 
         /// <summary>
-        /// Pauses the game based on the passed bool, 
+        /// Pauses the game based on the passed bool,
         /// this will be passed to the SessionValues and pause any playing audio.
         /// </summary>
         /// <param name="paused">The new paused value.</param>
@@ -116,6 +115,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void Update()
         {
+            if (!_usingInputs)
+                return;
+
             int inputsLength = _inputs.Length;
 
             for (int i = 0; i < inputsLength; i++)

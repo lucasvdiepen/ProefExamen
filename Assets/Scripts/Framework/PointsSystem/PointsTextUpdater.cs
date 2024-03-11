@@ -1,4 +1,4 @@
-using ProefExamen.Framework.UI;
+using ProefExamen.Framework.UI.TextUpdaters;
 using TMPro;
 using UnityEngine;
 
