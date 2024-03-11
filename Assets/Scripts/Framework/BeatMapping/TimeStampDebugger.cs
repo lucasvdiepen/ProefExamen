@@ -98,7 +98,9 @@ namespace ProefExamen.Framework.BeatMapping
                 bool isSelected = _timeStamper.TimeStamps[i].isSelected;
                 Color normalGizmoColor = _timeStampLaneColor[_timeStamper.TimeStamps[i].laneID];
 
-                Gizmos.color = isSelected ? _selectedTimeStampColor : normalGizmoColor;
+                Gizmos.color = isSelected
+                      ? _selectedTimeStampColor
+                      : normalGizmoColor;
 
                 if (isSelected)
                 {
