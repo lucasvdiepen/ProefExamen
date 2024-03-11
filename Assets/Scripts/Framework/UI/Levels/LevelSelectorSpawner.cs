@@ -8,6 +8,9 @@ using ProefExamen.Framework.UI.TextUpdaters;
 
 namespace ProefExamen.Framework.UI.Level
 {
+    /// <summary>
+    /// Class responsible for spawning level selectors.
+    /// </summary>
     public class LevelSelectorSpawner : MonoBehaviour
     {
         [SerializeField]
