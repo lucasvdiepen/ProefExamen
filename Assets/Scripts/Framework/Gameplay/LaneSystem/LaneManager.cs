@@ -48,11 +48,11 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             target.HitNote();
         }
 
-        public void PlayLevel() => StartCoroutine(PlayThroughLevel());
-
         /// <summary>
         /// Starts the level that is currently selected on the selected difficulty and song.
         /// </summary>
+        public void PlayLevel() => StartCoroutine(PlayThroughLevel());
+
         private IEnumerator PlayThroughLevel()
         {
             _index = 0;

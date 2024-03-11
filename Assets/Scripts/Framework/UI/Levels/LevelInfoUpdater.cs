@@ -43,6 +43,8 @@ public class LevelInfoUpdater : MonoBehaviour
     {
         LevelData currentLevel = SessionValues.Instance.currentLevel;
 
+        Debug.Log("Epic changes");
+
         _songCover.sprite = currentLevel.songCover;
         _songTitleText.text = currentLevel.title;
         _songArtistsText.text = currentLevel.artists;

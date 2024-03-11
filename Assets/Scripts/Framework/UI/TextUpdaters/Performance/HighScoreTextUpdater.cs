@@ -21,7 +21,7 @@ namespace ProefExamen.Framework.UI.TextUpdaters.Performance
 
         private void GetNewHighscore(Difficulty newDifficulty)
         {
-            int newHighscore = PerformanceTracker.Instance.GetHighScoreFromLevel();
+            int newHighscore = PerformanceTracker.Instance.GetHighScoreFromLevel().totalScore;
             UpdateHighScore(newHighscore);
         }
 
