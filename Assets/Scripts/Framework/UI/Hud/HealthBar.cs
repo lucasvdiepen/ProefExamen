@@ -43,7 +43,7 @@ namespace ProefExamen.Framework.UI.Hud
         /// <summary>
         /// Method responsible for updating health bar visual.
         /// </summary>
-        /// <param name="currentHealth"></param>
+        /// <param name="currentHealth">Current player health.</param>
         public void UpdateHealthBar(float currentHealth)
         {
             float max = _performanceTracker.MaxHealth;
