@@ -69,6 +69,23 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 
         private void Start() => LaneManager.Instance.OnNoteHit += ProcessNewHit;
 
+        public int GetHighScoreFromLevel() => GetHighScoreFromLevel(SessionValues.Instance.currentLevelID);
+        public int GetHighScoreFromLevel(int levelID)
+        {
+            int listLength = _highscores.Count;
+
+            for(int i = 0; i < listLength; i++)
+            {
+                if (_highscores[i].levelID == SessionValues.Instance.currentLevelID &&
+                    _highscores[i].difficulty == SessionValues.Instance.difficulty)
+                {
+                    return _highscores[i].totalScore;
+                }
+            }
+
+            return 0;
+        }
+
         private void LoadData()
         {
             string jsonData = PlayerPrefs.GetString("highscores");
