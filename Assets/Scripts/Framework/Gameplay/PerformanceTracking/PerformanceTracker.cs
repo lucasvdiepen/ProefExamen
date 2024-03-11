@@ -69,9 +69,9 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         public Action<int> OnMultiplierChanged;
 
         /// <summary>
-        /// An action that broadcasts the change of the current combo.
+        /// An action that broadcasts the change of the current streak.
         /// </summary>
-        public Action<int> OnComboChanged;
+        public Action<int> OnStreakChanged;
 
         /// <summary>
         /// An action that broadcasts the performance on a level.
@@ -94,9 +94,9 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         public int Score => _score;
 
         /// <summary>
-        /// A getter that retrieves the current Combo.
+        /// A getter that retrieves the current Streak.
         /// </summary>
-        public int Combo => _totalStreak;
+        public int Streak => _totalStreak;
 
         /// <summary>
         /// A getter that retrieves the current score multiplier.
@@ -197,7 +197,7 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
                 _totalStreak = 0;
                 _scoreMultiplier = 1;
                 OnMultiplierChanged?.Invoke(_scoreMultiplier);
-                OnComboChanged?.Invoke(_totalStreak);
+                OnStreakChanged?.Invoke(_totalStreak);
                 return true;
             }
 
@@ -207,13 +207,13 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 
             _multiplierStreak++;
             _totalStreak++;
-            OnComboChanged?.Invoke(_totalStreak);
+            OnStreakChanged?.Invoke(_totalStreak);
 
             if (_multiplierStreak == nextMultiplier)
             {
                 _multiplierStreak = 0;
                 _scoreMultiplier = nextMultiplier;
-                OnComboChanged?.Invoke(_scoreMultiplier);
+                OnStreakChanged?.Invoke(_scoreMultiplier);
             }
 
             return false;

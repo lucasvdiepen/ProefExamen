@@ -31,13 +31,13 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
             perfectHits = 0;
             totalScore = 0;
 
-            PerformanceTracker.Instance.OnComboChanged += UpdateNewMaxStreak;
+            PerformanceTracker.Instance.OnStreakChanged += UpdateNewMaxStreak;
             PerformanceTracker.Instance.OnPointsChanged += UpdateTotalScore;
         }
 
         ~PerformanceResult()
         {
-            PerformanceTracker.Instance.OnComboChanged -= UpdateNewMaxStreak;
+            PerformanceTracker.Instance.OnStreakChanged -= UpdateNewMaxStreak;
             PerformanceTracker.Instance.OnPointsChanged -= UpdateTotalScore;
         }
 
