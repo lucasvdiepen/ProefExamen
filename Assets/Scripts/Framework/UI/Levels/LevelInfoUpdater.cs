@@ -5,7 +5,7 @@ using TMPro;
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.Gameplay.Values;
 
-namespace ProefExamen.Framework.UI.Level
+namespace ProefExamen.Framework.UI.Levels
 {
     /// <summary>
     /// Class responsible for updating level info.
