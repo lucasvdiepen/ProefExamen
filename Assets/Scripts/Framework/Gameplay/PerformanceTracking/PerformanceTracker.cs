@@ -18,6 +18,9 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         private PerformanceResult _newResult;
 
         [SerializeField]
+        private ScoreCompletionStatus _lastCompletionStatus;
+
+        [SerializeField]
         private int _score = 0;
 
         [Header("Score multipliers and streaks")]
@@ -76,6 +79,11 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         public Action<float> OnHealthChanged;
 
         /// <summary>
+        /// The last ScoreCompletionStatus that was achieved.
+        /// </summary>
+        public ScoreCompletionStatus LastCompletionStatus => _lastCompletionStatus;
+
+        /// <summary>
         /// A getter that retrieves the current score.
         /// </summary>
         public int Score => _score;
@@ -118,7 +126,8 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
                 }
             }
 
-            return new PerformanceResult(
+            return new PerformanceResult
+            (
                 levelID, 
                 SessionValues.Instance.difficulty
             );
@@ -238,13 +247,14 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
                 return;
             }
 
-            ScoreCompletionStatus scoreCompletionStatus = levelBeaten
+            _lastCompletionStatus = levelBeaten
                 ? ProcessNewScoreResult()
                 : ScoreCompletionStatus.Failed;
 
-            SaveData();
+            if(levelBeaten)
+                SaveData();
 
-            OnScoreCompletion?.Invoke(scoreCompletionStatus);
+            OnScoreCompletion?.Invoke(_lastCompletionStatus);
         }
 
         private ScoreCompletionStatus ProcessNewScoreResult()

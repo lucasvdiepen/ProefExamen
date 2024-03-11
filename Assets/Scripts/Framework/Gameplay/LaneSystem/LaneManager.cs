@@ -39,13 +39,20 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void RemoveNoteFromLane(HitStatus hitStatus, int laneID)
         {
-            if (hitStatus == HitStatus.Miss)
+            if (hitStatus == HitStatus.Miss || hitStatus == HitStatus.MissClick)
                 return;
 
             Note target = _lanes[laneID].Notes[0];
             _lanes[laneID].Notes.Remove(target);
 
             target.HitNote();
+        }
+
+        public void DestroyAllNotes()
+        {
+            foreach(Lane lane in _lanes)
+                foreach (Note note in lane.Notes)
+                    Destroy(note);
         }
 
         /// <summary>
