@@ -56,6 +56,16 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         public Action<int> OnPointsChanged;
 
         /// <summary>
+        /// An action that broadcasts the change of the current multiplier.
+        /// </summary>
+        public Action<int> OnMultiplierChanged;
+
+        /// <summary>
+        /// An action that broadcasts the change of the current combo.
+        /// </summary>
+        public Action<int> OnComboChanged;
+
+        /// <summary>
         /// An action that broadcasts the performance on a level.
         /// </summary>
         public Action<ScoreCompletionStatus> OnScoreCompletion;
@@ -65,9 +75,51 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         /// </summary>
         public Action<float> OnHealthChanged;
 
+        /// <summary>
+        /// A getter that retrieves the current score.
+        /// </summary>
+        public int Score => _score;
+
+        /// <summary>
+        /// A getter that retrieves the current Combo.
+        /// </summary>
+        public int Combo => _totalStreak;
+
+        /// <summary>
+        /// A getter that retrieves the current score multiplier.
+        /// </summary>
+        public int ScoreMultiplier => _scoreMultiplier;
+
         private void Awake() => LoadData();
 
         private void Start() => LaneManager.Instance.OnNoteHit += ProcessNewHit;
+
+        /// <summary>
+        /// Gets the highscore from the curretnly selected level.
+        /// </summary>
+        /// <returns>The highscore of this level, is 0 when there is no highscore set.</returns>
+        public int GetHighScoreFromLevel() => GetHighScoreFromLevel(SessionValues.Instance.currentLevelID);
+
+        /// <summary>
+        /// Gets the highscore from the passed level ID.
+        /// </summary>
+        /// <param name="levelID">The level ID to get the highscore from.</param>
+        /// <returns>The highscore of the passed level ID, will return 0 if no highscore is set.</returns>
+        public int GetHighScoreFromLevel(int levelID)
+        {
+            int listLength = _highscores.Count;
+
+            for(int i = 0; i < listLength; i++)
+            {
+                if (_highscores[i].levelID == SessionValues.Instance.currentLevelID &&
+                    _highscores[i].difficulty == SessionValues.Instance.difficulty)
+                {
+                    return _highscores[i].totalScore;
+                }
+            }
+
+            return 0;
+        }
 
         private void LoadData()
         {
@@ -127,6 +179,8 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
                 _multiplierStreak = 0;
                 _totalStreak = 0;
                 _scoreMultiplier = 1;
+                OnMultiplierChanged?.Invoke(_scoreMultiplier);
+                OnComboChanged?.Invoke(_totalStreak);
                 return true;
             }
 
@@ -136,11 +190,13 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 
             _multiplierStreak++;
             _totalStreak++;
+            OnComboChanged?.Invoke(_totalStreak);
 
             if (_multiplierStreak == nextMultiplier)
             {
                 _multiplierStreak = 0;
                 _scoreMultiplier = nextMultiplier;
+                OnComboChanged?.Invoke(_scoreMultiplier);
             }
 
             return false;
