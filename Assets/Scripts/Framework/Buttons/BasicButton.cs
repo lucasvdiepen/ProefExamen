@@ -11,21 +11,11 @@ namespace ProefExamen.Framework.Buttons
     {
         private Button _button;
 
-        private Image _image;
+        private void Awake() => _button = GetComponent<Button>();
 
-        private protected Button Button => _button;
+        private void OnEnable() => _button.onClick.AddListener(OnButtonPressed);
 
-        private protected Image Image => _image;
-
-        private protected virtual void Awake()
-        {
-            _button = GetComponent<Button>();
-            _image = GetComponent<Image>();
-        }
-
-        private protected virtual void OnEnable() => _button.onClick.AddListener(OnButtonPressed);
-
-        private protected virtual void OnDisable() => _button.onClick.RemoveListener(OnButtonPressed);
+        private void OnDisable() => _button.onClick.RemoveListener(OnButtonPressed);
 
         /// <summary>
         /// The method that is called when the button is pressed.
