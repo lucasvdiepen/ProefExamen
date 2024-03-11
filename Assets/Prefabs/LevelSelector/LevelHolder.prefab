@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 5623115374432330340}
   - component: {fileID: 7539726444614668157}
   m_Layer: 5
-  m_Name: LevelImage
+  m_Name: LevelCoverImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -420,7 +420,7 @@ GameObject:
   - component: {fileID: 2082987557747278775}
   - component: {fileID: 315734158286401614}
   m_Layer: 5
-  m_Name: LevelSubtitleText
+  m_Name: LevelArtistText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

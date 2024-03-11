@@ -21,7 +21,8 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         {
             this.levelID = levelID;
             this.difficulty = difficulty;
-
+            
+            maxStreak = 0;
             misses = 0;
             missClicks = 0;
             okHits = 0;
@@ -30,11 +31,13 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
             perfectHits = 0;
             totalScore = 0;
 
+            PerformanceTracker.Instance.OnComboChanged += UpdateNewMaxStreak;
             PerformanceTracker.Instance.OnPointsChanged += UpdateTotalScore;
         }
 
         ~PerformanceResult()
         {
+            PerformanceTracker.Instance.OnComboChanged -= UpdateNewMaxStreak;
             PerformanceTracker.Instance.OnPointsChanged -= UpdateTotalScore;
         }
 
@@ -48,6 +51,11 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         /// The difficulty of this result.
         /// </summary>
         public Difficulty difficulty;
+
+        /// <summary>
+        /// The max streak gotten on this result.
+        /// </summary>
+        public int maxStreak;
 
         /// <summary>
         /// The amount of Misses in this result.
@@ -123,6 +131,14 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
                     perfectHits++;
                     break;
             }
+        }
+
+        private void UpdateNewMaxStreak(int streakToCheck)
+        {
+            if (streakToCheck < maxStreak)
+                return;
+
+            maxStreak = streakToCheck;
         }
     }
 }
