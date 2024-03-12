@@ -47,6 +47,9 @@ namespace ProefExamen.Framework.StateMachine
         {
             gameObject.SetActive(true);
             IsActive = true;
+
+            Debug.Log(this + " on state enter called");
+
             yield return null;
         }
 
@@ -57,6 +60,23 @@ namespace ProefExamen.Framework.StateMachine
         {
             gameObject.SetActive(false);
             IsActive = false;
+
+            Debug.Log(this + " on state exit called");
+
+            yield return null;
+        }
+
+        public virtual IEnumerator OnStateEnteredFromChild()
+        {
+            Debug.Log(this + " on state entered from child called");
+
+            yield return null;
+        }
+
+        public virtual IEnumerator OnStateExitedToChild()
+        {
+            Debug.Log(this + " on state exited to child called");
+
             yield return null;
         }
     }
