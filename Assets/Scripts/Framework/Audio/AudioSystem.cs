@@ -53,7 +53,7 @@ namespace ProefExamen.Framework.Audio
         {
             for (int i = 0; i < _audioCollections.Length; i++)
             {
-                if (_audioCollections[i].audioCollectionType != audioCollectionType)
+                if (_audioCollections[i].AudioCollectionType != audioCollectionType)
                     continue;
 
                 int randIndex = Random.Range(0, _audioCollections[i].audioClipList.Count);

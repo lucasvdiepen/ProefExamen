@@ -46,32 +46,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioCollections:
-  - <audioCollectionType>k__BackingField: 0
+  - <AudioCollectionType>k__BackingField: 0
     audioClipList:
     - {fileID: 8300000, guid: 113f1f97a5f27dd4a907852fdb17d293, type: 3}
     - {fileID: 8300000, guid: d80212833907ab646b9535af146484cd, type: 3}
     - {fileID: 8300000, guid: 8c6a06ca7b935c44dad11d5885c30435, type: 3}
     - {fileID: 8300000, guid: c4e4513736ed62f4da67f02a75b484f3, type: 3}
-  - <audioCollectionType>k__BackingField: 1
+  - <AudioCollectionType>k__BackingField: 1
     audioClipList:
     - {fileID: 8300000, guid: 67ad076197fa4184c8dcd335da6db69c, type: 3}
     - {fileID: 8300000, guid: 78d20677b17fe284e8af60194d6e0bd6, type: 3}
-    - {fileID: 8300000, guid: 1256e7a1b560c0f419c913b4fb8295f9, type: 3}
-    - {fileID: 8300000, guid: 11fa0cffe3c674d4fb2c4964c9bdf371, type: 3}
-  - <audioCollectionType>k__BackingField: 2
+    - {fileID: 8300000, guid: 27a141be217a12f4ab69981ef9727df0, type: 3}
+  - <AudioCollectionType>k__BackingField: 2
     audioClipList:
     - {fileID: 8300000, guid: 7bfd6f892ef3c5e4faf5f736c694cbbf, type: 3}
     - {fileID: 8300000, guid: 11b4e7c7d31fd4542ac58708ba8b1277, type: 3}
     - {fileID: 8300000, guid: 21ce93062725ff34696a9c43a6441332, type: 3}
-    - {fileID: 8300000, guid: 73bfe8b28ac2c2b46a7ee0e3c59e614e, type: 3}
-  - <audioCollectionType>k__BackingField: 3
+    - {fileID: 8300000, guid: e55d0aa44087a474db131041bc667c4a, type: 3}
+  - <AudioCollectionType>k__BackingField: 3
     audioClipList:
     - {fileID: 8300000, guid: abfffaecc480c0c4dbb83d5a2b30112c, type: 3}
     - {fileID: 8300000, guid: b92d058e2665eb14ba80e61250169d80, type: 3}
     - {fileID: 8300000, guid: c0d8de1841e4e2946b09dd55dc2570bc, type: 3}
     - {fileID: 8300000, guid: 0869522568836ab4bbf75c6e8ef4d285, type: 3}
   _songFadeDuration: 2.5
-  _testSong: {fileID: 0}
 --- !u!82 &1665212917461089762
 AudioSource:
   m_ObjectHideFlags: 0
