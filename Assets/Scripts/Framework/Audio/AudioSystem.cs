@@ -19,9 +19,6 @@ namespace ProefExamen.Framework.Audio
         [SerializeField]
         private float _songFadeDuration = .5f;
 
-        [SerializeField]
-        private AudioClip _testSong;
-
         /// <summary>
         /// Current active audio source for playing songs.
         /// </summary>
@@ -34,12 +31,6 @@ namespace ProefExamen.Framework.Audio
         private int _crossFadeSongLenghtCounter = 0;
 
         private void Awake() => CurrentActiveSongSource = GetComponent<AudioSource>();
-
-        private void Update()
-        {
-            if(Input.GetKeyDown(KeyCode.Mouse1))
-                PlaySong(_testSong);
-        }
 
         /// <summary>
         /// Method for playing a random sound effect.
