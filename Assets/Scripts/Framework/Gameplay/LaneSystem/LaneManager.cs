@@ -136,7 +136,10 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             if (paused && SessionValues.Instance.audioSource.isPlaying)
                 SessionValues.Instance.audioSource.Pause();
             else if (!paused && !SessionValues.Instance.audioSource.isPlaying)
+            {
+                SessionValues.Instance.audioSource.time -= SessionValues.Instance.travelTime;
                 SessionValues.Instance.audioSource.UnPause();
+            }
         }
 
         private void Update()
