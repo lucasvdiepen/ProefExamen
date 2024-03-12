@@ -12,17 +12,17 @@ namespace ProefExamen.Framework.UI
     public class MenuStateUpdater : AbstractSingleton<MenuStateUpdater>
     {
         /// <summary>
-        /// An action that broadcasts a change in difficulty.
+        /// Event invoked when the difficulty is changed.
         /// </summary>
         public Action<Difficulty> OnDifficultyChanged;
 
         /// <summary>
-        /// An action that broadcasts a change in the highscore.
+        /// Event invoked when the highscore is changed.
         /// </summary>
         public Action<int> OnHighScoreChanged;
 
         /// <summary>
-        /// An action that broadcasts a change in the SelectedLevelID.
+        /// Event invoked when the SelectedLevelID is changed.
         /// </summary>
         public Action<int> OnSelectedLevelIDChanged;
     }

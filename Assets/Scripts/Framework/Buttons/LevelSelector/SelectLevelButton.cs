@@ -7,6 +7,7 @@ using ProefExamen.Framework.StateMachine.States;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.UI;
+using System;
 
 namespace ProefExamen.Framework.Buttons.LevelSelector
 {
@@ -30,6 +31,25 @@ namespace ProefExamen.Framework.Buttons.LevelSelector
         [SerializeField]
         private LevelData _levelData;
 
+        [Header("Difficulty sprites")]
+        [SerializeField]
+        private Sprite _noDiffSprite;
+
+        [SerializeField]
+        private Sprite _easyDiffSprite;
+
+        [SerializeField]
+        private Sprite _normalDiffSprite;
+
+        [SerializeField]
+        private Sprite _hardDiffSprite;
+
+        private protected override void OnEnable()
+        {
+            base.OnEnable();
+            UpdateDifficultyIcon();
+        }
+
         /// <summary>
         /// Sets the level info of this levels text and images.
         /// </summary>
@@ -38,7 +58,7 @@ namespace ProefExamen.Framework.Buttons.LevelSelector
         /// <param name="easyDiff">The sprite when the beaten difficulty is easy difficulty.</param>
         /// <param name="normalDiff">The sprite when the beaten difficulty is normal difficulty.</param>
         /// <param name="hardDiff">The sprite when the beaten difficulty is hard difficulty.</param>
-        public void SetLevelInfo(LevelData levelData, Sprite noDiff, Sprite easyDiff, Sprite normalDiff, Sprite hardDiff)
+        public void SetLevelInfo(LevelData levelData)
         {
             _levelData = levelData;
 
@@ -49,24 +69,41 @@ namespace ProefExamen.Framework.Buttons.LevelSelector
 
             _songCover.sprite = levelData.songCover;
 
-            PerformanceResult highScore = PerformanceTracker.Instance.GetHighScoreFromLevel();
+            UpdateDifficultyIcon();
+        }
 
-            if (highScore.totalScore == 0)
+        private void UpdateDifficultyIcon()
+        {
+            if (_songTitleText.text == "")
+                return;
+
+            PerformanceResult highScore = new PerformanceResult(_levelData.levelID, Difficulty.Easy);
+
+            foreach (Difficulty difficulty in Enum.GetValues(typeof(Difficulty)))
             {
-                _difficultyImage.sprite = noDiff;
+                PerformanceResult scoreToCheck =
+                    PerformanceTracker.Instance.GetHighScoreFromLevel(_levelData.levelID, difficulty);
+
+                if (scoreToCheck.maxStreak != 0)
+                    highScore = scoreToCheck;
+            }
+
+            if (highScore.maxStreak == 0)
+            {
+                _difficultyImage.sprite = _noDiffSprite;
                 return;
             }
 
             switch (highScore.difficulty)
             {
                 case Difficulty.Easy:
-                    _difficultyImage.sprite = easyDiff;
+                    _difficultyImage.sprite = _easyDiffSprite;
                     break;
                 case Difficulty.Normal:
-                    _difficultyImage.sprite = normalDiff;
+                    _difficultyImage.sprite = _normalDiffSprite;
                     break;
                 case Difficulty.Hard:
-                    _difficultyImage.sprite = hardDiff;
+                    _difficultyImage.sprite = _hardDiffSprite;
                     break;
             }
         }

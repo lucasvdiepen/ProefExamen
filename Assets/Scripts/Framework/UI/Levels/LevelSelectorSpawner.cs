@@ -7,6 +7,9 @@ using ProefExamen.Framework.Buttons.LevelSelector;
 
 namespace ProefExamen.Framework.UI.Level
 {
+    /// <summary>
+    /// Class responsible for spawning level selectors.
+    /// </summary>
     public class LevelSelectorSpawner : MonoBehaviour
     {
         [Header("References")]
@@ -15,18 +18,6 @@ namespace ProefExamen.Framework.UI.Level
 
         [SerializeField]
         private Transform _levelSelectorParent;
-
-        [Header("Difficulty sprites")]
-        [SerializeField]
-        private Sprite noDifficulty;
-
-        [SerializeField]
-        private Sprite diffEasy;
-
-        [SerializeField]
-        private Sprite diffNormal;
-
-        [SerializeField]
         private Sprite diffHard;
 
         private readonly List<GameObject> _levelSelectors = new();
@@ -44,14 +35,7 @@ namespace ProefExamen.Framework.UI.Level
                 LevelData levelData = SessionValues.Instance.Levels.levels[i];
 
                 GameObject newLevelSelector = Instantiate(_levelSelectorPrefab, _levelSelectorParent);
-                newLevelSelector.GetComponent<SelectLevelButton>().SetLevelInfo
-                    (
-                        levelData,
-                        noDifficulty,
-                        diffEasy,
-                        diffNormal,
-                        diffHard
-                    );
+                newLevelSelector.GetComponent<SelectLevelButton>().SetLevelInfo(levelData);
 
                 _levelSelectors.Add(newLevelSelector);
             }

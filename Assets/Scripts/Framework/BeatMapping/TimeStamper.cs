@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
+using System;
+
+using ProefExamen.Framework.Gameplay.LaneSystem;
 
 namespace ProefExamen.Framework.BeatMapping
 {
@@ -22,10 +25,7 @@ namespace ProefExamen.Framework.BeatMapping
 
         [Header("Input KeyCodes")]
         [SerializeField]
-        private KeyCode _placeTimeStampKey;
-
-        [SerializeField]
-        private KeyCode _undoTimeStampKey;
+        private KeyCode[] _placeTimeStampKeys;
 
         [SerializeField]
         private KeyCode _deleteCurrentTimeStampKey;
@@ -38,6 +38,9 @@ namespace ProefExamen.Framework.BeatMapping
 
         [SerializeField]
         private KeyCode _decreaseTimeStampKey;
+
+        [SerializeField]
+        private KeyCode _undoTimeStampKey;
 
         [SerializeField]
         private List<TimeStampData> _timeStamps = new();
@@ -55,7 +58,7 @@ namespace ProefExamen.Framework.BeatMapping
         /// <summary>
         /// Returns the raw asset path for the time stamp data container.
         /// </summary>
-        public string RawAssetPath => "Assets/SongTimeStampData/";
+        public readonly string RawAssetPath = "Assets/SongTimeStampData/";
 
         private AudioWaveformDrawer _waveformDrawer = null;
 
@@ -79,21 +82,20 @@ namespace ProefExamen.Framework.BeatMapping
         /// </summary>
         private void HandleTimeStampControls()
         {
-            //Placing a time stamp.
-            if (Input.GetKeyDown(_placeTimeStampKey))
+            for (int i = 0; i < _placeTimeStampKeys.Length; i++)
             {
-                float startYPos = _waveformDrawer.Cursor.position.y - (_waveformDrawer.Cursor.localScale.y * .5f);
-                Vector2 startPosition = new(_waveformDrawer.Cursor.position.x, startYPos);
-                Vector2 endPosition = new(_waveformDrawer.Cursor.position.x, -_stampLineHeightReduction);
+                //Placing a time stamp.
+                if (Input.GetKeyDown(_placeTimeStampKeys[i]))
+                {
+                    float startYPos = _waveformDrawer.Cursor.position.y - (_waveformDrawer.Cursor.localScale.y * .5f);
+                    Vector2 startPosition = new(_waveformDrawer.Cursor.position.x, startYPos);
+                    Vector2 endPosition = new(_waveformDrawer.Cursor.position.x, -_stampLineHeightReduction);
 
-                _timeStamps.Add(new TimeStampData(startPosition, endPosition, _waveformDrawer.CurrentSongTime));
-            }
+                    TimeStampData timeStamp = new(startPosition, endPosition, _waveformDrawer.CurrentSongTime, i);
 
-            //Undo last time stamp.
-            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_undoTimeStampKey))
-            {
-                if (_timeStamps.Count > 0)
-                    _timeStamps.RemoveAt(_timeStamps.Count - 1);
+                    _timeStamps.Add(timeStamp);
+                    AddLiveTimeStamp(timeStamp);
+                }
             }
 
             //Deleting selected time stamp.
@@ -102,8 +104,28 @@ namespace ProefExamen.Framework.BeatMapping
                 if (CurrentSelectedTimeStamp != null)
                 {
                     TimeStampData timeStampToDelete = CurrentSelectedTimeStamp;
-                    CurrentSelectedTimeStamp = null;
+
+                    int index = TimeStamps.IndexOf(timeStampToDelete);
+                    LaneManager.Instance.liveTimeStamps.RemoveAt(index);
+
                     _timeStamps.Remove(timeStampToDelete);
+                    CurrentSelectedTimeStamp = null;
+                }
+            }
+
+            //Undo last time stamp.
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(_undoTimeStampKey))
+            {
+                if (_timeStamps.Count > 0)
+                {
+                    LaneManager.Instance.liveTimeStamps.RemoveAt(_timeStamps.Count - 1);
+
+                    Note[] notes = FindObjectsOfType(typeof(Note)) as Note[];
+
+                    foreach(Note note in notes)
+                        note.CheckIfNoteShouldExist();
+
+                    _timeStamps.RemoveAt(_timeStamps.Count - 1);
                 }
             }
 
@@ -171,12 +193,23 @@ namespace ProefExamen.Framework.BeatMapping
             }
         }
 
+        private void AddLiveTimeStamp(TimeStampData timeStampData)
+        {
+            LaneManager.Instance.liveTimeStamps.Add(new Tuple<float, int>(timeStampData.songTime, timeStampData.laneID));
+
+            //Sorts the timestamps
+            if (LaneManager.Instance.liveTimeStamps.Count <= 1)
+                return;
+
+            LaneManager.Instance.liveTimeStamps.Sort((x, y) => x.Item1.CompareTo(y.Item1));
+        }
+
         /// <summary>
         /// Returns the closest time stamp based on input origin position.
         /// </summary>
         /// <param name="originPosition">Origin of the distance check.</param>
         /// <returns>Data of the closest time stamp.</returns>
-        private TimeStampData GetClosestTimeStamp(Vector2 originPosition)
+        public TimeStampData GetClosestTimeStamp(Vector2 originPosition)
         {
             TimeStampData bestTarget = default;
             float closestDistanceSqr = Mathf.Infinity;
@@ -251,7 +284,10 @@ namespace ProefExamen.Framework.BeatMapping
                 float songTime = timeStampDataContainer.timeStamps[i];
 
                 //Add the time stamp to current list.
-                _timeStamps.Add(new TimeStampData(startPoint, endPoint, songTime)); 
+                TimeStampData timeStamp = new(startPoint, endPoint, songTime, timeStampDataContainer.laneIDs[i]);
+
+                _timeStamps.Add(timeStamp);
+                AddLiveTimeStamp(timeStamp);
             }
 
             Debug.Log("Succesfully imported time stamp data");
@@ -266,12 +302,14 @@ namespace ProefExamen.Framework.BeatMapping
             TimeStampDataContainer obj = ScriptableObject.CreateInstance<TimeStampDataContainer>();
             
             List<LineData> exportedLineData = new(_timeStamps.Count);
-            List<float> sortedExportedTimeStamps = new(_timeStamps.Count); 
+            List<float> sortedExportedTimeStamps = new(_timeStamps.Count);
+            List<int> exportedLaneIDs = new(_timeStamps.Count);
 
             foreach (TimeStampData timeStamp in _timeStamps)
             {
                 exportedLineData.Add(timeStamp.lineData);
                 sortedExportedTimeStamps.Add(timeStamp.songTime);
+                exportedLaneIDs.Add(timeStamp.laneID);
             }
 
             //Sort the exported time stamps.
@@ -280,9 +318,12 @@ namespace ProefExamen.Framework.BeatMapping
 
             obj.songDebugLineData = exportedLineData;
             obj.timeStamps = sortedExportedTimeStamps.ToArray();
+            obj.laneIDs = exportedLaneIDs.ToArray();
 
             //Get the song title for the asset name.
-            string assetName = overrideSongTitle == string.Empty ? _waveformDrawer.CurrentSongTitle : overrideSongTitle;
+            string assetName = overrideSongTitle == string.Empty
+                      ? _waveformDrawer.CurrentSongTitle
+                      : overrideSongTitle;
 
             AssetDatabase.CreateAsset(obj, RawAssetPath + $"{assetName}.asset");
             AssetDatabase.Refresh();
@@ -296,8 +337,7 @@ namespace ProefExamen.Framework.BeatMapping
         /// </summary>
         private void HandleShowKeybinds()
         {
-            Debug.Log("Place TimeStamp Key: " + _placeTimeStampKey);
-            Debug.Log("Undo TimeStamp Key: CTRL + " + _undoTimeStampKey);
+            Debug.Log("Place TimeStamp Key: " + $"{ _placeTimeStampKeys}");
             Debug.Log(" ");
 
             Debug.Log("Select TimeStamp Key: CTRL");
