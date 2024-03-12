@@ -269,7 +269,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1365967401}
-  - component: {fileID: 1365967400}
+  - component: {fileID: 1365967403}
   m_Layer: 0
   m_Name: AudioSystem
   m_TagString: Untagged
@@ -277,22 +277,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1365967400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1365967399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3fbd50a1c21c27499baa1a6d1962904, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _backAudioClips: []
-  _selectAudioClips: []
-  _clickAudioClips: []
-  _deniedAudioClips: []
 --- !u!4 &1365967401
 Transform:
   m_ObjectHideFlags: 0
@@ -308,6 +292,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1365967403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365967399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3fbd50a1c21c27499baa1a6d1962904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCollections:
+  - <audioCollectionType>k__BackingField: 0
+    audioClipList:
+    - {fileID: 8300000, guid: 9bd2f277c8794a0489deabb3f59b6d5a, type: 3}
+    - {fileID: 8300000, guid: 849e8dff758da1e4583d97d599221a2b, type: 3}
+    - {fileID: 8300000, guid: 1f222e295eb4d694f8e77c1c8070a5ff, type: 3}
+    - {fileID: 8300000, guid: ac769302f31436246a7e0f07fbf17e8f, type: 3}
+  - <audioCollectionType>k__BackingField: 1
+    audioClipList:
+    - {fileID: 8300000, guid: 3116170b178149d4cb944d164651442b, type: 3}
+    - {fileID: 8300000, guid: a753a7bbf9469f34f8d57039f63e191a, type: 3}
+    - {fileID: 8300000, guid: f0d31a446f9c5354983f0701642b0615, type: 3}
+    - {fileID: 8300000, guid: f6a6cbd79709e9840a5675d8b44cfb0b, type: 3}
+  - <audioCollectionType>k__BackingField: 2
+    audioClipList:
+    - {fileID: 8300000, guid: ea59c2b5cb3076a4198c0aff775b5bba, type: 3}
+    - {fileID: 8300000, guid: f2f0a43211d1ce94eaa29568828d50d1, type: 3}
+    - {fileID: 8300000, guid: 39638d5335abc06429fc8d39bc29721e, type: 3}
+    - {fileID: 8300000, guid: 967cfb88fc8e72e40ae657cbb36ee0b4, type: 3}
+  - <audioCollectionType>k__BackingField: 3
+    audioClipList:
+    - {fileID: 8300000, guid: 8406d713c768df6449eefb9efaf84932, type: 3}
+    - {fileID: 8300000, guid: cfeb942e4c233844fb0dd8ba668d1678, type: 3}
+    - {fileID: 8300000, guid: 2d6b1c14f70abdd4baf150fcfc0e0aa8, type: 3}
+    - {fileID: 8300000, guid: 1fcbabd6a655fae4aa761bb99637c773, type: 3}
+  _effectVolumeFadeInDuration: 0.1
+  _effectVolumeFadeOutDuration: 0.1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
