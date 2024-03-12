@@ -331,7 +331,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 2d6b1c14f70abdd4baf150fcfc0e0aa8, type: 3}
     - {fileID: 8300000, guid: 1fcbabd6a655fae4aa761bb99637c773, type: 3}
   _songFadeDuration: 1
-  _testSong: {fileID: 8300000, guid: 3e39727aa25198a488cb38351ab377e2, type: 3}
+  _testSong: {fileID: 8300000, guid: 28406c2d4ad2819499dddb87703b8f31, type: 3}
 --- !u!82 &1365967404
 AudioSource:
   m_ObjectHideFlags: 0
@@ -343,7 +343,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

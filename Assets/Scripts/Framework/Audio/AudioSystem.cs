@@ -4,7 +4,6 @@ using UnityEngine;
 using System;
 
 using ProefExamen.Framework.Utils;
-using static Unity.VisualScripting.Member;
 
 namespace ProefExamen.Framework.Audio
 {
@@ -25,6 +24,8 @@ namespace ProefExamen.Framework.Audio
 
         private int _soundLenghtCounter = 0;
         private int _songLenghtCounter = 0;
+
+        private bool _isCrossFading;
 
         public AudioSource CurrentActiveSource { get; private set; }
 
@@ -87,9 +88,12 @@ namespace ProefExamen.Framework.Audio
 
         public void PrepareSong(AudioClip clip)
         {
+            if (_isCrossFading)
+                return;
 
             if (CurrentActiveSource.clip != null)
             {
+                _isCrossFading = true;
                 AudioSource crossFadeSource = gameObject.AddComponent<AudioSource>();
 
                 crossFadeSource.clip = clip;
@@ -102,6 +106,8 @@ namespace ProefExamen.Framework.Audio
                 {
                     Destroy(CurrentActiveSource);
                     CurrentActiveSource = crossFadeSource;
+
+                    _isCrossFading = false;
                 });
             }
             else
