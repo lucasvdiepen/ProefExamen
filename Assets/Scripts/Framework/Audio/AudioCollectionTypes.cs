@@ -1,10 +1,13 @@
-/// <summary>
-/// Enum for the different types of UI audio.
-/// </summary>
-public enum AudioCollectionTypes
+namespace ProefExamen.Framework.Audio
 {
-    Back,
-    Select,
-    Denied,
-    Confirm,
+    /// <summary>
+    /// Enum for the different types of UI audio.
+    /// </summary>
+    public enum AudioCollectionTypes
+    {
+        Back,
+        Select,
+        Denied,
+        Confirm,
+    }
 }
