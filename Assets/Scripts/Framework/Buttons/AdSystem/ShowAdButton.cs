@@ -1,6 +1,5 @@
 using ProefExamen.Framework.AdSystem;
 using ProefExamen.Framework.StateMachine.States;
-using UnityEngine;
 
 namespace ProefExamen.Framework.Buttons.AdSystem
 {
