@@ -49,7 +49,7 @@ namespace ProefExamen.Framework.Buttons.LevelSelector
 
             _songCover.sprite = levelData.songCover;
 
-            PerformanceResult highScore = PerformanceTracker.Instance.GetHighScoreFromLevel();
+            PerformanceResult highScore = PerformanceTracker.Instance.GetHighScoreFromLevel(_levelData.levelID);
 
             if (highScore.totalScore == 0)
             {
