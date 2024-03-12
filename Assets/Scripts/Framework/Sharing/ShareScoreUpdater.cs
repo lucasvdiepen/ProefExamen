@@ -5,6 +5,7 @@ using TMPro;
 using ProefExamen.Framework.Gameplay.PerformanceTracking;
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.UI.TextUpdaters;
+using ProefExamen.Framework.Gameplay.Values;
 
 namespace ProefExamen.Framework.Sharing
 {
@@ -22,6 +23,16 @@ namespace ProefExamen.Framework.Sharing
 
         [SerializeField]
         private Sprite _hardDiffSprite;
+
+        [Header("Song Information")]
+        [SerializeField]
+        private Image _songCover;
+
+        [SerializeField]
+        private TextUpdater _songTitle;
+
+        [SerializeField]
+        private TextUpdater _songArtists;
 
         [Header("Score")]
         [SerializeField]
@@ -56,6 +67,17 @@ namespace ProefExamen.Framework.Sharing
         /// <param name="newResult">The performance data to use when updating text.</param>
         public void SetTargetResult(PerformanceResult newResult)
         {
+            LevelData resultLevelData = SessionValues.Instance.GetLevelData(newResult.levelID);
+
+            _songCover.sprite = resultLevelData.songCover;
+            _songTitle.ReplaceTag(resultLevelData.title);
+            _songArtists.ReplaceTag
+            (
+                resultLevelData.album == ""
+                ? resultLevelData.artists
+                : resultLevelData.artists + " | " + resultLevelData.album
+            );
+
             _scoreText.ReplaceTag(newResult.totalScore.ToString());
 
             _maxStreakText.ReplaceTag(newResult.maxStreak.ToString());

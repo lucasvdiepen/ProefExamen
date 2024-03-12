@@ -96,6 +96,27 @@ namespace ProefExamen.Framework.Gameplay.Values
             timeStamp > time && timeStamp - (travelTime * 1.1) < time;
 
         /// <summary>
+        /// Returns LevelData based on a passed levelID.
+        /// </summary>
+        /// <param name="levelID">The Level ID to search for.</param>
+        /// <returns>The LevelData that was found, will return an empty struct with Level ID
+        /// -1 if nothing was found.</returns>
+        public LevelData GetLevelData(int levelID)
+        {
+            if(levelID == currentLevelID)
+                return currentLevel;
+
+            foreach (LevelData levelData in Levels.levels)
+                if (levelID == levelData.levelID)
+                    return levelData;
+
+            LevelData levelDataToReturn = new LevelData();
+            levelDataToReturn.levelID = -1;
+
+            return levelDataToReturn;
+        }
+
+        /// <summary>
         /// Will loop over levels and update SessionValues currentLevel and currentLevelID.
         /// </summary>
         /// <param name="levelID">The new Level ID that is from the target level.</param>
@@ -114,6 +135,10 @@ namespace ProefExamen.Framework.Gameplay.Values
             }
         }
 
+        /// <summary>
+        /// Sets the LevelData using the passed data.
+        /// </summary>
+        /// <param name="levelData">The data to set.</param>
         public void SelectLevel(LevelData levelData)
         {
             currentLevel = levelData;
