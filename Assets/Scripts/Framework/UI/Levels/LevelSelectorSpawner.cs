@@ -7,6 +7,9 @@ using ProefExamen.Framework.Buttons.LevelSelector;
 
 namespace ProefExamen.Framework.UI.Level
 {
+    /// <summary>
+    /// Class responsible for spawning level selectors.
+    /// </summary>
     public class LevelSelectorSpawner : MonoBehaviour
     {
         [Header("References")]
