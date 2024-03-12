@@ -22,29 +22,25 @@ namespace ProefExamen.Framework.Audio
         [SerializeField]
         private AudioClip _testSong;
 
+        /// <summary>
+        /// Current active audio source for playing songs.
+        /// </summary>
+        public AudioSource CurrentActiveSongSource { get; private set; }
+        
+        private bool _isCrossFading;
+        
         private int _soundLenghtCounter = 0;
         private int _songLenghtCounter = 0;
         private int _crossFadeSongLenghtCounter = 0;
 
-        private bool _isCrossFading;
-
-        public AudioSource CurrentActiveSource { get; private set; }
-
-        private void Awake() => CurrentActiveSource = GetComponent<AudioSource>();
+        private void Awake() => CurrentActiveSongSource = GetComponent<AudioSource>();
 
         private void Update()
         {
-            if(Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                PlayRandomSoundEffect();
-            }
-            
-            if (Input.GetKeyDown(KeyCode.Mouse1))
-            {
+            if(Input.GetKeyDown(KeyCode.Mouse1))
                 PlaySong(_testSong);
-            }
         }
-        
+
         /// <summary>
         /// Method for playing a random sound effect.
         /// </summary>
@@ -73,7 +69,7 @@ namespace ProefExamen.Framework.Audio
             }
         }
 
-        private void PlaySound(AudioClip clip, float volume = .75f, bool fadeIn = true)
+        private void PlaySound(AudioClip clip, float volume = .75f)
         {
             AudioSource source = gameObject.AddComponent<AudioSource>();
 
@@ -96,41 +92,52 @@ namespace ProefExamen.Framework.Audio
             if (_isCrossFading)
                 return;
 
-            if (CurrentActiveSource.clip != null)
+            //Crossfading logic.
+            if (CurrentActiveSongSource.clip != null) 
             {
                 _isCrossFading = true;
-                AudioSource crossFadeSource = gameObject.AddComponent<AudioSource>();
+                AudioSource crossFadeSource = CreateCrossFadeSource(clip);
 
-                crossFadeSource.clip = clip;
-                crossFadeSource.volume = 0;
-
-                crossFadeSource.Play();
-                crossFadeSource.DOFade(1, _songFadeDuration);
-
-                CurrentActiveSource.DOFade(0, _songFadeDuration).OnComplete(() =>
-                {
-                    Destroy(CurrentActiveSource);
-                    CurrentActiveSource = crossFadeSource;
-
-                    _isCrossFading = false;
-                    float audioClipLenght = clip.length;
-
-                    DOTween.To(() => _crossFadeSongLenghtCounter, x => _crossFadeSongLenghtCounter = x, 1, audioClipLenght)
-                        .OnComplete(() => CurrentActiveSource.clip = null);
-                });
+                CurrentActiveSongSource.DOFade(0, _songFadeDuration).OnComplete(() 
+                    => DestroyCrossFadeSource(crossFadeSource));
+                
+                return;
             }
-            else
-            {
-                CurrentActiveSource.volume = 0;
-                CurrentActiveSource.clip = clip;
+         
+            CurrentActiveSongSource.volume = 0;
+            CurrentActiveSongSource.clip = clip;
 
-                CurrentActiveSource.Play();
-                CurrentActiveSource.DOFade(1, _songFadeDuration);
+            CurrentActiveSongSource.Play();
+            CurrentActiveSongSource.DOFade(1, _songFadeDuration);
 
-                float audioClipLenght = clip.length;
-                DOTween.To(() => _songLenghtCounter, x => _songLenghtCounter = x, 1, audioClipLenght)
-                    .OnComplete(() => CurrentActiveSource.clip = null);
-            }
+            float audioClipLenght = clip.length;
+            DOTween.To(() => _songLenghtCounter, x => _songLenghtCounter = x, 1, audioClipLenght)
+                .OnComplete(() => CurrentActiveSongSource.clip = null);
+        }
+
+        private AudioSource CreateCrossFadeSource(AudioClip clip)
+        {
+            AudioSource crossFadeSource = gameObject.AddComponent<AudioSource>();
+
+            crossFadeSource.clip = clip;
+            crossFadeSource.volume = 0;
+
+            crossFadeSource.Play();
+            crossFadeSource.DOFade(1, _songFadeDuration);
+
+            return crossFadeSource;
+        }
+
+        private void DestroyCrossFadeSource(AudioSource source)
+        {
+            Destroy(CurrentActiveSongSource);
+            CurrentActiveSongSource = source;
+
+            _isCrossFading = false;
+            float audioClipLenght = CurrentActiveSongSource.clip.length;
+
+            DOTween.To(() => _crossFadeSongLenghtCounter, x => _crossFadeSongLenghtCounter = x, 1, audioClipLenght)
+                .OnComplete(() => CurrentActiveSongSource.clip = null);
         }
     }
 }
