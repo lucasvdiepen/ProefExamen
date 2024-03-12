@@ -18,14 +18,31 @@ namespace ProefExamen.Framework.StateMachine.States
             yield return base.OnStateEnter();
 
             PerformanceTracker.Instance.OnScoreCompletion += UpdateStateOnScoreCompletion;
-            LaneManager.Instance.PlayLevel();
-        }
 
+            PlayLevel();
+        }
+        
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public override IEnumerator OnStateExit()
         {
             PerformanceTracker.Instance.OnScoreCompletion -= UpdateStateOnScoreCompletion;
+
             yield return base.OnStateExit();
         }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override IEnumerator OnStateEnteredFromChild()
+        {
+            yield return base.OnStateEnteredFromChild();
+
+            PlayLevel();
+        }
+
+        private void PlayLevel() => LaneManager.Instance.PlayLevel();
 
         private void UpdateStateOnScoreCompletion(ScoreCompletionStatus status)
         {
