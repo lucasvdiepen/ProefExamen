@@ -13,23 +13,83 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
     /// </summary>
     public class PerformanceTracker : AbstractSingleton<PerformanceTracker>
     {
-        [Header("The current performance")]
+        [Header("Player's performance")]
         [SerializeField]
         private PerformanceResult _newResult;
 
-        /// <summary>
-        /// A list containing HighScores for levels.
-        /// </summary>
+        [SerializeField]
+        private int _score = 0;
+
+        [Header("Score multipliers and streaks")]
+        [SerializeField]
+        private int _scoreMultiplier = 1;
+
+        [SerializeField]
+        private int _maxMultiplier = 8;
+
+        [SerializeField]
+        private int _multiplierStreak = 0;
+
+        [SerializeField]
+        private int _totalStreak = 0;
+
+        [Header("Health")]
+        [SerializeField]
+        private float _maxHealth = 1000f;
+
+        [SerializeField]
+        private float _health;
+
+        [SerializeField]
+        private float _healthLossMultiplier = 3;
+
+        [SerializeField]
+        private float _healthGainMultiplier = 1;
+
+        [Header("Highscores object")]
+        [SerializeField]
         private List<PerformanceResult> _highscores = null;
 
         /// <summary>
-        /// An action that shares the performance on a level.
+        /// Getter for max health stat.
+        /// </summary>
+        public float MaxHealth => _maxHealth;
+
+        /// <summary>
+        /// An action that broadcasts the new amount of points when they change.
+        /// </summary>
+        public Action<int> OnPointsChanged;
+
+        /// <summary>
+        /// An action that broadcasts the performance on a level.
         /// </summary>
         public Action<ScoreCompletionStatus> OnScoreCompletion;
 
+        /// <summary>
+        /// An action that broadcasts the new health value when its changed.
+        /// </summary>
+        public Action<float> OnHealthChanged;
+
         private void Awake() => LoadData();
 
-        private void Start() => LaneManager.Instance.OnNoteHit += RegisterNewHit;
+        private void Start() => LaneManager.Instance.OnNoteHit += ProcessNewHit;
+
+        public int GetHighScoreFromLevel() => GetHighScoreFromLevel(SessionValues.Instance.currentLevelID);
+        public int GetHighScoreFromLevel(int levelID)
+        {
+            int listLength = _highscores.Count;
+
+            for(int i = 0; i < listLength; i++)
+            {
+                if (_highscores[i].levelID == SessionValues.Instance.currentLevelID &&
+                    _highscores[i].difficulty == SessionValues.Instance.difficulty)
+                {
+                    return _highscores[i].totalScore;
+                }
+            }
+
+            return 0;
+        }
 
         private void LoadData()
         {
@@ -54,17 +114,78 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         /// Counts an extra hit onto the current result.
         /// </summary>
         /// <param name="hit">The new hit to count.</param>
-        public void RegisterNewHit(HitStatus hit, int laneID) => _newResult.AddHit(hit);
+        public void ProcessNewHit(HitStatus hit, int laneID)
+        {
+            bool isComboBroken = UpdateStreak(hit);
+
+            int pointsToAdd = (int)hit * _scoreMultiplier;
+
+            _score += pointsToAdd;
+
+            float chosenMultiplier = isComboBroken
+                ? _healthLossMultiplier
+                : _healthGainMultiplier;
+
+            float healthToAdd = pointsToAdd * chosenMultiplier;
+            if(_health < _maxHealth || isComboBroken)
+            {
+                _health = Math.Clamp(_health + healthToAdd, 0, _maxHealth);
+                OnHealthChanged?.Invoke(_health);
+            }
+
+            _newResult.AddHit(hit);
+            OnPointsChanged?.Invoke(_score);
+        }
+
+        /// <summary>
+        /// Updates the streak and combo with a newly passed hit.
+        /// </summary>
+        /// <param name="hit">The hit to update the streak with.</param>
+        /// <returns>Returns true if the combo is broken, otherwise false</returns>
+        private bool UpdateStreak(HitStatus hit)
+        {
+            if(hit == HitStatus.Miss || hit == HitStatus.MissClick)
+            {
+                _multiplierStreak = 0;
+                _totalStreak = 0;
+                _scoreMultiplier = 1;
+                return true;
+            }
+
+            int nextMultiplier = _scoreMultiplier * 2 < _maxMultiplier
+                ? _scoreMultiplier * 2
+                : _maxMultiplier;
+
+            _multiplierStreak++;
+            _totalStreak++;
+
+            if (_multiplierStreak == nextMultiplier)
+            {
+                _multiplierStreak = 0;
+                _scoreMultiplier = nextMultiplier;
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Initiates a new PerformanceResult with the currentLevelID and current difficulty.
         /// </summary>
         public void StartTracking()
         {
-            _newResult = new PerformanceResult(
+            _score = 0;
+            _totalStreak = 0;
+            _multiplierStreak = 0;
+            _scoreMultiplier = 1;
+            _health = 1000f;
+
+            _newResult = new PerformanceResult
+            (
                 SessionValues.Instance.currentLevelID,
                 SessionValues.Instance.difficulty
             );
+
+            LaneManager.Instance.OnNoteHit += ProcessNewHit;
         }
 
         /// <summary>
@@ -100,7 +221,7 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 
             int listLength = _highscores.Count;
 
-            _newResult.totalScore = SessionValues.Instance.score;
+            _newResult.totalScore = _score;
 
             for (int i = 0; i < listLength; i++)
             {

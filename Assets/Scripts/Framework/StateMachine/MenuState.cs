@@ -27,6 +27,8 @@ namespace ProefExamen.Framework.StateMachine
         private protected override void Awake()
         {
             _canvasGroup.alpha = 0;
+            _canvasGroup.interactable = false;
+            _canvasGroup.blocksRaycasts = false;
 
             base.Awake();
         }
@@ -39,6 +41,9 @@ namespace ProefExamen.Framework.StateMachine
             yield return base.OnStateEnter();
 
             yield return FadeIn();
+
+            _canvasGroup.interactable = true;
+            _canvasGroup.blocksRaycasts = true;
         }
 
         /// <summary>
@@ -46,6 +51,9 @@ namespace ProefExamen.Framework.StateMachine
         /// </summary>
         public override IEnumerator OnStateExit()
         {
+            _canvasGroup.interactable = false;
+            _canvasGroup.blocksRaycasts = false;
+            
             yield return FadeOut();
 
             yield return base.OnStateExit();

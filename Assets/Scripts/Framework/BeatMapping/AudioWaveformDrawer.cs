@@ -1,5 +1,9 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using System;
+
+using ProefExamen.Framework.Gameplay.LaneSystem;
+using ProefExamen.Framework.Gameplay.Values;
 
 namespace ProefExamen.Framework.BeatMapping
 {
@@ -115,8 +119,13 @@ namespace ProefExamen.Framework.BeatMapping
         private Color[] _textureColors = null;
 
         private Texture2D _waveformTexture = null;
+        private TimeStamper _timeStamper = null;
 
-        private void Awake() => AudioSource = GetComponent<AudioSource>();
+        private void Awake()
+        {
+            AudioSource = GetComponent<AudioSource>();
+            _timeStamper = FindObjectOfType<TimeStamper>(); 
+        }
 
         /// <summary>
         /// Calculates the correct local song time based on a point along the waveform.
@@ -141,6 +150,8 @@ namespace ProefExamen.Framework.BeatMapping
 
             AudioClip lastClip = AudioSource.clip;
             AudioSource.clip = audioClip;
+
+            SessionValues.Instance.currentLevel.song = audioClip;
 
             OnSongChanged?.Invoke(audioClip.name, lastClip != null ? lastClip.name : "Null");
 
@@ -249,10 +260,18 @@ namespace ProefExamen.Framework.BeatMapping
                 //Scrub forward in song.
                 if (Input.GetKey(_forwardKey)) 
                     AudioSource.time = Mathf.Clamp(AudioSource.time + TimeScrubAmount, 0, _audioClipDuration - 1);
-
+                
                 //Scrub backward in song.
                 if (Input.GetKey(_backwardKey))
                     AudioSource.time = Mathf.Clamp(AudioSource.time - TimeScrubAmount, 0, _audioClipDuration);
+                
+                //Refresh lanemanager index on scrub button release
+                if (Input.GetKeyUp(_forwardKey) || Input.GetKeyUp(_backwardKey))
+                {
+                    TimeStampData closestTimeStamp = _timeStamper.GetClosestTimeStamp(Cursor.transform.position);
+                    int closestIndex = _timeStamper.TimeStamps.IndexOf(closestTimeStamp);
+                    LaneManager.Instance.Index = closestIndex;
+                }
             }
 
             //Pause toggle.
@@ -291,12 +310,18 @@ namespace ProefExamen.Framework.BeatMapping
                 IncreasePlaybackSpeed(-1);
 
             // Reset song time.
-            if(Input.GetKeyDown(_homeKey)) 
+            if(Input.GetKeyDown(_homeKey))
+            {
                 AudioSource.time = 0;
+                LaneManager.Instance.Index = 0;
+            }
 
             // Set song time to end of song.
             if (Input.GetKeyDown(_endKey))
+            {
                 AudioSource.time = _audioClipDuration - 1;
+                LaneManager.Instance.Index = _timeStamper.TimeStamps.Count;
+            }
         }
 
         /// <summary>
@@ -349,3 +374,4 @@ namespace ProefExamen.Framework.BeatMapping
         }
     }
 }
+#endif

@@ -1,4 +1,5 @@
 using ProefExamen.Framework.AdSystem;
+using ProefExamen.Framework.StateMachine.States;
 using UnityEngine;
 
 namespace ProefExamen.Framework.Buttons.AdSystem
@@ -12,7 +13,10 @@ namespace ProefExamen.Framework.Buttons.AdSystem
         {
             RewardedAdSystem.Instance.ShowAd((success) =>
             {
-                Debug.Log("Ad finished state: " + success);
+                if (!success)
+                    return;
+
+                Framework.StateMachine.StateMachine.Instance.GoToState<PauseState>();
             });
         }
     }

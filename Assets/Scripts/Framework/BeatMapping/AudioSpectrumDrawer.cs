@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 
 namespace ProefExamen.Framework.BeatMapping
@@ -93,3 +94,4 @@ namespace ProefExamen.Framework.BeatMapping
         }
     }
 }
+#endif

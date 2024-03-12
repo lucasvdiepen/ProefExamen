@@ -1,6 +1,7 @@
-using System;
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using System;
 
 using ProefExamen.Framework.Utils;
 using ProefExamen.Framework.Gameplay.Values;
@@ -26,12 +27,27 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         private KeyCode[] _inputs;
 
         /// <summary>
+        /// A bool that checks if the level is being beatmapped or not.
+        /// </summary>
+        [field: SerializeField]
+        public bool IsBeatMapping { get; set; }
+
+        /// <summary>
+        /// The lane ID for each live timestamp that the notes have to be spawned on.
+        /// </summary>
+        public List<Tuple<float, int>> liveTimeStamps;
+
+        /// <summary>
         /// A status update for notes that are either being hit or have been missed.
         /// Hitstatus giving an idea of what happend and the integer being the lane ID of origin.
         /// </summary>
         public Action<HitStatus, int> OnNoteHit;
 
-        private int _index;
+        /// <summary>
+        /// The index of the current shown time stamp.
+        /// </summary>
+        [field:SerializeField]
+        public int Index { get; set; }
 
         private void Awake() => Application.targetFrameRate = 60;
 
@@ -39,36 +55,43 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         {
             OnNoteHit += RemoveNoteFromLane;
 
-            SessionValues.Instance.SelectLevel(SessionValues.Instance.currentLevelID);
+            if (!IsBeatMapping)
+                return;
+
+            liveTimeStamps = new();
+
             StartCoroutine(PlayThroughLevel());
         }
 
         private void RemoveNoteFromLane(HitStatus hitStatus, int laneID)
         {
-            if(hitStatus != HitStatus.Miss)
-            {
-                Note target = _lanes[laneID].Notes[0];
-                _lanes[laneID].Notes.Remove(target);
+            if (hitStatus == HitStatus.Miss)
+                return;
 
-                Destroy(target.gameObject);
-            }
+            Note target = _lanes[laneID].Notes[0];
+            _lanes[laneID].Notes.Remove(target);
 
-            SessionValues.Instance.score += (int)hitStatus * SessionValues.Instance.scoreMultiplier;
+            target.HitNote();
         }
+
+        public void PlayLevel() => StartCoroutine(PlayThroughLevel());
 
         /// <summary>
         /// Starts the level that is currently selected on the selected difficulty and song.
         /// </summary>
-        public IEnumerator PlayThroughLevel()
+        private IEnumerator PlayThroughLevel()
         {
-            _index = 0;
+            Index = 0;
 
             PerformanceTracker.Instance.StartTracking();
 
-            SessionValues.Instance.audioSource.clip = SessionValues.Instance.currentLevel.song;
-            SessionValues.Instance.audioSource.Play();
+            if (!IsBeatMapping)
+            {
+                SessionValues.Instance.audioSource.clip = SessionValues.Instance.currentLevel.song;
+                SessionValues.Instance.audioSource.Play();
+            }
 
-            while (SessionValues.Instance.time < SessionValues.Instance.currentLevel.song.length)
+            while (IsBeatMapping || SessionValues.Instance.time < SessionValues.Instance.currentLevel.song.length)
             {
                 if (SessionValues.Instance.paused)
                 {
@@ -87,25 +110,56 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void QueueUpcomingNotes()
         {
+            if (IsBeatMapping)
+            {
+                QueueUpcomingBeatMappingNotes();
+                return;
+            }
+
             MappingData currentLevel = SessionValues.Instance.currentLevel.GetLevel();
 
-            if (currentLevel.timestamps.Length <= _index)
+            if (currentLevel.timeStamps.Length <= Index)
                 return;
 
-            float upcomingTime = currentLevel.timestamps[_index];
+            float upcomingTime = currentLevel.timeStamps[Index];
 
             if (!SessionValues.Instance.IsTimeStampReadyForQueue(upcomingTime))
                 return;
 
-            int laneID = currentLevel.laneIDs[_index];
+            int laneID = currentLevel.laneIDs[Index];
+
             _lanes[laneID].SpawnNote(upcomingTime);
-            _index++;
+            Index++;
 
             QueueUpcomingNotes();
         }
 
+        private void QueueUpcomingBeatMappingNotes()
+        {
+            if (liveTimeStamps.Count <= Index)
+                return;
+
+            if (liveTimeStamps.Count == 0)
+                return;
+
+            if (Index == -1)
+                Index = 0;
+
+            float upcomingTime = liveTimeStamps[Index].Item1;
+
+            if (!SessionValues.Instance.IsLiveTimeStampReadyForQueue(upcomingTime))
+                return;
+
+            int laneID = liveTimeStamps[Index].Item2;
+
+            _lanes[laneID].SpawnNote(upcomingTime);
+            Index++;
+
+            QueueUpcomingBeatMappingNotes();
+        }
+
         /// <summary>
-        /// Pauses the game based on the passed bool, 
+        /// Pauses the game based on the passed bool,
         /// this will be passed to the SessionValues and pause any playing audio.
         /// </summary>
         /// <param name="paused">The new paused value.</param>
@@ -121,6 +175,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void Update()
         {
+            if (!_usingInputs || IsBeatMapping)
+                return;
+
             int inputsLength = _inputs.Length;
 
             for (int i = 0; i < inputsLength; i++)

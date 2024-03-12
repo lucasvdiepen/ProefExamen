@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 using ProefExamen.Framework.Gameplay.Values;
 
@@ -28,6 +29,19 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         [SerializeField]
         private Vector2 _targetPosition;
 
+        [Header("Visuals")]
+        [SerializeField]
+        private SpriteRenderer _spriteRenderer;
+
+        [SerializeField]
+        private Animator _animator;
+
+        [SerializeField]
+        private float _animationSpeed = 4;
+
+        [SerializeField]
+        private Sprite _deathSprite;
+
         [Header("Lerping")]
         [SerializeField]
         private float _lerpAlpha = 0;
@@ -39,6 +53,15 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// The LerpAlpha 0-1 float value that is used to place the note on the lane.
         /// </summary>
         public float LerpAlpha => _lerpAlpha;
+
+        private void Awake()
+        {
+            if(_animator == null)
+                _animator = gameObject.GetComponent<Animator>();
+
+            if (_spriteRenderer == null)
+                _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        }
 
         /// <summary>
         /// A function that is used to set the Note's initial values correctly.
@@ -60,10 +83,46 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             transform.position = _initialPosition;
         }
 
+        /// <summary>
+        /// Instantiates a DeadNote and destroys this Note.
+        /// </summary>
+        public void HitNote()
+        {
+            if (LaneManager.Instance.IsBeatMapping)
+                return;
+
+            GameObject deadNote = Instantiate(SessionValues.Instance.deadNote);
+
+            deadNote.GetComponent<DeadNote>().SetDeadNoteValues(_deathSprite, gameObject.transform);
+
+            Destroy(gameObject);
+        }
+
+        /// <summary>
+        /// Checks if the note should exist when called during BeatMapping, when it shouldn't it will destroy itself.
+        /// </summary>
+        public void CheckIfNoteShouldExist()
+        {
+            if (!LaneManager.Instance.IsBeatMapping)
+                return;
+
+            if (LaneManager.Instance.liveTimeStamps.Contains(new Tuple<float, int>(_timeStamp, _laneID)))
+                return;
+
+            Destroy(gameObject);
+        }
+
         private void Update()
         {
             if (SessionValues.Instance.paused || _laneID == -1)
+            {
+                if (!LaneManager.Instance.IsBeatMapping)
+                    _animator.speed = 0;
                 return;
+            }
+
+            if (!LaneManager.Instance.IsBeatMapping)
+                _animator.speed = _animationSpeed / SessionValues.Instance.travelTime;
 
             if (_lerpAlpha > .99f)
                 Destroy(gameObject);
@@ -72,7 +131,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
             transform.position = Vector3.Lerp(_initialPosition, _targetPosition, _lerpAlpha);
 
-            if (_isRemovalCalled || _lerpAlpha <= (SessionValues.Instance.lerpAlphaHitThreshold + .5f)) 
+            if (_isRemovalCalled || _lerpAlpha <= (SessionValues.Instance.lerpAlphaHitThreshold + .5f))
                 return;
 
             _isRemovalCalled = true;

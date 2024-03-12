@@ -47,6 +47,7 @@ namespace ProefExamen.Framework.StateMachine
         {
             gameObject.SetActive(true);
             IsActive = true;
+
             yield return null;
         }
 
@@ -57,7 +58,18 @@ namespace ProefExamen.Framework.StateMachine
         {
             gameObject.SetActive(false);
             IsActive = false;
+
             yield return null;
         }
+
+        /// <summary>
+        /// Method that gets called when the state is entered from a child state.
+        /// </summary>
+        public virtual IEnumerator OnStateEnteredFromChild() => null;
+
+        /// <summary>
+        /// Method that gets called when the state is exited to a child state.
+        /// </summary>
+        public virtual IEnumerator OnStateExitedToChild() => null;
     }
 }

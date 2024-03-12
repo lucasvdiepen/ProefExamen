@@ -16,19 +16,14 @@ namespace ProefExamen.Framework.Gameplay.Values
         public float travelTime;
 
         /// <summary>
+        /// The amount of time that a dead should take to fade.
+        /// </summary>
+        public float deadNoteFadeTime;
+
+        /// <summary>
         /// The current time through a song.
         /// </summary>
         public float time => audioSource.time;
-
-        /// <summary>
-        /// The score default.
-        /// </summary>
-        public int score;
-
-        /// <summary>
-        /// The score multiplier.
-        /// </summary>
-        public int scoreMultiplier;
 
         /// <summary>
         /// The bool that reflects if the game is paused.
@@ -74,17 +69,23 @@ namespace ProefExamen.Framework.Gameplay.Values
         /// <summary>
         /// The list of levels that is used to look up a level with ID.
         /// </summary>
-        public Levels levels;
+        [SerializeField]
+        private Levels _levels;
 
         /// <summary>
-        /// The Note that is used during runtime.
+        /// The DeadNote prefab used to spawn dead notes.
         /// </summary>
-        public GameObject note;
+        public GameObject deadNote;
 
         /// <summary>
         /// The audio source that is used to play sound.
         /// </summary>
         public AudioSource audioSource;
+
+        /// <summary>
+        /// Gets all the levels.
+        /// </summary>
+        public Levels Levels => _levels;
 
         /// <summary>
         /// Returns a bool for if the upcoming timestamp should be queued yet.
@@ -95,19 +96,27 @@ namespace ProefExamen.Framework.Gameplay.Values
             timeStamp > time && timeStamp - (travelTime * 1.1) < time;
 
         /// <summary>
+        /// Returns a bool for if the upcoming live timestamp should be queued yet.
+        /// </summary>
+        /// <param name="timeStamp"></param>
+        /// <returns></returns>
+        public bool IsLiveTimeStampReadyForQueue(float timeStamp) =>
+            time - travelTime <= timeStamp && timeStamp - travelTime <= time;
+
+        /// <summary>
         /// Will loop over levels and update SessionValues currentLevel and currentLevelID.
         /// </summary>
         /// <param name="levelID">The new Level ID that is from the target level.</param>
         public void SelectLevel(int levelID)
         {
-            int listLength = levels.levels.Count;
+            int listLength = _levels.levels.Count;
             currentLevelID = levelID;
 
             for (int i = 0; i < listLength; i++)
             {
-                if (levels.levels[i].levelID == currentLevelID)
+                if (_levels.levels[i].levelID == currentLevelID)
                 {
-                    currentLevel = levels.levels[i];
+                    currentLevel = _levels.levels[i];
                     return;
                 }
             }
