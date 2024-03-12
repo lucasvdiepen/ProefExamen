@@ -283,12 +283,36 @@ namespace ProefExamen.Framework.StateMachine
         /// <param name="targetStateTree">The target state tree.</param>
         private IEnumerator EnterStates(List<State> currentStateTree, List<State> targetStateTree)
         {
-            State[] statesToEnter = currentStateTree == null
-                ? targetStateTree.ToArray()
-                : targetStateTree.Except(currentStateTree).ToArray();
+            State[] statesToEnter;
+
+            if (currentStateTree != null)
+            {
+                statesToEnter = targetStateTree.Except(currentStateTree).ToArray();
+
+                State lastCurrentState = currentStateTree[^1];
+
+                // Check if the current state is a parent of the new target state.
+                if (targetStateTree.Contains(lastCurrentState))
+                    yield return lastCurrentState.OnStateExitedToChild();
+
+                State lastTargetState = targetStateTree[^1];
+
+                // Check if the target state was a parent of the current state.
+                if (currentStateTree.Contains(lastTargetState))
+                    yield return lastTargetState.OnStateEnteredFromChild();
+            }
+            else
+            {
+                statesToEnter = targetStateTree.ToArray();
+            }
 
             for (int i = 0; i < statesToEnter.Length; i++)
+            {
                 yield return statesToEnter[i].OnStateEnter();
+
+                if (i < statesToEnter.Length - 1)
+                    yield return statesToEnter[i].OnStateExitedToChild();
+            }
         }
 
         /// <summary>
