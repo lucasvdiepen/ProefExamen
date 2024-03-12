@@ -16,9 +16,6 @@ namespace ProefExamen.Framework.Sharing
         private Camera _renderCamera;
 
         [SerializeField]
-        private TextUpdater _highscoreText;
-
-        [SerializeField]
         private string _subject;
 
         [SerializeField]
@@ -33,8 +30,6 @@ namespace ProefExamen.Framework.Sharing
 
         private IEnumerator ShareTask()
         {
-            UpdateHighscoreText();
-
             yield return TakeScreenshot();
 
             if (string.IsNullOrEmpty(_filePath))
@@ -44,14 +39,6 @@ namespace ProefExamen.Framework.Sharing
                 .AddFile(_filePath)
                 .SetSubject(_subject).SetText(_text)
                 .Share();
-        }
-
-        private void UpdateHighscoreText()
-        {
-            int currentPoints = PointsSystem.PointsSystem.Points;
-
-            _highscoreText.ReplaceTag("[points]", currentPoints.ToString());
-            _highscoreText.ReplaceTag("[pointsText]", currentPoints == 1 ? "point" : "points");
         }
 
         private IEnumerator TakeScreenshot()
@@ -74,7 +61,7 @@ namespace ProefExamen.Framework.Sharing
 
             _renderCamera.targetTexture = null;
 
-            string filePath = Path.Combine(Application.temporaryCachePath, "highscore.png");
+            string filePath = Path.Combine(Application.persistentDataPath, "highscore.png");
             File.WriteAllBytes(filePath, screenshot.EncodeToPNG());
 
             renderTexture.Release();

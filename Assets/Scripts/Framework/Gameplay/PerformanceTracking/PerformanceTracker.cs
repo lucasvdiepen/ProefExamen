@@ -104,6 +104,11 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         /// </summary>
         public int ScoreMultiplier => _scoreMultiplier;
 
+        /// <summary>
+        /// Gets the current performance result.
+        /// </summary>
+        public PerformanceResult CurrentPerformanceResult => _newResult;
+
         private void Awake() => LoadData();
 
         /// <summary>

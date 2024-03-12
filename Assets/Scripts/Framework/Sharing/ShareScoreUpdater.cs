@@ -1,4 +1,4 @@
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 
@@ -6,13 +6,14 @@ using ProefExamen.Framework.Gameplay.PerformanceTracking;
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.UI.TextUpdaters;
 using ProefExamen.Framework.Gameplay.Values;
+using ProefExamen.Framework.Utils;
 
 namespace ProefExamen.Framework.Sharing
 {
     /// <summary>
     /// A class that is responsible for receiving and distributing information to share.
     /// </summary>
-    public class ShareScoreUpdater : MonoBehaviour
+    public class ShareScoreUpdater : AbstractSingleton<ShareScoreUpdater>
     {
         [Header("Difficulty Sprites")]
         [SerializeField]
@@ -24,19 +25,22 @@ namespace ProefExamen.Framework.Sharing
         [SerializeField]
         private Sprite _hardDiffSprite;
 
+        [SerializeField]
+        private Image _difficultyImage;
+
         [Header("Song Information")]
         [SerializeField]
         private Image _songCover;
 
         [SerializeField]
-        private TextUpdater _songTitle;
+        private TextMeshProUGUI _songTitle;
 
         [SerializeField]
-        private TextUpdater _songArtists;
+        private TextMeshProUGUI _songArtists;
 
         [Header("Score")]
         [SerializeField]
-        private TextUpdater _scoreText;
+        private TextMeshProUGUI _scoreText;
 
         [Header("Hits")]
         [SerializeField]
@@ -57,10 +61,6 @@ namespace ProefExamen.Framework.Sharing
         [SerializeField]
         private TextUpdater _missesText;
 
-        [Header("Difficulty")]
-        [SerializeField]
-        private Image _difficultyImage;
-
         /// <summary>
         /// A function that sets the PerformanceResult data on the share screen.
         /// </summary>
@@ -70,15 +70,15 @@ namespace ProefExamen.Framework.Sharing
             LevelData resultLevelData = SessionValues.Instance.GetLevelData(newResult.levelID);
 
             _songCover.sprite = resultLevelData.songCover;
-            _songTitle.ReplaceTag(resultLevelData.title);
-            _songArtists.ReplaceTag
+            _songTitle.text = resultLevelData.title;
+            _songArtists.text = 
             (
                 resultLevelData.album == ""
                 ? resultLevelData.artists
                 : resultLevelData.artists + " | " + resultLevelData.album
             );
 
-            _scoreText.ReplaceTag(newResult.totalScore.ToString());
+            _scoreText.text = newResult.totalScore.ToString();
 
             _maxStreakText.ReplaceTag(newResult.maxStreak.ToString());
 
