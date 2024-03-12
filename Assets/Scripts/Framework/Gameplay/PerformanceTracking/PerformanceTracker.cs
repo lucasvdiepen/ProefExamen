@@ -5,6 +5,7 @@ using UnityEngine;
 using ProefExamen.Framework.Gameplay.LaneSystem;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Utils;
+using ProefExamen.Framework.Gameplay.Level;
 
 namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 {
@@ -109,21 +110,22 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         /// Gets the highscore from the curretnly selected level.
         /// </summary>
         /// <returns>The highscore of this level, is 0 when there is no highscore set.</returns>
-        public PerformanceResult GetHighScoreFromLevel() => GetHighScoreFromLevel(SessionValues.Instance.currentLevelID);
+        public PerformanceResult GetHighScoreFromLevel() => 
+            GetHighScoreFromLevel(SessionValues.Instance.currentLevelID, SessionValues.Instance.difficulty);
 
         /// <summary>
         /// Gets the highscore from the passed level ID.
         /// </summary>
         /// <param name="levelID">The level ID to get the highscore from.</param>
         /// <returns>The highscore of the passed level ID, will return 0 if no highscore is set.</returns>
-        public PerformanceResult GetHighScoreFromLevel(int levelID)
+        public PerformanceResult GetHighScoreFromLevel(int levelID, Difficulty difficulty)
         {
             int listLength = _highscores.Count;
 
             for(int i = 0; i < listLength; i++)
             {
-                if (_highscores[i].levelID == SessionValues.Instance.currentLevelID &&
-                    _highscores[i].difficulty == SessionValues.Instance.difficulty)
+                if (_highscores[i].levelID == levelID &&
+                    _highscores[i].difficulty == difficulty)
                 {
                     return _highscores[i];
                 }
@@ -132,7 +134,7 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
             return new PerformanceResult
             (
                 levelID, 
-                SessionValues.Instance.difficulty
+                difficulty
             );
         }
 

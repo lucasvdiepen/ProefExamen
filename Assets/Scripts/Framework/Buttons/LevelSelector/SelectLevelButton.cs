@@ -7,6 +7,7 @@ using ProefExamen.Framework.StateMachine.States;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.UI;
+using System;
 
 namespace ProefExamen.Framework.Buttons.LevelSelector
 {
@@ -49,9 +50,18 @@ namespace ProefExamen.Framework.Buttons.LevelSelector
 
             _songCover.sprite = levelData.songCover;
 
-            PerformanceResult highScore = PerformanceTracker.Instance.GetHighScoreFromLevel(_levelData.levelID);
+            PerformanceResult highScore = new PerformanceResult(_levelData.levelID, Difficulty.Easy);
 
-            if (highScore.totalScore == 0)
+            foreach (Difficulty difficulty in Enum.GetValues(typeof(Difficulty)))
+            {
+                PerformanceResult scoreToCheck =
+                    PerformanceTracker.Instance.GetHighScoreFromLevel(_levelData.levelID, difficulty);
+
+                if (scoreToCheck.maxStreak != 0)
+                    highScore = scoreToCheck;
+            }
+
+            if (highScore.maxStreak == 0)
             {
                 _difficultyImage.sprite = noDiff;
                 return;
