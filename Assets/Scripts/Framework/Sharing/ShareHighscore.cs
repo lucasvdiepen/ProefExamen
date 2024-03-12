@@ -61,7 +61,7 @@ namespace ProefExamen.Framework.Sharing
 
             _renderCamera.targetTexture = null;
 
-            string filePath = Path.Combine(Application.persistentDataPath, "highscore.png");
+            string filePath = Path.Combine(Application.temporaryCachePath, "highscore.png");
             File.WriteAllBytes(filePath, screenshot.EncodeToPNG());
 
             renderTexture.Release();
