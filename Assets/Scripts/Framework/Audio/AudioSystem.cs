@@ -13,7 +13,8 @@ namespace ProefExamen.Framework.Audio
     [RequireComponent(typeof(AudioSource))]
     public class AudioSystem : AbstractSingleton<AudioSystem>
     {
-        [Header("Sounds"), SerializeField]
+        [Header("Sounds")]
+        [SerializeField]
         private AudioCollection[] _audioCollections;
 
         [SerializeField]
