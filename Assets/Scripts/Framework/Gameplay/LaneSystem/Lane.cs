@@ -43,6 +43,19 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                 Debug.LogError("Lane has no assigned ID!");
                 return;
             }
+
+            NotePositionScaler.Instance.UpdateLaneNotePositions(_laneID);
+        }
+
+        /// <summary>
+        /// Sets the InitialNotePosition and TargetNotePosition to the newly passed values.
+        /// </summary>
+        /// <param name="initialPosition">The new InitialNotePosition.</param>
+        /// <param name="targetPosition">The new TargetNotePosition.</param>
+        public void SetNotePositions(Vector3 initialPosition, Vector3 targetPosition)
+        {
+            _initialNotePosition = initialPosition;
+            _targetNotePosition = targetPosition;
         }
 
         /// <summary>

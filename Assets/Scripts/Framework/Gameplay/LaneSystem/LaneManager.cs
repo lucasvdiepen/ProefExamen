@@ -49,6 +49,11 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// </summary>
         [field:SerializeField]
         public int Index { get; set; }
+        
+        /// <summary>
+        /// Return the LaneManager's managed lanes.
+        /// </summary>
+        public Lane[] Lanes => _lanes;
 
         private void Awake() => Application.targetFrameRate = 60;
 
