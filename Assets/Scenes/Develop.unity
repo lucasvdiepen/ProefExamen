@@ -458,6 +458,10 @@ PrefabInstance:
       value: SessionValues
       objectReference: {fileID: 0}
     - target: {fileID: 8758190836295812502, guid: a464397d5ea06514096a385eb00082a2, type: 3}
+      propertyPath: travelTime
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8758190836295812502, guid: a464397d5ea06514096a385eb00082a2, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 833289589}
@@ -1080,7 +1084,7 @@ MonoBehaviour:
   _notes: []
   _initialNotePosition: {x: 2.1, y: 5.5, z: 0}
   _targetNotePosition: {x: 2.1, y: -5.5, z: 0}
-  _notePrefab: {fileID: 8865070559718813142, guid: 778813d51c727894e89f15617b02c6d2, type: 3}
+  _notePrefab: {fileID: 8865070559718813142, guid: f7a2d002b97e736459ecc872d95a24fe, type: 3}
 --- !u!114 &262234010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2066,7 +2070,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 41.93, y: -51.13}
+  m_AnchoredPosition: {x: 41.93, y: -51.130005}
   m_SizeDelta: {x: 196.13, y: 196.13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &502716170
@@ -9008,10 +9012,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelSelectorPrefab: {fileID: 5620486008483422010, guid: 5f00d282f2a503242806d6e888a1b697, type: 3}
   _levelSelectorParent: {fileID: 2117307709}
-  noDifficulty: {fileID: 21300000, guid: 3ffc1cd5abd6043bfa804bbbabe63889, type: 3}
-  diffEasy: {fileID: 21300000, guid: 5379562effb014d6cbd10dd132a3fd4b, type: 3}
-  diffNormal: {fileID: 21300000, guid: d2a4f248a946a41a48c753cced55e4c1, type: 3}
-  diffHard: {fileID: 21300000, guid: 5cad55a68964e4a189fee3d982e176ff, type: 3}
 --- !u!1 &2127290530
 GameObject:
   m_ObjectHideFlags: 0
