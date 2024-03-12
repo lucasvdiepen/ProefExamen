@@ -24,6 +24,7 @@ namespace ProefExamen.Framework.Audio
 
         private int _soundLenghtCounter = 0;
         private int _songLenghtCounter = 0;
+        private int _crossFadeSongLenghtCounter = 0;
 
         private bool _isCrossFading;
 
@@ -40,7 +41,7 @@ namespace ProefExamen.Framework.Audio
             
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                PrepareSong(_testSong);
+                PlaySong(_testSong);
             }
         }
         
@@ -86,7 +87,11 @@ namespace ProefExamen.Framework.Audio
                 .OnComplete(() => Destroy(source));
         }
 
-        public void PrepareSong(AudioClip clip)
+        /// <summary>
+        /// Method for playing a song. Applies automatic crossfading if needed.
+        /// </summary>
+        /// <param name="clip">Song to be played.</param>
+        public void PlaySong(AudioClip clip)
         {
             if (_isCrossFading)
                 return;
@@ -108,29 +113,24 @@ namespace ProefExamen.Framework.Audio
                     CurrentActiveSource = crossFadeSource;
 
                     _isCrossFading = false;
+                    float audioClipLenght = clip.length;
+
+                    DOTween.To(() => _crossFadeSongLenghtCounter, x => _crossFadeSongLenghtCounter = x, 1, audioClipLenght)
+                        .OnComplete(() => CurrentActiveSource.clip = null);
                 });
             }
             else
             {
                 CurrentActiveSource.volume = 0;
-                PlaySong(clip);
+                CurrentActiveSource.clip = clip;
+
+                CurrentActiveSource.Play();
+                CurrentActiveSource.DOFade(1, _songFadeDuration);
+
+                float audioClipLenght = clip.length;
+                DOTween.To(() => _songLenghtCounter, x => _songLenghtCounter = x, 1, audioClipLenght)
+                    .OnComplete(() => CurrentActiveSource.clip = null);
             }
-        }
-
-        private void PlaySong(AudioClip clip, AudioSource overrideSource = null)
-        {
-            AudioSource chosenSource = overrideSource == null ? CurrentActiveSource : overrideSource;
-            chosenSource.clip = clip;
-
-            chosenSource.Play();
-            chosenSource.DOFade(1, _songFadeDuration);
-
-            float audioClipLenght = clip.length;
-            DOTween.To(() => _songLenghtCounter, x => _songLenghtCounter = x, 1, audioClipLenght)
-                .OnComplete(() =>
-                {
-                    chosenSource.clip = null;
-                });
         }
     }
 }
