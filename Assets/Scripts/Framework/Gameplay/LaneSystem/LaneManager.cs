@@ -7,7 +7,6 @@ using ProefExamen.Framework.Utils;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.Gameplay.PerformanceTracking;
-using System.Linq;
 
 namespace ProefExamen.Framework.Gameplay.LaneSystem
 {
@@ -49,6 +48,11 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// </summary>
         [field:SerializeField]
         public int Index { get; set; }
+        
+        /// <summary>
+        /// Return the LaneManager's managed lanes.
+        /// </summary>
+        public Lane[] Lanes => _lanes;
 
         private void Awake() => Application.targetFrameRate = 60;
 
