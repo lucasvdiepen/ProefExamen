@@ -8,7 +8,7 @@ using ProefExamen.Framework.Utils;
 namespace ProefExamen.Framework.Audio
 {
     /// <summary>
-    /// Class responsible for managing general audio effect
+    /// Class responsible for managing general audio effect.
     /// </summary>
     [RequireComponent(typeof(AudioSource))]
     public class AudioSystem : AbstractSingleton<AudioSystem>
@@ -79,12 +79,12 @@ namespace ProefExamen.Framework.Audio
         /// Method for playing a song. Applies automatic crossfading if needed.
         /// </summary>
         /// <param name="clip">Song to be played.</param>
-        public void PlaySong(AudioClip clip)
+        public void PlaySong(AudioClip clip, float volume = .75f)
         {
             if (_isCrossFading)
                 return;
 
-            //Crossfading logic.
+            // Crossfading logic.
             if (CurrentActiveSongSource.clip != null) 
             {
                 _isCrossFading = true;
@@ -96,7 +96,7 @@ namespace ProefExamen.Framework.Audio
                 return;
             }
          
-            CurrentActiveSongSource.volume = 0;
+            CurrentActiveSongSource.volume = volume;
             CurrentActiveSongSource.clip = clip;
 
             CurrentActiveSongSource.Play();
