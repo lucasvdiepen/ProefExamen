@@ -2,6 +2,8 @@ using System.Collections;
 
 using ProefExamen.Framework.Gameplay.LaneSystem;
 using ProefExamen.Framework.Gameplay.PerformanceTracking;
+using ProefExamen.Framework.Gameplay.Values;
+using UnityEngine;
 
 namespace ProefExamen.Framework.StateMachine.States
 {
@@ -44,7 +46,14 @@ namespace ProefExamen.Framework.StateMachine.States
             PlayLevel();
         }
 
-        private void PlayLevel() => LaneManager.Instance.PlayLevel();
+        private void PlayLevel()
+        {
+            Debug.Log(StateMachine.Instance.PreviousState.GetType());
+            if (StateMachine.Instance.PreviousState.GetType() == typeof(PauseState))
+                return;
+
+            LaneManager.Instance.PlayLevel();
+        }
 
         private void UpdateStateOnScoreCompletion(ScoreCompletionStatus status)
         {

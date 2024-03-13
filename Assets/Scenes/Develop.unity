@@ -3401,6 +3401,7 @@ GameObject:
   - component: {fileID: 770838519}
   - component: {fileID: 770838518}
   - component: {fileID: 770838521}
+  - component: {fileID: 770838522}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: Untagged
@@ -3523,6 +3524,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundTypeOnPress: 3
   volume: 1
+--- !u!114 &770838522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770838516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f4e6749fdd7be3468cef02e7f61ecb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &786295550
 GameObject:
   m_ObjectHideFlags: 0
@@ -10227,7 +10240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3878683428849642610, guid: fb909566e57f752449f686ae3c483afa, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 239.83331
+      value: 239.83333
       objectReference: {fileID: 0}
     - target: {fileID: 3878683428849642610, guid: fb909566e57f752449f686ae3c483afa, type: 3}
       propertyPath: m_AnchoredPosition.y

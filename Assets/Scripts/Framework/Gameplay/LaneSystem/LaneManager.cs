@@ -26,6 +26,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         [SerializeField]
         private KeyCode[] _inputs;
 
+        [SerializeField]
+        private float _minimumPauseTime;
+
         /// <summary>
         /// A bool that checks if the level is being beatmapped or not.
         /// </summary>
@@ -112,6 +115,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         private IEnumerator PlayThroughLevel()
         {
             Index = 0;
+            _minimumPauseTime = 0;
 
             PerformanceTracker.Instance.StartTracking();
 
@@ -201,7 +205,14 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                 SessionValues.Instance.audioSource.Pause();
             else if (!paused && !SessionValues.Instance.audioSource.isPlaying)
             {
-                SessionValues.Instance.audioSource.time -= SessionValues.Instance.travelTime;
+                _minimumPauseTime = Math.Clamp
+                (
+                    SessionValues.Instance.audioSource.time - SessionValues.Instance.travelTime, 
+                    _minimumPauseTime, 
+                    SessionValues.Instance.audioSource.clip.length
+                );
+
+                SessionValues.Instance.audioSource.time = _minimumPauseTime;
                 SessionValues.Instance.audioSource.UnPause();
             }
         }

@@ -10,8 +10,12 @@ namespace ProefExamen.Framework.Buttons.PlayLevel
     {
         private protected override void OnButtonPressed()
         {
+            if(SessionValues.Instance.paused)
+                Framework.StateMachine.StateMachine.Instance.GoToState<GameState>();
+            else
+                Framework.StateMachine.StateMachine.Instance.GoToState<PauseState>();
+
             Gameplay.LaneSystem.LaneManager.Instance.SetPaused(!SessionValues.Instance.paused);
-            Framework.StateMachine.StateMachine.Instance.GoToState<PauseState>();
         }
     }
 }
