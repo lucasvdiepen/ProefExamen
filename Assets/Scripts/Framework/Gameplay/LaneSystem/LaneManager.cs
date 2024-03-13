@@ -73,6 +73,11 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// </summary>
         public Lane[] Lanes => _lanes;
 
+        /// <summary>
+        /// Whether or not the player has watched an ad.
+        /// </summary>
+        public bool HasWatchedAd { get; set; }
+
         private void Awake() => Application.targetFrameRate = 60;
 
         private void Start()
@@ -143,6 +148,8 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// </summary>
         public void PlayLevel()
         {
+            HasWatchedAd = false;
+
             if(SessionValues.Instance.audioSource.clip != null)
             {
                 SessionValues.Instance.audioSource.time = 0;

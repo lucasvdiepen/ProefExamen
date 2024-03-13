@@ -143,6 +143,17 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
             );
         }
 
+        /// <summary>
+        /// Sets the health to the given value.
+        /// </summary>
+        /// <param name="health">The value to set the health to.</param>
+        public void SetHealth(float health)
+        {
+            _health = health;
+
+            OnHealthChanged?.Invoke(_health);
+        }
+
         private void LoadData()
         {
             string jsonData = PlayerPrefs.GetString("highscores");
