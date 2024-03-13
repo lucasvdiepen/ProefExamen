@@ -19,6 +19,22 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         [SerializeField]
         private Lane[] _lanes;
 
+        [Header("Note Hit Sprites")]
+        [SerializeField]
+        private Sprite _perfectHitSprite;
+
+        [SerializeField]
+        private Sprite _niceHitSprite;
+
+        [SerializeField]
+        private Sprite _alrightHitSprite;
+
+        [SerializeField]
+        private Sprite _okHitSprite;
+
+        [SerializeField]
+        private Sprite _missSprite;
+
         [Header("PC Controls")]
         [SerializeField]
         private bool _usingInputs;
@@ -79,7 +95,31 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             Note target = _lanes[laneID].Notes[0];
             _lanes[laneID].Notes.Remove(target);
 
-            target.HitNote(hitStatus);
+            Sprite targetSprite = null;
+
+            switch (hitStatus)
+            {
+                case HitStatus.Miss:
+                    targetSprite = _missSprite;
+                    break;
+                case HitStatus.MissClick:
+                    targetSprite = _missSprite;
+                    break;
+                case HitStatus.Ok:
+                    targetSprite = _okHitSprite;
+                    break;
+                case HitStatus.Alright:
+                    targetSprite = _alrightHitSprite;
+                    break;
+                case HitStatus.Nice:
+                    targetSprite = _niceHitSprite;
+                    break;
+                case HitStatus.Perfect:
+                    targetSprite = _perfectHitSprite;
+                    break;
+            }
+
+            target.HitNote(hitStatus, targetSprite);
         }
 
         public void DestroyAllNotes()
