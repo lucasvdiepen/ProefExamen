@@ -63,6 +63,12 @@ namespace ProefExamen.Framework.StateMachine.States
             switch (status)
             {
                 case ScoreCompletionStatus.Failed:
+                    if(LaneManager.Instance.HasWatchedAd)
+                    {
+                        StateMachine.Instance.GoToState<LoseState>();
+                        break;
+                    }
+
                     StateMachine.Instance.GoToState<AdState>();
                     break;
                 case ScoreCompletionStatus.NotBeaten:
