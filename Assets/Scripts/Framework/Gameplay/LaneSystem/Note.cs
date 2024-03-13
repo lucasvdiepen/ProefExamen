@@ -86,14 +86,20 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// <summary>
         /// Instantiates a DeadNote and destroys this Note.
         /// </summary>
-        public void HitNote()
+        public void HitNote(HitStatus hitStatus, Sprite hitSprite)
         {
             if (LaneManager.Instance.IsBeatMapping)
                 return;
 
+            bool miss = hitStatus == HitStatus.Miss || hitStatus == HitStatus.MissClick;
+
             GameObject deadNote = Instantiate(SessionValues.Instance.deadNote);
 
-            deadNote.GetComponent<DeadNote>().SetDeadNoteValues(_deathSprite, gameObject.transform);
+            Sprite sprite = miss ? null : _deathSprite;
+            deadNote.GetComponent<DeadNote>().SetDeadNoteValues(sprite, hitSprite, gameObject.transform);
+            
+            if (miss)
+                return;
 
             Destroy(gameObject);
         }
