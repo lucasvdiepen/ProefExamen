@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using ProefExamen.Framework.Utils;
+using Unity.VisualScripting;
 
 namespace ProefExamen.Framework.Gameplay.LaneSystem
 {
@@ -24,6 +25,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         [SerializeField]
         private Transform[] _endPoints;
 
+        [SerializeField]
+        private GameObject _lineVisualiser;
+
         /// <summary>
         /// Updates a Lane's InitialNotePosition and TargetNotePosition.
         /// </summary>
@@ -39,6 +43,19 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             endPos.y *= Screen.height / _baseHeight;
 
             LaneManager.Instance.Lanes[laneID].SetNotePositions(startPos, endPos);
+        }
+
+        private void Start()
+        {
+            Vector3 startPos = _startPoints[0].position;
+            startPos.x *= Screen.width / _baseWidth;
+            startPos.y *= Screen.height / _baseHeight;
+
+            Vector3 endPos = _endPoints[0].position;
+            endPos.x *= Screen.width / _baseWidth;
+            endPos.y *= Screen.height / _baseHeight;
+
+            _lineVisualiser.transform.position = Vector3.Lerp(startPos, endPos, .55f);
         }
     }
 }
