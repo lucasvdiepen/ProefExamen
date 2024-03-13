@@ -7,6 +7,7 @@ using ProefExamen.Framework.Utils;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.Gameplay.PerformanceTracking;
+using UnityEditor.Search;
 
 namespace ProefExamen.Framework.Gameplay.LaneSystem
 {
@@ -155,23 +156,40 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private IEnumerator PlayThroughLevel()
         {
+            SessionValues sessionValues = SessionValues.Instance;
+
             Index = 0;
-            _minimumPauseTime = 0;
+            sessionValues.startTimer = -1 * sessionValues.travelTime;
+            _minimumPauseTime = sessionValues.startTimer;
+
+            bool hasStartedSong = false;
 
             PerformanceTracker.Instance.StartTracking();
 
             if (!IsBeatMapping)
-            {
-                SessionValues.Instance.audioSource.clip = SessionValues.Instance.currentLevel.song;
-                SessionValues.Instance.audioSource.Play();
-            }
+                sessionValues.audioSource.clip = sessionValues.currentLevel.song;
 
-            while (IsBeatMapping || SessionValues.Instance.time < SessionValues.Instance.currentLevel.song.length)
+            while (IsBeatMapping || sessionValues.time < sessionValues.currentLevel.song.length)
             {
-                if (SessionValues.Instance.paused)
+                if (sessionValues.paused)
                 {
                     yield return null;
                     continue;
+                }
+
+                if (sessionValues.startTimer < 0)
+                {
+                    sessionValues.startTimer = Math.Clamp
+                    (
+                        sessionValues.startTimer + Time.deltaTime,
+                        -1 * sessionValues.travelTime,
+                        0
+                    );
+                }
+                else if (!hasStartedSong && !sessionValues.audioSource.isPlaying)
+                {
+                    hasStartedSong = true;
+                    sessionValues.audioSource.Play();
                 }
 
                 QueueUpcomingNotes();
@@ -248,7 +266,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             {
                 _minimumPauseTime = Math.Clamp
                 (
-                    SessionValues.Instance.audioSource.time - SessionValues.Instance.travelTime, 
+                    SessionValues.Instance.time - SessionValues.Instance.travelTime, 
                     _minimumPauseTime, 
                     SessionValues.Instance.audioSource.clip.length
                 );

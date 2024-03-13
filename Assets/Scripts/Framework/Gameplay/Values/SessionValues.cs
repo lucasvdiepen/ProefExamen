@@ -23,7 +23,21 @@ namespace ProefExamen.Framework.Gameplay.Values
         /// <summary>
         /// The current time through a song.
         /// </summary>
-        public float time => audioSource.time;
+        public float time
+        {
+            get
+            {
+                return startTimer < 0
+                    ? startTimer
+                    : audioSource.time;
+            }
+            set => audioSource.time = value;
+        }
+
+        /// <summary>
+        /// A timer that is used to start off a song and not throw the player straight into the action.
+        /// </summary>
+        public float startTimer;
 
         /// <summary>
         /// The bool that reflects if the game is paused.
