@@ -7427,6 +7427,7 @@ RectTransform:
   - {fileID: 2083043255}
   - {fileID: 1071761261}
   - {fileID: 1195490831}
+  - {fileID: 1385480742}
   - {fileID: 1528336620}
   - {fileID: 1484904385}
   - {fileID: 1793747672}
@@ -7434,7 +7435,6 @@ RectTransform:
   - {fileID: 786295551}
   - {fileID: 1965059394}
   - {fileID: 790013390}
-  - {fileID: 1385480742}
   m_Father: {fileID: 864860618}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -7468,6 +7468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _canvasGroup: {fileID: 1475946612}
   _fadeDuration: 0.5
+  _lineVisualizer: {fileID: 1284883784}
 --- !u!1 &1484904384
 GameObject:
   m_ObjectHideFlags: 0

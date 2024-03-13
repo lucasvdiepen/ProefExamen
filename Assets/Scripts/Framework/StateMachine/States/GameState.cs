@@ -12,6 +12,9 @@ namespace ProefExamen.Framework.StateMachine.States
     /// </summary>
     public class GameState : MenuState
     {
+        [SerializeField]
+        private GameObject _lineVisualizer;
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -33,6 +36,8 @@ namespace ProefExamen.Framework.StateMachine.States
 
             LaneManager.Instance.DestroyAllNotes();
 
+            ExitLevel();
+
             yield return base.OnStateExit();
         }
 
@@ -46,14 +51,27 @@ namespace ProefExamen.Framework.StateMachine.States
             PlayLevel();
         }
 
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public override IEnumerator OnStateExitedToChild()
+        {
+            ExitLevel();
+
+            yield return base.OnStateExitedToChild();
+        }
+
         private void PlayLevel()
         {
-            Debug.Log(StateMachine.Instance.PreviousState.GetType());
+            _lineVisualizer.SetActive(true);
+
             if (StateMachine.Instance.PreviousState.GetType() == typeof(PauseState))
                 return;
 
             LaneManager.Instance.PlayLevel();
         }
+
+        private void ExitLevel() => _lineVisualizer.SetActive(false);
 
         private void UpdateStateOnScoreCompletion(ScoreCompletionStatus status)
         {
