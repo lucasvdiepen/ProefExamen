@@ -35,6 +35,8 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             if (sprite != null)
                 _deadSprite.sprite = sprite;
 
+            _hitSprite.sprite = hitSprite;
+
             gameObject.transform.position = newTransform.position;
             gameObject.transform.rotation = newTransform.rotation;
             gameObject.transform.localScale = newTransform.localScale;
