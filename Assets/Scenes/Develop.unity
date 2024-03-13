@@ -726,10 +726,6 @@ PrefabInstance:
       value: SessionValues
       objectReference: {fileID: 0}
     - target: {fileID: 8758190836295812502, guid: a464397d5ea06514096a385eb00082a2, type: 3}
-      propertyPath: travelTime
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8758190836295812502, guid: a464397d5ea06514096a385eb00082a2, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 833289589}
