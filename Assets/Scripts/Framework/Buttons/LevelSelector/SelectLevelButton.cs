@@ -8,6 +8,7 @@ using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.UI;
 using System;
+using ProefExamen.Framework.Audio;
 
 namespace ProefExamen.Framework.Buttons.LevelSelector
 {
@@ -30,6 +31,9 @@ namespace ProefExamen.Framework.Buttons.LevelSelector
 
         [SerializeField]
         private LevelData _levelData;
+
+        [SerializeField]
+        private float _songPreviewVolume = .65f;
 
         [Header("Difficulty sprites")]
         [SerializeField]
@@ -112,7 +116,9 @@ namespace ProefExamen.Framework.Buttons.LevelSelector
         {
             SessionValues.Instance.SelectLevel(_levelData);
             MenuStateUpdater.Instance.OnSelectedLevelIDChanged?.Invoke(_levelData.levelID);
+            
             Framework.StateMachine.StateMachine.Instance.GoToState<PlayLevelState>();
+            AudioSystem.Instance.PlaySong(_levelData.song, _songPreviewVolume);
         }
     }
 }

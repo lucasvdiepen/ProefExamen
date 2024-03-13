@@ -70,6 +70,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: c0d8de1841e4e2946b09dd55dc2570bc, type: 3}
     - {fileID: 8300000, guid: 0869522568836ab4bbf75c6e8ef4d285, type: 3}
   _songFadeDuration: 2.5
+  _songStopFadeDuration: 0.1
 --- !u!82 &1665212917461089762
 AudioSource:
   m_ObjectHideFlags: 0

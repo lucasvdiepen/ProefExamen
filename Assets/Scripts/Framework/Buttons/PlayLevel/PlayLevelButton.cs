@@ -1,3 +1,4 @@
+using ProefExamen.Framework.Audio;
 using ProefExamen.Framework.StateMachine.States;
 
 namespace ProefExamen.Framework.Buttons.PlayLevel
@@ -8,6 +9,9 @@ namespace ProefExamen.Framework.Buttons.PlayLevel
     public class PlayLevelButton : BasicButton
     {
         private protected override void OnButtonPressed()
-            => Framework.StateMachine.StateMachine.Instance.GoToState<GameState>();
+        {
+            AudioSystem.Instance.StopCurrentActiveSong();
+            Framework.StateMachine.StateMachine.Instance.GoToState<GameState>();
+        }
     }
 }

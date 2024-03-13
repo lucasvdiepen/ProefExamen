@@ -1,3 +1,4 @@
+using ProefExamen.Framework.Audio;
 using ProefExamen.Framework.StateMachine.States;
 
 namespace ProefExamen.Framework.Buttons.LevelSelector
@@ -8,6 +9,9 @@ namespace ProefExamen.Framework.Buttons.LevelSelector
     public class BackToMainMenuButton : BasicButton
     {
         private protected override void OnButtonPressed()
-            => Framework.StateMachine.StateMachine.Instance.GoToState<MainMenuState>();
+        {
+            AudioSystem.Instance.StopCurrentActiveSong();
+            Framework.StateMachine.StateMachine.Instance.GoToState<MainMenuState>();
+        }
     }
 }
