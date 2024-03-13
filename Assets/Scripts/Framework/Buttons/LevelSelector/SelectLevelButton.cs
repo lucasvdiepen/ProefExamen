@@ -35,6 +35,9 @@ namespace ProefExamen.Framework.Buttons.LevelSelector
         [SerializeField]
         private float _songPreviewVolume = .65f;
 
+        [SerializeField]
+        private float _songStartTime = 25f;
+
         [Header("Difficulty sprites")]
         [SerializeField]
         private Sprite _noDiffSprite;
@@ -118,7 +121,7 @@ namespace ProefExamen.Framework.Buttons.LevelSelector
             MenuStateUpdater.Instance.OnSelectedLevelIDChanged?.Invoke(_levelData.levelID);
             
             Framework.StateMachine.StateMachine.Instance.GoToState<PlayLevelState>();
-            AudioSystem.Instance.PlaySong(_levelData.song, _songPreviewVolume);
+            AudioSystem.Instance.PlaySong(_levelData.song, _songPreviewVolume, _songStartTime);
         }
     }
 }
