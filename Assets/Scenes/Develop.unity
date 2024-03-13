@@ -6025,6 +6025,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4e6749fdd7be3468cef02e7f61ecb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1284883784 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4605842452535452408, guid: e8fdcc5c9d472ce46ad01d7a94467c41, type: 3}
+  m_PrefabInstance: {fileID: 1385480741}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1302364032
 GameObject:
   m_ObjectHideFlags: 0
@@ -9330,6 +9335,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NotePositionScaler
       objectReference: {fileID: 0}
+    - target: {fileID: 5573191285742040269, guid: 5a0b1c7d1aa2c444fba2182d9f2a6dbc, type: 3}
+      propertyPath: _lineVisualiser
+      value: 
+      objectReference: {fileID: 1284883784}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
