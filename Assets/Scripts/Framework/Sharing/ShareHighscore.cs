@@ -21,6 +21,9 @@ namespace ProefExamen.Framework.Sharing
         [SerializeField]
         private string _text;
 
+        [SerializeField]
+        private CanvasGroup _canvasGroup;
+
         private string _filePath;
 
         /// <summary>
@@ -30,6 +33,8 @@ namespace ProefExamen.Framework.Sharing
 
         private IEnumerator ShareTask()
         {
+            _canvasGroup.alpha = 1;
+
             yield return TakeScreenshot();
 
             if (string.IsNullOrEmpty(_filePath))
@@ -38,6 +43,7 @@ namespace ProefExamen.Framework.Sharing
             new NativeShare()
                 .AddFile(_filePath)
                 .SetSubject(_subject).SetText(_text)
+                .SetCallback((result, target) => _canvasGroup.alpha = 0)
                 .Share();
         }
 

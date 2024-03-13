@@ -893,6 +893,7 @@ GameObject:
   - component: {fileID: 276706437480054812}
   - component: {fileID: 7393781097187729238}
   - component: {fileID: 1676945231426610606}
+  - component: {fileID: 4120807469143270854}
   m_Layer: 5
   m_Name: ShareWithFriendsCanvas
   m_TagString: Untagged
@@ -1011,6 +1012,18 @@ MonoBehaviour:
   _alrightHitsText: {fileID: 1338512596505559824}
   _okHitsText: {fileID: 2999287701301929203}
   _missesText: {fileID: 7319337318028179287}
+--- !u!225 &4120807469143270854
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3919923740589347818}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &4370266721774121932
 GameObject:
   m_ObjectHideFlags: 0
@@ -1896,6 +1909,7 @@ MonoBehaviour:
   _renderCamera: {fileID: 8296380854836951643}
   _subject: Look at my score
   _text: Try to beat my score!
+  _canvasGroup: {fileID: 4120807469143270854}
 --- !u!1 &8904429095526945731
 GameObject:
   m_ObjectHideFlags: 0
