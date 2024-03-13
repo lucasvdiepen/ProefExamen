@@ -82,7 +82,7 @@ namespace ProefExamen.Framework.Audio
         /// Method for playing a song. Applies automatic crossfading if needed.
         /// </summary>
         /// <param name="clip">Song to be played.</param>
-        public void PlaySong(AudioClip clip, float volume = .75f)
+        public void PlaySong(AudioClip clip, float volume = .75f, float startTime = 0)
         {
             if (CurrentActiveSongSource.clip == clip)
                 return;
@@ -94,7 +94,7 @@ namespace ProefExamen.Framework.Audio
             if (CurrentActiveSongSource.clip != null) 
             {
                 _isCrossFading = true;
-                AudioSource crossFadeSource = CreateCrossFadeSource(clip, volume);
+                AudioSource crossFadeSource = CreateCrossFadeSource(clip, volume, startTime);
 
                 CurrentActiveSongSource.DOFade(0, _songFadeDuration).OnComplete(() 
                     => DestroyCrossFadeSource(crossFadeSource));
@@ -106,6 +106,8 @@ namespace ProefExamen.Framework.Audio
             CurrentActiveSongSource.clip = clip;
 
             CurrentActiveSongSource.Play();
+
+            CurrentActiveSongSource.time = startTime;
             CurrentActiveSongSource.DOFade(volume, _songFadeDuration);
 
             float audioClipLenght = clip.length;
@@ -125,7 +127,7 @@ namespace ProefExamen.Framework.Audio
                 .OnComplete(() => CurrentActiveSongSource.clip = null);
         }
 
-        private AudioSource CreateCrossFadeSource(AudioClip clip, float volume = .75f)
+        private AudioSource CreateCrossFadeSource(AudioClip clip, float volume = .75f, float startTime = 0)
         {
             AudioSource crossFadeSource = gameObject.AddComponent<AudioSource>();
 
@@ -133,6 +135,8 @@ namespace ProefExamen.Framework.Audio
             crossFadeSource.volume = 0;
 
             crossFadeSource.Play();
+            crossFadeSource.time = startTime;
+
             crossFadeSource.DOFade(volume, _songFadeDuration);
 
             return crossFadeSource;
