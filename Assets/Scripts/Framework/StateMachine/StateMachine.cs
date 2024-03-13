@@ -265,12 +265,12 @@ namespace ProefExamen.Framework.StateMachine
             // Set the target state to the current state.
             CurrentState = TargetState;
 
-            // Enter the target states.
-            yield return EnterStates(currentStateTree, targetStateTree);
-
             // Adds the new state to the navigation history.
             if(shouldAddToHistory)
                 AddToHistory(CurrentState.GetType());
+
+            // Enter the target states.
+            yield return EnterStates(currentStateTree, targetStateTree);
 
             // Invokes the state changed event.
             OnStateChanged?.Invoke(CurrentState);
