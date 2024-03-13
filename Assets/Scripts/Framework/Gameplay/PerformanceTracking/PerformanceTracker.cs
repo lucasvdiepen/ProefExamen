@@ -6,6 +6,7 @@ using ProefExamen.Framework.Gameplay.LaneSystem;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Utils;
 using ProefExamen.Framework.Gameplay.Level;
+using ProefExamen.Framework.StateMachine.States;
 
 namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 {
@@ -240,7 +241,17 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
             if (health > 0f)
                 return;
 
-            CompleteTracking(false);
+            LaneManager.Instance.SetPaused(true);
+            LaneManager.Instance.DestroyAllNotes();
+
+            if (LaneManager.Instance.HasWatchedAd)
+            {
+                CompleteTracking(false);
+                StateMachine.StateMachine.Instance.GoToState<LoseState>();
+                return;
+            }
+
+            StateMachine.StateMachine.Instance.GoToState<AdState>();
         }
 
         /// <summary>

@@ -65,7 +65,7 @@ namespace ProefExamen.Framework.StateMachine.States
         {
             _lineVisualizer.SetActive(true);
 
-            if (StateMachine.Instance.PreviousState.GetType() == typeof(PauseState))
+            if (StateMachine.Instance.IsPreviousState<PauseState>())
                 return;
 
             LaneManager.Instance.PlayLevel();
@@ -78,24 +78,8 @@ namespace ProefExamen.Framework.StateMachine.States
             LaneManager.Instance.SetPaused(true);
             LaneManager.Instance.DestroyAllNotes();
 
-            switch (status)
-            {
-                case ScoreCompletionStatus.Failed:
-                    if(LaneManager.Instance.HasWatchedAd)
-                    {
-                        StateMachine.Instance.GoToState<LoseState>();
-                        break;
-                    }
-
-                    StateMachine.Instance.GoToState<AdState>();
-                    break;
-                case ScoreCompletionStatus.NotBeaten:
-                    StateMachine.Instance.GoToState<WinState>();
-                    break;
-                case ScoreCompletionStatus.Beaten:
-                    StateMachine.Instance.GoToState<WinState>();
-                    break;
-            }
+            if(status == ScoreCompletionStatus.NotBeaten || status == ScoreCompletionStatus.Beaten)
+                StateMachine.Instance.GoToState<WinState>();
         }
     }
 }

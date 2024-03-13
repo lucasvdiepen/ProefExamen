@@ -121,6 +121,38 @@ namespace ProefExamen.Framework.StateMachine
             => CurrentState.GetType() == state.GetType();
 
         /// <summary>
+        /// Checks if the given state is the previous state.
+        /// </summary>
+        /// <typeparam name="T">The type of the state to check.</typeparam>
+        /// <returns>True if the given state is the previous state, otherwise false.</returns>
+        public bool IsPreviousState<T>() where T : State
+            => PreviousState.GetType() == typeof(T);
+
+        /// <summary>
+        /// Checks if the given state is the previous state.
+        /// </summary>
+        /// <param name="state">The type of the state to check.</param>
+        /// <returns>True if the given state is the previous state, otherwise false.</returns>
+        public bool IsPreviousState(State state)
+            => PreviousState.GetType() == state.GetType();
+
+        /// <summary>
+        /// Checks if the given state is the target state.
+        /// </summary>
+        /// <typeparam name="T">The type of the state to check.</typeparam>
+        /// <returns>True if the given state is the target state, otherwise false.</returns>
+        public bool IsTargetState<T>() where T : State
+            => TargetState.GetType() == typeof(T);
+
+        /// <summary>
+        /// Checks if the given state is the target state.
+        /// </summary>
+        /// <param name="state">The type of the state to check.</param>
+        /// <returns>True if the given state is the target state, otherwise false.</returns>
+        public bool IsTargetState(State state)
+            => TargetState.GetType() == state.GetType();
+
+        /// <summary>
         /// Goes to the given state.
         /// </summary>
         /// <typeparam name="T">The target state.</typeparam>
