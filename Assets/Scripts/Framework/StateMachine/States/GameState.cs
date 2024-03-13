@@ -29,6 +29,8 @@ namespace ProefExamen.Framework.StateMachine.States
         {
             PerformanceTracker.Instance.OnScoreCompletion -= UpdateStateOnScoreCompletion;
 
+            LaneManager.Instance.DestroyAllNotes();
+
             yield return base.OnStateExit();
         }
 
