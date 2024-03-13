@@ -31,7 +31,6 @@ namespace ProefExamen.Framework.Gameplay.Values
                     ? startTimer
                     : audioSource.time;
             }
-            set => audioSource.time = value;
         }
 
         /// <summary>

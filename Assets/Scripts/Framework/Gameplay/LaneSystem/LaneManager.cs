@@ -8,6 +8,7 @@ using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.Gameplay.PerformanceTracking;
 using UnityEditor.Search;
+using System.Linq;
 
 namespace ProefExamen.Framework.Gameplay.LaneSystem
 {
@@ -79,6 +80,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// </summary>
         public bool HasWatchedAd { get; set; }
 
+        private Note[] _lastPausedNotes;
+        private DeadNote[] _lastPausedDeadNotes;
+
         private void Awake() => Application.targetFrameRate = 60;
 
         private void Start()
@@ -122,6 +126,9 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
             _lanes[laneID].HitNote(hitStatus, targetSprite);
         }
 
+        /// <summary>
+        /// Destroys all notes in the scene.
+        /// </summary>
         public void DestroyAllNotes()
         {
             foreach(Lane lane in _lanes)
@@ -259,6 +266,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         public void SetPaused(bool paused)
         {
             SessionValues.Instance.paused = paused;
+            SetNotesActive(!paused);
 
             if (paused && SessionValues.Instance.audioSource.isPlaying)
                 SessionValues.Instance.audioSource.Pause();
@@ -271,9 +279,45 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                     SessionValues.Instance.audioSource.clip.length
                 );
 
-                SessionValues.Instance.audioSource.time = _minimumPauseTime;
+                if (_minimumPauseTime < 0)
+                    SessionValues.Instance.startTimer = _minimumPauseTime;
+                else
+                    SessionValues.Instance.audioSource.time = _minimumPauseTime;
+
                 SessionValues.Instance.audioSource.UnPause();
             }
+        }
+
+        private void SetNotesActive(bool notesActive)
+        {
+            Note[] allNotes = notesActive
+                ? FindObjectsOfType<Note>().Concat(_lastPausedNotes).ToArray()
+                : FindObjectsOfType<Note>();
+
+            foreach (Note note in allNotes)
+            {
+                if (note == null)
+                    continue;
+
+                note.gameObject.SetActive(notesActive);
+            }
+
+            DeadNote[] allDeadNotes = notesActive
+                ? FindObjectsOfType<DeadNote>().Concat(_lastPausedDeadNotes).ToArray()
+                : FindObjectsOfType<DeadNote>();
+            foreach (DeadNote deadNote in allDeadNotes)
+            {
+                if (deadNote == null)
+                    continue;
+
+                deadNote.gameObject.SetActive(notesActive);
+            }
+
+            if (notesActive)
+                return;
+
+            _lastPausedDeadNotes = allDeadNotes;
+            _lastPausedNotes = allNotes;
         }
 
         private void Update()
