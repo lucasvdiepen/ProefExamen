@@ -54,6 +54,11 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// </summary>
         public float LerpAlpha => _lerpAlpha;
 
+        /// <summary>
+        /// Returns this note's DeathSprite.
+        /// </summary>
+        public Sprite DeathSprite => _deathSprite;
+
         private void Awake()
         {
             if(_animator == null)

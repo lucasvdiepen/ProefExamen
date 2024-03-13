@@ -94,12 +94,6 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void RemoveNoteFromLane(HitStatus hitStatus, int laneID)
         {
-            if (hitStatus == HitStatus.Miss || hitStatus == HitStatus.MissClick)
-                return;
-
-            Note target = _lanes[laneID].Notes[0];
-            _lanes[laneID].Notes.Remove(target);
-
             Sprite targetSprite = null;
 
             switch (hitStatus)
@@ -124,7 +118,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                     break;
             }
 
-            target.HitNote(hitStatus, targetSprite);
+            _lanes[laneID].HitNote(hitStatus, targetSprite);
         }
 
         public void DestroyAllNotes()

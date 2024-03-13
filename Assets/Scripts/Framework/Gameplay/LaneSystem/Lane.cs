@@ -71,6 +71,37 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         }
 
         /// <summary>
+        /// Instantiates a DeadNote and destroys this Note.
+        /// </summary>
+        public void HitNote(HitStatus hitStatus, Sprite hitSprite)
+        {
+            if (LaneManager.Instance.IsBeatMapping)
+                return;
+
+            bool miss = hitStatus == HitStatus.Miss || hitStatus == HitStatus.MissClick;
+
+            Transform deadNoteTransform = _notePrefab.transform;
+
+            if (!miss)
+                deadNoteTransform = _notes[0].transform;
+            else
+                deadNoteTransform.position = NotePositionScaler.Instance.GetLaneLerpPosition(_laneID, SessionValues.Instance.lerpAlphaHitThreshold + .5f);
+
+            GameObject deadNote = Instantiate(SessionValues.Instance.deadNote);
+
+            Sprite deathSprite = miss ? null : _notes[0].DeathSprite;
+            deadNote.GetComponent<DeadNote>().SetDeadNoteValues(deathSprite, hitSprite, deadNoteTransform);
+
+            if (miss)
+                return;
+
+            Note targetNote = _notes[0];
+            _notes.Remove(targetNote);
+
+            Destroy(targetNote.gameObject);
+        }
+
+        /// <summary>
         /// Spawns a note on this Lane with the passed TimeStamp and data.
         /// </summary>
         /// <param name="timeStamp">The TimeStamp that the new note must be hit on.</param>
