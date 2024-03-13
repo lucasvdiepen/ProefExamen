@@ -44,6 +44,8 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                 return;
             }
 
+            if (LaneManager.Instance.IsBeatMapping)
+                return;
             NotePositionScaler.Instance.UpdateLaneNotePositions(_laneID);
         }
 
