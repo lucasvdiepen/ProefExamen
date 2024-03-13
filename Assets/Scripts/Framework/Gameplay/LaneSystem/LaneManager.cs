@@ -170,10 +170,11 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
             bool hasStartedSong = false;
 
-            PerformanceTracker.Instance.StartTracking();
-
             if (!IsBeatMapping)
+            {
+                PerformanceTracker.Instance.StartTracking();
                 sessionValues.audioSource.clip = sessionValues.currentLevel.song;
+            }
 
             while (IsBeatMapping || sessionValues.time < sessionValues.currentLevel.song.length)
             {
