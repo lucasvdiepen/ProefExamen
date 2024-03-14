@@ -3452,6 +3452,10 @@ PrefabInstance:
       value: TimeStamper
       objectReference: {fileID: 0}
     - target: {fileID: 3718422921056682428, guid: 3641df144958cb94190175e5a19b212c, type: 3}
+      propertyPath: _laneToggles.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3718422921056682428, guid: 3641df144958cb94190175e5a19b212c, type: 3}
       propertyPath: laneToggles.Array.data[0]
       value: 
       objectReference: {fileID: 970291913}
@@ -3465,6 +3469,22 @@ PrefabInstance:
       objectReference: {fileID: 1701420478}
     - target: {fileID: 3718422921056682428, guid: 3641df144958cb94190175e5a19b212c, type: 3}
       propertyPath: laneToggles.Array.data[3]
+      value: 
+      objectReference: {fileID: 1763340740}
+    - target: {fileID: 3718422921056682428, guid: 3641df144958cb94190175e5a19b212c, type: 3}
+      propertyPath: _laneToggles.Array.data[0]
+      value: 
+      objectReference: {fileID: 970291913}
+    - target: {fileID: 3718422921056682428, guid: 3641df144958cb94190175e5a19b212c, type: 3}
+      propertyPath: _laneToggles.Array.data[1]
+      value: 
+      objectReference: {fileID: 1597061776}
+    - target: {fileID: 3718422921056682428, guid: 3641df144958cb94190175e5a19b212c, type: 3}
+      propertyPath: _laneToggles.Array.data[2]
+      value: 
+      objectReference: {fileID: 1701420478}
+    - target: {fileID: 3718422921056682428, guid: 3641df144958cb94190175e5a19b212c, type: 3}
+      propertyPath: _laneToggles.Array.data[3]
       value: 
       objectReference: {fileID: 1763340740}
     - target: {fileID: 8006361098233841331, guid: 3641df144958cb94190175e5a19b212c, type: 3}

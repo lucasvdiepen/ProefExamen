@@ -49,5 +49,13 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  _perfectHitSprite: {fileID: 21300000, guid: 6b911d263de3f459ca7b68720e193d54, type: 3}
+  _niceHitSprite: {fileID: 21300000, guid: 620f25ef7a16b4bb4beb1a4136d97da2, type: 3}
+  _alrightHitSprite: {fileID: 21300000, guid: a18cbe57dc7884a0db6fd49a367d138d, type: 3}
+  _okHitSprite: {fileID: 21300000, guid: cf7243c8da91c47f3be155feba18540d, type: 3}
+  _missSprite: {fileID: 21300000, guid: 56eaf9fab900b4022afc973f7f7fd4be, type: 3}
   _usingInputs: 1
   _inputs: 61000000730000003b00000027000000
+  _minimumPauseTime: 0
+  <IsBeatMapping>k__BackingField: 0
+  <Index>k__BackingField: 0

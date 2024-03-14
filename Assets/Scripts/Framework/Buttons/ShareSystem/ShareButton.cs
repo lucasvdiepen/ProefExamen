@@ -1,3 +1,4 @@
+using ProefExamen.Framework.Gameplay.PerformanceTracking;
 using ProefExamen.Framework.Sharing;
 
 namespace ProefExamen.Framework.Buttons.Share
@@ -10,6 +11,10 @@ namespace ProefExamen.Framework.Buttons.Share
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        private protected override void OnButtonPressed() => ShareHighscore.Instance.Share();
+        private protected override void OnButtonPressed()
+        {
+            ShareScoreUpdater.Instance.SetTargetResult(PerformanceTracker.Instance.CurrentPerformanceResult);
+            ShareHighscore.Instance.Share();
+        }
     }
 }
