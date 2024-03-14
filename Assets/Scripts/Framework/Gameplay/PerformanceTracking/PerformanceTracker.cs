@@ -265,6 +265,8 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
             _scoreMultiplier = 1;
             _health = 1000f;
 
+            OnHealthChanged?.Invoke(_health);
+
             _newResult = new PerformanceResult
             (
                 SessionValues.Instance.currentLevelID,
