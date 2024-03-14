@@ -17,9 +17,6 @@ namespace ProefExamen.Framework.UI.Hud
         [SerializeField]
         private Image _secondaryBar;
 
-        [SerializeField]
-        private PerformanceTracker _performanceTracker;
-
         [SerializeField, Space]
         private float _secundaryDelay = 1.0f;
 
@@ -32,7 +29,7 @@ namespace ProefExamen.Framework.UI.Hud
         [SerializeField]
         private RectTransform _rectTransform;
 
-        private void OnEnable() => _performanceTracker.OnHealthChanged += UpdateHealthBar;
+        private void OnEnable() => PerformanceTracker.Instance.OnHealthChanged += UpdateHealthBar;
 
         private void Awake()
         {
@@ -46,7 +43,7 @@ namespace ProefExamen.Framework.UI.Hud
         /// <param name="currentHealth">Current player health.</param>
         public void UpdateHealthBar(float currentHealth)
         {
-            float max = _performanceTracker.MaxHealth;
+            float max = PerformanceTracker.Instance.MaxHealth;
             float alpha = currentHealth / max;
 
             _primaryBar.fillAmount = alpha;
@@ -57,6 +54,6 @@ namespace ProefExamen.Framework.UI.Hud
                 .SetEase(_ease);
         }
 
-        private void OnDisable() => _performanceTracker.OnHealthChanged -= UpdateHealthBar;
+        private void OnDisable() => PerformanceTracker.Instance.OnHealthChanged -= UpdateHealthBar;
     }
 }

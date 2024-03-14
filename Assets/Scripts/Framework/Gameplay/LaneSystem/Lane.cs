@@ -43,6 +43,21 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                 Debug.LogError("Lane has no assigned ID!");
                 return;
             }
+
+            if (LaneManager.Instance.IsBeatMapping)
+                return;
+            NotePositionScaler.Instance.UpdateLaneNotePositions(_laneID);
+        }
+
+        /// <summary>
+        /// Sets the InitialNotePosition and TargetNotePosition to the newly passed values.
+        /// </summary>
+        /// <param name="initialPosition">The new InitialNotePosition.</param>
+        /// <param name="targetPosition">The new TargetNotePosition.</param>
+        public void SetNotePositions(Vector3 initialPosition, Vector3 targetPosition)
+        {
+            _initialNotePosition = initialPosition;
+            _targetNotePosition = targetPosition;
         }
 
         /// <summary>
@@ -55,6 +70,37 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                 : LaneUtils.CalculateHitStatus(_notes[0].LerpAlpha);
 
             LaneManager.Instance.OnNoteHit?.Invoke(hitResult, _laneID);
+        }
+
+        /// <summary>
+        /// Instantiates a DeadNote and destroys this Note.
+        /// </summary>
+        public void HitNote(HitStatus hitStatus, Sprite hitSprite)
+        {
+            if (LaneManager.Instance.IsBeatMapping)
+                return;
+
+            bool miss = hitStatus == HitStatus.Miss || hitStatus == HitStatus.MissClick;
+
+            Transform deadNoteTransform = _notePrefab.transform;
+
+            if (!miss)
+                deadNoteTransform = _notes[0].transform;
+            else
+                deadNoteTransform.position = NotePositionScaler.Instance.GetLaneLerpPosition(_laneID, SessionValues.Instance.lerpAlphaHitThreshold + .5f);
+
+            GameObject deadNote = Instantiate(SessionValues.Instance.deadNote);
+
+            Sprite deathSprite = miss ? null : _notes[0].DeathSprite;
+            deadNote.GetComponent<DeadNote>().SetDeadNoteValues(deathSprite, hitSprite, deadNoteTransform);
+
+            if (miss)
+                return;
+
+            Note targetNote = _notes[0];
+            _notes.Remove(targetNote);
+
+            Destroy(targetNote.gameObject);
         }
 
         /// <summary>

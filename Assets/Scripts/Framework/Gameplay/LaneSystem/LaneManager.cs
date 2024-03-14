@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using System;
 
@@ -19,12 +20,31 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         [SerializeField]
         private Lane[] _lanes;
 
+        [Header("Note Hit Sprites")]
+        [SerializeField]
+        private Sprite _perfectHitSprite;
+
+        [SerializeField]
+        private Sprite _niceHitSprite;
+
+        [SerializeField]
+        private Sprite _alrightHitSprite;
+
+        [SerializeField]
+        private Sprite _okHitSprite;
+
+        [SerializeField]
+        private Sprite _missSprite;
+
         [Header("PC Controls")]
         [SerializeField]
         private bool _usingInputs;
 
         [SerializeField]
         private KeyCode[] _inputs;
+
+        [SerializeField]
+        private float _minimumPauseTime;
 
         /// <summary>
         /// A bool that checks if the level is being beatmapped or not.
@@ -48,6 +68,19 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// </summary>
         [field:SerializeField]
         public int Index { get; set; }
+        
+        /// <summary>
+        /// Return the LaneManager's managed lanes.
+        /// </summary>
+        public Lane[] Lanes => _lanes;
+
+        /// <summary>
+        /// Whether or not the player has watched an ad.
+        /// </summary>
+        public bool HasWatchedAd { get; set; }
+
+        private Note[] _lastPausedNotes;
+        private DeadNote[] _lastPausedDeadNotes;
 
         private void Awake() => Application.targetFrameRate = 60;
 
@@ -65,38 +98,105 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
         private void RemoveNoteFromLane(HitStatus hitStatus, int laneID)
         {
-            if (hitStatus == HitStatus.Miss)
-                return;
+            Sprite targetSprite = null;
 
-            Note target = _lanes[laneID].Notes[0];
-            _lanes[laneID].Notes.Remove(target);
+            switch (hitStatus)
+            {
+                case HitStatus.Miss:
+                    targetSprite = _missSprite;
+                    break;
+                case HitStatus.MissClick:
+                    targetSprite = _missSprite;
+                    break;
+                case HitStatus.Ok:
+                    targetSprite = _okHitSprite;
+                    break;
+                case HitStatus.Alright:
+                    targetSprite = _alrightHitSprite;
+                    break;
+                case HitStatus.Nice:
+                    targetSprite = _niceHitSprite;
+                    break;
+                case HitStatus.Perfect:
+                    targetSprite = _perfectHitSprite;
+                    break;
+            }
 
-            target.HitNote();
+            _lanes[laneID].HitNote(hitStatus, targetSprite);
         }
 
-        public void PlayLevel() => StartCoroutine(PlayThroughLevel());
+        /// <summary>
+        /// Destroys all notes in the scene.
+        /// </summary>
+        public void DestroyAllNotes()
+        {
+            foreach(Lane lane in _lanes)
+                lane.Notes.Clear();
+
+            Note[] notes = FindObjectsOfType<Note>();
+
+            foreach (Note note in notes)
+                Destroy(note.gameObject);
+
+            DeadNote[] deadNotes = FindObjectsOfType<DeadNote>();
+
+            foreach (DeadNote deadNote in deadNotes)
+                Destroy(deadNote.gameObject);
+        }
 
         /// <summary>
         /// Starts the level that is currently selected on the selected difficulty and song.
         /// </summary>
+        public void PlayLevel()
+        {
+            HasWatchedAd = false;
+
+            if(SessionValues.Instance.audioSource.clip != null)
+            {
+                SessionValues.Instance.audioSource.time = 0;
+                SessionValues.Instance.paused = false;
+            }
+
+            StartCoroutine(PlayThroughLevel());
+        }
+
         private IEnumerator PlayThroughLevel()
         {
-            Index = 0;
+            SessionValues sessionValues = SessionValues.Instance;
 
-            PerformanceTracker.Instance.StartTracking();
+            Index = 0;
+            sessionValues.startTimer = -1 * sessionValues.travelTime;
+            _minimumPauseTime = sessionValues.startTimer;
+
+            bool hasStartedSong = false;
 
             if (!IsBeatMapping)
             {
-                SessionValues.Instance.audioSource.clip = SessionValues.Instance.currentLevel.song;
-                SessionValues.Instance.audioSource.Play();
+                PerformanceTracker.Instance.StartTracking();
+                sessionValues.audioSource.clip = sessionValues.currentLevel.song;
             }
 
-            while (IsBeatMapping || SessionValues.Instance.time < SessionValues.Instance.currentLevel.song.length)
+            while (IsBeatMapping || sessionValues.time < sessionValues.currentLevel.song.length)
             {
-                if (SessionValues.Instance.paused)
+                if (sessionValues.paused)
                 {
                     yield return null;
                     continue;
+                }
+
+                if (sessionValues.startTimer < 0)
+                {
+                    sessionValues.startTimer = Math.Clamp
+                    (
+                        sessionValues.startTimer + Time.deltaTime,
+                        -1 * sessionValues.travelTime,
+                        0
+                    );
+                }
+                else if (!hasStartedSong && !sessionValues.audioSource.isPlaying)
+                {
+                    hasStartedSong = true;
+                    sessionValues.audioSource.Play();
                 }
 
                 QueueUpcomingNotes();
@@ -166,11 +266,58 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         public void SetPaused(bool paused)
         {
             SessionValues.Instance.paused = paused;
+            SetNotesActive(!paused);
 
             if (paused && SessionValues.Instance.audioSource.isPlaying)
                 SessionValues.Instance.audioSource.Pause();
             else if (!paused && !SessionValues.Instance.audioSource.isPlaying)
+            {
+                _minimumPauseTime = Math.Clamp
+                (
+                    SessionValues.Instance.time - SessionValues.Instance.travelTime, 
+                    _minimumPauseTime, 
+                    SessionValues.Instance.audioSource.clip.length
+                );
+
+                if (_minimumPauseTime < 0)
+                    SessionValues.Instance.startTimer = _minimumPauseTime;
+                else
+                    SessionValues.Instance.audioSource.time = _minimumPauseTime;
+
                 SessionValues.Instance.audioSource.UnPause();
+            }
+        }
+
+        private void SetNotesActive(bool notesActive)
+        {
+            Note[] allNotes = notesActive
+                ? FindObjectsOfType<Note>().Concat(_lastPausedNotes).ToArray()
+                : FindObjectsOfType<Note>();
+
+            foreach (Note note in allNotes)
+            {
+                if (note == null)
+                    continue;
+
+                note.gameObject.SetActive(notesActive);
+            }
+
+            DeadNote[] allDeadNotes = notesActive
+                ? FindObjectsOfType<DeadNote>().Concat(_lastPausedDeadNotes).ToArray()
+                : FindObjectsOfType<DeadNote>();
+            foreach (DeadNote deadNote in allDeadNotes)
+            {
+                if (deadNote == null)
+                    continue;
+
+                deadNote.gameObject.SetActive(notesActive);
+            }
+
+            if (notesActive)
+                return;
+
+            _lastPausedDeadNotes = allDeadNotes;
+            _lastPausedNotes = allNotes;
         }
 
         private void Update()

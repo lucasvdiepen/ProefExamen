@@ -4,7 +4,6 @@ using UnityEngine;
 using ProefExamen.Framework.Gameplay.Level;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Buttons.LevelSelector;
-using ProefExamen.Framework.UI.TextUpdaters;
 
 namespace ProefExamen.Framework.UI.Level
 {
@@ -13,11 +12,13 @@ namespace ProefExamen.Framework.UI.Level
     /// </summary>
     public class LevelSelectorSpawner : MonoBehaviour
     {
+        [Header("References")]
         [SerializeField]
         private GameObject _levelSelectorPrefab;
 
         [SerializeField]
         private Transform _levelSelectorParent;
+        private Sprite diffHard;
 
         private readonly List<GameObject> _levelSelectors = new();
 
@@ -28,14 +29,14 @@ namespace ProefExamen.Framework.UI.Level
             if (_levelSelectors.Count > 0)
                 return;
 
-            foreach(LevelData levelData in SessionValues.Instance.Levels.levels)
+            int listLength = SessionValues.Instance.Levels.levels.Count;
+            for(int i = 0; i < listLength; i++)
             {
+                LevelData levelData = SessionValues.Instance.Levels.levels[i];
+
                 GameObject newLevelSelector = Instantiate(_levelSelectorPrefab, _levelSelectorParent);
-                newLevelSelector.GetComponent<SelectLevelButton>().levelID = levelData.levelID;
+                newLevelSelector.GetComponent<SelectLevelButton>().SetLevelInfo(levelData);
 
-                int visualLevelID = levelData.levelID + 1;
-
-                newLevelSelector.GetComponentInChildren<TextUpdater>().ReplaceTag(visualLevelID.ToString());
                 _levelSelectors.Add(newLevelSelector);
             }
         }

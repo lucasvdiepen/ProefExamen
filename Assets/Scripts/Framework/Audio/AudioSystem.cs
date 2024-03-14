@@ -20,6 +20,9 @@ namespace ProefExamen.Framework.Audio
         [SerializeField]
         private float _songFadeDuration = .5f;
 
+        [SerializeField]
+        private float _songStopFadeDuration = .1f;
+
         /// <summary>
         /// Current active audio source for playing songs.
         /// </summary>
@@ -53,7 +56,7 @@ namespace ProefExamen.Framework.Audio
         {
             for (int i = 0; i < _audioCollections.Length; i++)
             {
-                if (_audioCollections[i].audioCollectionType != audioCollectionType)
+                if (_audioCollections[i].AudioCollectionType != audioCollectionType)
                     continue;
 
                 int randIndex = Random.Range(0, _audioCollections[i].audioClipList.Count);
@@ -79,8 +82,11 @@ namespace ProefExamen.Framework.Audio
         /// Method for playing a song. Applies automatic crossfading if needed.
         /// </summary>
         /// <param name="clip">Song to be played.</param>
-        public void PlaySong(AudioClip clip, float volume = .75f)
+        public void PlaySong(AudioClip clip, float volume = .75f, float startTime = 0)
         {
+            if (CurrentActiveSongSource.clip == clip)
+                return;
+
             if (_isCrossFading)
                 return;
 
@@ -88,7 +94,7 @@ namespace ProefExamen.Framework.Audio
             if (CurrentActiveSongSource.clip != null) 
             {
                 _isCrossFading = true;
-                AudioSource crossFadeSource = CreateCrossFadeSource(clip);
+                AudioSource crossFadeSource = CreateCrossFadeSource(clip, volume, startTime);
 
                 CurrentActiveSongSource.DOFade(0, _songFadeDuration).OnComplete(() 
                     => DestroyCrossFadeSource(crossFadeSource));
@@ -96,18 +102,32 @@ namespace ProefExamen.Framework.Audio
                 return;
             }
          
-            CurrentActiveSongSource.volume = volume;
+            CurrentActiveSongSource.volume = 0;
             CurrentActiveSongSource.clip = clip;
 
             CurrentActiveSongSource.Play();
-            CurrentActiveSongSource.DOFade(1, _songFadeDuration);
+
+            CurrentActiveSongSource.time = startTime;
+            CurrentActiveSongSource.DOFade(volume, _songFadeDuration);
 
             float audioClipLenght = clip.length;
             DOTween.To(() => _songLenghtCounter, x => _songLenghtCounter = x, 1, audioClipLenght)
                 .OnComplete(() => CurrentActiveSongSource.clip = null);
         }
 
-        private AudioSource CreateCrossFadeSource(AudioClip clip)
+        /// <summary>
+        /// Helper method which stops and fades the current active played song.
+        /// </summary>
+        public void StopCurrentActiveSong()
+        {
+            if (CurrentActiveSongSource.clip == null)
+                return;
+
+            CurrentActiveSongSource.DOFade(0, _songStopFadeDuration)
+                .OnComplete(() => CurrentActiveSongSource.clip = null);
+        }
+
+        private AudioSource CreateCrossFadeSource(AudioClip clip, float volume = .75f, float startTime = 0)
         {
             AudioSource crossFadeSource = gameObject.AddComponent<AudioSource>();
 
@@ -115,7 +135,9 @@ namespace ProefExamen.Framework.Audio
             crossFadeSource.volume = 0;
 
             crossFadeSource.Play();
-            crossFadeSource.DOFade(1, _songFadeDuration);
+            crossFadeSource.time = startTime;
+
+            crossFadeSource.DOFade(volume, _songFadeDuration);
 
             return crossFadeSource;
         }

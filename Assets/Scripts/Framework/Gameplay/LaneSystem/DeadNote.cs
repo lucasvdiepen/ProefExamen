@@ -12,14 +12,17 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
     public class DeadNote : MonoBehaviour
     {
         [SerializeField]
-        private SpriteRenderer _spriteRenderer;
+        private SpriteRenderer _deadSprite;
+
+        [SerializeField]
+        private SpriteRenderer _hitSprite;
 
         private float _lerpAlpha = 1;
 
         private void Awake()
         {
-            if(_spriteRenderer == null)
-                _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+            if(_deadSprite == null)
+                _deadSprite = gameObject.GetComponent<SpriteRenderer>();
         }
 
         /// <summary>
@@ -27,9 +30,12 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
         /// </summary>
         /// <param name="sprite">The sprite to display.</param>
         /// <param name="newTransform">The transform of the DeadNote.</param>
-        public void SetDeadNoteValues(Sprite sprite, Transform newTransform)
+        public void SetDeadNoteValues(Sprite sprite, Sprite hitSprite, Transform newTransform)
         {
-            _spriteRenderer.sprite = sprite;
+            if (sprite != null)
+                _deadSprite.sprite = sprite;
+
+            _hitSprite.sprite = hitSprite;
 
             gameObject.transform.position = newTransform.position;
             gameObject.transform.rotation = newTransform.rotation;
@@ -49,7 +55,11 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
                 }
                 _lerpAlpha -= Time.deltaTime / SessionValues.Instance.deadNoteFadeTime;
 
-                _spriteRenderer.color = new Color(1, 1, 1, _lerpAlpha);
+                Color fadingColor = new Color(1, 1, 1, _lerpAlpha);
+
+                _deadSprite.color = fadingColor;
+                _hitSprite.color = fadingColor;
+
                 yield return null;
             }
 
