@@ -1,0 +1,1251 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3758c98f2218b843aad62d1861e771e, type: 3}
+  m_Name: REASONTOLIVEeasy
+  m_EditorClassIdentifier: 
+  songDebugLineData:
+  - startLinePoint: {x: -5082.51, y: -390}
+    endLinePoint: {x: -5082.51, y: -190}
+  - startLinePoint: {x: -5030.25, y: -390}
+    endLinePoint: {x: -5030.25, y: -190}
+  - startLinePoint: {x: -4975.7188, y: -390}
+    endLinePoint: {x: -4975.7188, y: -190}
+  - startLinePoint: {x: -4923.459, y: -390}
+    endLinePoint: {x: -4923.459, y: -190}
+  - startLinePoint: {x: -4869.4956, y: -390}
+    endLinePoint: {x: -4869.4956, y: -190}
+  - startLinePoint: {x: -4817.804, y: -390}
+    endLinePoint: {x: -4817.804, y: -190}
+  - startLinePoint: {x: -4761.568, y: -390}
+    endLinePoint: {x: -4761.568, y: -190}
+  - startLinePoint: {x: -4710.4443, y: -390}
+    endLinePoint: {x: -4710.4443, y: -190}
+  - startLinePoint: {x: -4682.6113, y: -390}
+    endLinePoint: {x: -4682.6113, y: -190}
+  - startLinePoint: {x: -4657.05, y: -390}
+    endLinePoint: {x: -4657.05, y: -190}
+  - startLinePoint: {x: -4629.7827, y: -390}
+    endLinePoint: {x: -4629.7827, y: -190}
+  - startLinePoint: {x: -4604.221, y: -390}
+    endLinePoint: {x: -4604.221, y: -190}
+  - startLinePoint: {x: -4577.5244, y: -390}
+    endLinePoint: {x: -4577.5244, y: -190}
+  - startLinePoint: {x: -4551.9624, y: -390}
+    endLinePoint: {x: -4551.9624, y: -190}
+  - startLinePoint: {x: -4523.5605, y: -390}
+    endLinePoint: {x: -4523.5605, y: -190}
+  - startLinePoint: {x: -4497.999, y: -390}
+    endLinePoint: {x: -4497.999, y: -190}
+  - startLinePoint: {x: -4469.5967, y: -390}
+    endLinePoint: {x: -4469.5967, y: -190}
+  - startLinePoint: {x: -4444.6025, y: -390}
+    endLinePoint: {x: -4444.6025, y: -190}
+  - startLinePoint: {x: -4416.2007, y: -390}
+    endLinePoint: {x: -4416.2007, y: -190}
+  - startLinePoint: {x: -4390.0713, y: -390}
+    endLinePoint: {x: -4390.0713, y: -190}
+  - startLinePoint: {x: -4365.077, y: -390}
+    endLinePoint: {x: -4365.077, y: -190}
+  - startLinePoint: {x: -4338.379, y: -390}
+    endLinePoint: {x: -4338.379, y: -190}
+  - startLinePoint: {x: -4309.977, y: -390}
+    endLinePoint: {x: -4309.977, y: -190}
+  - startLinePoint: {x: -4284.4155, y: -390}
+    endLinePoint: {x: -4284.4155, y: -190}
+  - startLinePoint: {x: -4258.8535, y: -390}
+    endLinePoint: {x: -4258.8535, y: -190}
+  - startLinePoint: {x: -4232.7246, y: -390}
+    endLinePoint: {x: -4232.7246, y: -190}
+  - startLinePoint: {x: -4204.89, y: -390}
+    endLinePoint: {x: -4204.89, y: -190}
+  - startLinePoint: {x: -4178.7607, y: -390}
+    endLinePoint: {x: -4178.7607, y: -190}
+  - startLinePoint: {x: -4150.9263, y: -390}
+    endLinePoint: {x: -4150.9263, y: -190}
+  - startLinePoint: {x: -4124.797, y: -390}
+    endLinePoint: {x: -4124.797, y: -190}
+  - startLinePoint: {x: -4096.963, y: -390}
+    endLinePoint: {x: -4096.963, y: -190}
+  - startLinePoint: {x: -4071.401, y: -390}
+    endLinePoint: {x: -4071.401, y: -190}
+  - startLinePoint: {x: -4045.2717, y: -390}
+    endLinePoint: {x: -4045.2717, y: -190}
+  - startLinePoint: {x: -4017.4373, y: -390}
+    endLinePoint: {x: -4017.4373, y: -190}
+  - startLinePoint: {x: -3989.0354, y: -390}
+    endLinePoint: {x: -3989.0354, y: -190}
+  - startLinePoint: {x: -3965.746, y: -390}
+    endLinePoint: {x: -3965.746, y: -190}
+  - startLinePoint: {x: -3937.9119, y: -390}
+    endLinePoint: {x: -3937.9119, y: -190}
+  - startLinePoint: {x: -3911.7825, y: -390}
+    endLinePoint: {x: -3911.7825, y: -190}
+  - startLinePoint: {x: -3885.0845, y: -390}
+    endLinePoint: {x: -3885.0845, y: -190}
+  - startLinePoint: {x: -3858.955, y: -390}
+    endLinePoint: {x: -3858.955, y: -190}
+  - startLinePoint: {x: -3831.1206, y: -390}
+    endLinePoint: {x: -3831.1206, y: -190}
+  - startLinePoint: {x: -3804.9917, y: -390}
+    endLinePoint: {x: -3804.9917, y: -190}
+  - startLinePoint: {x: -3779.4297, y: -390}
+    endLinePoint: {x: -3779.4297, y: -190}
+  - startLinePoint: {x: -3751.0278, y: -390}
+    endLinePoint: {x: -3751.0278, y: -190}
+  - startLinePoint: {x: -3724.8975, y: -390}
+    endLinePoint: {x: -3724.8975, y: -190}
+  - startLinePoint: {x: -3697.995, y: -390}
+    endLinePoint: {x: -3697.995, y: -190}
+  - startLinePoint: {x: -3670.162, y: -390}
+    endLinePoint: {x: -3670.162, y: -190}
+  - startLinePoint: {x: -3645.168, y: -390}
+    endLinePoint: {x: -3645.168, y: -190}
+  - startLinePoint: {x: -3644.6003, y: -390}
+    endLinePoint: {x: -3644.6003, y: -190}
+  - startLinePoint: {x: -3619.606, y: -390}
+    endLinePoint: {x: -3619.606, y: -190}
+  - startLinePoint: {x: -3619.0386, y: -390}
+    endLinePoint: {x: -3619.0386, y: -190}
+  - startLinePoint: {x: -3592.3403, y: -390}
+    endLinePoint: {x: -3592.3403, y: -190}
+  - startLinePoint: {x: -3566.7788, y: -390}
+    endLinePoint: {x: -3566.7788, y: -190}
+  - startLinePoint: {x: -3538.377, y: -390}
+    endLinePoint: {x: -3538.377, y: -190}
+  - startLinePoint: {x: -3510.5425, y: -390}
+    endLinePoint: {x: -3510.5425, y: -190}
+  - startLinePoint: {x: -3483.2769, y: -390}
+    endLinePoint: {x: -3483.2769, y: -190}
+  - startLinePoint: {x: -3458.2837, y: -390}
+    endLinePoint: {x: -3458.2837, y: -190}
+  - startLinePoint: {x: -3433.2896, y: -390}
+    endLinePoint: {x: -3433.2896, y: -190}
+  - startLinePoint: {x: -3407.1602, y: -390}
+    endLinePoint: {x: -3407.1602, y: -190}
+  - startLinePoint: {x: -3349.7876, y: -390}
+    endLinePoint: {x: -3349.7876, y: -190}
+  - startLinePoint: {x: -3337.8594, y: -390}
+    endLinePoint: {x: -3337.8594, y: -190}
+  - startLinePoint: {x: -3326.4985, y: -390}
+    endLinePoint: {x: -3326.4985, y: -190}
+  - startLinePoint: {x: -3299.233, y: -390}
+    endLinePoint: {x: -3299.233, y: -190}
+  - startLinePoint: {x: -3273.1025, y: -390}
+    endLinePoint: {x: -3273.1025, y: -190}
+  - startLinePoint: {x: -3245.837, y: -390}
+    endLinePoint: {x: -3245.837, y: -190}
+  - startLinePoint: {x: -3220.275, y: -390}
+    endLinePoint: {x: -3220.275, y: -190}
+  - startLinePoint: {x: -3193.0095, y: -390}
+    endLinePoint: {x: -3193.0095, y: -190}
+  - startLinePoint: {x: -3165.7437, y: -390}
+    endLinePoint: {x: -3165.7437, y: -190}
+  - startLinePoint: {x: -3139.6133, y: -390}
+    endLinePoint: {x: -3139.6133, y: -190}
+  - startLinePoint: {x: -3112.9155, y: -390}
+    endLinePoint: {x: -3112.9155, y: -190}
+  - startLinePoint: {x: -3085.6497, y: -390}
+    endLinePoint: {x: -3085.6497, y: -190}
+  - startLinePoint: {x: -3059.5203, y: -390}
+    endLinePoint: {x: -3059.5203, y: -190}
+  - startLinePoint: {x: -3033.39, y: -390}
+    endLinePoint: {x: -3033.39, y: -190}
+  - startLinePoint: {x: -3006.1243, y: -390}
+    endLinePoint: {x: -3006.1243, y: -190}
+  - startLinePoint: {x: -3005.5566, y: -390}
+    endLinePoint: {x: -3005.5566, y: -190}
+  - startLinePoint: {x: -2979.995, y: -390}
+    endLinePoint: {x: -2979.995, y: -190}
+  - startLinePoint: {x: -2952.7292, y: -390}
+    endLinePoint: {x: -2952.7292, y: -190}
+  - startLinePoint: {x: -2927.1675, y: -390}
+    endLinePoint: {x: -2927.1675, y: -190}
+  - startLinePoint: {x: -2898.7656, y: -390}
+    endLinePoint: {x: -2898.7656, y: -190}
+  - startLinePoint: {x: -2872.635, y: -390}
+    endLinePoint: {x: -2872.635, y: -190}
+  - startLinePoint: {x: -2845.937, y: -390}
+    endLinePoint: {x: -2845.937, y: -190}
+  - startLinePoint: {x: -2820.944, y: -390}
+    endLinePoint: {x: -2820.944, y: -190}
+  - startLinePoint: {x: -2791.9734, y: -390}
+    endLinePoint: {x: -2791.9734, y: -190}
+  - startLinePoint: {x: -2765.844, y: -390}
+    endLinePoint: {x: -2765.844, y: -190}
+  - startLinePoint: {x: -2753.347, y: -390}
+    endLinePoint: {x: -2753.347, y: -190}
+  - startLinePoint: {x: -2740.2822, y: -390}
+    endLinePoint: {x: -2740.2822, y: -190}
+  - startLinePoint: {x: -2726.649, y: -390}
+    endLinePoint: {x: -2726.649, y: -190}
+  - startLinePoint: {x: -2714.153, y: -390}
+    endLinePoint: {x: -2714.153, y: -190}
+  - startLinePoint: {x: -2699.3833, y: -390}
+    endLinePoint: {x: -2699.3833, y: -190}
+  - startLinePoint: {x: -2685.1824, y: -390}
+    endLinePoint: {x: -2685.1824, y: -190}
+  - startLinePoint: {x: -2673.8215, y: -390}
+    endLinePoint: {x: -2673.8215, y: -190}
+  - startLinePoint: {x: -2658.4841, y: -390}
+    endLinePoint: {x: -2658.4841, y: -190}
+  - startLinePoint: {x: -2645.9885, y: -390}
+    endLinePoint: {x: -2645.9885, y: -190}
+  - startLinePoint: {x: -2631.2188, y: -390}
+    endLinePoint: {x: -2631.2188, y: -190}
+  - startLinePoint: {x: -2620.4268, y: -390}
+    endLinePoint: {x: -2620.4268, y: -190}
+  - startLinePoint: {x: -2606.7932, y: -390}
+    endLinePoint: {x: -2606.7932, y: -190}
+  - startLinePoint: {x: -2594.2961, y: -390}
+    endLinePoint: {x: -2594.2961, y: -190}
+  - startLinePoint: {x: -2581.2314, y: -390}
+    endLinePoint: {x: -2581.2314, y: -190}
+  - startLinePoint: {x: -2567.5981, y: -390}
+    endLinePoint: {x: -2567.5981, y: -190}
+  - startLinePoint: {x: -2554.5334, y: -390}
+    endLinePoint: {x: -2554.5334, y: -190}
+  - startLinePoint: {x: -2527.2678, y: -390}
+    endLinePoint: {x: -2527.2678, y: -190}
+  - startLinePoint: {x: -2501.1384, y: -390}
+    endLinePoint: {x: -2501.1384, y: -190}
+  - startLinePoint: {x: -2474.4404, y: -390}
+    endLinePoint: {x: -2474.4404, y: -190}
+  - startLinePoint: {x: -2447.1748, y: -390}
+    endLinePoint: {x: -2447.1748, y: -190}
+  - startLinePoint: {x: -2434.109, y: -390}
+    endLinePoint: {x: -2434.109, y: -190}
+  - startLinePoint: {x: -2421.0444, y: -390}
+    endLinePoint: {x: -2421.0444, y: -190}
+  - startLinePoint: {x: -2407.9795, y: -390}
+    endLinePoint: {x: -2407.9795, y: -190}
+  - startLinePoint: {x: -2393.7786, y: -390}
+    endLinePoint: {x: -2393.7786, y: -190}
+  - startLinePoint: {x: -2382.418, y: -390}
+    endLinePoint: {x: -2382.418, y: -190}
+  - startLinePoint: {x: -2368.217, y: -390}
+    endLinePoint: {x: -2368.217, y: -190}
+  - startLinePoint: {x: -2355.1523, y: -390}
+    endLinePoint: {x: -2355.1523, y: -190}
+  - startLinePoint: {x: -2340.9514, y: -390}
+    endLinePoint: {x: -2340.9514, y: -190}
+  - startLinePoint: {x: -2330.158, y: -390}
+    endLinePoint: {x: -2330.158, y: -190}
+  - startLinePoint: {x: -2314.8208, y: -390}
+    endLinePoint: {x: -2314.8208, y: -190}
+  - startLinePoint: {x: -2301.1887, y: -390}
+    endLinePoint: {x: -2301.1887, y: -190}
+  - startLinePoint: {x: -2286.8174, y: -390}
+    endLinePoint: {x: -2286.8174, y: -190}
+  - startLinePoint: {x: -2273.7527, y: -390}
+    endLinePoint: {x: -2273.7527, y: -190}
+  - startLinePoint: {x: -2259.5518, y: -390}
+    endLinePoint: {x: -2259.5518, y: -190}
+  - startLinePoint: {x: -2246.487, y: -390}
+    endLinePoint: {x: -2246.487, y: -190}
+  - startLinePoint: {x: -2233.4226, y: -390}
+    endLinePoint: {x: -2233.4226, y: -190}
+  - startLinePoint: {x: -2220.9253, y: -390}
+    endLinePoint: {x: -2220.9253, y: -190}
+  - startLinePoint: {x: -2206.7244, y: -390}
+    endLinePoint: {x: -2206.7244, y: -190}
+  - startLinePoint: {x: -2194.2273, y: -390}
+    endLinePoint: {x: -2194.2273, y: -190}
+  - startLinePoint: {x: -2180.0264, y: -390}
+    endLinePoint: {x: -2180.0264, y: -190}
+  - startLinePoint: {x: -2169.2344, y: -390}
+    endLinePoint: {x: -2169.2344, y: -190}
+  - startLinePoint: {x: -2155.0334, y: -390}
+    endLinePoint: {x: -2155.0334, y: -190}
+  - startLinePoint: {x: -2141.4, y: -390}
+    endLinePoint: {x: -2141.4, y: -190}
+  - startLinePoint: {x: -2128.3352, y: -390}
+    endLinePoint: {x: -2128.3352, y: -190}
+  - startLinePoint: {x: -2115.8384, y: -390}
+    endLinePoint: {x: -2115.8384, y: -190}
+  - startLinePoint: {x: -2101.6375, y: -390}
+    endLinePoint: {x: -2101.6375, y: -190}
+  - startLinePoint: {x: -2087.4363, y: -390}
+    endLinePoint: {x: -2087.4363, y: -190}
+  - startLinePoint: {x: -2073.8027, y: -390}
+    endLinePoint: {x: -2073.8027, y: -190}
+  - startLinePoint: {x: -2061.3071, y: -390}
+    endLinePoint: {x: -2061.3071, y: -190}
+  - startLinePoint: {x: -2047.1062, y: -390}
+    endLinePoint: {x: -2047.1062, y: -190}
+  - startLinePoint: {x: -2034.6089, y: -390}
+    endLinePoint: {x: -2034.6089, y: -190}
+  - startLinePoint: {x: -2021.5442, y: -390}
+    endLinePoint: {x: -2021.5442, y: -190}
+  - startLinePoint: {x: -2011.1907, y: -390}
+    endLinePoint: {x: -2011.1907, y: -190}
+  - startLinePoint: {x: -1994.717, y: -390}
+    endLinePoint: {x: -1994.717, y: -190}
+  - startLinePoint: {x: -1981.6523, y: -390}
+    endLinePoint: {x: -1981.6523, y: -190}
+  - startLinePoint: {x: -1968.019, y: -390}
+    endLinePoint: {x: -1968.019, y: -190}
+  - startLinePoint: {x: -1956.0906, y: -390}
+    endLinePoint: {x: -1956.0906, y: -190}
+  - startLinePoint: {x: -1941.322, y: -390}
+    endLinePoint: {x: -1941.322, y: -190}
+  - startLinePoint: {x: -1929.3926, y: -390}
+    endLinePoint: {x: -1929.3926, y: -190}
+  - startLinePoint: {x: -1913.4878, y: -390}
+    endLinePoint: {x: -1913.4878, y: -190}
+  - startLinePoint: {x: -1899.8542, y: -390}
+    endLinePoint: {x: -1899.8542, y: -190}
+  - startLinePoint: {x: -1887.926, y: -390}
+    endLinePoint: {x: -1887.926, y: -190}
+  - startLinePoint: {x: -1874.2927, y: -390}
+    endLinePoint: {x: -1874.2927, y: -190}
+  - startLinePoint: {x: -1860.6604, y: -390}
+    endLinePoint: {x: -1860.6604, y: -190}
+  - startLinePoint: {x: -1847.0269, y: -390}
+    endLinePoint: {x: -1847.0269, y: -190}
+  - startLinePoint: {x: -1834.5298, y: -390}
+    endLinePoint: {x: -1834.5298, y: -190}
+  - startLinePoint: {x: -1822.6013, y: -390}
+    endLinePoint: {x: -1822.6013, y: -190}
+  - startLinePoint: {x: -1806.6968, y: -390}
+    endLinePoint: {x: -1806.6968, y: -190}
+  - startLinePoint: {x: -1793.6318, y: -390}
+    endLinePoint: {x: -1793.6318, y: -190}
+  - startLinePoint: {x: -1781.135, y: -390}
+    endLinePoint: {x: -1781.135, y: -190}
+  - startLinePoint: {x: -1768.0703, y: -390}
+    endLinePoint: {x: -1768.0703, y: -190}
+  - startLinePoint: {x: -1754.4368, y: -390}
+    endLinePoint: {x: -1754.4368, y: -190}
+  - startLinePoint: {x: -1741.9397, y: -390}
+    endLinePoint: {x: -1741.9397, y: -190}
+  - startLinePoint: {x: -1728.3076, y: -390}
+    endLinePoint: {x: -1728.3076, y: -190}
+  - startLinePoint: {x: -1716.9468, y: -390}
+    endLinePoint: {x: -1716.9468, y: -190}
+  - startLinePoint: {x: -1702.177, y: -390}
+    endLinePoint: {x: -1702.177, y: -190}
+  - startLinePoint: {x: -1688.5452, y: -390}
+    endLinePoint: {x: -1688.5452, y: -190}
+  - startLinePoint: {x: -1675.479, y: -390}
+    endLinePoint: {x: -1675.479, y: -190}
+  - startLinePoint: {x: -1662.9832, y: -390}
+    endLinePoint: {x: -1662.9832, y: -190}
+  - startLinePoint: {x: -1649.3496, y: -390}
+    endLinePoint: {x: -1649.3496, y: -190}
+  - startLinePoint: {x: -1636.2852, y: -390}
+    endLinePoint: {x: -1636.2852, y: -190}
+  - startLinePoint: {x: -1622.6516, y: -390}
+    endLinePoint: {x: -1622.6516, y: -190}
+  - startLinePoint: {x: -1608.4504, y: -390}
+    endLinePoint: {x: -1608.4504, y: -190}
+  - startLinePoint: {x: -1595.3862, y: -390}
+    endLinePoint: {x: -1595.3862, y: -190}
+  - startLinePoint: {x: -1582.3213, y: -390}
+    endLinePoint: {x: -1582.3213, y: -190}
+  - startLinePoint: {x: -1568.1201, y: -390}
+    endLinePoint: {x: -1568.1201, y: -190}
+  - startLinePoint: {x: -1556.1912, y: -390}
+    endLinePoint: {x: -1556.1912, y: -190}
+  - startLinePoint: {x: -1540.9417, y: -390}
+    endLinePoint: {x: -1540.9417, y: -190}
+  - startLinePoint: {x: -1528.4446, y: -390}
+    endLinePoint: {x: -1528.4446, y: -190}
+  - startLinePoint: {x: -1513.6763, y: -390}
+    endLinePoint: {x: -1513.6763, y: -190}
+  - startLinePoint: {x: -1501.7466, y: -390}
+    endLinePoint: {x: -1501.7466, y: -190}
+  - startLinePoint: {x: -1488.1143, y: -390}
+    endLinePoint: {x: -1488.1143, y: -190}
+  - startLinePoint: {x: -1475.0486, y: -390}
+    endLinePoint: {x: -1475.0486, y: -190}
+  - startLinePoint: {x: -1461.4163, y: -390}
+    endLinePoint: {x: -1461.4163, y: -190}
+  - startLinePoint: {x: -1448.9192, y: -390}
+    endLinePoint: {x: -1448.9192, y: -190}
+  - startLinePoint: {x: -1434.1509, y: -390}
+    endLinePoint: {x: -1434.1509, y: -190}
+  - startLinePoint: {x: -1421.6536, y: -390}
+    endLinePoint: {x: -1421.6536, y: -190}
+  - startLinePoint: {x: -1408.02, y: -390}
+    endLinePoint: {x: -1408.02, y: -190}
+  - startLinePoint: {x: -1394.9558, y: -390}
+    endLinePoint: {x: -1394.9558, y: -190}
+  - startLinePoint: {x: -1380.7546, y: -390}
+    endLinePoint: {x: -1380.7546, y: -190}
+  - startLinePoint: {x: -1367.6897, y: -390}
+    endLinePoint: {x: -1367.6897, y: -190}
+  - startLinePoint: {x: -1353.489, y: -390}
+    endLinePoint: {x: -1353.489, y: -190}
+  - startLinePoint: {x: -1340.992, y: -390}
+    endLinePoint: {x: -1340.992, y: -190}
+  - startLinePoint: {x: -1329.0635, y: -390}
+    endLinePoint: {x: -1329.0635, y: -190}
+  - startLinePoint: {x: -1315.9976, y: -390}
+    endLinePoint: {x: -1315.9976, y: -190}
+  - startLinePoint: {x: -1302.9331, y: -390}
+    endLinePoint: {x: -1302.9331, y: -190}
+  - startLinePoint: {x: -1290.436, y: -390}
+    endLinePoint: {x: -1290.436, y: -190}
+  - startLinePoint: {x: -1276.8037, y: -390}
+    endLinePoint: {x: -1276.8037, y: -190}
+  - startLinePoint: {x: -1248.9695, y: -390}
+    endLinePoint: {x: -1248.9695, y: -190}
+  - startLinePoint: {x: -1223.9763, y: -390}
+    endLinePoint: {x: -1223.9763, y: -190}
+  - startLinePoint: {x: -1195.5745, y: -390}
+    endLinePoint: {x: -1195.5745, y: -190}
+  - startLinePoint: {x: -1168.8765, y: -390}
+    endLinePoint: {x: -1168.8765, y: -190}
+  - startLinePoint: {x: -1144.4509, y: -390}
+    endLinePoint: {x: -1144.4509, y: -190}
+  - startLinePoint: {x: -1116.6167, y: -390}
+    endLinePoint: {x: -1116.6167, y: -190}
+  - startLinePoint: {x: -1089.9187, y: -390}
+    endLinePoint: {x: -1089.9187, y: -190}
+  - startLinePoint: {x: -1051.3716, y: -390}
+    endLinePoint: {x: -1051.3716, y: -190}
+  - startLinePoint: {x: -1024.105, y: -390}
+    endLinePoint: {x: -1024.105, y: -190}
+  - startLinePoint: {x: -996.83936, y: -390}
+    endLinePoint: {x: -996.83936, y: -190}
+  - startLinePoint: {x: -969.5737, y: -390}
+    endLinePoint: {x: -969.5737, y: -190}
+  - startLinePoint: {x: -942.3081, y: -390}
+    endLinePoint: {x: -942.3081, y: -190}
+  - startLinePoint: {x: -914.47363, y: -390}
+    endLinePoint: {x: -914.47363, y: -190}
+  - startLinePoint: {x: -889.48047, y: -390}
+    endLinePoint: {x: -889.48047, y: -190}
+  - startLinePoint: {x: -863.5327, y: -390}
+    endLinePoint: {x: -863.5327, y: -190}
+  - startLinePoint: {x: -835.38525, y: -390}
+    endLinePoint: {x: -835.38525, y: -190}
+  - startLinePoint: {x: -809.8237, y: -390}
+    endLinePoint: {x: -809.8237, y: -190}
+  - startLinePoint: {x: -782.4326, y: -390}
+    endLinePoint: {x: -782.4326, y: -190}
+  - startLinePoint: {x: -756.30225, y: -390}
+    endLinePoint: {x: -756.30225, y: -190}
+  - startLinePoint: {x: -727.3325, y: -390}
+    endLinePoint: {x: -727.3325, y: -190}
+  - startLinePoint: {x: -702.3384, y: -390}
+    endLinePoint: {x: -702.3384, y: -190}
+  - startLinePoint: {x: -676.77637, y: -390}
+    endLinePoint: {x: -676.77637, y: -190}
+  - startLinePoint: {x: -649.51074, y: -390}
+    endLinePoint: {x: -649.51074, y: -190}
+  - startLinePoint: {x: 2.446289, y: -390}
+    endLinePoint: {x: 2.446289, y: -190}
+  - startLinePoint: {x: 29.144531, y: -390}
+    endLinePoint: {x: 29.144531, y: -190}
+  - startLinePoint: {x: 156.49902, y: -390}
+    endLinePoint: {x: 156.49902, y: -190}
+  - startLinePoint: {x: 185.46973, y: -390}
+    endLinePoint: {x: 185.46973, y: -190}
+  - startLinePoint: {x: 312.0625, y: -390}
+    endLinePoint: {x: 312.0625, y: -190}
+  - startLinePoint: {x: 350.12158, y: -390}
+    endLinePoint: {x: 350.12158, y: -190}
+  - startLinePoint: {x: 390.22705, y: -390}
+    endLinePoint: {x: 390.22705, y: -190}
+  - startLinePoint: {x: 445.32715, y: -390}
+    endLinePoint: {x: 445.32715, y: -190}
+  - startLinePoint: {x: 481.11328, y: -390}
+    endLinePoint: {x: 481.11328, y: -190}
+  - startLinePoint: {x: 512.92285, y: -390}
+    endLinePoint: {x: 512.92285, y: -190}
+  - startLinePoint: {x: 540.1885, y: -390}
+    endLinePoint: {x: 540.1885, y: -190}
+  - startLinePoint: {x: 573.7031, y: -390}
+    endLinePoint: {x: 573.7031, y: -190}
+  - startLinePoint: {x: 594.15234, y: -390}
+    endLinePoint: {x: 594.15234, y: -190}
+  - startLinePoint: {x: 615.7388, y: -390}
+    endLinePoint: {x: 615.7388, y: -190}
+  - startLinePoint: {x: 635.6201, y: -390}
+    endLinePoint: {x: 635.6201, y: -190}
+  - startLinePoint: {x: 681.2661, y: -390}
+    endLinePoint: {x: 681.2661, y: -190}
+  - startLinePoint: {x: 707.96387, y: -390}
+    endLinePoint: {x: 707.96387, y: -190}
+  - startLinePoint: {x: 734.6621, y: -390}
+    endLinePoint: {x: 734.6621, y: -190}
+  - startLinePoint: {x: 762.4966, y: -390}
+    endLinePoint: {x: 762.4966, y: -190}
+  - startLinePoint: {x: 789.7622, y: -390}
+    endLinePoint: {x: 789.7622, y: -190}
+  - startLinePoint: {x: 816.45996, y: -390}
+    endLinePoint: {x: 816.45996, y: -190}
+  - startLinePoint: {x: 841.4531, y: -390}
+    endLinePoint: {x: 841.4531, y: -190}
+  - startLinePoint: {x: 853.9502, y: -390}
+    endLinePoint: {x: 853.9502, y: -190}
+  - startLinePoint: {x: 881.2158, y: -390}
+    endLinePoint: {x: 881.2158, y: -190}
+  - startLinePoint: {x: 906.77783, y: -390}
+    endLinePoint: {x: 906.77783, y: -190}
+  - startLinePoint: {x: 934.6118, y: -390}
+    endLinePoint: {x: 934.6118, y: -190}
+  - startLinePoint: {x: 960.7412, y: -390}
+    endLinePoint: {x: 960.7412, y: -190}
+  - startLinePoint: {x: 988.00684, y: -390}
+    endLinePoint: {x: 988.00684, y: -190}
+  - startLinePoint: {x: 1015.2739, y: -390}
+    endLinePoint: {x: 1015.2739, y: -190}
+  - startLinePoint: {x: 1041.4028, y: -390}
+    endLinePoint: {x: 1041.4028, y: -190}
+  - startLinePoint: {x: 1067.5322, y: -390}
+    endLinePoint: {x: 1067.5322, y: -190}
+  - startLinePoint: {x: 1094.2305, y: -390}
+    endLinePoint: {x: 1094.2305, y: -190}
+  - startLinePoint: {x: 1118.6558, y: -390}
+    endLinePoint: {x: 1118.6558, y: -190}
+  - startLinePoint: {x: 1147.0576, y: -390}
+    endLinePoint: {x: 1147.0576, y: -190}
+  - startLinePoint: {x: 1174.3242, y: -390}
+    endLinePoint: {x: 1174.3242, y: -190}
+  - startLinePoint: {x: 1201.0215, y: -390}
+    endLinePoint: {x: 1201.0215, y: -190}
+  - startLinePoint: {x: 1229.9922, y: -390}
+    endLinePoint: {x: 1229.9922, y: -190}
+  - startLinePoint: {x: 1252.7139, y: -390}
+    endLinePoint: {x: 1252.7139, y: -190}
+  - startLinePoint: {x: 1280.5469, y: -390}
+    endLinePoint: {x: 1280.5469, y: -190}
+  - startLinePoint: {x: 1306.6772, y: -390}
+    endLinePoint: {x: 1306.6772, y: -190}
+  - startLinePoint: {x: 1333.9429, y: -390}
+    endLinePoint: {x: 1333.9429, y: -190}
+  - startLinePoint: {x: 1359.5044, y: -390}
+    endLinePoint: {x: 1359.5044, y: -190}
+  - startLinePoint: {x: 1388.4741, y: -390}
+    endLinePoint: {x: 1388.4741, y: -190}
+  - startLinePoint: {x: 1414.0361, y: -390}
+    endLinePoint: {x: 1414.0361, y: -190}
+  - startLinePoint: {x: 1439.5977, y: -390}
+    endLinePoint: {x: 1439.5977, y: -190}
+  - startLinePoint: {x: 1466.8643, y: -390}
+    endLinePoint: {x: 1466.8643, y: -190}
+  - startLinePoint: {x: 1492.9937, y: -390}
+    endLinePoint: {x: 1492.9937, y: -190}
+  - startLinePoint: {x: 1521.3955, y: -390}
+    endLinePoint: {x: 1521.3955, y: -190}
+  - startLinePoint: {x: 1548.0938, y: -390}
+    endLinePoint: {x: 1548.0938, y: -190}
+  - startLinePoint: {x: 1572.519, y: -390}
+    endLinePoint: {x: 1572.519, y: -190}
+  - startLinePoint: {x: 1573.0869, y: -390}
+    endLinePoint: {x: 1573.0869, y: -190}
+  - startLinePoint: {x: 1601.439, y: -390}
+    endLinePoint: {x: 1601.439, y: -190}
+  - startLinePoint: {x: 1628.1372, y: -390}
+    endLinePoint: {x: 1628.1372, y: -190}
+  - startLinePoint: {x: 1653.0903, y: -390}
+    endLinePoint: {x: 1653.0903, y: -190}
+  - startLinePoint: {x: 1680.2886, y: -390}
+    endLinePoint: {x: 1680.2886, y: -190}
+  - startLinePoint: {x: 1706.9863, y: -390}
+    endLinePoint: {x: 1706.9863, y: -190}
+  - startLinePoint: {x: 1707.5542, y: -390}
+    endLinePoint: {x: 1707.5542, y: -190}
+  - startLinePoint: {x: 1733.77, y: -390}
+    endLinePoint: {x: 1733.77, y: -190}
+  - startLinePoint: {x: 1759.8994, y: -390}
+    endLinePoint: {x: 1759.8994, y: -190}
+  - startLinePoint: {x: 1784.8936, y: -390}
+    endLinePoint: {x: 1784.8936, y: -190}
+  - startLinePoint: {x: 1813.2954, y: -390}
+    endLinePoint: {x: 1813.2954, y: -190}
+  - startLinePoint: {x: 1840.5615, y: -390}
+    endLinePoint: {x: 1840.5615, y: -190}
+  - startLinePoint: {x: 1866.123, y: -390}
+    endLinePoint: {x: 1866.123, y: -190}
+  - startLinePoint: {x: 1893.9556, y: -390}
+    endLinePoint: {x: 1893.9556, y: -190}
+  - startLinePoint: {x: 1918.3828, y: -390}
+    endLinePoint: {x: 1918.3828, y: -190}
+  - startLinePoint: {x: 1945.0796, y: -390}
+    endLinePoint: {x: 1945.0796, y: -190}
+  - startLinePoint: {x: 1945.0796, y: -390}
+    endLinePoint: {x: 1945.0796, y: -190}
+  - startLinePoint: {x: 1972.9141, y: -390}
+    endLinePoint: {x: 1972.9141, y: -190}
+  - startLinePoint: {x: 1974.0508, y: -390}
+    endLinePoint: {x: 1974.0508, y: -190}
+  - startLinePoint: {x: 2000.748, y: -390}
+    endLinePoint: {x: 2000.748, y: -190}
+  - startLinePoint: {x: 2026.8779, y: -390}
+    endLinePoint: {x: 2026.8779, y: -190}
+  - startLinePoint: {x: 2051.3032, y: -390}
+    endLinePoint: {x: 2051.3032, y: -190}
+  - startLinePoint: {x: 2078.001, y: -390}
+    endLinePoint: {x: 2078.001, y: -190}
+  - startLinePoint: {x: 2108.107, y: -390}
+    endLinePoint: {x: 2108.107, y: -190}
+  - startLinePoint: {x: 2133.1016, y: -390}
+    endLinePoint: {x: 2133.1016, y: -190}
+  - startLinePoint: {x: 2159.23, y: -390}
+    endLinePoint: {x: 2159.23, y: -190}
+  - startLinePoint: {x: 2184.7925, y: -390}
+    endLinePoint: {x: 2184.7925, y: -190}
+  - startLinePoint: {x: 2212.058, y: -390}
+    endLinePoint: {x: 2212.058, y: -190}
+  - startLinePoint: {x: 2238.7563, y: -390}
+    endLinePoint: {x: 2238.7563, y: -190}
+  - startLinePoint: {x: 2266.5908, y: -390}
+    endLinePoint: {x: 2266.5908, y: -190}
+  - startLinePoint: {x: 2292.7192, y: -390}
+    endLinePoint: {x: 2292.7192, y: -190}
+  - startLinePoint: {x: 2318.2817, y: -390}
+    endLinePoint: {x: 2318.2817, y: -190}
+  - startLinePoint: {x: 2346.1162, y: -390}
+    endLinePoint: {x: 2346.1162, y: -190}
+  - startLinePoint: {x: 2373.3813, y: -390}
+    endLinePoint: {x: 2373.3813, y: -190}
+  - startLinePoint: {x: 2373.9487, y: -390}
+    endLinePoint: {x: 2373.9487, y: -190}
+  - startLinePoint: {x: 2396.6704, y: -390}
+    endLinePoint: {x: 2396.6704, y: -190}
+  - startLinePoint: {x: 2397.2393, y: -390}
+    endLinePoint: {x: 2397.2393, y: -190}
+  - startLinePoint: {x: 2425.641, y: -390}
+    endLinePoint: {x: 2425.641, y: -190}
+  - startLinePoint: {x: 2425.641, y: -390}
+    endLinePoint: {x: 2425.641, y: -190}
+  - startLinePoint: {x: 2454.6108, y: -390}
+    endLinePoint: {x: 2454.6108, y: -190}
+  - startLinePoint: {x: 2479.0361, y: -390}
+    endLinePoint: {x: 2479.0361, y: -190}
+  - startLinePoint: {x: 2505.734, y: -390}
+    endLinePoint: {x: 2505.734, y: -190}
+  - startLinePoint: {x: 2531.8652, y: -390}
+    endLinePoint: {x: 2531.8652, y: -190}
+  - startLinePoint: {x: 2558.5615, y: -390}
+    endLinePoint: {x: 2558.5615, y: -190}
+  - startLinePoint: {x: 2611.9575, y: -390}
+    endLinePoint: {x: 2611.9575, y: -190}
+  - startLinePoint: {x: 2663.9941, y: -390}
+    endLinePoint: {x: 2663.9941, y: -190}
+  - startLinePoint: {x: 2690.124, y: -390}
+    endLinePoint: {x: 2690.124, y: -190}
+  - startLinePoint: {x: 2717.958, y: -390}
+    endLinePoint: {x: 2717.958, y: -190}
+  - startLinePoint: {x: 2744.6562, y: -390}
+    endLinePoint: {x: 2744.6562, y: -190}
+  - startLinePoint: {x: 2771.335, y: -390}
+    endLinePoint: {x: 2771.335, y: -190}
+  - startLinePoint: {x: 2798.6006, y: -390}
+    endLinePoint: {x: 2798.6006, y: -190}
+  - startLinePoint: {x: 2825.8657, y: -390}
+    endLinePoint: {x: 2825.8657, y: -190}
+  - startLinePoint: {x: 2850.2915, y: -390}
+    endLinePoint: {x: 2850.2915, y: -190}
+  - startLinePoint: {x: 2879.8296, y: -390}
+    endLinePoint: {x: 2879.8296, y: -190}
+  - startLinePoint: {x: 2905.9585, y: -390}
+    endLinePoint: {x: 2905.9585, y: -190}
+  - startLinePoint: {x: 2932.0757, y: -390}
+    endLinePoint: {x: 2932.0757, y: -190}
+  - startLinePoint: {x: 2957.6382, y: -390}
+    endLinePoint: {x: 2957.6382, y: -190}
+  - startLinePoint: {x: 2983.1997, y: -390}
+    endLinePoint: {x: 2983.1997, y: -190}
+  - startLinePoint: {x: 3011.0322, y: -390}
+    endLinePoint: {x: 3011.0322, y: -190}
+  - startLinePoint: {x: 3038.8667, y: -390}
+    endLinePoint: {x: 3038.8667, y: -190}
+  - startLinePoint: {x: 3063.292, y: -390}
+    endLinePoint: {x: 3063.292, y: -190}
+  - startLinePoint: {x: 3091.127, y: -390}
+    endLinePoint: {x: 3091.127, y: -190}
+  - startLinePoint: {x: 3118.3926, y: -390}
+    endLinePoint: {x: 3118.3926, y: -190}
+  - startLinePoint: {x: 3143.3867, y: -390}
+    endLinePoint: {x: 3143.3867, y: -190}
+  - startLinePoint: {x: 3171.2197, y: -390}
+    endLinePoint: {x: 3171.2197, y: -190}
+  - startLinePoint: {x: 3195.6455, y: -390}
+    endLinePoint: {x: 3195.6455, y: -190}
+  - startLinePoint: {x: 3195.6455, y: -390}
+    endLinePoint: {x: 3195.6455, y: -190}
+  - startLinePoint: {x: 3222.912, y: -390}
+    endLinePoint: {x: 3222.912, y: -190}
+  - startLinePoint: {x: 3223.4795, y: -390}
+    endLinePoint: {x: 3223.4795, y: -190}
+  - startLinePoint: {x: 3250.745, y: -390}
+    endLinePoint: {x: 3250.745, y: -190}
+  - startLinePoint: {x: 3278.0107, y: -390}
+    endLinePoint: {x: 3278.0107, y: -190}
+  - startLinePoint: {x: 3304.1406, y: -390}
+    endLinePoint: {x: 3304.1406, y: -190}
+  - startLinePoint: {x: 3330.8389, y: -390}
+    endLinePoint: {x: 3330.8389, y: -190}
+  - startLinePoint: {x: 3356.9688, y: -390}
+    endLinePoint: {x: 3356.9688, y: -190}
+  - startLinePoint: {x: 3356.9688, y: -390}
+    endLinePoint: {x: 3356.9688, y: -190}
+  - startLinePoint: {x: 3383.0986, y: -390}
+    endLinePoint: {x: 3383.0986, y: -190}
+  - startLinePoint: {x: 3383.0986, y: -390}
+    endLinePoint: {x: 3383.0986, y: -190}
+  - startLinePoint: {x: 3411.5, y: -390}
+    endLinePoint: {x: 3411.5, y: -190}
+  - startLinePoint: {x: 3412.0684, y: -390}
+    endLinePoint: {x: 3412.0684, y: -190}
+  - startLinePoint: {x: 3439.334, y: -390}
+    endLinePoint: {x: 3439.334, y: -190}
+  - startLinePoint: {x: 3464.3281, y: -390}
+    endLinePoint: {x: 3464.3281, y: -190}
+  - startLinePoint: {x: 3491.5938, y: -390}
+    endLinePoint: {x: 3491.5938, y: -190}
+  - startLinePoint: {x: 3517.7236, y: -390}
+    endLinePoint: {x: 3517.7236, y: -190}
+  - startLinePoint: {x: 3530.2207, y: -390}
+    endLinePoint: {x: 3530.2207, y: -190}
+  - startLinePoint: {x: 3543.8535, y: -390}
+    endLinePoint: {x: 3543.8535, y: -190}
+  - startLinePoint: {x: 3556.3496, y: -390}
+    endLinePoint: {x: 3556.3496, y: -190}
+  - startLinePoint: {x: 3571.1191, y: -390}
+    endLinePoint: {x: 3571.1191, y: -190}
+  - startLinePoint: {x: 3583.6172, y: -390}
+    endLinePoint: {x: 3583.6172, y: -190}
+  - startLinePoint: {x: 3596.6816, y: -390}
+    endLinePoint: {x: 3596.6816, y: -190}
+  - startLinePoint: {x: 3610.8828, y: -390}
+    endLinePoint: {x: 3610.8828, y: -190}
+  - startLinePoint: {x: 3622.58, y: -390}
+    endLinePoint: {x: 3622.58, y: -190}
+  - startLinePoint: {x: 3650.414, y: -390}
+    endLinePoint: {x: 3650.414, y: -190}
+  - startLinePoint: {x: 3676.544, y: -390}
+    endLinePoint: {x: 3676.544, y: -190}
+  - startLinePoint: {x: 3704.378, y: -390}
+    endLinePoint: {x: 3704.378, y: -190}
+  - startLinePoint: {x: 3732.8926, y: -390}
+    endLinePoint: {x: 3732.8926, y: -190}
+  - startLinePoint: {x: 3756.75, y: -390}
+    endLinePoint: {x: 3756.75, y: -190}
+  - startLinePoint: {x: 3782.8809, y: -390}
+    endLinePoint: {x: 3782.8809, y: -190}
+  - startLinePoint: {x: 3807.874, y: -390}
+    endLinePoint: {x: 3807.874, y: -190}
+  - startLinePoint: {x: 3835.708, y: -390}
+    endLinePoint: {x: 3835.708, y: -190}
+  - startLinePoint: {x: 3862.9736, y: -390}
+    endLinePoint: {x: 3862.9736, y: -190}
+  - startLinePoint: {x: 3889.6719, y: -390}
+    endLinePoint: {x: 3889.6719, y: -190}
+  - startLinePoint: {x: 3915.2334, y: -390}
+    endLinePoint: {x: 3915.2334, y: -190}
+  - startLinePoint: {x: 3942.499, y: -390}
+    endLinePoint: {x: 3942.499, y: -190}
+  - startLinePoint: {x: 3968.628, y: -390}
+    endLinePoint: {x: 3968.628, y: -190}
+  - startLinePoint: {x: 3995.8955, y: -390}
+    endLinePoint: {x: 3995.8955, y: -190}
+  - startLinePoint: {x: 4023.7285, y: -390}
+    endLinePoint: {x: 4023.7285, y: -190}
+  - startLinePoint: {x: 4050.9932, y: -390}
+    endLinePoint: {x: 4050.9932, y: -190}
+  - startLinePoint: {x: 4077.125, y: -390}
+    endLinePoint: {x: 4077.125, y: -190}
+  - startLinePoint: {x: 4103.8223, y: -390}
+    endLinePoint: {x: 4103.8223, y: -190}
+  - startLinePoint: {x: 4129.385, y: -390}
+    endLinePoint: {x: 4129.385, y: -190}
+  - startLinePoint: {x: 4157.218, y: -390}
+    endLinePoint: {x: 4157.218, y: -190}
+  - startLinePoint: {x: 4183.916, y: -390}
+    endLinePoint: {x: 4183.916, y: -190}
+  - startLinePoint: {x: 4209.4775, y: -390}
+    endLinePoint: {x: 4209.4775, y: -190}
+  - startLinePoint: {x: 4235.039, y: -390}
+    endLinePoint: {x: 4235.039, y: -190}
+  - startLinePoint: {x: 4262.3047, y: -390}
+    endLinePoint: {x: 4262.3047, y: -190}
+  - startLinePoint: {x: 4262.3047, y: -390}
+    endLinePoint: {x: 4262.3047, y: -190}
+  - startLinePoint: {x: 4317.9717, y: -390}
+    endLinePoint: {x: 4317.9717, y: -190}
+  - startLinePoint: {x: 4318.541, y: -390}
+    endLinePoint: {x: 4318.541, y: -190}
+  - startLinePoint: {x: 4370.2314, y: -390}
+    endLinePoint: {x: 4370.2314, y: -190}
+  - startLinePoint: {x: 4370.801, y: -390}
+    endLinePoint: {x: 4370.801, y: -190}
+  - startLinePoint: {x: 4421.925, y: -390}
+    endLinePoint: {x: 4421.925, y: -190}
+  - startLinePoint: {x: 4422.491, y: -390}
+    endLinePoint: {x: 4422.491, y: -190}
+  - startLinePoint: {x: 4475.3193, y: -390}
+    endLinePoint: {x: 4475.3193, y: -190}
+  - startLinePoint: {x: 4475.8887, y: -390}
+    endLinePoint: {x: 4475.8887, y: -190}
+  - startLinePoint: {x: 4530.419, y: -390}
+    endLinePoint: {x: 4530.419, y: -190}
+  - startLinePoint: {x: 4530.9863, y: -390}
+    endLinePoint: {x: 4530.9863, y: -190}
+  - startLinePoint: {x: 4583.246, y: -390}
+    endLinePoint: {x: 4583.246, y: -190}
+  - startLinePoint: {x: 4583.8154, y: -390}
+    endLinePoint: {x: 4583.8154, y: -190}
+  - startLinePoint: {x: 4634.37, y: -390}
+    endLinePoint: {x: 4634.37, y: -190}
+  - startLinePoint: {x: 4634.9395, y: -390}
+    endLinePoint: {x: 4634.9395, y: -190}
+  - startLinePoint: {x: 4689.4697, y: -390}
+    endLinePoint: {x: 4689.4697, y: -190}
+  - startLinePoint: {x: 4689.4697, y: -390}
+    endLinePoint: {x: 4689.4697, y: -190}
+  - startLinePoint: {x: 4742.866, y: -390}
+    endLinePoint: {x: 4742.866, y: -190}
+  - startLinePoint: {x: 4742.866, y: -390}
+    endLinePoint: {x: 4742.866, y: -190}
+  - startLinePoint: {x: 4796.2607, y: -390}
+    endLinePoint: {x: 4796.2607, y: -190}
+  - startLinePoint: {x: 4796.83, y: -390}
+    endLinePoint: {x: 4796.83, y: -190}
+  - startLinePoint: {x: 4847.953, y: -390}
+    endLinePoint: {x: 4847.953, y: -190}
+  - startLinePoint: {x: 4848.5205, y: -390}
+    endLinePoint: {x: 4848.5205, y: -190}
+  - startLinePoint: {x: 4875.785, y: -390}
+    endLinePoint: {x: 4875.785, y: -190}
+  - startLinePoint: {x: 4900.7793, y: -390}
+    endLinePoint: {x: 4900.7793, y: -190}
+  - startLinePoint: {x: 4953.038, y: -390}
+    endLinePoint: {x: 4953.038, y: -190}
+  - startLinePoint: {x: 5008.1377, y: -390}
+    endLinePoint: {x: 5008.1377, y: -190}
+  - startLinePoint: {x: 5022.34, y: -390}
+    endLinePoint: {x: 5022.34, y: -190}
+  - startLinePoint: {x: 5062.1016, y: -390}
+    endLinePoint: {x: 5062.1016, y: -190}
+  - startLinePoint: {x: 5074.0312, y: -390}
+    endLinePoint: {x: 5074.0312, y: -190}
+  - startLinePoint: {x: -5075.082, y: -390}
+    endLinePoint: {x: -5075.082, y: -190}
+  difficulty: 0
+  timeStamps:
+  - 0.7039939
+  - 0.8434694
+  - 1.6853288
+  - 2.7093198
+  - 3.6906576
+  - 4.703991
+  - 5.674649
+  - 6.7306576
+  - 7.6906576
+  - 8.21331
+  - 8.693311
+  - 9.205329
+  - 9.6853285
+  - 10.186644
+  - 10.666644
+  - 11.199977
+  - 11.679977
+  - 12.21331
+  - 12.682653
+  - 13.215986
+  - 13.706644
+  - 14.175986
+  - 14.677324
+  - 15.210657
+  - 15.690658
+  - 16.170658
+  - 16.661316
+  - 17.18399
+  - 17.674648
+  - 18.197325
+  - 18.687983
+  - 19.210657
+  - 19.690657
+  - 20.181314
+  - 20.70399
+  - 21.237324
+  - 21.674648
+  - 22.197325
+  - 22.687983
+  - 23.18932
+  - 23.679977
+  - 24.202654
+  - 24.69331
+  - 25.173311
+  - 25.706644
+  - 26.19732
+  - 26.702494
+  - 27.225147
+  - 27.69449
+  - 27.705147
+  - 28.17449
+  - 28.185148
+  - 28.686485
+  - 29.166485
+  - 29.699818
+  - 30.222494
+  - 30.73449
+  - 31.20381
+  - 31.673151
+  - 32.16381
+  - 33.241158
+  - 33.46515
+  - 33.678482
+  - 34.190475
+  - 34.681156
+  - 35.193153
+  - 35.673153
+  - 36.185146
+  - 36.697144
+  - 37.187824
+  - 37.68916
+  - 38.201157
+  - 38.691814
+  - 39.182495
+  - 39.69449
+  - 39.705147
+  - 40.185146
+  - 40.697144
+  - 41.177143
+  - 41.710476
+  - 42.201157
+  - 42.702496
+  - 43.171814
+  - 43.715828
+  - 44.206486
+  - 44.44116
+  - 44.686485
+  - 44.942493
+  - 45.177143
+  - 45.45449
+  - 45.721157
+  - 45.93449
+  - 46.222496
+  - 46.45714
+  - 46.73449
+  - 46.93714
+  - 47.193153
+  - 47.427822
+  - 47.673153
+  - 47.92916
+  - 48.174488
+  - 48.686485
+  - 49.177143
+  - 49.678482
+  - 50.190475
+  - 50.43583
+  - 50.681156
+  - 50.926487
+  - 51.193153
+  - 51.406487
+  - 51.673153
+  - 51.91848
+  - 52.185146
+  - 52.387825
+  - 52.675827
+  - 52.931812
+  - 53.20168
+  - 53.447006
+  - 53.713673
+  - 53.959003
+  - 54.20433
+  - 54.439003
+  - 54.70567
+  - 54.940342
+  - 55.20701
+  - 55.40966
+  - 55.676327
+  - 55.932335
+  - 56.177666
+  - 56.412334
+  - 56.679
+  - 56.945667
+  - 57.20168
+  - 57.436325
+  - 57.70299
+  - 57.937664
+  - 58.182995
+  - 58.377415
+  - 58.686756
+  - 58.932087
+  - 59.188095
+  - 59.412086
+  - 59.68941
+  - 59.913425
+  - 60.212086
+  - 60.468094
+  - 60.692085
+  - 60.948093
+  - 61.204082
+  - 61.46009
+  - 61.694763
+  - 61.918755
+  - 62.217415
+  - 62.462746
+  - 62.697414
+  - 62.942745
+  - 63.198753
+  - 63.433426
+  - 63.68941
+  - 63.902744
+  - 64.18009
+  - 64.43607
+  - 64.68143
+  - 64.91608
+  - 65.17209
+  - 65.41741
+  - 65.67342
+  - 65.940094
+  - 66.18542
+  - 66.43075
+  - 66.69742
+  - 66.921425
+  - 67.20778
+  - 67.44245
+  - 67.71977
+  - 67.94379
+  - 68.199776
+  - 68.44512
+  - 68.70111
+  - 68.93578
+  - 69.213104
+  - 69.44778
+  - 69.70379
+  - 69.94911
+  - 70.21578
+  - 70.46111
+  - 70.727776
+  - 70.96245
+  - 71.18644
+  - 71.43179
+  - 71.67712
+  - 71.91179
+  - 72.16778
+  - 72.69045
+  - 73.159775
+  - 73.69311
+  - 74.19444
+  - 74.65311
+  - 75.17578
+  - 75.67712
+  - 76.400955
+  - 76.91297
+  - 77.424965
+  - 77.93696
+  - 78.44896
+  - 78.971634
+  - 79.440956
+  - 79.92821
+  - 80.45676
+  - 80.93676
+  - 81.45111
+  - 81.94179
+  - 82.48578
+  - 82.955124
+  - 83.43513
+  - 83.94712
+  - 96.18961
+  - 96.690956
+  - 99.08243
+  - 99.62644
+  - 102.00361
+  - 102.718285
+  - 103.47138
+  - 104.50606
+  - 105.17805
+  - 105.775375
+  - 106.28737
+  - 106.91671
+  - 107.300705
+  - 107.706055
+  - 108.07939
+  - 108.93653
+  - 109.43787
+  - 109.93921
+  - 110.46188
+  - 110.97388
+  - 111.47521
+  - 111.944534
+  - 112.17921
+  - 112.6912
+  - 113.1712
+  - 113.69388
+  - 114.18453
+  - 114.69653
+  - 115.20855
+  - 115.6992
+  - 116.189865
+  - 116.6912
+  - 117.149864
+  - 117.6832
+  - 118.19521
+  - 118.69653
+  - 119.24055
+  - 119.66721
+  - 120.189865
+  - 120.68054
+  - 121.19254
+  - 121.67254
+  - 122.21653
+  - 122.69653
+  - 123.17653
+  - 123.688545
+  - 124.17921
+  - 124.71254
+  - 125.213875
+  - 125.67254
+  - 125.6832
+  - 126.2156
+  - 126.71694
+  - 127.18551
+  - 127.69624
+  - 128.19757
+  - 128.20824
+  - 128.70052
+  - 129.19118
+  - 129.66052
+  - 130.19385
+  - 130.70586
+  - 131.18585
+  - 131.7085
+  - 132.16719
+  - 132.6685
+  - 132.6685
+  - 133.19118
+  - 133.21252
+  - 133.71385
+  - 134.20451
+  - 134.66318
+  - 135.1645
+  - 135.72984
+  - 136.19919
+  - 136.68983
+  - 137.16985
+  - 137.68184
+  - 138.18318
+  - 138.70586
+  - 139.1965
+  - 139.67651
+  - 140.19919
+  - 140.71118
+  - 140.72183
+  - 141.1485
+  - 141.15918
+  - 141.69252
+  - 141.69252
+  - 142.23651
+  - 142.69518
+  - 143.1965
+  - 143.6872
+  - 144.1885
+  - 145.19118
+  - 146.16832
+  - 146.659
+  - 147.18166
+  - 147.683
+  - 148.18398
+  - 148.69597
+  - 149.20796
+  - 149.66663
+  - 150.2213
+  - 150.71194
+  - 151.20238
+  - 151.68239
+  - 152.16238
+  - 152.68503
+  - 153.2077
+  - 153.66637
+  - 154.18904
+  - 154.70105
+  - 155.17038
+  - 155.69304
+  - 156.1517
+  - 156.1517
+  - 156.66371
+  - 156.67438
+  - 157.18637
+  - 157.69836
+  - 158.18904
+  - 158.69038
+  - 159.18105
+  - 159.18105
+  - 159.6717
+  - 159.6717
+  - 160.20503
+  - 160.21571
+  - 160.7277
+  - 161.19705
+  - 161.70905
+  - 162.1997
+  - 162.43437
+  - 162.69038
+  - 162.92503
+  - 163.20238
+  - 163.43706
+  - 163.68239
+  - 163.94905
+  - 164.1687
+  - 164.69138
+  - 165.18204
+  - 165.70471
+  - 166.24016
+  - 166.68816
+  - 167.17885
+  - 167.64816
+  - 168.17084
+  - 168.68283
+  - 169.18417
+  - 169.66417
+  - 170.17616
+  - 170.66682
+  - 171.17885
+  - 171.70149
+  - 172.21349
+  - 172.70418
+  - 173.2055
+  - 173.68552
+  - 174.20816
+  - 174.7095
+  - 175.1895
+  - 175.6695
+  - 176.1815
+  - 176.1815
+  - 177.22682
+  - 177.2375
+  - 178.20816
+  - 178.21884
+  - 179.17885
+  - 179.1895
+  - 180.1815
+  - 180.19218
+  - 181.21617
+  - 181.22682
+  - 182.20816
+  - 182.21884
+  - 183.16817
+  - 183.17885
+  - 184.20284
+  - 184.20284
+  - 185.2055
+  - 185.2055
+  - 186.20816
+  - 186.21884
+  - 187.17883
+  - 187.1895
+  - 187.70148
+  - 188.17082
+  - 189.15213
+  - 190.1868
+  - 190.45348
+  - 191.20013
+  - 191.42415
+  laneIDs: 010000000200000000000000030000000100000002000000000000000300000001000000020000000100000002000000000000000300000000000000030000000100000002000000010000000100000002000000020000000000000003000000010000000200000000000000030000000000000003000000000000000000000003000000030000000100000002000000010000000200000001000000010000000200000002000000000000000300000000000000030000000000000003000000030000000300000003000000000000000000000002000000010000000100000002000000020000000000000002000000010000000200000003000000030000000000000000000000020000000100000001000000020000000200000000000000030000000000000000000000030000000100000002000000010000000200000001000000020000000100000000000000030000000000000003000000000000000300000001000000020000000100000002000000010000000200000001000000020000000000000003000000010000000100000002000000020000000000000003000000000000000300000001000000020000000100000002000000000000000300000000000000030000000000000003000000000000000300000000000000030000000000000003000000010000000200000001000000020000000000000003000000000000000300000000000000000000000300000003000000000000000000000003000000030000000000000000000000030000000300000001000000010000000200000002000000010000000100000002000000020000000100000001000000010000000100000002000000020000000200000002000000000000000300000000000000030000000000000003000000000000000300000001000000020000000100000002000000010000000100000002000000020000000000000000000000030000000300000000000000030000000000000003000000010000000200000001000000020000000000000003000000000000000300000001000000020000000000000003000000010000000200000000000000030000000100000003000000000000000200000001000000030000000000000002000000020000000200000002000000020000000200000002000000020000000200000001000000010000000200000002000000030000000300000003000000030000000300000000000000030000000100000002000000010000000200000001000000020000000100000002000000010000000200000001000000030000000000000003000000000000000300000000000000030000000300000000000000000000000100000001000000020000000200000000000000030000000000000003000000000000000300000001000000010000000000000000000000020000000200000003000000030000000300000001000000010000000200000002000000020000000100000000000000000000000300000003000000000000000000000003000000030000000000000003000000000000000300000002000000010000000200000001000000000000000300000001000000020000000000000003000000010000000200000000000000030000000200000001000000030000000000000001000000020000000200000000000000030000000000000002000000010000000200000001000000020000000100000003000000000000000300000000000000020000000100000002000000010000000300000000000000030000000000000002000000010000000200000001000000010000000200000003000000000000000300000000000000030000000000000002000000010000000100000002000000000000000300000002000000010000000200000001000000010000000200000002000000010000000100000002000000020000000100000002000000000000000300000000000000030000000000000003000000010000000200000001000000020000000000000003000000000000000300000001000000010000000200000002000000000000000000000003000000030000000100000002000000010000000200000000000000030000000000000003000000020000000100000002000000010000000000000003000000030000000000000001000000020000000100000002000000010000000200000002000000010000000100000000000000020000000100000001000000020000000200000001000000
