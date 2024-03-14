@@ -1,9 +1,11 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using UnityEngine;
 using TMPro;
 
 using ProefExamen.Framework.StateMachine.Attributes;
 using ProefExamen.Framework.Gameplay.PerformanceTracking;
+using ProefExamen.Framework.Character;
 
 namespace ProefExamen.Framework.StateMachine.States
 {
@@ -22,6 +24,12 @@ namespace ProefExamen.Framework.StateMachine.States
         [SerializeField]
         private string _newHighscoreText = "New highscore!";
 
+        [SerializeField, Space]
+        private RawImage _gameStateView;
+
+        [SerializeField]
+        private RawImage _winStateView;
+
         public override IEnumerator OnStateEnter()
         {
             yield return base.OnStateEnter();
@@ -33,6 +41,21 @@ namespace ProefExamen.Framework.StateMachine.States
             }
 
             _stickerText.text = _levelClearedText;
+
+            _gameStateView.gameObject.SetActive(false);
+            _winStateView.gameObject.SetActive(true);
+
+            CharacterAnimationController.Instance.CharacterAnim.SetBool("Win", true);
+        }
+
+        public override IEnumerator OnStateExit()
+        {
+            yield return base.OnStateExit();
+
+            _gameStateView.gameObject.SetActive(true);
+            _winStateView.gameObject.SetActive(false);
+
+            CharacterAnimationController.Instance.CharacterAnim.SetBool("Win", false);
         }
     }
 }

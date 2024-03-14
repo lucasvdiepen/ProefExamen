@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using DG.Tweening;
 
 using ProefExamen.Framework.Gameplay.Values;
 
@@ -102,7 +103,7 @@ namespace ProefExamen.Framework.Gameplay.LaneSystem
 
             Sprite sprite = miss ? null : _deathSprite;
             deadNote.GetComponent<DeadNote>().SetDeadNoteValues(sprite, hitSprite, gameObject.transform);
-            
+                
             if (miss)
                 return;
 
