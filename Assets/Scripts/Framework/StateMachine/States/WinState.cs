@@ -1,10 +1,11 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using UnityEngine;
 using TMPro;
 
 using ProefExamen.Framework.StateMachine.Attributes;
 using ProefExamen.Framework.Gameplay.PerformanceTracking;
-using UnityEngine.UI;
+using ProefExamen.Framework.Character;
 
 namespace ProefExamen.Framework.StateMachine.States
 {
@@ -41,8 +42,11 @@ namespace ProefExamen.Framework.StateMachine.States
 
             _stickerText.text = _levelClearedText;
 
+            print("yes");
             _gameStateView.gameObject.SetActive(false);
             _winStateView.gameObject.SetActive(true);
+
+            CharacterAnimationController.Instance.CharacterAnim.SetBool("Win", true);
         }
 
         public override IEnumerator OnStateExit()
@@ -51,6 +55,8 @@ namespace ProefExamen.Framework.StateMachine.States
 
             _gameStateView.gameObject.SetActive(true);
             _winStateView.gameObject.SetActive(false);
+
+            CharacterAnimationController.Instance.CharacterAnim.SetBool("Win", false);
         }
     }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 
 using ProefExamen.Framework.Gameplay.LaneSystem;
 using ProefExamen.Framework.Utils;
+using ProefExamen.Framework.Gameplay.PerformanceTracking;
 
 namespace ProefExamen.Framework.Character
 {
@@ -35,6 +36,14 @@ namespace ProefExamen.Framework.Character
 
             bool hitLeftLane = laneID == 0 || laneID == 1;
             CharacterAnim.SetTrigger(hitLeftLane ? _rightHitHash : _leftHitHash);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                PerformanceTracker.Instance.CompleteTracking();
+            }
         }
 
         private void OnDisable() => LaneManager.Instance.OnNoteHit -= HandleNoteHit;
