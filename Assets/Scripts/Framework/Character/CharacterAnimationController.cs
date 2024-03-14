@@ -10,13 +10,6 @@ namespace ProefExamen.Framework.Character
     /// </summary>
     public class CharacterAnimationController : MonoBehaviour
     {
-
-        [SerializeField]
-        private float _rotateAmount = 10;
-
-        [SerializeField]
-        private float _rotateDuration = .35f;
-
         private Animator _characterAnim = null;
 
         private int _leftHitHash = 0;
@@ -41,12 +34,7 @@ namespace ProefExamen.Framework.Character
                 return;
 
             bool hitLeftLane = laneID == 0 || laneID == 1;
-            _characterAnim.SetTrigger(hitLeftLane ? _leftHitHash : _rightHitHash);
-
-            // Rotate character body based on hit laneID.
-            if (laneID == 0) transform.DORotate(new Vector3(0, -_rotateAmount, 0), _rotateDuration);
-            else if (laneID == 3) transform.DORotate(new Vector3(0, _rotateAmount, 0), _rotateDuration);
-            else transform.DORotate(Vector3.zero, _rotateDuration);
+            _characterAnim.SetTrigger(hitLeftLane ? _rightHitHash : _leftHitHash);
         }
 
         private void OnDisable()
