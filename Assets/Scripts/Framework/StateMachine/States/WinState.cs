@@ -42,7 +42,6 @@ namespace ProefExamen.Framework.StateMachine.States
 
             _stickerText.text = _levelClearedText;
 
-            print("yes");
             _gameStateView.gameObject.SetActive(false);
             _winStateView.gameObject.SetActive(true);
 

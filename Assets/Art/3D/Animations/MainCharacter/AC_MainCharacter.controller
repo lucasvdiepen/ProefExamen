@@ -14,7 +14,7 @@ AnimatorStateMachine:
     m_Position: {x: 280, y: 190, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -607030267344688645}
-    m_Position: {x: -220, y: 180, z: 0}
+    m_Position: {x: -220, y: 190, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3854746664815057510}
     m_Position: {x: 30, y: 190, z: 0}
@@ -248,7 +248,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: A_MainCharacterHitL
-  m_Speed: 1.5
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 4968779891129447966}
@@ -393,7 +393,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: A_MainCharacterHitR
-  m_Speed: 1.5
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -8407475951360773852}

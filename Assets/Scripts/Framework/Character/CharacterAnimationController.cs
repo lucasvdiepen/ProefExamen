@@ -38,14 +38,6 @@ namespace ProefExamen.Framework.Character
             CharacterAnim.SetTrigger(hitLeftLane ? _rightHitHash : _leftHitHash);
         }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                PerformanceTracker.Instance.CompleteTracking();
-            }
-        }
-
         private void OnDisable() => LaneManager.Instance.OnNoteHit -= HandleNoteHit;
     }
 }
