@@ -3,8 +3,10 @@ The repository for Dish Defenders.
 
 Information about the project and its systems can be found here.
 
-Dish Defenders is a Rythm game with small aliens as notes. Hit the aliens on the beat of the music to get good hits and don't let themm through to defend your dish!
+Dish Defenders is a Rythm game with small aliens as notes. Hit the aliens on the beat of the music to get good hits and don't let them through to defend your dish!
 
+
+## Member contributions
  * Developers
     * Lucas van Diepen (Lead Developer)
         * [State Machine](https://github.com/lucasvdiepen/ProefExamen/tree/develop/Assets/Scripts/Framework/StateMachine)
