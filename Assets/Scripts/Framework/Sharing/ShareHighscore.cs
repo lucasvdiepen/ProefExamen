@@ -16,13 +16,13 @@ namespace ProefExamen.Framework.Sharing
         private Camera _renderCamera;
 
         [SerializeField]
-        private TextUpdater _highscoreText;
-
-        [SerializeField]
         private string _subject;
 
         [SerializeField]
         private string _text;
+
+        [SerializeField]
+        private CanvasGroup _canvasGroup;
 
         private string _filePath;
 
@@ -33,7 +33,7 @@ namespace ProefExamen.Framework.Sharing
 
         private IEnumerator ShareTask()
         {
-            UpdateHighscoreText();
+            _canvasGroup.alpha = 1;
 
             yield return TakeScreenshot();
 
@@ -43,15 +43,8 @@ namespace ProefExamen.Framework.Sharing
             new NativeShare()
                 .AddFile(_filePath)
                 .SetSubject(_subject).SetText(_text)
+                .SetCallback((result, target) => _canvasGroup.alpha = 0)
                 .Share();
-        }
-
-        private void UpdateHighscoreText()
-        {
-            int currentPoints = PointsSystem.PointsSystem.Points;
-
-            _highscoreText.ReplaceTag("[points]", currentPoints.ToString());
-            _highscoreText.ReplaceTag("[pointsText]", currentPoints == 1 ? "point" : "points");
         }
 
         private IEnumerator TakeScreenshot()

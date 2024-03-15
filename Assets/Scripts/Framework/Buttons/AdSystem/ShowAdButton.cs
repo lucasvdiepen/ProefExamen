@@ -1,6 +1,6 @@
 using ProefExamen.Framework.AdSystem;
+using ProefExamen.Framework.Gameplay.PerformanceTracking;
 using ProefExamen.Framework.StateMachine.States;
-using UnityEngine;
 
 namespace ProefExamen.Framework.Buttons.AdSystem
 {
@@ -15,6 +15,9 @@ namespace ProefExamen.Framework.Buttons.AdSystem
             {
                 if (!success)
                     return;
+
+                Gameplay.LaneSystem.LaneManager.Instance.HasWatchedAd = true;
+                PerformanceTracker.Instance.SetHealth(PerformanceTracker.Instance.MaxHealth / 2);
 
                 Framework.StateMachine.StateMachine.Instance.GoToState<PauseState>();
             });

@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   travelTime: 2
   deadNoteFadeTime: 1
+  startTimer: 0
   paused: 0
   currentLevelID: 10
   currentLevel:

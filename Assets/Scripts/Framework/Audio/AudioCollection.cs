@@ -13,7 +13,7 @@ namespace ProefExamen.Framework.Audio
         /// Enum type of audio collection.
         /// </summary>
         [field: SerializeField]
-        public AudioCollectionTypes audioCollectionType { get; private set; }
+        public AudioCollectionTypes AudioCollectionType { get; private set; }
 
         /// <summary>
         /// List of audio clips of specified collection type.

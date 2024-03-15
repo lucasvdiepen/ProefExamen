@@ -5,6 +5,8 @@ using UnityEngine;
 using ProefExamen.Framework.Gameplay.LaneSystem;
 using ProefExamen.Framework.Gameplay.Values;
 using ProefExamen.Framework.Utils;
+using ProefExamen.Framework.Gameplay.Level;
+using ProefExamen.Framework.StateMachine.States;
 
 namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 {
@@ -16,6 +18,9 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         [Header("Player's performance")]
         [SerializeField]
         private PerformanceResult _newResult;
+
+        [SerializeField]
+        private ScoreCompletionStatus _lastCompletionStatus;
 
         [SerializeField]
         private int _score = 0;
@@ -61,6 +66,16 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         public Action<int> OnPointsChanged;
 
         /// <summary>
+        /// An action that broadcasts the change of the current multiplier.
+        /// </summary>
+        public Action<int> OnMultiplierChanged;
+
+        /// <summary>
+        /// An action that broadcasts the change of the current streak.
+        /// </summary>
+        public Action<int> OnStreakChanged;
+
+        /// <summary>
         /// An action that broadcasts the performance on a level.
         /// </summary>
         public Action<ScoreCompletionStatus> OnScoreCompletion;
@@ -70,25 +85,74 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
         /// </summary>
         public Action<float> OnHealthChanged;
 
+        /// <summary>
+        /// The last ScoreCompletionStatus that was achieved.
+        /// </summary>
+        public ScoreCompletionStatus LastCompletionStatus => _lastCompletionStatus;
+
+        /// <summary>
+        /// A getter that retrieves the current score.
+        /// </summary>
+        public int Score => _score;
+
+        /// <summary>
+        /// A getter that retrieves the current Streak.
+        /// </summary>
+        public int Streak => _totalStreak;
+
+        /// <summary>
+        /// A getter that retrieves the current score multiplier.
+        /// </summary>
+        public int ScoreMultiplier => _scoreMultiplier;
+
+        /// <summary>
+        /// Gets the current performance result.
+        /// </summary>
+        public PerformanceResult CurrentPerformanceResult => _newResult;
+
         private void Awake() => LoadData();
 
-        private void Start() => LaneManager.Instance.OnNoteHit += ProcessNewHit;
+        /// <summary>
+        /// Gets the highscore from the curretnly selected level.
+        /// </summary>
+        /// <returns>The highscore of this level, is 0 when there is no highscore set.</returns>
+        public PerformanceResult GetHighScoreFromLevel() => 
+            GetHighScoreFromLevel(SessionValues.Instance.currentLevelID, SessionValues.Instance.difficulty);
 
-        public int GetHighScoreFromLevel() => GetHighScoreFromLevel(SessionValues.Instance.currentLevelID);
-        public int GetHighScoreFromLevel(int levelID)
+        /// <summary>
+        /// Gets the highscore from the passed level ID.
+        /// </summary>
+        /// <param name="levelID">The level ID to get the highscore from.</param>
+        /// <returns>The highscore of the passed level ID, will return 0 if no highscore is set.</returns>
+        public PerformanceResult GetHighScoreFromLevel(int levelID, Difficulty difficulty)
         {
             int listLength = _highscores.Count;
 
             for(int i = 0; i < listLength; i++)
             {
-                if (_highscores[i].levelID == SessionValues.Instance.currentLevelID &&
-                    _highscores[i].difficulty == SessionValues.Instance.difficulty)
+                if (_highscores[i].levelID == levelID &&
+                    _highscores[i].difficulty == difficulty)
                 {
-                    return _highscores[i].totalScore;
+                    return _highscores[i];
                 }
             }
 
-            return 0;
+            return new PerformanceResult
+            (
+                levelID, 
+                difficulty
+            );
+        }
+
+        /// <summary>
+        /// Sets the health to the given value.
+        /// </summary>
+        /// <param name="health">The value to set the health to.</param>
+        public void SetHealth(float health)
+        {
+            _health = health;
+
+            OnHealthChanged?.Invoke(_health);
         }
 
         private void LoadData()
@@ -149,6 +213,8 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
                 _multiplierStreak = 0;
                 _totalStreak = 0;
                 _scoreMultiplier = 1;
+                OnMultiplierChanged?.Invoke(_scoreMultiplier);
+                OnStreakChanged?.Invoke(_totalStreak);
                 return true;
             }
 
@@ -158,14 +224,34 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 
             _multiplierStreak++;
             _totalStreak++;
+            OnStreakChanged?.Invoke(_totalStreak);
 
             if (_multiplierStreak == nextMultiplier)
             {
                 _multiplierStreak = 0;
                 _scoreMultiplier = nextMultiplier;
+                OnMultiplierChanged?.Invoke(_scoreMultiplier);
             }
 
             return false;
+        }
+
+        private void CheckIfPlayerFailed(float health)
+        {
+            if (health > 0f)
+                return;
+
+            LaneManager.Instance.SetPaused(true);
+            LaneManager.Instance.DestroyAllNotes();
+
+            if (LaneManager.Instance.HasWatchedAd)
+            {
+                CompleteTracking(false);
+                StateMachine.StateMachine.Instance.GoToState<LoseState>();
+                return;
+            }
+
+            StateMachine.StateMachine.Instance.GoToState<AdState>();
         }
 
         /// <summary>
@@ -179,12 +265,19 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
             _scoreMultiplier = 1;
             _health = 1000f;
 
+            OnHealthChanged?.Invoke(_health);
+            OnStreakChanged?.Invoke(_totalStreak);
+            OnMultiplierChanged?.Invoke(_scoreMultiplier);
+
             _newResult = new PerformanceResult
             (
                 SessionValues.Instance.currentLevelID,
                 SessionValues.Instance.difficulty
             );
 
+            _newResult.SubscribeForUpdates();
+
+            OnHealthChanged += CheckIfPlayerFailed;
             LaneManager.Instance.OnNoteHit += ProcessNewHit;
         }
 
@@ -201,13 +294,19 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
                 return;
             }
 
-            ScoreCompletionStatus scoreCompletionStatus = levelBeaten
+            _lastCompletionStatus = levelBeaten
                 ? ProcessNewScoreResult()
                 : ScoreCompletionStatus.Failed;
 
-            SaveData();
+            if(levelBeaten)
+                SaveData();
 
-            OnScoreCompletion?.Invoke(scoreCompletionStatus);
+            _newResult.UnsubscribeForUpdates();
+
+            OnHealthChanged -= CheckIfPlayerFailed;
+            LaneManager.Instance.OnNoteHit -= ProcessNewHit;
+
+            OnScoreCompletion?.Invoke(_lastCompletionStatus);
         }
 
         private ScoreCompletionStatus ProcessNewScoreResult()

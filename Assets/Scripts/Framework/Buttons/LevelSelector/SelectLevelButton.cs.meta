@@ -3,7 +3,15 @@ guid: 6a70b71cde19cfa43af240f49c3d482b
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _songTitleText: {instanceID: 0}
+  - _songArtistText: {instanceID: 0}
+  - _songCover: {instanceID: 0}
+  - _difficultyImage: {instanceID: 0}
+  - _noDiffSprite: {fileID: 21300000, guid: 3ffc1cd5abd6043bfa804bbbabe63889, type: 3}
+  - _easyDiffSprite: {fileID: 21300000, guid: 5379562effb014d6cbd10dd132a3fd4b, type: 3}
+  - _normalDiffSprite: {fileID: 21300000, guid: d2a4f248a946a41a48c753cced55e4c1, type: 3}
+  - _hardDiffSprite: {fileID: 21300000, guid: 5cad55a68964e4a189fee3d982e176ff, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
