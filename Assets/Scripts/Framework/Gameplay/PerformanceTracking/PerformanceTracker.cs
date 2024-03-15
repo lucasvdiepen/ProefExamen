@@ -266,12 +266,16 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
             _health = 1000f;
 
             OnHealthChanged?.Invoke(_health);
+            OnStreakChanged?.Invoke(_totalStreak);
+            OnMultiplierChanged?.Invoke(_scoreMultiplier);
 
             _newResult = new PerformanceResult
             (
                 SessionValues.Instance.currentLevelID,
                 SessionValues.Instance.difficulty
             );
+
+            _newResult.SubscribeForUpdates();
 
             OnHealthChanged += CheckIfPlayerFailed;
             LaneManager.Instance.OnNoteHit += ProcessNewHit;
@@ -296,6 +300,8 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
 
             if(levelBeaten)
                 SaveData();
+
+            _newResult.UnsubscribeForUpdates();
 
             OnHealthChanged -= CheckIfPlayerFailed;
             LaneManager.Instance.OnNoteHit -= ProcessNewHit;
