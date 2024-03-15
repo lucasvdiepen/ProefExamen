@@ -31,11 +31,22 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
             perfectHits = 0;
             totalScore = 0;
 
+            SubscribeForUpdates();
+        }
+
+        /// <summary>
+        /// Subscribes this result to data updates.
+        /// </summary>
+        public void SubscribeForUpdates()
+        {
             PerformanceTracker.Instance.OnStreakChanged += UpdateNewMaxStreak;
             PerformanceTracker.Instance.OnPointsChanged += UpdateTotalScore;
         }
 
-        ~PerformanceResult()
+        /// <summary>
+        /// Unsubscribes this result to data updates.
+        /// </summary>
+        public void UnsubscribeForUpdates()
         {
             PerformanceTracker.Instance.OnStreakChanged -= UpdateNewMaxStreak;
             PerformanceTracker.Instance.OnPointsChanged -= UpdateTotalScore;
