@@ -30,8 +30,6 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
             niceHits = 0;
             perfectHits = 0;
             totalScore = 0;
-
-            SubscribeForUpdates();
         }
 
         /// <summary>

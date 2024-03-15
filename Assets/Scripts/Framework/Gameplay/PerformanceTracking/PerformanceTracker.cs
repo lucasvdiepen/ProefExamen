@@ -275,6 +275,8 @@ namespace ProefExamen.Framework.Gameplay.PerformanceTracking
                 SessionValues.Instance.difficulty
             );
 
+            _newResult.SubscribeForUpdates();
+
             OnHealthChanged += CheckIfPlayerFailed;
             LaneManager.Instance.OnNoteHit += ProcessNewHit;
         }
